@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  modbus-simulator:
+    image: nexus3.edgexfoundry.org:10003/edgex-devops/edgex-modbus-simulator${ARCH}:latest
+    container_name: edgex-modbus-simulator
+    hostname: edgex-modbus-simulator
+    ports:
+      - 127.0.0.1:1502:1502/tcp
+    networks:
+      - edgex-network
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"

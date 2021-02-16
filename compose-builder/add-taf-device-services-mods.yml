@@ -1,0 +1,16 @@
+version: '3.7'
+volumes:
+  PROFILE_VOLUME_PLACE_HOLDER:
+
+services:
+  device-virtual:
+    command: "--registry --confdir=CONF_DIR_PLACE_HOLDER"
+    volumes:
+      - PROFILE_VOLUME_PLACE_HOLDER:CONF_DIR_PLACE_HOLDER:z
+
+  device-modbus:
+    command: "--registry --confdir=CONF_DIR_PLACE_HOLDER"
+    volumes:
+      - PROFILE_VOLUME_PLACE_HOLDER:CONF_DIR_PLACE_HOLDER:z
+    depends_on:
+      - modbus-simulator

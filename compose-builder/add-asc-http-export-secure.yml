@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  secretstore-setup:
+    environment:
+      ADD_SECRETSTORE_TOKENS: ${TOKEN_LIST}
+
+  app-service-http-export-secrets:
+    image: ${APP_SVC_REPOSITORY}/docker-app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
+    entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
+    command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    ports:
+      - 127.0.0.1:48102:48102/tcp
+    container_name: app-service-http-export-secrets
+    hostname: app-service-http-export-secrets
+    env_file:
+      - common.env
+      - common-security.env
+      - common-sec-stage-gate.env
+    environment:
+      EDGEX_PROFILE: http-export
+      SERVICE_HOST: app-service-http-export-secrets
+      SERVICE_PORT: 48102
+      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      SECRETSTORE_PATH: /v1/secret/edgex/app-service-http-export-secrets/
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-service-http-export-secrets/secrets-token.json
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_SECRETHEADERNAME: ""
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_SECRETPATH: ""
+      WRITABLE_LOGLEVEL: INFO # allows scripts to find and change with sed
+    volumes:
+      - edgex-init:/edgex-init:ro,z
+      - /tmp/edgex/secrets/app-service-http-export-secrets:/tmp/edgex/secrets/app-service-http-export-secrets:ro,z
+    depends_on:
+      - security-bootstrapper
+      - consul
+      - data
+    read_only: true
+    networks:
+      - edgex-network
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"

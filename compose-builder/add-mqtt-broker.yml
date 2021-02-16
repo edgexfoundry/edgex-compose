@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto:${MOSQUITTO_VERSION}
+    ports:
+      - "1883:1883"
+    container_name: edgex-mqtt-broker
+    hostname: edgex-mqtt-broker
+    read_only: true
+    networks:
+      - edgex-network
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
