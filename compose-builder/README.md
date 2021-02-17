@@ -1,5 +1,3 @@
-
-
 ## Edgex Docker Compose Builder
 
 This folder contains the `Compose Builder` which is made up of **source** compose and environment files and **makefile** for building the single file docker composes files for the configured `release`. The default release is `pre-release` and the generated compose files are placed in `releases/pre-release/compose-files`. 
@@ -23,7 +21,6 @@ Do the following to build compose files for next release such as `hanoi`
 ### Multiple Compose files approach
 
 The approach used with these source compose files is the `Extending using multiple Compose files` described here: https://docs.docker.com/compose/extends/#multiple-compose-files
-
 
 The `Extending using multiple Compose files` approach along with environment files removes the all of the duplication found in previous EdgeX compose files. This approach makes running the solution more complicated due to having to list the multiple compose files required to run a particular configuration. To alleviate this complexity we are providing the generated single file compose files one level up and a `Makefile` has been provided here with commands that make it easy to run the multiple possible configurations while testing your changes. See the Makefile section below for details on these commands.
 
@@ -123,7 +120,6 @@ Standard compose variations are:
    non-secure perf testing (docker-compose-nexus-taf-perf-no-secty.yml)
    nonsecure perf testing for arm64 (docker-compose-taf-perf-nexus-no-secty-arm64.yml)
 ```
-
 ```
 compose [options] 
 Generates the EdgeX compose file as specified by options and stores them in the configured release folder. Compose files are named appropriatly for release and options used to generate them.
@@ -154,7 +150,6 @@ Options:
                  The MQTT Broker service is also included. 
     ui:          Generates stand-alone compose file for EdgeX UI	
 ```
-
 ```
 taf-compose [options] 
 Generates a TAF general testing compose file as specified by options and stores them in the configured TAF release folder. Compose files are named appropriately for the options used to generate them.
@@ -164,7 +159,6 @@ Options:
     taf-no-secty: Generates general TAF testing compose file without security services
     arm64:        Generates TAF compose file using ARM64 images
 ```
-
 ```
 taf-perf-compose [options] 
 Generates a TAF performance testing compose file as specified by options and stores them in the configured TAF release folder. Compose files are named appropriately for the options used to generate them.
@@ -174,7 +168,6 @@ Options:
     taf-no-secty: Generates performance TAF testing compose file without security services
     arm64:        Generates TAF compose file using ARM64 images
 ```
-
 ```
 run [options] [services]
 Runs the EdgeX services as specified by:
@@ -268,7 +261,6 @@ Options:
     dev:    Generates a Kong access token using local dev built docker image
             'make docker', which creates docker images tagged with '0.0.0-dev'    
 ```
-
 ```
 upload-tls-cert [options] <environment_variables>
 Upload a bring-your-own (BYO) TLS certificate to the Kong proxy server as specified by:
@@ -288,7 +280,6 @@ Stops the optional EdgeX UI service
 ```
 
 ```    
-
 down
 Stops all EdgeX services no matter which configuration started them
 ```

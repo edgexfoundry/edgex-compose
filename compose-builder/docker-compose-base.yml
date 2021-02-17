@@ -13,8 +13,7 @@
 #  * the License.
 #  *******************************************************************************/
 
-# NOTE:  this Docker Compose file does not contain the security services - namely the API Gateway
-# and Secret Store
+# NOTE:  this Docker Compose file does not contain the security services required to run in secure mode
 
 version: '3.7'
 
