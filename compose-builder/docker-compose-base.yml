@@ -11,12 +11,6 @@
 #  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
-#  *
-#  * @author: Jim White, Dell
-#  * @author: Andre Srinivasan, Redis Labs
-#  * @author: Leonard Goodell
-#  * EdgeX Foundry, Hanoi, version "master"
-#  * added: May, 2020
 #  *******************************************************************************/
 
 # NOTE:  this Docker Compose file does not contain the security services - namely the API Gateway

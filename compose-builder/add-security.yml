@@ -11,9 +11,6 @@
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
 #  *
-#  * @author: Leonard Goodell
-#  * EdgeX Foundry, Hanoi, version "master"
-#  * added: May, 2020
 #  *******************************************************************************/
 
 version: '3.7'

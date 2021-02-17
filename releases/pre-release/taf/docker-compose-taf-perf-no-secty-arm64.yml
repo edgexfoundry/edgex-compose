@@ -17,10 +17,10 @@
 #
 # ************************ This is a generated compose file ****************************
 #
-# DO NOT MAKE CHANGES that are intended to be permanent to EdgeX developer-scripts repo.
+# DO NOT MAKE CHANGES that are intended to be permanent to EdgeX edgex-compose repo.
 #
 # Permanent changes can be made to the source compose files located in the compose-builder folder
-# at the top level of the developer-scripts repo.
+# at the top level of the edgex-compose repo.
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
