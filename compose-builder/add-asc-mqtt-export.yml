@@ -1,0 +1,43 @@
+# /*******************************************************************************
+#  * Copyright 2021 Intel Corporation.
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  *******************************************************************************/
+
+version: '3.7'
+
+services:
+  app-service-mqtt-export:
+    image: ${APP_SVC_REPOSITORY}/docker-app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
+    ports:
+      - 127.0.0.1:48103:48103/tcp
+    container_name: app-service-mqtt-export
+    hostname: app-service-mqtt-export
+    env_file:
+      - common.env
+    environment:
+      EDGEX_PROFILE: mqtt-export
+      SERVICE_HOST: app-service-mqtt-export
+      SERVICE_PORT: 48103
+      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_TOPIC: edgex-events
+      WRITABLE_LOGLEVEL: INFO # allows scripts to find and change with sed
+    depends_on:
+      - consul
+      - data
+    read_only: true
+    networks:
+      - edgex-network
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"

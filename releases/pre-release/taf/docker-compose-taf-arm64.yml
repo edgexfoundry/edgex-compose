@@ -1,0 +1,1185 @@
+#  * Copyright 2021 Intel Corporation.
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  * EdgeX Foundry, Hanoi, version "master"
+#  *******************************************************************************/
+#
+#
+#
+# ************************ This is a generated compose file ****************************
+#
+# DO NOT MAKE CHANGES that are intended to be permanent to EdgeX edgex-compose repo.
+#
+# Permanent changes can be made to the source compose files located in the compose-builder folder
+# at the top level of the edgex-compose repo.
+#
+# From the compose-builder folder use `make build` to regenerate all standard compose files variations
+#
+networks:
+  edgex-network:
+    driver: bridge
+services:
+  app-service-functional-tests:
+    container_name: app-service-functional-tests
+    depends_on:
+    - consul
+    - data
+    environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_PROFILE: functional-tests
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      REGISTRY_HOST: edgex-core-consul
+      SERVICE_HOST: app-service-functional-tests
+      SERVICE_PORT: 48105
+    hostname: app-service-functional-tests
+    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 48105:48105/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  app-service-http-export:
+    container_name: app-service-http-export
+    depends_on:
+    - consul
+    - data
+    environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_PROFILE: http-export
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      REGISTRY_HOST: edgex-core-consul
+      SERVICE_HOST: app-service-http-export
+      SERVICE_PORT: 48101
+      WRITABLE_LOGLEVEL: INFO
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
+    hostname: app-service-http-export
+    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:48101:48101/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  app-service-http-export-secrets:
+    command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res
+    container_name: app-service-http-export-secrets
+    depends_on:
+    - consul
+    - data
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_PROFILE: http-export
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PATH: /v1/secret/edgex/app-service-http-export-secrets/
+      SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-service-http-export-secrets/secrets-token.json
+      SERVICE_HOST: app-service-http-export-secrets
+      SERVICE_PORT: 48102
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+      WRITABLE_LOGLEVEL: INFO
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_SECRETHEADERNAME: ''
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_SECRETPATH: ''
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
+    hostname: app-service-http-export-secrets
+    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:48102:48102/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/app-service-http-export-secrets:/tmp/edgex/secrets/app-service-http-export-secrets:ro,z
+  app-service-mqtt-export:
+    container_name: app-service-mqtt-export
+    depends_on:
+    - consul
+    - data
+    environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_PROFILE: mqtt-export
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      REGISTRY_HOST: edgex-core-consul
+      SERVICE_HOST: app-service-mqtt-export
+      SERVICE_PORT: 48103
+      WRITABLE_LOGLEVEL: INFO
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_TOPIC: edgex-events
+    hostname: app-service-mqtt-export
+    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:48103:48103/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  app-service-rules:
+    container_name: edgex-app-service-configurable-rules
+    depends_on:
+    - consul
+    - data
+    environment:
+      BINDING_PUBLISHTOPIC: events
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_PROFILE: rules-engine
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      REGISTRY_HOST: edgex-core-consul
+      SERVICE_HOST: edgex-app-service-configurable-rules
+      SERVICE_PORT: 48100
+    hostname: edgex-app-service-configurable-rules
+    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:48100:48100/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  appservice-mqtt-export-secrets:
+    command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res
+    container_name: app-service-mqtt-export-secrets
+    depends_on:
+    - consul
+    - data
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_PROFILE: mqtt-export
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PATH: /v1/secret/edgex/app-service-mqtt-export-secrets/
+      SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-service-mqtt-export-secrets/secrets-token.json
+      SERVICE_HOST: app-service-mqtt-export-secrets
+      SERVICE_PORT: 48104
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+      WRITABLE_INSECURESECRETS_MQTT_SECRETS_PASSWORD: PASSWORD_PLACE_HOLDER
+      WRITABLE_INSECURESECRETS_MQTT_SECRETS_USERNAME: USERNAME_PLACEH_OLDER
+      WRITABLE_LOGLEVEL: INFO
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_AUTHMODE: usernamepassword
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_TOPIC: edgex-events
+    hostname: app-service-mqtt-export-secrets
+    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:48104:48104/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/app-service-mqtt-export-secrets:/tmp/edgex/secrets/app-service-mqtt-export-secrets:ro,z
+  command:
+    command: /core-command -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    container_name: edgex-core-command
+    depends_on:
+    - consul
+    - database
+    - metadata
+    - secretstore-setup
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-command/secrets-token.json
+      SERVICE_HOST: edgex-core-command
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-core-command
+    image: nexus3.edgexfoundry.org:10004/docker-core-command-go-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:48082:48082/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/edgex-core-command:/tmp/edgex/secrets/edgex-core-command:ro,z
+  consul:
+    container_name: edgex-core-consul
+    depends_on:
+    - security-bootstrapper
+    - vault
+    entrypoint:
+    - /edgex-init/consul_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-core-consul
+    image: consul:1.9.1
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:8500:8500/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    volumes:
+    - consul-config:/consul/config:z
+    - consul-data:/consul/data:z
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
+    - /tmp/edgex/secrets/edgex-kong:/tmp/edgex/secrets/edgex-kong:ro,z
+  data:
+    command: /core-data -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    container_name: edgex-core-data
+    depends_on:
+    - consul
+    - database
+    - metadata
+    - secretstore-setup
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-data/secrets-token.json
+      SERVICE_HOST: edgex-core-data
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-core-data
+    image: nexus3.edgexfoundry.org:10004/docker-core-data-go-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:5563:5563/tcp
+    - 127.0.0.1:48080:48080/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/edgex-core-data:/tmp/edgex/secrets/edgex-core-data:ro,z
+  database:
+    container_name: edgex-redis
+    depends_on:
+    - secretstore-setup
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/redis_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASECONFIG_NAME: redis.conf
+      DATABASECONFIG_PATH: /run/redis/conf
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-security-bootstrap-redis/secrets-token.json
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-redis
+    image: redis:6.0.9-alpine
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:6379:6379/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    tmpfs:
+    - /run
+    volumes:
+    - db-data:/data:z
+    - edgex-init:/edgex-init:ro,z
+    - redis-config:/run/redis/conf:z
+    - /tmp/edgex/secrets/edgex-security-bootstrap-redis:/tmp/edgex/secrets/edgex-security-bootstrap-redis:ro,z
+  device-modbus:
+    command: --registry --confdir=CONF_DIR_PLACE_HOLDER
+    container_name: edgex-device-modbus
+    depends_on:
+    - consul
+    - data
+    - metadata
+    - modbus-simulator
+    environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      REGISTRY_HOST: edgex-core-consul
+      SERVICE_HOST: edgex-device-modbus
+    hostname: edgex-device-modbus
+    image: nexus3.edgexfoundry.org:10004/docker-device-modbus-go-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:49991:49991/tcp
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - PROFILE_VOLUME_PLACE_HOLDER:CONF_DIR_PLACE_HOLDER:z
+  device-rest:
+    container_name: edgex-device-rest
+    depends_on:
+    - consul
+    - data
+    - metadata
+    environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      REGISTRY_HOST: edgex-core-consul
+      SERVICE_HOST: edgex-device-rest
+    hostname: edgex-device-rest
+    image: nexus3.edgexfoundry.org:10004/docker-device-rest-go-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:49986:49986/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  device-virtual:
+    command: --registry --confdir=CONF_DIR_PLACE_HOLDER
+    container_name: edgex-device-virtual
+    depends_on:
+    - consul
+    - data
+    - metadata
+    environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      REGISTRY_HOST: edgex-core-consul
+      SERVICE_HOST: edgex-device-virtual
+    hostname: edgex-device-virtual
+    image: nexus3.edgexfoundry.org:10004/docker-device-virtual-go-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:49990:49990/tcp
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - PROFILE_VOLUME_PLACE_HOLDER:CONF_DIR_PLACE_HOLDER:z
+  kong:
+    container_name: kong
+    depends_on:
+    - kong-db
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/kong_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-db
+      KONG_PG_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: kong
+    image: kong:2.3-alpine
+    networks:
+      edgex-network: {}
+    ports:
+    - 8000:8000/tcp
+    - 127.0.0.1:8001:8001/tcp
+    - 8443:8443/tcp
+    - 127.0.0.1:8444:8444/tcp
+    read_only: true
+    restart: on-failure
+    security_opt:
+    - no-new-privileges:true
+    tmpfs:
+    - /run
+    - /tmp
+    tty: true
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - postgres-config:/tmp/postgres-config:z
+    - kong:/usr/local/kong:rw
+  kong-db:
+    container_name: kong-db
+    depends_on:
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/postgres_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      POSTGRES_DB: kong
+      POSTGRES_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
+      POSTGRES_USER: kong
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: kong-db
+    image: postgres:12.3-alpine
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:5432:5432/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    tmpfs:
+    - /var/run
+    - /tmp
+    - /run
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - postgres-config:/tmp/postgres-config:z
+    - postgres-data:/var/lib/postgresql/data:z
+  metadata:
+    command: /core-metadata -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    container_name: edgex-core-metadata
+    depends_on:
+    - consul
+    - database
+    - notifications
+    - secretstore-setup
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      NOTIFICATIONS_SENDER: edgex-core-metadata
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-metadata/secrets-token.json
+      SERVICE_HOST: edgex-core-metadata
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-core-metadata
+    image: nexus3.edgexfoundry.org:10004/docker-core-metadata-go-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:48081:48081/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/edgex-core-metadata:/tmp/edgex/secrets/edgex-core-metadata:ro,z
+  modbus-simulator:
+    container_name: edgex-modbus-simulator
+    hostname: edgex-modbus-simulator
+    image: nexus3.edgexfoundry.org:10003/edgex-devops/edgex-modbus-simulator-arm64:latest
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:1502:1502/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  mqtt-broker:
+    container_name: edgex-mqtt-broker
+    hostname: edgex-mqtt-broker
+    image: eclipse-mosquitto:1.6.3
+    networks:
+      edgex-network: {}
+    ports:
+    - 1883:1883/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  notifications:
+    command: /support-notifications -cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res
+    container_name: edgex-support-notifications
+    depends_on:
+    - consul
+    - database
+    - secretstore-setup
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-support-notifications/secrets-token.json
+      SERVICE_HOST: edgex-support-notifications
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-support-notifications
+    image: nexus3.edgexfoundry.org:10004/docker-support-notifications-go-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:48060:48060/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/edgex-support-notifications:/tmp/edgex/secrets/edgex-support-notifications:ro,z
+  proxy-setup:
+    container_name: edgex-proxy-setup
+    depends_on:
+    - kong
+    - secretstore-setup
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/proxy_setup_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      KONGURL_SERVER: kong
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      REGISTRY_HOST: edgex-core-consul
+      SECRETSERVICE_SERVER: edgex-vault
+      SECRETSERVICE_TOKENPATH: /tmp/edgex/secrets/edgex-security-proxy-setup/secrets-token.json
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-proxy-setup
+    image: nexus3.edgexfoundry.org:10004/docker-security-proxy-setup-go-arm64:master
+    networks:
+      edgex-network: {}
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/edgex-security-proxy-setup:/tmp/edgex/secrets/edgex-security-proxy-setup:ro,z
+  rulesengine:
+    container_name: edgex-kuiper
+    depends_on:
+    - app-service-rules
+    environment:
+      EDGEX__DEFAULT__PORT: 5566
+      EDGEX__DEFAULT__PROTOCOL: tcp
+      EDGEX__DEFAULT__SERVER: edgex-app-service-configurable-rules
+      EDGEX__DEFAULT__SERVICESERVER: http://edgex-core-data:48080
+      EDGEX__DEFAULT__TOPIC: events
+      KUIPER__BASIC__CONSOLELOG: "true"
+      KUIPER__BASIC__RESTPORT: 48075
+    hostname: edgex-kuiper
+    image: emqx/kuiper:1.1.1-alpine
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:20498:20498/tcp
+    - 127.0.0.1:48075:48075/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    volumes:
+    - kuiper-data:/kuiper/data:z
+  scalability-test-mqtt-export:
+    container_name: scalability-test-mqtt-export
+    depends_on:
+    - consul
+    - data
+    environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_PROFILE: mqtt-export
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      REGISTRY_HOST: edgex-core-consul
+      SERVICE_HOST: app-service-mqtt-export
+      SERVICE_PORT: 48106
+      WRITABLE_LOGLEVEL: DEBUG
+      WRITABLE_PIPELINE_EXECUTIONORDER: TransformToJSON, MQTTSecretSend
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_TOPIC: edgex-events
+    hostname: scalability-test-mqtt-export
+    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 48106:48106/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  scheduler:
+    command: /support-scheduler -cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res
+    container_name: edgex-support-scheduler
+    depends_on:
+    - consul
+    - database
+    - secretstore-setup
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
+      INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-support-scheduler/secrets-token.json
+      SERVICE_HOST: edgex-support-scheduler
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-support-scheduler
+    image: nexus3.edgexfoundry.org:10004/docker-support-scheduler-go-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:48085:48085/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/edgex-support-scheduler:/tmp/edgex/secrets/edgex-support-scheduler:ro,z
+  secretstore-setup:
+    container_name: edgex-secretstore-setup
+    depends_on:
+    - security-bootstrapper
+    - vault
+    environment:
+      ADD_SECRETSTORE_TOKENS: app-service-http-export-secrets,app-service-mqtt-export-secrets
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      EDGEX_GROUP: '2001'
+      EDGEX_USER: '2002'
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-secretstore-setup
+    image: nexus3.edgexfoundry.org:10004/docker-security-secretstore-setup-go-arm64:master
+    networks:
+      edgex-network: {}
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    tmpfs:
+    - /run
+    - /vault
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets:/tmp/edgex/secrets:z
+    - vault-config:/vault/config:z
+  security-bootstrapper:
+    container_name: edgex-security-bootstrapper
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      EDGEX_GROUP: '2001'
+      EDGEX_USER: '2002'
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-security-bootstrapper
+    image: nexus3.edgexfoundry.org:10004/docker-security-bootstrapper-go-arm64:master
+    networks:
+      edgex-network: {}
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    volumes:
+    - edgex-init:/edgex-init:z
+  system:
+    container_name: edgex-sys-mgmt-agent
+    depends_on:
+    - command
+    - consul
+    - data
+    - metadata
+    - notifications
+    - scheduler
+    environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
+      DATABASES_PRIMARY_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      EXECUTORPATH: /sys-mgmt-executor
+      METRICSMECHANISM: executor
+      REGISTRY_HOST: edgex-core-consul
+      SERVICE_HOST: edgex-sys-mgmt-agent
+    hostname: edgex-sys-mgmt-agent
+    image: nexus3.edgexfoundry.org:10004/docker-sys-mgmt-agent-go-arm64:master
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:48090:48090/tcp
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:z
+  vault:
+    cap_add:
+    - IPC_LOCK
+    command: server
+    container_name: edgex-vault
+    depends_on:
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/vault_wait_install.sh
+    environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
+      PROXY_SETUP_HOST: edgex-proxy-setup
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+      VAULT_ADDR: http://edgex-vault:8200
+      VAULT_CONFIG_DIR: /vault/config
+      VAULT_UI: "true"
+    hostname: edgex-vault
+    image: vault:1.5.3
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:8200:8200/tcp
+    tmpfs:
+    - /vault/config
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - vault-file:/vault/file:z
+    - vault-logs:/vault/logs:z
+version: '3.7'
+volumes:
+  PROFILE_VOLUME_PLACE_HOLDER: {}
+  consul-config: {}
+  consul-data: {}
+  db-data: {}
+  edgex-init: {}
+  kong: {}
+  kuiper-data: {}
+  postgres-config: {}
+  postgres-data: {}
+  redis-config: {}
+  vault-config: {}
+  vault-file: {}
+  vault-logs: {}
+

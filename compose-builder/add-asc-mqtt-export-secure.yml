@@ -1,0 +1,60 @@
+# /*******************************************************************************
+#  * Copyright 2021 Intel Corporation.
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  *******************************************************************************/
+
+version: '3.7'
+
+services:
+  secretstore-setup:
+    environment:
+      ADD_SECRETSTORE_TOKENS: ${TOKEN_LIST}
+
+  appservice-mqtt-export-secrets:
+    image: ${APP_SVC_REPOSITORY}/docker-app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
+    entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
+    command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    ports:
+      - 127.0.0.1:48104:48104/tcp
+    container_name: app-service-mqtt-export-secrets
+    hostname: app-service-mqtt-export-secrets
+    env_file:
+      - common.env
+      - common-security.env
+      - common-sec-stage-gate.env
+    environment:
+      EDGEX_PROFILE: mqtt-export
+      SERVICE_HOST: app-service-mqtt-export-secrets
+      SERVICE_PORT: 48104
+      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      SECRETSTORE_PATH: /v1/secret/edgex/app-service-mqtt-export-secrets/
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-service-mqtt-export-secrets/secrets-token.json
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_TOPIC: edgex-events
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_AUTHMODE : usernamepassword
+      WRITABLE_INSECURESECRETS_MQTT_SECRETS_USERNAME: USERNAME_PLACEH_OLDER
+      WRITABLE_INSECURESECRETS_MQTT_SECRETS_PASSWORD: PASSWORD_PLACE_HOLDER
+      WRITABLE_LOGLEVEL: INFO # allows scripts to find and change with sed
+    depends_on:
+      - security-bootstrapper
+      - consul
+      - data
+    read_only: true
+    networks:
+      - edgex-network
+    volumes:
+      - edgex-init:/edgex-init:ro,z
+      - /tmp/edgex/secrets/app-service-mqtt-export-secrets:/tmp/edgex/secrets/app-service-mqtt-export-secrets:ro,z
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
