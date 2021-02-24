@@ -868,8 +868,8 @@ services:
       KONGURL_SERVER: kong
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
-      SECRETSERVICE_SERVER: edgex-vault
-      SECRETSERVICE_TOKENPATH: /tmp/edgex/secrets/edgex-security-proxy-setup/secrets-token.json
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_TOKENPATH: /tmp/edgex/secrets/edgex-security-proxy-setup/secrets-token.json
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
