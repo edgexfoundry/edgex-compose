@@ -1,6 +1,6 @@
 ## Edgex Docker Compose Builder
 
-This folder contains the `Compose Builder` which is made up of **source** compose and environment files and **makefile** for building the single file docker composes files for the configured `release`. The default release is `pre-release` and the generated compose files are placed in `releases/pre-release/compose-files`. 
+This folder contains the `Compose Builder` which is made up of **source** compose and environment files and **makefile** for building the single file docker composes files for the configured `release`. The default release is `pre-release` and the generated compose files are placed in `releases/pre-release`. 
 
 > **Note to Developers**: 
 > *Once you have edited and tested your changes to these source files you **MUST** regenerate the composes using the `make build` command.*
@@ -10,7 +10,7 @@ This folder contains the `Compose Builder` which is made up of **source** compos
 Do the following to build compose files for next release such as `hanoi` 
 
 1. Update the `RELEASE`, `REPOSITORY`, `CORE_EDGEX_REPOSITORY`, `APP_SVC_REPOSITORY`, and `versions` contained in the `.env` file.
-2. Create the release folder, i.e `release/hanoi/compose-files`
+2. Create the release folder, i.e `release/hanoi`
 3. Run `make build` 
 4. Commit changes, open PR and merge PR
 5. TAG repo for new release, i.e. `1.3.0`
