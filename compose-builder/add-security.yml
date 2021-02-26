@@ -71,9 +71,8 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     volumes:
-      - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
-      - /tmp/edgex/secrets/edgex-kong:/tmp/edgex/secrets/edgex-kong:ro,z
+      - edgex-init:/edgex-init:z
+      - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:z
     depends_on:
       - security-bootstrapper
       - vault
@@ -110,6 +109,7 @@ services:
     container_name: edgex-secretstore-setup
     hostname: edgex-secretstore-setup
     env_file:
+      - common-security.env
       - common-sec-stage-gate.env
     environment:
       EDGEX_USER: ${EDGEX_USER}
