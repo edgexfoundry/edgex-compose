@@ -864,7 +864,7 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
-      EDGEX_SECURITY_SECRET_STORE: "false"
+      EDGEX_SECURITY_SECRET_STORE: "true"
       KONGURL_SERVER: kong
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
