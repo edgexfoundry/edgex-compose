@@ -211,12 +211,11 @@ services:
       - edgex-network
     env_file:
       - common.env
+      - common-security.env
       - common-sec-stage-gate.env
     environment:
       KONGURL_SERVER: kong
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_TOKENPATH: /tmp/edgex/secrets/edgex-security-proxy-setup/secrets-token.json
-      EDGEX_SECURITY_SECRET_STORE: "true"
     volumes:
       - edgex-init:/edgex-init:ro,z
       - /tmp/edgex/secrets/edgex-security-proxy-setup:/tmp/edgex/secrets/edgex-security-proxy-setup:ro,z
