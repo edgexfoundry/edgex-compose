@@ -36,7 +36,7 @@ services:
       EDGEX_PROFILE: http-export
       SERVICE_HOST: app-service-http-export-secrets
       SERVICE_PORT: 48102
-      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       SECRETSTORE_PATH: /v1/secret/edgex/app-service-http-export-secrets/
       SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-service-http-export-secrets/secrets-token.json
       WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770

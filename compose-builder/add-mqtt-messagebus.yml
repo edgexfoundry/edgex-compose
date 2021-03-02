@@ -28,7 +28,7 @@ services:
   app-service-rules:
     environment:
       EDGEX_PROFILE: rules-engine-mqtt
-      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
+      TRIGGER_EDGEXTRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
       MESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
       BINDING_PUBLISHTOPIC: rules-events
     depends_on:
