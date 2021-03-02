@@ -131,7 +131,6 @@ services:
     - consul
     - data
     environment:
-      BINDING_PUBLISHTOPIC: events
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -147,6 +146,7 @@ services:
       SERVICE_HOST: edgex-app-service-configurable-rules
       SERVICE_PORT: 48100
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_PUBLISHTOPIC: events
     hostname: edgex-app-service-configurable-rules
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
     networks:
