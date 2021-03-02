@@ -209,7 +209,7 @@ services:
       EDGEX_PROFILE: rules-engine
       SERVICE_HOST: edgex-app-service-configurable-rules
       SERVICE_PORT: 48100
-      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       BINDING_PUBLISHTOPIC: events
     depends_on:
       - consul

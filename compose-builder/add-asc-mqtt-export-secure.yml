@@ -36,7 +36,7 @@ services:
       EDGEX_PROFILE: mqtt-export
       SERVICE_HOST: app-service-mqtt-export-secrets
       SERVICE_PORT: 48104
-      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       SECRETSTORE_PATH: /v1/secret/edgex/app-service-mqtt-export-secrets/
       SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-service-mqtt-export-secrets/secrets-token.json
       WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883

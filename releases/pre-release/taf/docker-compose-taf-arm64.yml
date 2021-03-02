@@ -75,7 +75,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: app-service-http-export
       SERVICE_PORT: 48101
@@ -115,7 +115,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -173,7 +173,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: app-service-mqtt-export
       SERVICE_PORT: 48103
@@ -208,7 +208,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-service-configurable-rules
       SERVICE_PORT: 48100
@@ -246,7 +246,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -937,7 +937,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: app-service-mqtt-export
       SERVICE_PORT: 48106
