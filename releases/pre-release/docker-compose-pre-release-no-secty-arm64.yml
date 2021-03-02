@@ -46,10 +46,10 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-service-configurable-rules
       SERVICE_PORT: 48100
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
     hostname: edgex-app-service-configurable-rules
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
     networks:
