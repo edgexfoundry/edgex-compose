@@ -31,16 +31,17 @@ services:
   app-service-functional-tests:
     container_name: app-service-functional-tests
     depends_on:
-    - consul
-    - data
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
@@ -53,7 +54,9 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 48105:48105/tcp
+    - protocol: tcp
+      published: 48105
+      target: 48105
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -61,16 +64,17 @@ services:
   app-service-http-export:
     container_name: app-service-http-export
     depends_on:
-    - consul
-    - data
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: http-export
@@ -96,21 +100,23 @@ services:
       --confdir=/res
     container_name: app-service-http-export-secrets
     depends_on:
-    - consul
-    - data
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: http-export
@@ -159,16 +165,17 @@ services:
   app-service-mqtt-export:
     container_name: app-service-mqtt-export
     depends_on:
-    - consul
-    - data
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
@@ -193,16 +200,17 @@ services:
   app-service-rules:
     container_name: edgex-app-service-configurable-rules
     depends_on:
-    - consul
-    - data
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
@@ -227,21 +235,23 @@ services:
       --confdir=/res
     container_name: app-service-mqtt-export-secrets
     depends_on:
-    - consul
-    - data
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
@@ -293,23 +303,27 @@ services:
     command: /core-command -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-command
     depends_on:
-    - consul
-    - database
-    - metadata
-    - secretstore-setup
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      metadata:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -350,8 +364,10 @@ services:
   consul:
     container_name: edgex-core-consul
     depends_on:
-    - security-bootstrapper
-    - vault
+      security-bootstrapper:
+        condition: service_started
+      vault:
+        condition: service_started
     entrypoint:
     - /edgex-init/consul_wait_install.sh
     environment:
@@ -395,23 +411,27 @@ services:
     command: /core-data -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-data
     depends_on:
-    - consul
-    - database
-    - metadata
-    - secretstore-setup
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      metadata:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -453,20 +473,21 @@ services:
   database:
     container_name: edgex-redis
     depends_on:
-    - secretstore-setup
-    - security-bootstrapper
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/redis_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASECONFIG_NAME: redis.conf
       DATABASECONFIG_PATH: /run/redis/conf
@@ -512,18 +533,21 @@ services:
     command: --registry --confdir=CONF_DIR_PLACE_HOLDER
     container_name: edgex-device-modbus
     depends_on:
-    - consul
-    - data
-    - metadata
-    - modbus-simulator
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      metadata:
+        condition: service_started
+      modbus-simulator:
+        condition: service_started
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -543,17 +567,19 @@ services:
   device-rest:
     container_name: edgex-device-rest
     depends_on:
-    - consul
-    - data
-    - metadata
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      metadata:
+        condition: service_started
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -573,17 +599,19 @@ services:
     command: --registry --confdir=CONF_DIR_PLACE_HOLDER
     container_name: edgex-device-virtual
     depends_on:
-    - consul
-    - data
-    - metadata
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      metadata:
+        condition: service_started
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -603,8 +631,10 @@ services:
   kong:
     container_name: kong
     depends_on:
-    - kong-db
-    - security-bootstrapper
+      kong-db:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/kong_wait_install.sh
     environment:
@@ -639,9 +669,11 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 8000:8000/tcp
+    - published: 8000
+      target: 8000
     - 127.0.0.1:8001:8001/tcp
-    - 8443:8443/tcp
+    - published: 8443
+      target: 8443
     - 127.0.0.1:8444:8444/tcp
     read_only: true
     restart: on-failure
@@ -658,7 +690,8 @@ services:
   kong-db:
     container_name: kong-db
     depends_on:
-    - security-bootstrapper
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/postgres_wait_install.sh
     environment:
@@ -707,23 +740,27 @@ services:
     command: /core-metadata -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-metadata
     depends_on:
-    - consul
-    - database
-    - notifications
-    - secretstore-setup
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      notifications:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -781,7 +818,8 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 1883:1883/tcp
+    - published: 1883
+      target: 1883
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -791,22 +829,25 @@ services:
       --confdir=/res
     container_name: edgex-support-notifications
     depends_on:
-    - consul
-    - database
-    - secretstore-setup
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -847,21 +888,23 @@ services:
   proxy-setup:
     container_name: edgex-proxy-setup
     depends_on:
-    - kong
-    - secretstore-setup
-    - security-bootstrapper
+      kong:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/proxy_setup_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -899,7 +942,8 @@ services:
   rulesengine:
     container_name: edgex-kuiper
     depends_on:
-    - app-service-rules
+      app-service-rules:
+        condition: service_started
     environment:
       EDGEX__DEFAULT__PORT: 5566
       EDGEX__DEFAULT__PROTOCOL: tcp
@@ -923,16 +967,17 @@ services:
   scalability-test-mqtt-export:
     container_name: scalability-test-mqtt-export
     depends_on:
-    - consul
-    - data
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
@@ -950,7 +995,8 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 48106:48106/tcp
+    - published: 48106
+      target: 48106
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -960,22 +1006,25 @@ services:
       --confdir=/res
     container_name: edgex-support-scheduler
     depends_on:
-    - consul
-    - database
-    - secretstore-setup
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -1018,8 +1067,10 @@ services:
   secretstore-setup:
     container_name: edgex-secretstore-setup
     depends_on:
-    - security-bootstrapper
-    - vault
+      security-bootstrapper:
+        condition: service_started
+      vault:
+        condition: service_started
     environment:
       ADD_SECRETSTORE_TOKENS: app-service-http-export-secrets,app-service-mqtt-export-secrets
       API_GATEWAY_HOST: kong
@@ -1091,20 +1142,25 @@ services:
   system:
     container_name: edgex-sys-mgmt-agent
     depends_on:
-    - command
-    - consul
-    - data
-    - metadata
-    - notifications
-    - scheduler
+      command:
+        condition: service_started
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      metadata:
+        condition: service_started
+      notifications:
+        condition: service_started
+      scheduler:
+        condition: service_started
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -1130,7 +1186,8 @@ services:
     command: server
     container_name: edgex-vault
     depends_on:
-    - security-bootstrapper
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/vault_wait_install.sh
     environment:
