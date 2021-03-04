@@ -31,17 +31,21 @@ services:
   app-service-mqtt-export:
     container_name: app-service-mqtt-export
     depends_on:
-      consul:
-        condition: service_started
-      data:
-        condition: service_started
+    - consul
+    - data
     environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
       CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
@@ -66,17 +70,21 @@ services:
   app-service-rules:
     container_name: edgex-app-service-configurable-rules
     depends_on:
-      consul:
-        condition: service_started
-      data:
-        condition: service_started
+    - consul
+    - data
     environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
       CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
@@ -99,19 +107,22 @@ services:
   command:
     container_name: edgex-core-command
     depends_on:
-      consul:
-        condition: service_started
-      database:
-        condition: service_started
-      metadata:
-        condition: service_started
+    - consul
+    - database
+    - metadata
     environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
       CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -144,19 +155,22 @@ services:
   data:
     container_name: edgex-core-data
     depends_on:
-      consul:
-        condition: service_started
-      database:
-        condition: service_started
-      metadata:
-        condition: service_started
+    - consul
+    - database
+    - metadata
     environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
       CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -176,12 +190,18 @@ services:
   database:
     container_name: edgex-redis
     environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
       CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -200,19 +220,22 @@ services:
   device-rest:
     container_name: edgex-device-rest
     depends_on:
-      consul:
-        condition: service_started
-      data:
-        condition: service_started
-      metadata:
-        condition: service_started
+    - consul
+    - data
+    - metadata
     environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
       CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -231,19 +254,22 @@ services:
   device-virtual:
     container_name: edgex-device-virtual
     depends_on:
-      consul:
-        condition: service_started
-      data:
-        condition: service_started
-      metadata:
-        condition: service_started
+    - consul
+    - data
+    - metadata
     environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
       CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -261,19 +287,22 @@ services:
   metadata:
     container_name: edgex-core-metadata
     depends_on:
-      consul:
-        condition: service_started
-      database:
-        condition: service_started
-      notifications:
-        condition: service_started
+    - consul
+    - database
+    - notifications
     environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
       CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -297,8 +326,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - published: 1883
-      target: 1883
+    - 1883:1883/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -306,17 +334,21 @@ services:
   notifications:
     container_name: edgex-support-notifications
     depends_on:
-      consul:
-        condition: service_started
-      database:
-        condition: service_started
+    - consul
+    - database
     environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
       CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -335,8 +367,7 @@ services:
   rulesengine:
     container_name: edgex-kuiper
     depends_on:
-      app-service-rules:
-        condition: service_started
+    - app-service-rules
     environment:
       EDGEX__DEFAULT__PORT: 5566
       EDGEX__DEFAULT__PROTOCOL: tcp
@@ -360,17 +391,21 @@ services:
   scheduler:
     container_name: edgex-support-scheduler
     depends_on:
-      consul:
-        condition: service_started
-      database:
-        condition: service_started
+    - consul
+    - database
     environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
       CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -391,25 +426,25 @@ services:
   system:
     container_name: edgex-sys-mgmt-agent
     depends_on:
-      command:
-        condition: service_started
-      consul:
-        condition: service_started
-      data:
-        condition: service_started
-      metadata:
-        condition: service_started
-      notifications:
-        condition: service_started
-      scheduler:
-        condition: service_started
+    - command
+    - consul
+    - data
+    - metadata
+    - notifications
+    - scheduler
     environment:
+      CLIENTS_COMMAND_HOST: edgex-core-command
+      CLIENTS_COREDATA_HOST: edgex-core-data
+      CLIENTS_DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
       CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
       CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_METADATA_HOST: edgex-core-metadata
+      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
+      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
