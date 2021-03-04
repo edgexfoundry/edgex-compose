@@ -32,18 +32,15 @@ services:
       - common.env
       - common-security.env
       - common-sec-stage-gate.env
+      - asc-http-export.env
     environment:
-      EDGEX_PROFILE: http-export
       SERVICE_HOST: app-service-http-export-secrets
       SERVICE_PORT: 48102
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       SECRETSTORE_PATH: /v1/secret/edgex/app-service-http-export-secrets/
       SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-service-http-export-secrets/secrets-token.json
-      WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_HEADERNAME: ""
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_SECRETNAME: ""
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_SECRETPATH: ""
-      WRITABLE_LOGLEVEL: INFO # allows scripts to find and change with sed
     volumes:
       - edgex-init:/edgex-init:ro,z
       - /tmp/edgex/secrets/app-service-http-export-secrets:/tmp/edgex/secrets/app-service-http-export-secrets:ro,z
