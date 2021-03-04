@@ -37,6 +37,11 @@ services:
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
@@ -70,6 +75,11 @@ services:
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
@@ -113,6 +123,11 @@ services:
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
@@ -139,6 +154,11 @@ services:
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
@@ -168,6 +188,11 @@ services:
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
@@ -197,6 +222,11 @@ services:
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
@@ -225,6 +255,11 @@ services:
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
@@ -254,6 +289,11 @@ services:
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
@@ -306,6 +346,11 @@ services:
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
@@ -340,6 +385,11 @@ services:
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
+      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_RULESENGINE_HOST: edgex-kuiper
