@@ -210,11 +210,17 @@ services:
     networks:
       - edgex-network
     env_file:
-      - common.env
       - common-security.env
       - common-sec-stage-gate.env
     environment:
       KONGURL_SERVER: kong
+      ROUTES_COREDATA_HOST: edgex-core-data
+      ROUTES_NOTIFICATIONS_HOST: edgex-support-notifications
+      ROUTES_METADATA_HOST: edgex-core-metadata
+      ROUTES_SCHEDULER_HOST: edgex-support-scheduler
+      ROUTES_RULESENGINE_HOST: edgex-kuiper
+      ROUTES_VIRTUALDEVICE_HOST: edgex-device-virtual
+
     volumes:
       - edgex-init:/edgex-init:ro,z
       - /tmp/edgex/secrets/edgex-security-proxy-setup:/tmp/edgex/secrets/edgex-security-proxy-setup:ro,z
