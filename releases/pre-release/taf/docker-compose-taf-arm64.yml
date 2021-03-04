@@ -130,6 +130,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -276,6 +277,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -348,6 +350,7 @@ services:
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -393,6 +396,7 @@ services:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -423,9 +427,8 @@ services:
     volumes:
     - consul-config:/consul/config:z
     - consul-data:/consul/data:z
-    - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
-    - /tmp/edgex/secrets/edgex-kong:/tmp/edgex/secrets/edgex-kong:ro,z
+    - edgex-init:/edgex-init:z
+    - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:z
   data:
     command: /core-data -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-data
@@ -455,6 +458,7 @@ services:
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -517,6 +521,7 @@ services:
       DATABASECONFIG_PATH: /run/redis/conf
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -725,6 +730,7 @@ services:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       POSTGRES_DB: kong
       POSTGRES_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
       POSTGRES_USER: kong
@@ -792,6 +798,7 @@ services:
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       NOTIFICATIONS_SENDER: edgex-core-metadata
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -880,6 +887,7 @@ services:
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -940,6 +948,7 @@ services:
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       KONGURL_SERVER: kong
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1064,6 +1073,7 @@ services:
       CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       PROXY_SETUP_HOST: edgex-proxy-setup
@@ -1110,8 +1120,12 @@ services:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_GROUP: '2001'
+      EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: '2002'
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
