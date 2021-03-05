@@ -192,6 +192,8 @@ services:
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
+      STAGEGATE_REGISTRY_ACL_SENTINELFILEPATH: /consul/config/consul_acl_done
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
@@ -210,8 +212,9 @@ services:
     volumes:
     - consul-config:/consul/config:z
     - consul-data:/consul/data:z
-    - edgex-init:/edgex-init:z
-    - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:z
+    - edgex-init:/edgex-init:ro,z
+    - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:z
+    - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
   data:
     command: /core-data -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-data
@@ -963,6 +966,7 @@ services:
     - vault-logs:/vault/logs:z
 version: '3.7'
 volumes:
+  consul-acl-token: {}
   consul-config: {}
   consul-data: {}
   db-data: {}
