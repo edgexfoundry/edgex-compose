@@ -913,6 +913,7 @@ services:
       ENABLE_REGISTRY_ACL: "true"
       KONGURL_SERVER: kong
       PROXY_SETUP_HOST: edgex-proxy-setup
+      ROUTES_COMMAND_HOST: edgex-core-command
       ROUTES_COREDATA_HOST: edgex-core-data
       ROUTES_METADATA_HOST: edgex-core-metadata
       ROUTES_NOTIFICATIONS_HOST: edgex-support-notifications

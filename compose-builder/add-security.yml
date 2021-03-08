@@ -222,8 +222,9 @@ services:
     environment:
       KONGURL_SERVER: kong
       ROUTES_COREDATA_HOST: edgex-core-data
-      ROUTES_NOTIFICATIONS_HOST: edgex-support-notifications
       ROUTES_METADATA_HOST: edgex-core-metadata
+      ROUTES_COMMAND_HOST: edgex-core-command
+      ROUTES_NOTIFICATIONS_HOST: edgex-support-notifications
       ROUTES_SCHEDULER_HOST: edgex-support-scheduler
       ROUTES_RULESENGINE_HOST: edgex-kuiper
       ROUTES_VIRTUALDEVICE_HOST: edgex-device-virtual
