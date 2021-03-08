@@ -13,8 +13,12 @@
 #  *
 #  *******************************************************************************/
 
-.PHONY: help portainer portainer-down build compose build-taf taf-compose taf-compose-perf run pull gen get-token upload-tls-cert ui-down down clean
-.SILENT: help get-token del-token upload-tls-cert
+.PHONY: help portainer portainer-down \
+	build compose run pull gen \
+	build-taf taf-compose taf-compose-perf \
+	get-token upload-tls-cert get-consul-acl-token \
+	ui-down down clean
+.SILENT: help get-token del-token upload-tls-cert get-consul-acl-token
 
 include .env
 
@@ -267,6 +271,11 @@ upload-tls-cert:
 	DEV=$(DEV) \
 	ARCH=$(ARCH) \
 	sh ./upload-api-gateway-cert.sh
+
+get-consul-acl-token:
+	DEV=$(DEV) \
+	ARCH=$(ARCH) \
+	sh ./get-consul-acl-token.sh
 
 ui-down:
 	ARCH= \

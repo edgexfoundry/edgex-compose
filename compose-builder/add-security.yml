@@ -22,6 +22,7 @@ volumes:
   vault-logs:
   kong:
   postgres-config:
+  consul-acl-token:
   # non-shared volumes
   postgres-data:
   redis-config:
@@ -70,10 +71,15 @@ services:
       # needed for vault host/port
       - common-security.env
       - common-sec-stage-gate.env
+    environment:
+      STAGEGATE_REGISTRY_ACL_SENTINELFILEPATH: /consul/config/consul_acl_done
+      STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
     volumes:
       - edgex-init:/edgex-init:ro,z
       - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
-      - /tmp/edgex/secrets/edgex-kong:/tmp/edgex/secrets/edgex-kong:ro,z
+      # using regular volume to avoid lose of token due to host system reboot
+      # and it is only shared between consul and proxy-setup
+      - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:z
     depends_on:
       - security-bootstrapper
       - vault
@@ -110,6 +116,7 @@ services:
     container_name: edgex-secretstore-setup
     hostname: edgex-secretstore-setup
     env_file:
+      - common-security.env
       - common-sec-stage-gate.env
     environment:
       EDGEX_USER: ${EDGEX_USER}
