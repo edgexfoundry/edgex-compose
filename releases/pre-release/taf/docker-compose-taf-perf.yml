@@ -44,9 +44,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -83,9 +81,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -128,9 +124,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
@@ -235,9 +229,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
@@ -295,9 +287,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASECONFIG_NAME: redis.conf
       DATABASECONFIG_PATH: /run/redis/conf
       DATABASES_PRIMARY_HOST: edgex-redis
@@ -355,9 +345,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -389,9 +377,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -532,9 +518,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       NOTIFICATIONS_SENDER: edgex-core-metadata
@@ -608,9 +592,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
@@ -658,24 +640,15 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
-      DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       KONGURL_SERVER: kong
       PROXY_SETUP_HOST: edgex-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
+      ROUTES_COREDATA_HOST: edgex-core-data
+      ROUTES_METADATA_HOST: edgex-core-metadata
+      ROUTES_NOTIFICATIONS_HOST: edgex-support-notifications
+      ROUTES_RULESENGINE_HOST: edgex-kuiper
+      ROUTES_SCHEDULER_HOST: edgex-support-scheduler
+      ROUTES_VIRTUALDEVICE_HOST: edgex-device-virtual
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -752,9 +725,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
@@ -885,9 +856,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       EXECUTORPATH: /sys-mgmt-executor
