@@ -221,13 +221,13 @@ services:
       - common-sec-stage-gate.env
     environment:
       KONGURL_SERVER: kong
-      ROUTES_COREDATA_HOST: edgex-core-data
-      ROUTES_METADATA_HOST: edgex-core-metadata
-      ROUTES_COMMAND_HOST: edgex-core-command
-      ROUTES_NOTIFICATIONS_HOST: edgex-support-notifications
-      ROUTES_SCHEDULER_HOST: edgex-support-scheduler
-      ROUTES_RULESENGINE_HOST: edgex-kuiper
-      ROUTES_VIRTUALDEVICE_HOST: edgex-device-virtual
+      ROUTES_EDGEX-CORE-DATA_HOST: edgex-core-data
+      ROUTES_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
+      ROUTES_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      ROUTES_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      ROUTES_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
+      ROUTES_RULES-ENGINE_HOST: edgex-kuiper
+      ROUTES_DEVICE-VIRTUAL_HOST: edgex-device-virtual
     volumes:
       - edgex-init:/edgex-init:ro,z
       - /tmp/edgex/secrets/edgex-security-proxy-setup:/tmp/edgex/secrets/edgex-security-proxy-setup:ro,z
