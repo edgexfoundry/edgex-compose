@@ -44,9 +44,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -79,9 +77,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -90,7 +86,7 @@ services:
       SERVICE_PORT: 48101
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: INFO
-      WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
     hostname: app-service-http-export
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
     networks:
@@ -124,12 +120,11 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -155,9 +150,10 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: INFO
-      WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_SECRETHEADERNAME: ''
-      WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_SECRETPATH: ''
-      WRITABLE_PIPELINE_FUNCTIONS_HTTPPOSTJSON_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_HEADERNAME: ''
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_SECRETNAME: ''
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_SECRETPATH: ''
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
     hostname: app-service-http-export-secrets
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
     networks:
@@ -187,9 +183,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -198,8 +192,8 @@ services:
       SERVICE_PORT: 48103
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: INFO
-      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
-      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_TOPIC: edgex-events
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: app-service-mqtt-export
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
     networks:
@@ -226,9 +220,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -270,12 +262,11 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -303,9 +294,9 @@ services:
       WRITABLE_INSECURESECRETS_MQTT_SECRETS_PASSWORD: PASSWORD_PLACE_HOLDER
       WRITABLE_INSECURESECRETS_MQTT_SECRETS_USERNAME: USERNAME_PLACEH_OLDER
       WRITABLE_LOGLEVEL: INFO
-      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_AUTHMODE: usernamepassword
-      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
-      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_TOPIC: edgex-events
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_AUTHMODE: usernamepassword
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: app-service-mqtt-export-secrets
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
     networks:
@@ -343,11 +334,10 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -393,6 +383,7 @@ services:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -405,6 +396,8 @@ services:
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
+      STAGEGATE_REGISTRY_ACL_SENTINELFILEPATH: /consul/config/consul_acl_done
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
@@ -424,8 +417,8 @@ services:
     - consul-config:/consul/config:z
     - consul-data:/consul/data:z
     - edgex-init:/edgex-init:ro,z
+    - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:z
     - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
-    - /tmp/edgex/secrets/edgex-kong:/tmp/edgex/secrets/edgex-kong:ro,z
   data:
     command: /core-data -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-data
@@ -450,11 +443,10 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -510,13 +502,12 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASECONFIG_NAME: redis.conf
       DATABASECONFIG_PATH: /run/redis/conf
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -572,9 +563,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -607,9 +596,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -642,9 +629,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -725,6 +710,7 @@ services:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       POSTGRES_DB: kong
       POSTGRES_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
       POSTGRES_USER: kong
@@ -787,11 +773,10 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       NOTIFICATIONS_SENDER: edgex-core-metadata
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -875,11 +860,10 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -925,24 +909,17 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
-      DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       KONGURL_SERVER: kong
       PROXY_SETUP_HOST: edgex-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
+      ROUTES_COMMAND_HOST: edgex-core-command
+      ROUTES_COREDATA_HOST: edgex-core-data
+      ROUTES_METADATA_HOST: edgex-core-metadata
+      ROUTES_NOTIFICATIONS_HOST: edgex-support-notifications
+      ROUTES_RULESENGINE_HOST: edgex-kuiper
+      ROUTES_SCHEDULER_HOST: edgex-support-scheduler
+      ROUTES_VIRTUALDEVICE_HOST: edgex-device-virtual
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -1011,9 +988,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -1023,8 +998,8 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: DEBUG
       WRITABLE_PIPELINE_EXECUTIONORDER: TransformToJSON, MQTTSecretSend
-      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
-      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_TOPIC: edgex-events
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: scalability-test-mqtt-export
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
     networks:
@@ -1059,11 +1034,10 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       PROXY_SETUP_HOST: edgex-proxy-setup
@@ -1110,8 +1084,12 @@ services:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_GROUP: '2001'
+      EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: '2002'
+      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1193,9 +1171,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       EXECUTORPATH: /sys-mgmt-executor
@@ -1260,6 +1236,7 @@ services:
 version: '3.7'
 volumes:
   PROFILE_VOLUME_PLACE_HOLDER: {}
+  consul-acl-token: {}
   consul-config: {}
   consul-data: {}
   db-data: {}

@@ -44,9 +44,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -55,8 +53,8 @@ services:
       SERVICE_PORT: 48103
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: INFO
-      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
-      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_TOPIC: edgex-events
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: app-service-mqtt-export
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
     networks:
@@ -83,9 +81,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -121,9 +117,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -169,9 +163,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -200,9 +192,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -234,9 +224,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -268,9 +256,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -301,9 +287,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       NOTIFICATIONS_SENDER: edgex-core-metadata
@@ -347,9 +331,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -404,9 +386,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
@@ -443,9 +423,7 @@ services:
       CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
       CLIENTS_METADATA_HOST: edgex-core-metadata
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_RULESENGINE_HOST: edgex-kuiper
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_VIRTUALDEVICE_HOST: edgex-device-virtual
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       EXECUTORPATH: /sys-mgmt-executor

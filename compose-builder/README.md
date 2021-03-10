@@ -275,6 +275,15 @@ Environment Variables:
 ```
 
 ```
+get-consul-acl-token [options]
+Retrieve the Consul ACL token as specified by:
+Options:
+    arm64:  Retrieves the Consul ACL token using ARM64 image
+    dev:    Retrieves the Consul ACL token using local dev built docker image
+            'make docker', which creates docker images tagged with '0.0.0-dev'
+```
+
+```
 ui-down 
 Stops the optional EdgeX UI service
 ```
