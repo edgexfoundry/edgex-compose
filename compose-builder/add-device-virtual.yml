@@ -22,6 +22,7 @@ services:
     - "127.0.0.1:49990:49990"
     container_name: edgex-device-virtual
     hostname: edgex-device-virtual
+    read_only: true
     networks:
       - edgex-network
     env_file:
