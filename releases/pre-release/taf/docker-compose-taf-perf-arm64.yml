@@ -394,6 +394,7 @@ services:
       edgex-network: {}
     ports:
     - 127.0.0.1:49990:49990/tcp
+    read_only: true
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
