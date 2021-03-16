@@ -32,6 +32,7 @@ services:
       - common.env
       - common-security.env
       - common-sec-stage-gate.env
+      - asc-common.env
       - asc-http-export.env
     environment:
       SERVICE_HOST: app-service-http-export-secrets

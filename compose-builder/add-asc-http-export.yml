@@ -24,6 +24,7 @@ services:
     hostname: app-service-http-export
     env_file:
       - common.env
+      - asc-common.env
       - asc-http-export.env
     environment:
       SERVICE_HOST: app-service-http-export

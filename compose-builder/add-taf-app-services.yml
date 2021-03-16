@@ -24,6 +24,7 @@ services:
     hostname: app-service-functional-tests
     env_file:
       - common.env
+      - asc-common.env
     environment:
       EDGEX_PROFILE: functional-tests
       SERVICE_HOST: app-service-functional-tests
@@ -46,6 +47,7 @@ services:
     hostname: scalability-test-mqtt-export
     env_file:
       - common.env
+      - asc-common.env
       - asc-mqtt-export.env
     environment:
       SERVICE_HOST: app-service-mqtt-export

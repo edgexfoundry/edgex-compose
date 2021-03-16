@@ -46,11 +46,13 @@ services:
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: app-service-functional-tests
       SERVICE_PORT: 48105
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
     hostname: app-service-functional-tests
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
     networks:
@@ -79,6 +81,7 @@ services:
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -115,6 +118,7 @@ services:
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
@@ -508,6 +512,7 @@ services:
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
