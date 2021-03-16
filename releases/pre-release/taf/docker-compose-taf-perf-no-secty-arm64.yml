@@ -46,6 +46,7 @@ services:
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
