@@ -518,6 +518,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: app-service-mqtt-export
       SERVICE_PORT: 48106
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: DEBUG
       WRITABLE_PIPELINE_EXECUTIONORDER: TransformToJSON, MQTTSecretSend
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
@@ -601,7 +602,7 @@ services:
     read_only: true
     security_opt:
     - no-new-privileges:true
-    user: 2002:2001
+    user: root:root
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock:z
 version: '3.7'
