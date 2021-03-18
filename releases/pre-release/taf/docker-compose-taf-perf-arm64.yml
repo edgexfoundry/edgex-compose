@@ -890,7 +890,7 @@ services:
     read_only: true
     security_opt:
     - no-new-privileges:true
-    user: 2002:2001
+    user: root:root
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock:z
   vault:

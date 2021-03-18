@@ -61,6 +61,7 @@ services:
 
   system:
     image: ${CORE_EDGEX_REPOSITORY}/docker-sys-mgmt-agent-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    user: "root:root" # must run as root to allow binding to docker socket.
     ports:
       - "127.0.0.1:48090:48090"
     container_name: edgex-sys-mgmt-agent
@@ -85,7 +86,6 @@ services:
       - command
     security_opt: 
       - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
 
   notifications:
     image: ${CORE_EDGEX_REPOSITORY}/docker-support-notifications-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
