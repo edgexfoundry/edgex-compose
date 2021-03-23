@@ -220,6 +220,7 @@ services:
 
   rulesengine:
     image: emqx/kuiper:${KUIPER_VERSION}
+    user: "kuiper:kuiper"
     ports:
       - "127.0.0.1:48075:48075"
       - "127.0.0.1:20498:20498"
