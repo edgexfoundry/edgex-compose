@@ -30,6 +30,7 @@ volumes:
 services:
   consul:
     image: consul:${CONSUL_VERSION}
+    user: "root:root" # Note that Consul is run under the 'consul' user, but entry point scripts need to first run as root
     ports:
       - "127.0.0.1:8500:8500"
     container_name: edgex-core-consul
@@ -45,6 +46,7 @@ services:
 
   database:
     image: redis:${REDIS_VERSION}
+    user: "root:root" # Note that Redis is run under the 'redis' user, but entry point scripts need to first run as root
     ports:
       - "127.0.0.1:6379:6379"
     container_name: edgex-redis
@@ -89,6 +91,7 @@ services:
 
   notifications:
     image: ${CORE_EDGEX_REPOSITORY}/docker-support-notifications-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48060:48060"
     container_name: edgex-support-notifications
@@ -105,10 +108,10 @@ services:
       - database
     security_opt: 
       - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
 
   metadata:
     image: ${CORE_EDGEX_REPOSITORY}/docker-core-metadata-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48081:48081"
     container_name: edgex-core-metadata
@@ -127,10 +130,10 @@ services:
       - notifications
     security_opt: 
       - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
 
   data:
     image: ${CORE_EDGEX_REPOSITORY}/docker-core-data-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48080:48080"
       - "127.0.0.1:5563:5563"
@@ -149,10 +152,10 @@ services:
       - metadata
     security_opt: 
       - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
 
   command:
     image: ${CORE_EDGEX_REPOSITORY}/docker-core-command-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48082:48082"
     container_name: edgex-core-command
@@ -170,10 +173,10 @@ services:
       - metadata
     security_opt: 
       - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
 
   scheduler:
     image: ${CORE_EDGEX_REPOSITORY}/docker-support-scheduler-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48085:48085"
     container_name: edgex-support-scheduler
@@ -192,10 +195,10 @@ services:
       - database
     security_opt: 
       - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
 
   app-service-rules:
     image: ${APP_SVC_REPOSITORY}/docker-app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48100:48100"
     container_name: edgex-app-service-configurable-rules
@@ -216,7 +219,6 @@ services:
       - data
     security_opt: 
       - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
 
   rulesengine:
     image: emqx/kuiper:${KUIPER_VERSION}

@@ -204,6 +204,7 @@ services:
     read_only: true
     security_opt:
     - no-new-privileges:true
+    user: root:root
     volumes:
     - consul-config:/consul/config:z
     - consul-data:/consul/data:z
@@ -330,6 +331,7 @@ services:
     - no-new-privileges:true
     tmpfs:
     - /run
+    user: root:root
     volumes:
     - db-data:/data:z
     - edgex-init:/edgex-init:ro,z
@@ -499,6 +501,7 @@ services:
     - /var/run
     - /tmp
     - /run
+    user: root:root
     volumes:
     - edgex-init:/edgex-init:ro,z
     - postgres-config:/tmp/postgres-config:z
@@ -819,6 +822,7 @@ services:
     tmpfs:
     - /run
     - /vault
+    user: root:root
     volumes:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets:/tmp/edgex/secrets:z
@@ -853,6 +857,7 @@ services:
     read_only: true
     security_opt:
     - no-new-privileges:true
+    user: root:root
     volumes:
     - edgex-init:/edgex-init:z
   system:
@@ -933,6 +938,7 @@ services:
     - 127.0.0.1:8200:8200/tcp
     tmpfs:
     - /vault/config
+    user: root:root
     volumes:
     - edgex-init:/edgex-init:ro,z
     - vault-file:/vault/file:z
