@@ -30,6 +30,7 @@ volumes:
 services:
   security-bootstrapper:
     image: ${CORE_EDGEX_REPOSITORY}/docker-security-bootstrapper-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    user: "root:root" # Must run as root
     container_name: edgex-security-bootstrapper
     hostname: edgex-security-bootstrapper
     networks:
@@ -86,6 +87,7 @@ services:
 
   vault:
     image: vault:${VAULT_VERSION}
+    user: "root:root" # Note that Vault is run under the 'vault' user, but entry point scripts need to first run as root
     container_name: edgex-vault
     hostname: edgex-vault
     networks:
@@ -113,6 +115,7 @@ services:
 
   secretstore-setup:
     image: ${CORE_EDGEX_REPOSITORY}/docker-security-secretstore-setup-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    user: "root:root" # must run as root
     container_name: edgex-secretstore-setup
     hostname: edgex-secretstore-setup
     env_file:
@@ -140,6 +143,7 @@ services:
 # containers for reverse proxy
   kong-db:
     image: postgres:${POSTGRES_VERSION}
+    user: "root:root" # Note that postgres is run under the 'postgres' user, but entry point scripts need to first run as root
     container_name: kong-db
     hostname: kong-db
     read_only: true
@@ -171,6 +175,7 @@ services:
 
   kong:
     image: kong:${KONG_VERSION}
+    user: "kong:nogroup" # Note Kong already running as kong user but doesn't define a group
     container_name: kong
     hostname: kong
     read_only: true
@@ -210,6 +215,7 @@ services:
 
   proxy-setup:
     image: ${CORE_EDGEX_REPOSITORY}/docker-security-proxy-setup-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     container_name: edgex-proxy-setup
     hostname: edgex-proxy-setup
     entrypoint: ["/edgex-init/proxy_setup_wait_install.sh"]
@@ -237,7 +243,6 @@ services:
       - kong
     security_opt: 
       - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
 
 # end of containers for reverse proxy
 

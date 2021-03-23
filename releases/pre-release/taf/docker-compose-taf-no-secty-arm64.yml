@@ -216,6 +216,7 @@ services:
     read_only: true
     security_opt:
     - no-new-privileges:true
+    user: root:root
     volumes:
     - consul-config:/consul/config:z
     - consul-data:/consul/data:z
@@ -278,6 +279,7 @@ services:
     read_only: true
     security_opt:
     - no-new-privileges:true
+    user: root:root
     volumes:
     - db-data:/data:z
   device-modbus:
