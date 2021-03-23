@@ -452,6 +452,7 @@ services:
     - /run
     - /tmp
     tty: true
+    user: kong:nogroup
     volumes:
     - edgex-init:/edgex-init:ro,z
     - postgres-config:/tmp/postgres-config:z

@@ -175,7 +175,7 @@ services:
 
   kong:
     image: kong:${KONG_VERSION}
-    #user: "kong:kong" # Note Kong already running as kong user but doesn't expose kong user, so this fails
+    user: "kong:nogroup" # Note Kong already running as kong user but doesn't define a group
     container_name: kong
     hostname: kong
     read_only: true
