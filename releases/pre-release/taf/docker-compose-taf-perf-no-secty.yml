@@ -361,7 +361,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 48075
     hostname: edgex-kuiper
-    image: emqx/kuiper:1.1.1-alpine
+    image: emqx/kuiper:1.1.2-alpine
     networks:
       edgex-network: {}
     ports:
@@ -370,6 +370,7 @@ services:
     read_only: true
     security_opt:
     - no-new-privileges:true
+    user: kuiper:kuiper
     volumes:
     - kuiper-data:/kuiper/data:z
   scheduler:
