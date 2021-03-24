@@ -1,6 +1,6 @@
 # /*******************************************************************************
 #  * Copyright 2020 Redis Labs Inc.
-#  * Copyright 2021 Intel Corporation.
+#  * Copyright 2020 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -11,9 +11,16 @@
 #  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
+#  *
+#  * @author: Jim White, Dell
+#  * @author: Andre Srinivasan, Redis Labs
+#  * @author: Leonard Goodell
+#  * EdgeX Foundry, Hanoi, version "master"
+#  * added: May, 2020
 #  *******************************************************************************/
 
-# NOTE:  this Docker Compose file does not contain the security services required to run in secure mode
+# NOTE:  this Docker Compose file does not contain the security services - namely the API Gateway
+# and Secret Store
 
 version: '3.7'
 
@@ -23,14 +30,14 @@ networks:
 
 volumes:
   db-data:
+  log-data:
   consul-config:
   consul-data:
-  kuiper-data:
+  consul-scripts:
 
 services:
   consul:
-    image: consul:${CONSUL_VERSION}
-    user: "root:root" # Note that Consul is run under the 'consul' user, but entry point scripts need to first run as root
+    image: ${REPOSITORY}/docker-edgex-consul${ARCH}:${CONSUL_VERSION}
     ports:
       - "127.0.0.1:8500:8500"
     container_name: edgex-core-consul
@@ -41,12 +48,13 @@ services:
     volumes:
       - consul-config:/consul/config:z
       - consul-data:/consul/data:z
-    security_opt: 
-      - no-new-privileges:true
+      - consul-scripts:/consul/scripts:z
+    environment: 
+      EDGEX_DB: redis
+      EDGEX_SECURE: "false"
 
   database:
     image: redis:${REDIS_VERSION}
-    user: "root:root" # Note that Redis is run under the 'redis' user, but entry point scripts need to first run as root
     ports:
       - "127.0.0.1:6379:6379"
     container_name: edgex-redis
@@ -58,12 +66,9 @@ services:
       - common.env
     volumes:
       - db-data:/data:z
-    security_opt: 
-      - no-new-privileges:true
 
   system:
     image: ${CORE_EDGEX_REPOSITORY}/docker-sys-mgmt-agent-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
-    user: "root:root" # must run as root to allow binding to docker socket.
     ports:
       - "127.0.0.1:48090:48090"
     container_name: edgex-sys-mgmt-agent
@@ -86,12 +91,9 @@ services:
       - metadata
       - data
       - command
-    security_opt: 
-      - no-new-privileges:true
 
   notifications:
     image: ${CORE_EDGEX_REPOSITORY}/docker-support-notifications-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48060:48060"
     container_name: edgex-support-notifications
@@ -106,12 +108,9 @@ services:
     depends_on:
       - consul
       - database
-    security_opt: 
-      - no-new-privileges:true
 
   metadata:
     image: ${CORE_EDGEX_REPOSITORY}/docker-core-metadata-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48081:48081"
     container_name: edgex-core-metadata
@@ -128,12 +127,9 @@ services:
       - consul
       - database
       - notifications
-    security_opt: 
-      - no-new-privileges:true
 
   data:
     image: ${CORE_EDGEX_REPOSITORY}/docker-core-data-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48080:48080"
       - "127.0.0.1:5563:5563"
@@ -150,12 +146,9 @@ services:
       - consul
       - database
       - metadata
-    security_opt: 
-      - no-new-privileges:true
 
   command:
     image: ${CORE_EDGEX_REPOSITORY}/docker-core-command-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48082:48082"
     container_name: edgex-core-command
@@ -171,12 +164,9 @@ services:
       - consul
       - database
       - metadata
-    security_opt: 
-      - no-new-privileges:true
 
   scheduler:
     image: ${CORE_EDGEX_REPOSITORY}/docker-support-scheduler-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48085:48085"
     container_name: edgex-support-scheduler
@@ -193,12 +183,9 @@ services:
     depends_on:
       - consul
       - database
-    security_opt: 
-      - no-new-privileges:true
 
   app-service-rules:
-    image: ${APP_SVC_REPOSITORY}/docker-app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    image: ${APP_SVC_REPOSITORY}/docker-app-service-configurable${ARCH}:${APP_SERVICE_VERSION}
     ports:
       - "127.0.0.1:48100:48100"
     container_name: edgex-app-service-configurable-rules
@@ -212,27 +199,21 @@ services:
       EDGEX_PROFILE: rules-engine
       SERVICE_HOST: edgex-app-service-configurable-rules
       SERVICE_PORT: 48100
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
-      TRIGGER_PUBLISHTOPIC: events
+      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      BINDING_PUBLISHTOPIC: events
     depends_on:
       - consul
       - data
-    security_opt: 
-      - no-new-privileges:true
 
   rulesengine:
     image: emqx/kuiper:${KUIPER_VERSION}
-    user: "kuiper:kuiper"
     ports:
       - "127.0.0.1:48075:48075"
       - "127.0.0.1:20498:20498"
     container_name: edgex-kuiper
     hostname: edgex-kuiper
-    read_only: true
     networks:
       - edgex-network
-    volumes:
-      - kuiper-data:/kuiper/data:z
     environment:
       # KUIPER_DEBUG: "true"
       KUIPER__BASIC__CONSOLELOG: "true"
@@ -244,5 +225,3 @@ services:
       EDGEX__DEFAULT__PORT: 5566
     depends_on:
       - app-service-rules
-    security_opt: 
-      - no-new-privileges:true

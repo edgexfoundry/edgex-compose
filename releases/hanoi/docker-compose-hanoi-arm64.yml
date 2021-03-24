@@ -51,7 +51,7 @@ services:
       SERVICE_HOST: edgex-app-service-configurable-rules
       SERVICE_PORT: 48100
     hostname: edgex-app-service-configurable-rules
-    image: edgexfoundry/docker-app-service-configurable-arm64:1.3.0
+    image: edgexfoundry/docker-app-service-configurable-arm64:1.3.1
     networks:
       edgex-network: {}
     ports:
@@ -83,7 +83,7 @@ services:
       SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-command/secrets-token.json
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: edgexfoundry/docker-core-command-go-arm64:1.3.0
+    image: edgexfoundry/docker-core-command-go-arm64:1.3.1
     networks:
       edgex-network: {}
     ports:
@@ -141,7 +141,7 @@ services:
       SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-data/secrets-token.json
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: edgexfoundry/docker-core-data-go-arm64:1.3.0
+    image: edgexfoundry/docker-core-data-go-arm64:1.3.1
     networks:
       edgex-network: {}
     ports:
@@ -194,7 +194,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: edgexfoundry/docker-device-rest-go-arm64:1.2.0
+    image: edgexfoundry/docker-device-rest-go-arm64:1.2.1
     networks:
       edgex-network: {}
     ports:
@@ -220,7 +220,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: edgexfoundry/docker-device-virtual-go-arm64:1.3.0
+    image: edgexfoundry/docker-device-virtual-go-arm64:1.3.1
     networks:
       edgex-network: {}
     ports:
@@ -257,7 +257,7 @@ services:
       SECRETSTORE_ROOTCACERTPATH: /tmp/edgex/secrets/ca/ca.pem
       SECRETSTORE_SERVERNAME: edgex-vault
     hostname: edgex-proxy
-    image: edgexfoundry/docker-security-proxy-setup-go-arm64:1.3.0
+    image: edgexfoundry/docker-security-proxy-setup-go-arm64:1.3.1
     networks:
       edgex-network: {}
     read_only: true
@@ -371,7 +371,7 @@ services:
       SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-metadata/secrets-token.json
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: edgexfoundry/docker-core-metadata-go-arm64:1.3.0
+    image: edgexfoundry/docker-core-metadata-go-arm64:1.3.1
     networks:
       edgex-network: {}
     ports:
@@ -405,7 +405,7 @@ services:
       SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-support-notifications/secrets-token.json
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: edgexfoundry/docker-support-notifications-go-arm64:1.3.0
+    image: edgexfoundry/docker-support-notifications-go-arm64:1.3.1
     networks:
       edgex-network: {}
     ports:
@@ -427,7 +427,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 48075
     hostname: edgex-kuiper
-    image: emqx/kuiper:1.0.0-alpine
+    image: emqx/kuiper:1.1.1-alpine
     networks:
       edgex-network: {}
     ports:
@@ -460,7 +460,7 @@ services:
       SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-support-scheduler/secrets-token.json
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: edgexfoundry/docker-support-scheduler-go-arm64:1.3.0
+    image: edgexfoundry/docker-support-scheduler-go-arm64:1.3.1
     networks:
       edgex-network: {}
     ports:
@@ -490,9 +490,9 @@ services:
       SECRETSTORE_ROOTCACERTPATH: /tmp/edgex/secrets/ca/ca.pem
       SECRETSTORE_SERVERNAME: edgex-vault
       SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-security-bootstrap-redis/secrets-token.json
-      SERVICE_HOST: edgex-security-bootstrap-redis
+      SERVICE_HOST: edgex-security-bootstrap-database
     hostname: edgex-security-bootstrap-database
-    image: edgexfoundry/docker-security-bootstrap-redis-go-arm64:1.3.0
+    image: edgexfoundry/docker-security-bootstrap-redis-go-arm64:1.3.1
     networks:
       edgex-network: {}
     read_only: true
@@ -506,7 +506,7 @@ services:
     command: generate
     container_name: edgex-secrets-setup
     hostname: edgex-secrets-setup
-    image: edgexfoundry/docker-security-secrets-setup-go-arm64:1.3.0
+    image: edgexfoundry/docker-security-secrets-setup-go-arm64:1.3.1
     read_only: true
     tmpfs:
     - /tmp
@@ -540,7 +540,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-sys-mgmt-agent
     hostname: edgex-sys-mgmt-agent
-    image: edgexfoundry/docker-sys-mgmt-agent-go-arm64:1.3.0
+    image: edgexfoundry/docker-sys-mgmt-agent-go-arm64:1.3.1
     networks:
       edgex-network: {}
     ports:
@@ -583,7 +583,7 @@ services:
     environment:
       SECRETSTORE_SETUP_DONE_FLAG: /tmp/edgex/secrets/edgex-consul/.secretstore-setup-done
     hostname: edgex-vault-worker
-    image: edgexfoundry/docker-security-secretstore-setup-go-arm64:1.3.0
+    image: edgexfoundry/docker-security-secretstore-setup-go-arm64:1.3.1
     networks:
       edgex-network: {}
     read_only: true

@@ -1,5 +1,5 @@
 # /*******************************************************************************
-#  * Copyright 2021 Intel Corporation.
+#  * Copyright 2020 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -11,6 +11,9 @@
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
 #  *
+#  * @author: Leonard Goodell
+#  * EdgeX Foundry, Hanoi, version "master"
+#  * added: October, 2020
 #  *******************************************************************************/
 
 version: '3.7'
@@ -22,7 +25,6 @@ services:
     - "127.0.0.1:49990:49990"
     container_name: edgex-device-virtual
     hostname: edgex-device-virtual
-    read_only: true
     networks:
       - edgex-network
     env_file:
@@ -33,6 +35,3 @@ services:
       - consul
       - data
       - metadata
-    security_opt: 
-      - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
