@@ -1,24 +1,15 @@
 
 
-## Edgex Docker Compose Builder
+## Edgex Docker Compose Builder for Hanoi Release
 
-This folder contains the `Compose Builder` which is made up of **source** compose and environment files and **makefile** for building the single file docker composes files for the configured `release`. The default release is `nexus` and the generated compose files are placed in `release/nightly-build/compose-files`. 
+This folder contains the `Compose Builder` which is made up of **source** compose and environment files and **makefile** for building the single file docker composes files for the configured for the `Hanoi` release. 
 
-> **Note to Developers**: 
-> *Once you have edited and tested your changes to these source files you **MUST** regenerate the composes using the `make build` command.*
+**Note to Developers**: 
+For `Hanoi` patch release, once you have edited and tested your changes to the source compose files you **MUST** regenerate the committed `Hanoi` compose files using the `make build` command.
 
-### Generate next release compose files
+### Generating Custom Compose files
 
-Do the following to build compose files for next release such as `hanoi` 
-
-1. Update the `RELEASE`, `REPOSITORY`, `CORE_EDGEX_REPOSITORY` and `versions` contained in the `.env` file.
-2. Create the release folder, i.e `release/hanoi/compose-files`
-3. Run `make build` 
-4. Commit changes, open PR and merge PR
-5. TAG repo for new release, i.e. `1.3.0`
-   - This is need for generating dot releases and allows user to get back to the `release` source compose and .env files so they can generate custom compose files base on the `release`.  
-6. **Undo changes made to `.env` file**. (values on master branch **must** remain as `nexus/nightly-build`)
-7. Commit changes, open PR and merge PR
+If one of the standard committed `Hanoi` compose files doesn't meet your needs, you can generate and run a custom `Hanoi` compose file using the `make gen <options>` command. See [Gen](#gen) and [Run](#run) target details below. `Run` simply runs the custom compose file after generating it.
 
 ### Multiple Compose files approach
 
@@ -73,7 +64,7 @@ This folder contains the following compose files:
 This folder contains the following environment files:
 
 - **.env**
-    This file contains the `version`, `repositories` and image `version` variables referenced in compose files. Docker compose implicitly uses the `.env` file, if it exists, so you will not see it referenced in the compose files. It is referenced in the Makefile so that it can also use these settings.
+    This file contains the release `version` (`hanoi`), `repositories` and image `version` variables referenced in compose files. Docker compose implicitly uses the `.env` file, if it exists, so you will not see it referenced in the compose files. It is referenced in the Makefile so that it can also use these settings.
 - **common.env**
     This file contains the common environment overrides used by all Edgex services.
 - **common-security.env**
@@ -81,15 +72,19 @@ This folder contains the following environment files:
 
 ### Makefile
 
-This folder contains a `Makefile` that provides commands for running, stopping and cleaning the various EdgeX configurations during **development** of the compose files or testing `dev` versions of the service images.
+This folder contains a `Makefile` that provides commands for building,  generating,  running, stopping and cleaning the various EdgeX `Hanoi` release configurations.
 
 ```
 Usage: make <target> where target is:
 ```
+#### Portainer
+
 ```
 portainer       Runs Portainer independent of the EdgeX services
 portainer-down	Stops Portainer independent of the EdgeX services
 ```
+#### Build
+
 ```
 build
 Generates the all standard Edgex compose file variations and stores them in the configured relese folder. Each variation, except UI, includes Device REST & Device Virtual. Compose files are named appropriatly for release and options used to generate them.
@@ -102,6 +97,8 @@ Current variations are:
    stand-alone UI
    stand-alone UI for arm64
 ```
+
+#### Compose
 
 ```
 compose [options] 
@@ -130,6 +127,8 @@ Options:
     ui:          Generates stand-alone compose file for EdgeX UI	
 ```
 
+#### Run
+
 ```
 run [options] [services]
 Runs the EdgeX services as specified by:
@@ -156,6 +155,8 @@ Options:
 Services:
     <names...>: Runs only services listed (and their dependent services) where 'name' matches a service name in one of the compose files used
 ```
+#### Pull
+
 ```				
 pull [options] [services]
 Pulls the EdgeX service images as specified by:
@@ -180,6 +181,8 @@ Options:
 Services:
     <names...>: Pulls only images for the service(s) listed
 ```
+#### Gen
+
 ```	
 gen [options]
 Generates temporary single file compose file (`docker-compose.yml`) as specified by:
@@ -205,6 +208,8 @@ Options:
                  The MQTT Broker service is also included. 
     ui:          Generates stand-alone compose file for EdgeX UI
 ```
+#### Get-Token
+
 ```
 get-token [options] 
 Generates a Kong access token as specified by:
@@ -213,16 +218,21 @@ Options:
     dev:    Generates a Kong access token using local dev built docker image
             'make docker', which creates docker images tagged with '0.0.0-dev'    
 ```
+#### Ui-Down
+
 ```
 ui-down 
 Stops the optional EdgeX UI service
 ```
 
-```    
+#### Down
 
+```    
 down
 Stops all EdgeX services no matter which configuration started them
 ```
+#### Clean
+
 ```
 clean
 Runs 'down' , then removes any stopped containers and then prunes unused volumes and networks

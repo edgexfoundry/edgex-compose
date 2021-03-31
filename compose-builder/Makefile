@@ -123,19 +123,16 @@ ifeq (true, $(DS_GROVE))
  endif
 endif
 
-COMPOSE_FOLDER:=../releases/nightly-build/compose-files
-ifneq (nexus, $(RELEASE))
-	COMPOSE_FOLDER:=../releases/$(RELEASE)/compose-files
-endif
+COMPOSE_FOLDER:=../
 
 help:
 	echo "See README.md in this folder"
 
 portainer:
-	make -C ../releases/nightly-build/compose-files portainer
+	make -C ../ portainer
 
 portainer-down:
-	make -C ../releases/nightly-build/compose-files portainer-down
+	make -C ../ portainer-down
 
 build:
 	make compose ds-rest ds-virtual
