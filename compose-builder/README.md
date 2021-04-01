@@ -1,28 +1,33 @@
 ## Edgex Docker Compose Builder
 
-This folder contains the `Compose Builder` which is made up of **source** compose and environment files and **makefile** for building the single file docker composes files for the configured `release`. The default release is `pre-release` and the generated compose files are placed in `releases/pre-release`. 
+This folder contains the `Compose Builder` which is made up of **source** compose, environment files and a **makefile** for building the single file docker composes files for the configured `release`. The default release is `pre-release` and the generated compose files are placed in in the top level of this repository. 
 
 > **Note to Developers**: 
-> *Once you have edited and tested your changes to these source files you **MUST** regenerate the composes using the `make build` command.*
+> *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
 
 ### Generate next release compose files
 
-Do the following to build compose files for next release such as `hanoi` 
+Do the following to generate the compose files for next release such as `ireland` 
 
-1. Update the `RELEASE`, `REPOSITORY`, `CORE_EDGEX_REPOSITORY`, `APP_SVC_REPOSITORY`, and `versions` contained in the `.env` file.
-2. Create the release folder, i.e `release/hanoi`
+1. Create the new `release` branch from this branch, i.e create the `ireland` branch
+2. Checkout a new working branch from the new `release` branch
+3. Update the `RELEASE`, `REPOSITORY`, `CORE_EDGEX_REPOSITORY`, `APP_SVC_REPOSITORY`, and `versions` contained in the `.env` file appropriately for the new release
+4. Run `make build` 
+5. Commit changes, open PR and merge PR
+6. Update documentation for the new release to refer to the new release branch.
+
+### Generate dot release compose files
+
+1. Checkout a new working branch from the target `release` branch for the dot release, i.e the `ireland` branch
+2. Update the and `versions` contained in the `.env` file appropriately for the dot release
 3. Run `make build` 
 4. Commit changes, open PR and merge PR
-5. TAG repo for new release, i.e. `1.3.0`
-   - This is need for generating dot releases and allows user to get back to the `release` source compose and .env files so they can generate custom compose files base on the `release`.  
-6. **Undo changes made to `.env` file**. (values on master branch **must** remain as `nexus/nightly-build`)
-7. Commit changes, open PR and merge PR
 
 ### Multiple Compose files approach
 
 The approach used with these source compose files is the `Extending using multiple Compose files` described here: https://docs.docker.com/compose/extends/#multiple-compose-files
 
-The `Extending using multiple Compose files` approach along with environment files removes the all of the duplication found in previous EdgeX compose files. This approach makes running the solution more complicated due to having to list the multiple compose files required to run a particular configuration. To alleviate this complexity we are providing the generated single file compose files one level up and a `Makefile` has been provided here with commands that make it easy to run the multiple possible configurations while testing your changes. See the Makefile section below for details on these commands.
+The `Extending using multiple Compose files` approach along with environment files removes the all of the duplication found in earlier EdgeX compose files. This approach makes running the solution more complicated due to having to list the multiple compose files required to run a particular configuration. To alleviate this complexity we provide generated single file compose files one level up. A `Makefile` has been provided here with commands that make it easy to run one of the multiple possible configurations while testing your changes. See the Makefile section below for details on these commands.
 
 > *Note: The `make run`, `make pull` and `make gen` commands all generate a single `docker-compose.yml` file containing the content from the multiple compose files, environment files with all variables resolved for the specified options used. See below for list of options.*
 
@@ -85,19 +90,28 @@ This folder contains the following environment files:
     This file contains the common security related environment overrides used by many Edgex services.
 - **common-sec-stage-gate.env**
     This file contains the common security-bootstrapper stage gate related environment overrides used by many Edgex services.
+- **asc-common.env**
+    This file contains the common environment overrides used by all Application Services
+- **asc-http-export.env**
+    This file contains the common environment overrides used by all App Service Configurable instances using the `http-export` profile
+- **asc-mqtt-export.env**
+- This file contains the common environment overrides used by all App Service Configurable instances using the `mqtt-export` profile
 
 ### Makefile
 
-This folder contains a `Makefile` that provides commands for running, stopping and cleaning the various EdgeX configurations during **development** of the compose files or testing edgex-go's dev version by `dev` argument
-and/or app-service-configurable's dev version by `app-dev` argument for the service images.
+This folder contains a `Makefile` that provides commands for building, running, stopping,  generating, cleaning, etc. for the various EdgeX configurations. It is used during **development** of the compose files or generating DEV version for testing service changes.  See the [Gen](#gen) command below for more details on options available to use when generating compose files.
 
 ```
 Usage: make <target> where target is:
 ```
+#### Portainer
+
 ```
 portainer       Runs Portainer independent of the EdgeX services
 portainer-down	Stops Portainer independent of the EdgeX services
 ```
+#### Build
+
 ```
 build
 Generates the all standard Edgex compose file variations and the TAF testing compose files. The generated compose files are stored in the configured release folder. Each variation or standard compose files, except UI, includes Device REST & Device Virtual. Compose files are named appropriately for release and options used to generate them. TAF compose files are store in the 'taf' sub-folder
@@ -120,54 +134,8 @@ Standard compose variations are:
    non-secure perf testing (docker-compose-nexus-taf-perf-no-secty.yml)
    nonsecure perf testing for arm64 (docker-compose-taf-perf-nexus-no-secty-arm64.yml)
 ```
-```
-compose [options] 
-Generates the EdgeX compose file as specified by options and stores them in the configured release folder. Compose files are named appropriatly for release and options used to generate them.
+#### Run
 
-Options:
-    no-secty:   Generates non-secure compose file, otherwise generates secure compose file
-    arm64:      Generates compose file using ARM64 images
-    dev:        Generates compose file using local dev built images from edgex-go repo's 
-                'make docker' which creates docker images tagged with '0.0.0-dev'    
-    app-dev:    Generates compose file using local dev built images from app-service-configurable repo's
-                'make docker' which creates docker images tagged with 'master-dev'
-    ds-bacnet:  Generates compose file with device-bacnet included
-    ds-camera:  Generates compose file with device-camera included
-    ds-grove:   Generates compose file with device-grove included (valid only with arm64 option)
-    ds-modbus:   Generates compose file with device-modbus included
-    ds-mqtt:     Generates compose file with device-mqtt included
-    ds-random:   Generates compose file with device-random included
-    ds-rest:     Generates compose file with device-rest included
-    ds-snmp:     Generates compose file with device-snmp included
-    ds-virtual:  Generates compose file with device-virtual included
-    modbus-sim:  Generates compose file with ModBus simulator included
-    asc-http:    Generates compose file with App Service HTTP Export included
-    asc-http-s:  Generates compose file with App Service HTTP Export Secrets included
-    asc-mqtt:    Generates compose file with App Service MQTT Export included
-    asc-mqtt-s:  Generates compose file with App Service MQTT Export Secrets included
-    mqtt-broker: Generates compose file with a MQTT Broker service included 
-    mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
-                 The MQTT Broker service is also included. 
-    ui:          Generates stand-alone compose file for EdgeX UI	
-```
-```
-taf-compose [options] 
-Generates a TAF general testing compose file as specified by options and stores them in the configured TAF release folder. Compose files are named appropriately for the options used to generate them.
-
-Options:
-    taf-secty:	  Generates general TAF testing compose file with security services
-    taf-no-secty: Generates general TAF testing compose file without security services
-    arm64:        Generates TAF compose file using ARM64 images
-```
-```
-taf-perf-compose [options] 
-Generates a TAF performance testing compose file as specified by options and stores them in the configured TAF release folder. Compose files are named appropriately for the options used to generate them.
-
-Options:
-    taf-secty:	  Generates performance TAF testing compose file with security services
-    taf-no-secty: Generates performance TAF testing compose file without security services
-    arm64:        Generates TAF compose file using ARM64 images
-```
 ```
 run [options] [services]
 Runs the EdgeX services as specified by:
@@ -198,6 +166,22 @@ Options:
 Services:
     <names...>: Runs only services listed (and their dependent services) where 'name' matches a service name in one of the compose files used
 ```
+#### Down
+
+```    
+down
+Stops all EdgeX services no matter which configuration started them
+```
+
+#### Ui-down
+
+```
+ui-down 
+Stops the optional EdgeX UI service
+```
+
+#### Pull
+
 ```				
 pull [options] [services]
 Pulls the EdgeX service images as specified by:
@@ -224,6 +208,8 @@ Options:
 Services:
     <names...>: Pulls only images for the service(s) listed
 ```
+#### Gen
+
 ```	
 gen [options]
 Generates temporary single file compose file (`docker-compose.yml`) as specified by:
@@ -253,6 +239,15 @@ Options:
                  The MQTT Broker service is also included. 
     ui:          Generates stand-alone compose file for EdgeX UI
 ```
+#### Clean
+
+```
+clean
+Runs 'down' , then removes any stopped containers and then prunes unused volumes and networks
+```
+
+#### Get-token
+
 ```
 get-token [options] 
 Generates a Kong access token as specified by:
@@ -261,6 +256,8 @@ Options:
     dev:    Generates a Kong access token using local dev built docker image
             'make docker', which creates docker images tagged with '0.0.0-dev'    
 ```
+#### Upload-tls-cert
+
 ```
 upload-tls-cert [options] <environment_variables>
 Upload a bring-your-own (BYO) TLS certificate to the Kong proxy server as specified by:
@@ -274,6 +271,8 @@ Environment Variables:
     EXTRA_SNIS="comma_separated_server_name_list_if_any": an extra server name indicator list in addition to localhost and kong, this is optional and can be omitted
 ```
 
+#### Get-consul-acl-token
+
 ```
 get-consul-acl-token [options]
 Retrieve the Consul ACL token as specified by:
@@ -283,16 +282,61 @@ Options:
             'make docker', which creates docker images tagged with '0.0.0-dev'
 ```
 
+#### Compose
+
 ```
-ui-down 
-Stops the optional EdgeX UI service
+compose [options] 
+Generates the EdgeX compose file as specified by options and stores them in the configured release folder. Compose files are named appropriatly for release and options used to generate them.
+
+Options:
+    no-secty:   Generates non-secure compose file, otherwise generates secure compose file
+    arm64:      Generates compose file using ARM64 images
+    dev:        Generates compose file using local dev built images from edgex-go repo's 
+                'make docker' which creates docker images tagged with '0.0.0-dev'    
+    app-dev:    Generates compose file using local dev built images from app-service-configurable repo's
+                'make docker' which creates docker images tagged with 'master-dev'
+    ds-bacnet:  Generates compose file with device-bacnet included
+    ds-camera:  Generates compose file with device-camera included
+    ds-grove:   Generates compose file with device-grove included (valid only with arm64 option)
+    ds-modbus:   Generates compose file with device-modbus included
+    ds-mqtt:     Generates compose file with device-mqtt included
+    ds-random:   Generates compose file with device-random included
+    ds-rest:     Generates compose file with device-rest included
+    ds-snmp:     Generates compose file with device-snmp included
+    ds-virtual:  Generates compose file with device-virtual included
+    modbus-sim:  Generates compose file with ModBus simulator included
+    asc-http:    Generates compose file with App Service HTTP Export included
+    asc-http-s:  Generates compose file with App Service HTTP Export Secrets included
+    asc-mqtt:    Generates compose file with App Service MQTT Export included
+    asc-mqtt-s:  Generates compose file with App Service MQTT Export Secrets included
+    mqtt-broker: Generates compose file with a MQTT Broker service included 
+    mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
+                 The MQTT Broker service is also included. 
+    ui:          Generates stand-alone compose file for EdgeX UI	
 ```
 
-```    
-down
-Stops all EdgeX services no matter which configuration started them
+#### Taf-compose
+
 ```
+taf-compose [options] 
+Generates a TAF general testing compose file as specified by options and stores them in the configured TAF release folder. Compose files are named appropriately for the options used to generate them.
+
+Options:
+    taf-secty:	  Generates general TAF testing compose file with security services
+    taf-no-secty: Generates general TAF testing compose file without security services
+    arm64:        Generates TAF compose file using ARM64 images
 ```
-clean
-Runs 'down' , then removes any stopped containers and then prunes unused volumes and networks
+
+#### Taf-perf-compose
+
 ```
+taf-perf-compose [options] 
+Generates a TAF performance testing compose file as specified by options and stores them in the configured TAF release folder. Compose files are named appropriately for the options used to generate them.
+
+Options:
+    taf-secty:	  Generates performance TAF testing compose file with security services
+    taf-no-secty: Generates performance TAF testing compose file without security services
+    arm64:        Generates TAF compose file using ARM64 images
+```
+
+#### 
