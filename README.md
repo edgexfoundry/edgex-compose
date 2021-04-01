@@ -1,6 +1,6 @@
 ## Edgex Docker Compose
 
-This repository contains the docker compose files for Edge releases. Each release is now on it's own branch. 
+This repository contains the docker compose files for EdgeX releases. Each release is now on it's own branch. 
 
 > **Example**: The `Hanoi` release compose file are [here](https://github.com/edgexfoundry/edgex-compose/tree/hanoi).
 

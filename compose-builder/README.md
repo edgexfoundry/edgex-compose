@@ -1,6 +1,6 @@
 ## Edgex Docker Compose Builder
 
-This folder contains the `Compose Builder` which is made up of **source** compose, environment files and a **makefile** for building the single file docker composes files for the configured `release`. The default release is `pre-release` and the generated compose files are placed in in the top level of this repository. 
+This folder contains the `Compose Builder` which is made up of **source** compose, environment files and a **makefile** for building the single file docker composes files for the configured `release`. The default release is `pre-release` and the generated compose files are placed in the top level of this repository. 
 
 > **Note to Developers**: 
 > *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
@@ -14,7 +14,8 @@ Do the following to generate the compose files for next release such as `ireland
 3. Update the `RELEASE`, `REPOSITORY`, `CORE_EDGEX_REPOSITORY`, `APP_SVC_REPOSITORY`, and `versions` contained in the `.env` file appropriately for the new release
 4. Run `make build` 
 5. Commit changes, open PR and merge PR
-6. Update documentation for the new release to refer to the new release branch.
+6. TAG the new release branch, i.e. `2.0.0`
+7. Update documentation for the new release to refer to the new release branch.
 
 ### Generate dot release compose files
 
@@ -22,6 +23,7 @@ Do the following to generate the compose files for next release such as `ireland
 2. Update the and `versions` contained in the `.env` file appropriately for the dot release
 3. Run `make build` 
 4. Commit changes, open PR and merge PR
+5. TAG the release branch for the dot release, i.e. `2.0.1`
 
 ### Multiple Compose files approach
 
