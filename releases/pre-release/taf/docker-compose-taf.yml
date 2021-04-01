@@ -424,8 +424,8 @@ services:
     - consul-config:/consul/config:z
     - consul-data:/consul/data:z
     - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets:/tmp/edgex/secrets:z
     - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:z
-    - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
   data:
     command: /core-data -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-data
