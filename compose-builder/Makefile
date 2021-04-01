@@ -34,7 +34,7 @@ define OPTIONS
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-random ds-rest ds-snmp ds-virtual -
  - asc-http asc-http-s asc-mqtt asc-mqtt-s -
- - modbus-sim ui -
+ - modbus-sim ui ui-only -
 endef
 export OPTIONS
 
@@ -140,6 +140,15 @@ else
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml
 endif
 
+ifeq (ui, $(filter ui,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-ui.yml
+endif
+
+ifeq (ui-only, $(filter ui-only,$(ARGS)))
+	COMPOSE_FILES:=-f stand-alone-ui.yml -f add-ui.yml
+	UI:=-ui
+endif
+
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	TOKEN_LIST:=app-service-http-export-secrets,app-service-mqtt-export-secrets
@@ -197,11 +206,6 @@ else
 	endif
 endif
 
-ifeq (ui, $(filter ui,$(ARGS)))
-	COMPOSE_FILES:=-f docker-compose-ui.yml
-	UI:=-ui
-endif
-
 SERVICES:=$(filter-out ${OPTIONS},$(ARGS))
 
 ifeq (true, $(DS_GROVE))
@@ -225,8 +229,8 @@ build:
 	make compose ds-rest ds-virtual arm64
 	make compose ds-rest ds-virtual no-secty
 	make compose ds-rest ds-virtual no-secty arm64
-	make compose ui
-	make compose ui arm64
+	make compose ui-only
+	make compose ui-only arm64
 	make taf-compose taf-secty
 	make taf-compose taf-no-secty
 	make taf-compose taf-secty arm64
