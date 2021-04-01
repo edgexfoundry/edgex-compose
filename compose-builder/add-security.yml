@@ -73,9 +73,9 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     environment:
-      # uncomment and modify the following line to add additional registry ACL roles on the fly
+      # modify the following line to add additional registry ACL roles on the fly
       # the list is comma-separated service keys for these services
-      #ADD_REGISTRY_ACL_ROLES: edgex-app-service-configurable-rules, device-virtual
+      ADD_REGISTRY_ACL_ROLES: edgex-sys-mgmt-agent, appservice-rules-engine
       STAGEGATE_REGISTRY_ACL_SENTINELFILEPATH: /consul/config/consul_acl_done
       STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
     volumes:
@@ -329,3 +329,38 @@ services:
       - security-bootstrapper
       - secretstore-setup
       - database
+
+  # this is to make sure this service is started after security-bootstrapper process is done
+  # because it needs to await Consul token to be available
+  app-service-rules:
+    entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
+    command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    env_file:
+      - common-sec-stage-gate.env
+    environment:
+      # for this one doesn't need the secretstore
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      # service key name is always lower cases
+      SERVICE_CONFIGACCESSTOKENFILE: /tmp/edgex/secrets/appservice-rules-engine/consul-token
+      REGISTRY_ACCESSTOKENFILE: /tmp/edgex/secrets/appservice-rules-engine/consul-token
+    volumes:
+      - edgex-init:/edgex-init:ro,z
+      # where the consul token is stored
+      - /tmp/edgex/secrets/appservice-rules-engine:/tmp/edgex/secrets/appservice-rules-engine:ro,z
+    depends_on:
+      - security-bootstrapper
+
+  system:
+    entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
+    command: "/sys-mgmt-agent ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    env_file:
+      - common-sec-stage-gate.env
+    environment:
+      # for this one doesn't need the secretstore
+      EDGEX_SECURITY_SECRET_STORE: "false"
+    volumes:
+      - edgex-init:/edgex-init:ro,z
+      # where the consul token is stored
+      - /tmp/edgex/secrets/edgex-sys-mgmt-agent:/tmp/edgex/secrets/edgex-sys-mgmt-agent:ro,z
+    depends_on:
+      - security-bootstrapper
