@@ -20,7 +20,7 @@ volumes:
 
 services:
   portainer:
-    image:  portainer/portainer
+    image:  portainer/portainer-ce
     ports:
       - "127.0.0.1:9000:9000"
     container_name: portainer
