@@ -81,7 +81,7 @@ This folder contains the following compose files:
     UI **extending** compose file, which adds the **Edgex UI** service.
 
 - **stand-alone-ui.yml**
-    Stand-alone **extending** compose file compose file for running the optional EdgeX UI stand-alone.    Used in conjunction with the **add-ui.yml** file. This file just sets up the external network for the UI to run stand-alone and be able to communicate with the EdgeX stack. It makes the assumption the stack was started with the `-p=edgex` option. 
+    Stand-alone **extending** compose file for running the optional EdgeX UI stand-alone.    Used in conjunction with the **add-ui.yml** file. This file just sets up the external network for the UI to run stand-alone and be able to communicate with the EdgeX stack. It makes the assumption the stack was started with the `-p=edgex` option. 
 
 ### Environment Files
 
