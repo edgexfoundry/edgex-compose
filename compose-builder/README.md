@@ -77,8 +77,11 @@ This folder contains the following compose files:
     TAF App Services **extending** compose file. Adds additional App Service for the TAF testing compose files.
 - **add-taf-device-services-mods.yml**
     TAF Device Services **extending** compose file. Modifies setting of Device Virtual and Device Modbus for the TAF testing compose files. **Must be used in conjunction with add-device-modbus.yml and add-device-virtual.yml**
-- **docker-compose-ui.yml**
-    Stand-alone compose file for running the optional EdgeX UI. Runs in `host` network mode and only supports connecting to local Edgex services via 127.0.0.1 IP address.
+- **add-ui.yml**
+    UI **extending** compose file, which adds the **Edgex UI** service.
+
+- **stand-alone-ui.yml**
+    Stand-alone **extending** compose file for running the optional EdgeX UI stand-alone.    Used in conjunction with the **add-ui.yml** file. This file just sets up the external network for the UI to run stand-alone and be able to communicate with the EdgeX stack. It makes the assumption the stack was started with the `-p=edgex` option. 
 
 ### Environment Files
 
