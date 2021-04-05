@@ -1,3 +1,4 @@
+# /*******************************************************************************
 #  * Copyright 2021 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
@@ -10,36 +11,21 @@
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
 #  *
-#  * EdgeX Foundry, Hanoi, version "master"
 #  *******************************************************************************/
-#
-#
-#
-# ************************ This is a generated compose file ****************************
-#
-# DO NOT MAKE CHANGES that are intended to be permanent to EdgeX edgex-compose repo.
-#
-# Permanent changes can be made to the source compose files located in the compose-builder folder
-# at the top level of the edgex-compose repo.
-#
-# From the compose-builder folder use `make build` to regenerate all standard compose files variations
-#
-networks:
-  edgex-network:
-    external: true
-    name: edgex_edgex-network
+
+version: '3.7'
+
 services:
   ui:
+    image: ${UI_REPOSITORY}/docker-edgex-ui-go${ARCH}:${EDGEX_UI_VERSION}
+    ports:
+      - "127.0.0.1:4000:4000"
     container_name: edgex-ui-go
     hostname: edgex-ui-go
-    image: nexus3.edgexfoundry.org:10004/docker-edgex-ui-go-arm64:master
-    networks:
-      edgex-network: {}
-    ports:
-    - 127.0.0.1:4000:4000/tcp
     read_only: true
+    networks:
+      - edgex-network
     security_opt:
-    - no-new-privileges:true
-    user: 2002:2001
-version: '3.7'
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
 

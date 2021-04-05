@@ -34,7 +34,7 @@ services:
     hostname: edgex-ui-go
     image: nexus3.edgexfoundry.org:10004/docker-edgex-ui-go:master
     networks:
-      edgex-network: null
+      edgex-network: {}
     ports:
     - 127.0.0.1:4000:4000/tcp
     read_only: true

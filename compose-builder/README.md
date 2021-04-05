@@ -164,7 +164,8 @@ Options:
     asc-mqtt-s:  Runs with App Service MQTT Export Secrets included
     mqtt-broker: Runs with a MQTT Broker service included 
     mqtt-bus:    Runs with services configure for MQTT Message Bus 
-    ui:          Runs only the EdgeX UI service. `ds-x`, 'mqtt', 'no-ds' & 'no-secty' are ignored. Typically used after the other Edgex Services have been started
+    ui:          Runs with the UI service included
+    ui-only:     Runs only the EdgeX UI service. `asc-x`, `ds-x`, 'mqtt', 'no-ds' & 'no-secty' are ignored. Typically used after the other Edgex Services have been started
 Services:
     <names...>: Runs only services listed (and their dependent services) where 'name' matches a service name in one of the compose files used
 ```
@@ -206,7 +207,9 @@ Options:
     asc-mqtt-s:  Pull includes App Service MQTT Export Secrets
     mqtt-broker: Pull includes MQTT Broker service
     mqtt-bus:    Pull includes additional service for MQTT Message Bus
-    ui:          Pulls only the EdgeX UI service image. `ds-x`, 'mqtt', 'no-ds' & 'no-secty' are ignored
+    ui:          Pulls includes the EdgeX UI service.
+    ui-only:     Pulls only the EdgeX UI service image. `asc-x`, `ds-x`, 'mqtt', 'no-ds & 'no-secty' are ignored.
+
 Services:
     <names...>: Pulls only images for the service(s) listed
 ```
@@ -239,7 +242,8 @@ Options:
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
                  The MQTT Broker service is also included. 
-    ui:          Generates stand-alone compose file for EdgeX UI
+    ui:          Generates compose file with UI sevice included             
+    ui-only:     Generates stand-alone compose file for EdgeX UI
 ```
 #### Clean
 
@@ -313,8 +317,9 @@ Options:
     asc-mqtt-s:  Generates compose file with App Service MQTT Export Secrets included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
-                 The MQTT Broker service is also included. 
-    ui:          Generates stand-alone compose file for EdgeX UI	
+                 The MQTT Broker service is also included.
+    ui:          Generates compose file with UI sevice included             
+    ui-only:     Generates stand-alone compose file for EdgeX UI	
 ```
 
 #### Taf-compose
@@ -340,5 +345,3 @@ Options:
     taf-no-secty: Generates performance TAF testing compose file without security services
     arm64:        Generates TAF compose file using ARM64 images
 ```
-
-#### 

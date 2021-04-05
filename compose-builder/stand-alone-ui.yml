@@ -19,16 +19,6 @@ networks:
     external:
       name: edgex_edgex-network
 
-services:
-  ui:
-    image: ${UI_REPOSITORY}/docker-edgex-ui-go${ARCH}:${EDGEX_UI_VERSION}
-    ports:
-      - "127.0.0.1:4000:4000"
-    container_name: edgex-ui-go
-    hostname: edgex-ui-go
-    read_only: true
-    networks:
-      - edgex-network
-    security_opt: 
-      - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+# This file is used in conjunction with the add-ui.yml file.
+# Here it just sets up the external network for the UI to run standalone and be able to communicate with
+# the EdgeX stack. It makes the assumption the stack was started with the -p=edgex option.
