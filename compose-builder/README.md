@@ -165,9 +165,7 @@ Options:
     mqtt-broker: Runs with a MQTT Broker service included 
     mqtt-bus:    Runs with services configure for MQTT Message Bus 
     ui:          Runs with the UI service included
-    ui-only:     Runs only the EdgeX UI service. `asc-x`, `ds-x`, 'mqtt', 'no-ds' &
-                 'no-secty' are ignored. Typically used after the other Edgex Services
-                 have been started
+    ui-only:     Runs only the EdgeX UI service. `asc-x`, `ds-x`, 'mqtt', 'no-ds' & 'no-secty' are ignored. Typically used after the other Edgex Services have been started
 Services:
     <names...>: Runs only services listed (and their dependent services) where 'name' matches a service name in one of the compose files used
 ```
@@ -209,7 +207,9 @@ Options:
     asc-mqtt-s:  Pull includes App Service MQTT Export Secrets
     mqtt-broker: Pull includes MQTT Broker service
     mqtt-bus:    Pull includes additional service for MQTT Message Bus
-    ui:          Pulls only the EdgeX UI service image.
+    ui:          Pulls includes the EdgeX UI service.
+    ui-only:     Pulls only the EdgeX UI service image. `asc-x`, `ds-x`, 'mqtt', 'no-ds & 'no-secty' are ignored.
+
 Services:
     <names...>: Pulls only images for the service(s) listed
 ```
