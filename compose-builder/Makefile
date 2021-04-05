@@ -283,7 +283,7 @@ get-consul-acl-token:
 
 ui-down:
 	ARCH= \
-	docker-compose -p edgex -f docker-compose-ui.yml down
+	docker-compose -p edgex -f stand-alone-ui.yml -f add-ui.yml down
 
 down: ui-down
 	DEV= \
