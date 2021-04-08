@@ -26,8 +26,8 @@ services:
     command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     ports:
       - 127.0.0.1:48104:48104/tcp
-    container_name: app-service-mqtt-export-secrets
-    hostname: app-service-mqtt-export-secrets
+    container_name: app-mqtt-export-secrets
+    hostname: app-mqtt-export-secrets
     env_file:
       - common.env
       - common-security.env
@@ -35,10 +35,10 @@ services:
       - asc-common.env
       - asc-mqtt-export.env
     environment:
-      SERVICE_HOST: app-service-mqtt-export-secrets
+      SERVICE_HOST: app-mqtt-export-secrets
       SERVICE_PORT: 48104
-      SECRETSTORE_PATH: /v1/secret/edgex/app-service-mqtt-export-secrets/
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-service-mqtt-export-secrets/secrets-token.json
+      SECRETSTORE_PATH: /v1/secret/edgex/app-mqtt-export-secrets/
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-mqtt-export-secrets/secrets-token.json
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_AUTHMODE : usernamepassword
       WRITABLE_INSECURESECRETS_MQTT_SECRETS_USERNAME: USERNAME_PLACEH_OLDER
       WRITABLE_INSECURESECRETS_MQTT_SECRETS_PASSWORD: PASSWORD_PLACE_HOLDER
@@ -51,7 +51,11 @@ services:
       - edgex-network
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/app-service-mqtt-export-secrets:/tmp/edgex/secrets/app-service-mqtt-export-secrets:ro,z
+      - /tmp/edgex/secrets/app-mqtt-export-secrets:/tmp/edgex/secrets/app-mqtt-export-secrets:ro,z
     security_opt:
       - no-new-privileges:true
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
+
+  consul:
+    environment:
+      ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}

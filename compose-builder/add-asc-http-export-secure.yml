@@ -26,8 +26,8 @@ services:
     command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     ports:
       - 127.0.0.1:48102:48102/tcp
-    container_name: app-service-http-export-secrets
-    hostname: app-service-http-export-secrets
+    container_name: app-http-export-secrets
+    hostname: app-http-export-secrets
     env_file:
       - common.env
       - common-security.env
@@ -35,16 +35,16 @@ services:
       - asc-common.env
       - asc-http-export.env
     environment:
-      SERVICE_HOST: app-service-http-export-secrets
+      SERVICE_HOST: app-http-export-secrets
       SERVICE_PORT: 48102
-      SECRETSTORE_PATH: /v1/secret/edgex/app-service-http-export-secrets/
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-service-http-export-secrets/secrets-token.json
+      SECRETSTORE_PATH: /v1/secret/edgex/app-http-export-secrets/
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-http-export-secrets/secrets-token.json
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_HEADERNAME: ""
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_SECRETNAME: ""
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_SECRETPATH: ""
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/app-service-http-export-secrets:/tmp/edgex/secrets/app-service-http-export-secrets:ro,z
+      - /tmp/edgex/secrets/app-http-export-secrets:/tmp/edgex/secrets/app-http-export-secrets:ro,z
     depends_on:
       - security-bootstrapper
       - consul
@@ -55,3 +55,7 @@ services:
     security_opt:
       - no-new-privileges:true
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
+
+  consul:
+    environment:
+      ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}

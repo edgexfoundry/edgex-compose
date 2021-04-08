@@ -20,14 +20,14 @@ services:
     image: ${APP_SVC_REPOSITORY}/docker-app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     ports:
       - 127.0.0.1:48101:48101/tcp
-    container_name: app-service-http-export
-    hostname: app-service-http-export
+    container_name: app-http-export
+    hostname: app-http-export
     env_file:
       - common.env
       - asc-common.env
       - asc-http-export.env
     environment:
-      SERVICE_HOST: app-service-http-export
+      SERVICE_HOST: app-http-export
       SERVICE_PORT: 48101
     depends_on:
       - consul
