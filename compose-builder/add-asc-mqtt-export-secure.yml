@@ -20,6 +20,10 @@ services:
     environment:
       ADD_SECRETSTORE_TOKENS: ${TOKEN_LIST}
 
+  consul:
+    environment:
+      ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
+
   appservice-mqtt-export-secrets:
     image: ${APP_SVC_REPOSITORY}/docker-app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
@@ -55,7 +59,3 @@ services:
     security_opt:
       - no-new-privileges:true
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
-
-  consul:
-    environment:
-      ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}

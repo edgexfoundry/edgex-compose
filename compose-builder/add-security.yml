@@ -66,6 +66,37 @@ services:
       - security-bootstrapper
       - secretstore-setup
 
+  secretstore-setup:
+    image: ${CORE_EDGEX_REPOSITORY}/docker-security-secretstore-setup-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    user: "root:root" # must run as root
+    container_name: edgex-secretstore-setup
+    hostname: edgex-secretstore-setup
+    env_file:
+      - common-security.env
+      - common-sec-stage-gate.env
+    environment:
+      EDGEX_USER: ${EDGEX_USER}
+      EDGEX_GROUP: ${EDGEX_GROUP}
+      # Uncomment and modify the following "ADD_SECRETSTORE_TOKENS" to add the additional secret store tokens on the fly
+      # the secret store token is required if you have added registry acl roles from env "ADD_REGISTRY_ACL_ROLES"
+      # in service "consul".
+      #ADD_SECRETSTORE_TOKENS: app-sample,app-rules-engine-redis, app-rules-engine-mqtt, app-push-to-core
+    read_only: true
+    networks:
+      - edgex-network
+    tmpfs:
+      - /run
+      - /vault
+    volumes:
+      - edgex-init:/edgex-init:ro,z
+      - vault-config:/vault/config:z
+      - /tmp/edgex/secrets:/tmp/edgex/secrets:z
+    depends_on:
+      - security-bootstrapper
+      - vault
+    security_opt:
+      - no-new-privileges:true
+
   consul:
     entrypoint: ["/edgex-init/consul_wait_install.sh"]
     env_file:
@@ -73,9 +104,9 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     environment:
-      # uncomment and modify the following line to add additional registry ACL roles on the fly
+      # uncomment and modify the following "ADD_REGISTRY_ACL_ROLES" to add additional registry ACL roles on the fly
       # the list is comma-separated service keys for these services
-      #ADD_REGISTRY_ACL_ROLES: appservice-sample,appservice-rules-engine-redis, appservice-rules-engine-mqtt, appservice-push-to-core
+      #ADD_REGISTRY_ACL_ROLES: app-sample,app-rules-engine-redis, app-rules-engine-mqtt, app-push-to-core
       STAGEGATE_REGISTRY_ACL_SENTINELFILEPATH: /consul/config/consul_acl_done
       STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
     volumes:
@@ -116,33 +147,6 @@ services:
       - vault-logs:/vault/logs:z
     depends_on:
       - security-bootstrapper
-
-  secretstore-setup:
-    image: ${CORE_EDGEX_REPOSITORY}/docker-security-secretstore-setup-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
-    user: "root:root" # must run as root
-    container_name: edgex-secretstore-setup
-    hostname: edgex-secretstore-setup
-    env_file:
-      - common-security.env
-      - common-sec-stage-gate.env
-    environment:
-      EDGEX_USER: ${EDGEX_USER}
-      EDGEX_GROUP: ${EDGEX_GROUP}
-    read_only: true
-    networks:
-      - edgex-network
-    tmpfs:
-      - /run
-      - /vault
-    volumes:
-      - edgex-init:/edgex-init:ro,z
-      - vault-config:/vault/config:z
-      - /tmp/edgex/secrets:/tmp/edgex/secrets:z
-    depends_on:
-      - security-bootstrapper
-      - vault
-    security_opt: 
-      - no-new-privileges:true
 
 # containers for reverse proxy
   kong-db:
