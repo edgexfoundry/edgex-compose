@@ -61,10 +61,14 @@ This folder contains the following compose files:
     Device Service **extending** compose file, which adds the **Device Virtual**  service.
 - **add-asc-http-export.yml**
     Application Service Configurable **extending** compose file, which adds the **App Service Http Export**  service.
-    Service is enabled with secret store by default.
+- **add-asc-http-export-secure.yml**
+    Application Service Configurable **extending** `add-asc-http-export` compose file, and the service is
+    enabled with secret store by default.
 - **add-asc-mqtt-export.yml**
     Application Service Configurable **extending** compose file, which adds the **App Service MQTT Export**  service.
-    Service is enabled with secret store by default.
+- **add-asc-mqtt-export-secure.yml**
+    Application Service Configurable **extending** `add-asc-mqtt-export` compose file, and the service is
+    enabled with secret store by default.
 - **add-modbus-simulator.yml**
     ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. Must be used in conjunction with  **add-device-modbus.yml**
 - **add-mqtt-broker.yml**
