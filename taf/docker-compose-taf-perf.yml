@@ -29,7 +29,7 @@ networks:
     driver: bridge
 services:
   app-service-mqtt-export:
-    container_name: app-service-mqtt-export
+    container_name: app-mqtt-export
     depends_on:
     - consul
     - data
@@ -50,13 +50,13 @@ services:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: app-service-mqtt-export
+      SERVICE_HOST: app-mqtt-export
       SERVICE_PORT: 48103
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
-    hostname: app-service-mqtt-export
+    hostname: app-mqtt-export
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
     networks:
       edgex-network: {}
@@ -67,11 +67,18 @@ services:
     - no-new-privileges:true
     user: 2002:2001
   app-service-rules:
+    command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res
     container_name: edgex-app-service-configurable-rules
     depends_on:
     - consul
     - data
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -85,10 +92,30 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
-      EDGEX_SECURITY_SECRET_STORE: "false"
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
+      PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-rules-engine/secrets-token.json
       SERVICE_HOST: edgex-app-service-configurable-rules
       SERVICE_PORT: 48100
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       TRIGGER_PUBLISHTOPIC: events
     hostname: edgex-app-service-configurable-rules
@@ -101,6 +128,9 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/app-rules-engine:/tmp/edgex/secrets/app-rules-engine:ro,z
   command:
     command: /core-command -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-command
@@ -209,8 +239,8 @@ services:
     - consul-config:/consul/config:z
     - consul-data:/consul/data:z
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets:/tmp/edgex/secrets:z
     - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:z
+    - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
   data:
     command: /core-data -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-data
@@ -862,6 +892,7 @@ services:
     volumes:
     - edgex-init:/edgex-init:z
   system:
+    command: /sys-mgmt-agent -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-sys-mgmt-agent
     depends_on:
     - command
@@ -870,7 +901,12 @@ services:
     - metadata
     - notifications
     - scheduler
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -883,11 +919,31 @@ services:
       CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
-      EDGEX_SECURITY_SECRET_STORE: "false"
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
       EXECUTORPATH: /sys-mgmt-executor
       METRICSMECHANISM: executor
+      PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-sys-mgmt-agent/secrets-token.json
       SERVICE_HOST: edgex-sys-mgmt-agent
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-sys-mgmt-agent
     image: nexus3.edgexfoundry.org:10004/docker-sys-mgmt-agent-go:master
     networks:
@@ -899,6 +955,8 @@ services:
     - no-new-privileges:true
     user: root:root
     volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/edgex-sys-mgmt-agent:/tmp/edgex/secrets/edgex-sys-mgmt-agent:ro,z
     - /var/run/docker.sock:/var/run/docker.sock:z
   vault:
     cap_add:
