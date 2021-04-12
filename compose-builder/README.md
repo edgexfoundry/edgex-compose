@@ -61,12 +61,10 @@ This folder contains the following compose files:
     Device Service **extending** compose file, which adds the **Device Virtual**  service.
 - **add-asc-http-export.yml**
     Application Service Configurable **extending** compose file, which adds the **App Service Http Export**  service.
-- **add-asc-http-export-secure.yml**
-    Application Service Configurable **extending** compose file, which adds the **App Service Http Export Secrets** service. Service is enable for secure secrets.
+    Service is enabled with secret store by default.
 - **add-asc-mqtt-export.yml**
     Application Service Configurable **extending** compose file, which adds the **App Service MQTT Export**  service.
-- **add-asc-mqtt-export-secure.yml**
-    Application Service Configurable **extending** compose file, which adds the **App Service MQTT Export Secrets** service. Service is enable for secure secrets.
+    Service is enabled with secret store by default.
 - **add-modbus-simulator.yml**
     ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. Must be used in conjunction with  **add-device-modbus.yml**
 - **add-mqtt-broker.yml**
@@ -162,9 +160,7 @@ Options:
     ds-virtual:  Runs with device-virtual included
     modbus-sim:  Runs with ModBus simulator included
     asc-http:    Runs with App Service HTTP Export included
-    asc-http-s:  Runs with App Service HTTP Export Secrets included
     asc-mqtt:    Runs with App Service MQTT Export included
-    asc-mqtt-s:  Runs with App Service MQTT Export Secrets included
     mqtt-broker: Runs with a MQTT Broker service included 
     mqtt-bus:    Runs with services configure for MQTT Message Bus 
     ui:          Runs with the UI service included
@@ -205,9 +201,7 @@ Options:
     ds-virtual:  Pull includes device-virtual
     modbus-sim:  Pull includes ModBus simulator
     asc-http:    Pull includes App Service HTTP Export
-    asc-http-s:  Pull includes App Service HTTP Export Secrets
     asc-mqtt:    Pull includes App Service MQTT Export
-    asc-mqtt-s:  Pull includes App Service MQTT Export Secrets
     mqtt-broker: Pull includes MQTT Broker service
     mqtt-bus:    Pull includes additional service for MQTT Message Bus
     ui:          Pulls includes the EdgeX UI service.
@@ -239,9 +233,7 @@ Options:
     ds-virtual:  Generates compose file with device-virtual included
     modbus-sim:  Generates compose file with ModBus simulator included
     asc-http:    Generates compose file with App Service HTTP Export included
-    asc-http-s:  Generates compose file with App Service HTTP Export Secrets included
     asc-mqtt:    Generates compose file with App Service MQTT Export included
-    asc-mqtt-s:  Generates compose file with App Service MQTT Export Secrets included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
                  The MQTT Broker service is also included. 
@@ -315,9 +307,7 @@ Options:
     ds-virtual:  Generates compose file with device-virtual included
     modbus-sim:  Generates compose file with ModBus simulator included
     asc-http:    Generates compose file with App Service HTTP Export included
-    asc-http-s:  Generates compose file with App Service HTTP Export Secrets included
     asc-mqtt:    Generates compose file with App Service MQTT Export included
-    asc-mqtt-s:  Generates compose file with App Service MQTT Export Secrets included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
                  The MQTT Broker service is also included.

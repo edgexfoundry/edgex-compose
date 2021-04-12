@@ -24,7 +24,7 @@ services:
     environment:
       ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
 
-  appservice-mqtt-export:
+  app-service-mqtt-export:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     env_file:
