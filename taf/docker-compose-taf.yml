@@ -29,11 +29,18 @@ networks:
     driver: bridge
 services:
   app-service-functional-tests:
+    command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res
     container_name: app-functional-tests
     depends_on:
     - consul
     - data
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -48,10 +55,29 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
-      EDGEX_SECURITY_SECRET_STORE: "false"
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
+      PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
       SERVICE_HOST: app-functional-tests
       SERVICE_PORT: 48105
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
     hostname: app-functional-tests
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
@@ -63,6 +89,9 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/app-functional-tests:/tmp/edgex/secrets/app-functional-tests:ro,z
   app-service-http-export:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
       --confdir=/res
@@ -198,7 +227,7 @@ services:
     user: 2002:2001
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/app-mqtt-export-secrets:/tmp/edgex/secrets/app-mqtt-export-secrets:ro,z
+    - /tmp/edgex/secrets/app-mqtt-export:/tmp/edgex/secrets/app-mqtt-export:ro,z
   app-service-rules:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
       --confdir=/res
@@ -334,7 +363,7 @@ services:
     entrypoint:
     - /edgex-init/consul_wait_install.sh
     environment:
-      ADD_REGISTRY_ACL_ROLES: app-http-export,app-mqtt-export
+      ADD_REGISTRY_ACL_ROLES: app-http-export,app-mqtt-export,app-functional-tests
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -934,11 +963,18 @@ services:
     volumes:
     - kuiper-data:/kuiper/data:z
   scalability-test-mqtt-export:
+    command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res
     container_name: scalability-test-mqtt-export
     depends_on:
     - consul
     - data
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      API_GATEWAY_HOST: kong
+      API_GATEWAY_STATUS_PORT: '8001'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -953,10 +989,29 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
-      EDGEX_SECURITY_SECRET_STORE: "false"
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      ENABLE_REGISTRY_ACL: "true"
+      PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PORT: '8200'
       SERVICE_HOST: app-mqtt-export
       SERVICE_PORT: 48106
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: DEBUG
       WRITABLE_PIPELINE_EXECUTIONORDER: TransformToJSON, MQTTSecretSend
@@ -972,6 +1027,9 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/app-mqtt-export:/tmp/edgex/secrets/app-mqtt-export:ro,z
   scheduler:
     command: /support-scheduler -cp=consul.http://edgex-core-consul:8500 --registry
       --confdir=/res
@@ -1042,7 +1100,7 @@ services:
     - security-bootstrapper
     - vault
     environment:
-      ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export
+      ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_GROUP: '2001'

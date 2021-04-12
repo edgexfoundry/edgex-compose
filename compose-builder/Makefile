@@ -104,7 +104,7 @@ ifeq (asc-http, $(filter asc-http,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),app-http-export
 		endif
-		# when there does NOT ask for no secure mode (no-secty) explicitly,
+		# when no security mode (no-secty) not explicitly specified,
 		# then we also need to add the secure version on top of base yml by default.
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-http-export-secure.yml
 	endif
@@ -118,7 +118,7 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),app-mqtt-export
 		endif
-		# when there does NOT ask for no secure mode (no-secty) explicitly,
+		# when no security mode (no-secty) not explicitly specified,
 		# then we also need to add the secure version on top of base yml by default.
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-mqtt-export-secure.yml
 	endif
@@ -154,11 +154,12 @@ endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
-	TOKEN_LIST:=app-http-export,app-mqtt-export
+	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
 		-f add-taf-app-services.yml \
+		-f add-taf-app-services-secure.yml \
 		-f add-asc-http-export.yml \
 		-f add-asc-http-export-secure.yml \
 		-f add-asc-mqtt-export.yml \
@@ -191,6 +192,7 @@ else
     			-f docker-compose-base.yml \
     			-f add-security.yml \
     			-f add-asc-mqtt-export.yml \
+    			-f add-asc-mqtt-export-secure.yml \
     			-f add-device-virtual.yml \
     			-f add-device-rest.yml \
     			-f add-mqtt-broker.yml

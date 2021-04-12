@@ -77,6 +77,8 @@ This folder contains the following compose files:
     MQTT MesssageBus **extending** compose file. Adds additional configuration of services so that the `MQTT` implementation of the Edgex Message Bus is used. **Must be used in conjunction with add-mqtt-broker.yml**
 - **add-taf-app-services.yml**
     TAF App Services **extending** compose file. Adds additional App Service for the TAF testing compose files.
+- **add-taf-app-services-secure.yml**
+    TAF App Services **extending** `add-taf-app-services` compose file, and services are enabled with secret store by default.
 - **add-taf-device-services-mods.yml**
     TAF Device Services **extending** compose file. Modifies setting of Device Virtual and Device Modbus for the TAF testing compose files. **Must be used in conjunction with add-device-modbus.yml and add-device-virtual.yml**
 - **add-ui.yml**
