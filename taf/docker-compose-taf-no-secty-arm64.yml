@@ -518,8 +518,9 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
+      EDGEX_SERVICE_KEY: scalability-test-mqtt-export
       REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: app-mqtt-export
+      SERVICE_HOST: scalability-test-mqtt-export
       SERVICE_PORT: 48106
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: DEBUG

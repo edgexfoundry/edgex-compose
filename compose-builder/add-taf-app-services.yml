@@ -50,7 +50,8 @@ services:
       - asc-common.env
       - asc-mqtt-export.env
     environment:
-      SERVICE_HOST: app-mqtt-export
+      EDGEX_SERVICE_KEY: scalability-test-mqtt-export
+      SERVICE_HOST: scalability-test-mqtt-export
       SERVICE_PORT: 48106
       WRITABLE_PIPELINE_EXECUTIONORDER: "TransformToJSON, MQTTSecretSend"
       WRITABLE_LOGLEVEL: DEBUG

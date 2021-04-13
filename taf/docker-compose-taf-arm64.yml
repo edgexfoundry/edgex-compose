@@ -996,7 +996,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SERVICE_HOST: app-mqtt-export
+      SERVICE_HOST: scalability-test-mqtt-export
       SERVICE_PORT: 48106
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
