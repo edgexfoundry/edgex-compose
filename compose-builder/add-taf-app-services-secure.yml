@@ -39,12 +39,13 @@ services:
   scalability-test-mqtt-export:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    environment:
+      EDGEX_SERVICE_KEY: scalability-test-mqtt-export
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
     volumes:
       - edgex-init:/edgex-init:ro,z
-      # using the same secret store token as the one from app-mqtt-export
-      - /tmp/edgex/secrets/app-mqtt-export:/tmp/edgex/secrets/app-mqtt-export:ro,z
+      - /tmp/edgex/secrets/scalability-test-mqtt-export:/tmp/edgex/secrets/scalability-test-mqtt-export:ro,z
     depends_on:
       - security-bootstrapper

@@ -154,7 +154,7 @@ endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
-	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests
+	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
@@ -188,7 +188,7 @@ else
     else
     	# Build compose for TAF secure performance testing (ignore all other compose file options)
     	ifeq (taf-perf, $(filter taf-perf,$(ARGS)))
-			TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests
+			TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
     		COMPOSE_FILES:= \
     			-f docker-compose-base.yml \
     			-f add-security.yml \

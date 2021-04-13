@@ -363,7 +363,7 @@ services:
     entrypoint:
     - /edgex-init/consul_wait_install.sh
     environment:
-      ADD_REGISTRY_ACL_ROLES: app-http-export,app-mqtt-export,app-functional-tests
+      ADD_REGISTRY_ACL_ROLES: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -990,6 +990,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
+      EDGEX_SERVICE_KEY: scalability-test-mqtt-export
       ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1029,7 +1030,7 @@ services:
     user: 2002:2001
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/app-mqtt-export:/tmp/edgex/secrets/app-mqtt-export:ro,z
+    - /tmp/edgex/secrets/scalability-test-mqtt-export:/tmp/edgex/secrets/scalability-test-mqtt-export:ro,z
   scheduler:
     command: /support-scheduler -cp=consul.http://edgex-core-consul:8500 --registry
       --confdir=/res
@@ -1100,7 +1101,7 @@ services:
     - security-bootstrapper
     - vault
     environment:
-      ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests
+      ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_GROUP: '2001'
