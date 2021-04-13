@@ -20,14 +20,14 @@ services:
     image: ${APP_SVC_REPOSITORY}/docker-app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     ports:
       - 48105:48105/tcp
-    container_name: app-service-functional-tests
-    hostname: app-service-functional-tests
+    container_name: app-functional-tests
+    hostname: app-functional-tests
     env_file:
       - common.env
       - asc-common.env
     environment:
       EDGEX_PROFILE: functional-tests
-      SERVICE_HOST: app-service-functional-tests
+      SERVICE_HOST: app-functional-tests
       SERVICE_PORT: 48105
     depends_on:
       - consul
@@ -50,7 +50,8 @@ services:
       - asc-common.env
       - asc-mqtt-export.env
     environment:
-      SERVICE_HOST: app-service-mqtt-export
+      EDGEX_SERVICE_KEY: scalability-test-mqtt-export
+      SERVICE_HOST: scalability-test-mqtt-export
       SERVICE_PORT: 48106
       WRITABLE_PIPELINE_EXECUTIONORDER: "TransformToJSON, MQTTSecretSend"
       WRITABLE_LOGLEVEL: DEBUG

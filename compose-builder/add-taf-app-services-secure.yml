@@ -24,7 +24,7 @@ services:
     environment:
       ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
 
-  app-service-http-export:
+  app-service-functional-tests:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     env_file:
@@ -32,6 +32,18 @@ services:
       - common-sec-stage-gate.env
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/app-http-export:/tmp/edgex/secrets/app-http-export:ro,z
+      - /tmp/edgex/secrets/app-functional-tests:/tmp/edgex/secrets/app-functional-tests:ro,z
+    depends_on:
+      - security-bootstrapper
+
+  scalability-test-mqtt-export:
+    entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
+    command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    env_file:
+      - common-security.env
+      - common-sec-stage-gate.env
+    volumes:
+      - edgex-init:/edgex-init:ro,z
+      - /tmp/edgex/secrets/scalability-test-mqtt-export:/tmp/edgex/secrets/scalability-test-mqtt-export:ro,z
     depends_on:
       - security-bootstrapper

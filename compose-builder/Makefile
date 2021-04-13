@@ -33,7 +33,7 @@ define OPTIONS
  - mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-random ds-rest ds-snmp ds-virtual -
- - asc-http asc-http-s asc-mqtt asc-mqtt-s -
+ - asc-http asc-mqtt -
  - modbus-sim ui ui-only -
 endef
 export OPTIONS
@@ -88,9 +88,6 @@ endif
 ifeq (ds-virtual, $(filter ds-virtual,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-virtual.yml
 endif
-ifeq (asc-http, $(filter asc-http,$(ARGS)))
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-http-export.yml
-endif
 
 # Add ModBus Simulator
 ifeq (modbus-sim, $(filter modbus-sim,$(ARGS)))
@@ -99,26 +96,32 @@ endif
 
 # Add Application Services
 ifeq (asc-http, $(filter asc-http,$(ARGS)))
+	# always add the base
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-http-export.yml
-endif
-ifeq (asc-http-s, $(filter asc-http-s,$(ARGS)))
-    ifeq ($(TOKEN_LIST),"")
-      TOKEN_LIST:=app-service-http-export-secrets
-    else
-      TOKEN_LIST:=$(TOKEN_LIST),app-service-http-export-secrets
-    endif
-    COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-http-export-secure.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=app-http-export
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),app-http-export
+		endif
+		# when no security mode (no-secty) not explicitly specified,
+		# then we also need to add the secure version on top of base yml by default.
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-http-export-secure.yml
+	endif
 endif
 ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
+	# always add the base
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-mqtt-export.yml
-endif
-ifeq (asc-mqtt-s, $(filter asc-mqtt-s,$(ARGS)))
-    ifeq ($(TOKEN_LIST),"")
-      TOKEN_LIST:=app-service-mqtt-export-secrets
-    else
-      TOKEN_LIST:=$(TOKEN_LIST),app-service-mqtt-export-secrets
-    endif
-    COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-mqtt-export-secure.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=app-mqtt-export
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),app-mqtt-export
+		endif
+		# when no security mode (no-secty) not explicitly specified,
+		# then we also need to add the secure version on top of base yml by default.
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-mqtt-export-secure.yml
+	endif
 endif
 
 # Add a MQTT Broker
@@ -151,15 +154,16 @@ endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
-	TOKEN_LIST:=app-service-http-export-secrets,app-service-mqtt-export-secrets
+	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
 		-f add-taf-app-services.yml \
-		-f add-asc-http-export-secure.yml \
+		-f add-taf-app-services-secure.yml \
 		-f add-asc-http-export.yml \
-		-f add-asc-mqtt-export-secure.yml \
+		-f add-asc-http-export-secure.yml \
 		-f add-asc-mqtt-export.yml \
+		-f add-asc-mqtt-export-secure.yml \
 		-f add-device-virtual.yml \
 		-f add-device-rest.yml \
 		-f add-device-modbus.yml \
@@ -184,10 +188,12 @@ else
     else
     	# Build compose for TAF secure performance testing (ignore all other compose file options)
     	ifeq (taf-perf, $(filter taf-perf,$(ARGS)))
+			TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
     		COMPOSE_FILES:= \
     			-f docker-compose-base.yml \
     			-f add-security.yml \
     			-f add-asc-mqtt-export.yml \
+    			-f add-asc-mqtt-export-secure.yml \
     			-f add-device-virtual.yml \
     			-f add-device-rest.yml \
     			-f add-mqtt-broker.yml

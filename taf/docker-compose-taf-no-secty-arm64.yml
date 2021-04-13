@@ -29,7 +29,7 @@ networks:
     driver: bridge
 services:
   app-service-functional-tests:
-    container_name: app-service-functional-tests
+    container_name: app-functional-tests
     depends_on:
     - consul
     - data
@@ -50,10 +50,10 @@ services:
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: app-service-functional-tests
+      SERVICE_HOST: app-functional-tests
       SERVICE_PORT: 48105
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
-    hostname: app-service-functional-tests
+    hostname: app-functional-tests
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
     networks:
       edgex-network: {}
@@ -64,7 +64,7 @@ services:
     - no-new-privileges:true
     user: 2002:2001
   app-service-http-export:
-    container_name: app-service-http-export
+    container_name: app-http-export
     depends_on:
     - consul
     - data
@@ -85,12 +85,12 @@ services:
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: app-service-http-export
+      SERVICE_HOST: app-http-export
       SERVICE_PORT: 48101
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
-    hostname: app-service-http-export
+    hostname: app-http-export
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
     networks:
       edgex-network: {}
@@ -101,7 +101,7 @@ services:
     - no-new-privileges:true
     user: 2002:2001
   app-service-mqtt-export:
-    container_name: app-service-mqtt-export
+    container_name: app-mqtt-export
     depends_on:
     - consul
     - data
@@ -122,13 +122,13 @@ services:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: app-service-mqtt-export
+      SERVICE_HOST: app-mqtt-export
       SERVICE_PORT: 48103
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
-    hostname: app-service-mqtt-export
+    hostname: app-mqtt-export
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
     networks:
       edgex-network: {}
@@ -518,8 +518,9 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
+      EDGEX_SERVICE_KEY: scalability-test-mqtt-export
       REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: app-service-mqtt-export
+      SERVICE_HOST: scalability-test-mqtt-export
       SERVICE_PORT: 48106
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
       WRITABLE_LOGLEVEL: DEBUG

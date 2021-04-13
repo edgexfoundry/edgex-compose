@@ -62,11 +62,13 @@ This folder contains the following compose files:
 - **add-asc-http-export.yml**
     Application Service Configurable **extending** compose file, which adds the **App Service Http Export**  service.
 - **add-asc-http-export-secure.yml**
-    Application Service Configurable **extending** compose file, which adds the **App Service Http Export Secrets** service. Service is enable for secure secrets.
+    Application Service Configurable **extending** `add-asc-http-export` compose file, and the service is
+    enabled with secret store by default.
 - **add-asc-mqtt-export.yml**
     Application Service Configurable **extending** compose file, which adds the **App Service MQTT Export**  service.
 - **add-asc-mqtt-export-secure.yml**
-    Application Service Configurable **extending** compose file, which adds the **App Service MQTT Export Secrets** service. Service is enable for secure secrets.
+    Application Service Configurable **extending** `add-asc-mqtt-export` compose file, and the service is
+    enabled with secret store by default.
 - **add-modbus-simulator.yml**
     ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. Must be used in conjunction with  **add-device-modbus.yml**
 - **add-mqtt-broker.yml**
@@ -75,6 +77,8 @@ This folder contains the following compose files:
     MQTT MesssageBus **extending** compose file. Adds additional configuration of services so that the `MQTT` implementation of the Edgex Message Bus is used. **Must be used in conjunction with add-mqtt-broker.yml**
 - **add-taf-app-services.yml**
     TAF App Services **extending** compose file. Adds additional App Service for the TAF testing compose files.
+- **add-taf-app-services-secure.yml**
+    TAF App Services **extending** `add-taf-app-services` compose file, and services are enabled with secret store by default.
 - **add-taf-device-services-mods.yml**
     TAF Device Services **extending** compose file. Modifies setting of Device Virtual and Device Modbus for the TAF testing compose files. **Must be used in conjunction with add-device-modbus.yml and add-device-virtual.yml**
 - **add-ui.yml**
@@ -162,9 +166,7 @@ Options:
     ds-virtual:  Runs with device-virtual included
     modbus-sim:  Runs with ModBus simulator included
     asc-http:    Runs with App Service HTTP Export included
-    asc-http-s:  Runs with App Service HTTP Export Secrets included
     asc-mqtt:    Runs with App Service MQTT Export included
-    asc-mqtt-s:  Runs with App Service MQTT Export Secrets included
     mqtt-broker: Runs with a MQTT Broker service included 
     mqtt-bus:    Runs with services configure for MQTT Message Bus 
     ui:          Runs with the UI service included
@@ -205,9 +207,7 @@ Options:
     ds-virtual:  Pull includes device-virtual
     modbus-sim:  Pull includes ModBus simulator
     asc-http:    Pull includes App Service HTTP Export
-    asc-http-s:  Pull includes App Service HTTP Export Secrets
     asc-mqtt:    Pull includes App Service MQTT Export
-    asc-mqtt-s:  Pull includes App Service MQTT Export Secrets
     mqtt-broker: Pull includes MQTT Broker service
     mqtt-bus:    Pull includes additional service for MQTT Message Bus
     ui:          Pulls includes the EdgeX UI service.
@@ -239,9 +239,7 @@ Options:
     ds-virtual:  Generates compose file with device-virtual included
     modbus-sim:  Generates compose file with ModBus simulator included
     asc-http:    Generates compose file with App Service HTTP Export included
-    asc-http-s:  Generates compose file with App Service HTTP Export Secrets included
     asc-mqtt:    Generates compose file with App Service MQTT Export included
-    asc-mqtt-s:  Generates compose file with App Service MQTT Export Secrets included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
                  The MQTT Broker service is also included. 
@@ -315,9 +313,7 @@ Options:
     ds-virtual:  Generates compose file with device-virtual included
     modbus-sim:  Generates compose file with ModBus simulator included
     asc-http:    Generates compose file with App Service HTTP Export included
-    asc-http-s:  Generates compose file with App Service HTTP Export Secrets included
     asc-mqtt:    Generates compose file with App Service MQTT Export included
-    asc-mqtt-s:  Generates compose file with App Service MQTT Export Secrets included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
                  The MQTT Broker service is also included.
