@@ -96,32 +96,10 @@ endif
 
 # Add Application Services
 ifeq (asc-http, $(filter asc-http,$(ARGS)))
-	# always add the base
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-http-export.yml
-	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
-			TOKEN_LIST:=app-http-export
-		else
-			TOKEN_LIST:=$(TOKEN_LIST),app-http-export
-		endif
-		# when no security mode (no-secty) not explicitly specified,
-		# then we also need to add the secure version on top of base yml by default.
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-http-export-secure.yml
-	endif
 endif
 ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
-	# always add the base
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-mqtt-export.yml
-	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
-			TOKEN_LIST:=app-mqtt-export
-		else
-			TOKEN_LIST:=$(TOKEN_LIST),app-mqtt-export
-		endif
-		# when no security mode (no-secty) not explicitly specified,
-		# then we also need to add the secure version on top of base yml by default.
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-mqtt-export-secure.yml
-	endif
 endif
 
 # Add a MQTT Broker
@@ -161,9 +139,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-taf-app-services.yml \
 		-f add-taf-app-services-secure.yml \
 		-f add-asc-http-export.yml \
-		-f add-asc-http-export-secure.yml \
 		-f add-asc-mqtt-export.yml \
-		-f add-asc-mqtt-export-secure.yml \
 		-f add-device-virtual.yml \
 		-f add-device-rest.yml \
 		-f add-device-modbus.yml \
@@ -193,7 +169,6 @@ else
     			-f docker-compose-base.yml \
     			-f add-security.yml \
     			-f add-asc-mqtt-export.yml \
-    			-f add-asc-mqtt-export-secure.yml \
     			-f add-device-virtual.yml \
     			-f add-device-rest.yml \
     			-f add-mqtt-broker.yml
@@ -270,7 +245,9 @@ gen:
 	APP_SVC_REPOSITORY=$(APP_SVC_REPOSITORY) \
 	ARCH=$(ARCH) \
 	TOKEN_LIST=$(TOKEN_LIST) \
-	docker-compose -p edgex $(COMPOSE_FILES) config > docker-compose.yml
+	COMPOSE_FILES="$(COMPOSE_FILES)" \
+	NO_SECURITY=$(NO_SECURITY) \
+	sh ./gen_compose.sh $(ARGS)
 
 get-token:
 	DEV=$(DEV) \
@@ -292,30 +269,11 @@ ui-down:
 	docker-compose -p edgex -f stand-alone-ui.yml -f add-ui.yml down
 
 down: ui-down
-	DEV= \
+	DEV=$(DEV) \
 	APP_SVC_DEV= \
 	ARCH= \
 	TOKEN_LIST= \
-	docker-compose -p edgex \
-		-f docker-compose-base.yml \
-		-f add-device-bacnet.yml \
-		-f add-device-camera.yml \
-		-f add-device-grove.yml \
-		-f add-device-modbus.yml \
-		-f add-device-mqtt.yml \
-		-f add-device-random.yml \
-		-f add-device-rest.yml \
-		-f add-device-snmp.yml \
-		-f add-device-virtual.yml \
-		-f add-asc-http-export.yml \
-		-f add-asc-http-export-secure.yml \
-		-f add-asc-mqtt-export.yml \
-		-f add-asc-mqtt-export-secure.yml \
-		-f add-modbus-simulator.yml \
-		-f add-mqtt-broker.yml \
-		-f add-mqtt-messagebus.yml \
-		-f add-security.yml \
-		down
+	sh ./gen_compose.sh compose-down no-delete
 
 clean: down
 	-docker rm $$(docker ps --filter "network=edgex_edgex-network" --filter "network=edgex_default" -aq) 2> /dev/null
