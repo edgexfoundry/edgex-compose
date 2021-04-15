@@ -401,7 +401,7 @@ down: ui-down
 		-f add-mqtt-broker.yml \
 		-f add-mqtt-messagebus.yml \
 		-f add-security.yml \
-	down
+		down
 
 clean: down
 	-docker rm $$(docker ps --filter "network=edgex_edgex-network" --filter "network=edgex_default" -aq) 2> /dev/null
