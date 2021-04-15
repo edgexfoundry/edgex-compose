@@ -26,7 +26,7 @@ services:
 
   ${SERVICE_NAME}:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: "${COMMAND}"
+    command: "/${EXECUTABLE} ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
