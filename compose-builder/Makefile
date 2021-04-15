@@ -69,7 +69,7 @@ ifeq (ds-bacnet, $(filter ds-bacnet,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-bacnet
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-bacnet device-bacnet startup.sh "")
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet device-bacnet startup.sh "")
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -81,7 +81,7 @@ ifeq (ds-camera, $(filter ds-camera,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-camera
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-camera device-camera device-camera-go)
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-camera device-camera device-camera-go)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -94,7 +94,7 @@ ifeq (ds-grove, $(filter ds-grove,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-grove
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-grove)
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-grove)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -106,7 +106,7 @@ ifeq (ds-modbus, $(filter ds-modbus,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-modbus
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-modbus)
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -118,7 +118,7 @@ ifeq (ds-mqtt, $(filter ds-mqtt,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-mqtt
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-mqtt)
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-mqtt)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -130,14 +130,14 @@ ifeq (ds-random, $(filter ds-random,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-random
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-random)
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-random)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
 ifeq (ds-rest, $(filter ds-rest,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-rest.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-rest device-rest device-rest-go)
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest device-rest device-rest-go)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -149,14 +149,14 @@ ifeq (ds-snmp, $(filter ds-snmp,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-snmp
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-snmp device-snmp device-snmp-go)
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-snmp device-snmp device-snmp-go)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
 ifeq (ds-virtual, $(filter ds-virtual,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-virtual.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-virtual)
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -177,7 +177,7 @@ ifeq (asc-http, $(filter asc-http,$(ARGS)))
 		endif
 		# when no security mode (no-secty) not explicitly specified,
 		# then we also need to add the secure version on top of base yml by default.
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh app-service-http-export \
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-http-export \
 			app-http-export app-service-configurable)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
@@ -192,7 +192,7 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 		endif
 		# when no security mode (no-secty) not explicitly specified,
 		# then we also need to add the secure version on top of base yml by default.
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh app-service-mqtt-export \
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 			app-mqtt-export app-service-configurable)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
@@ -241,13 +241,13 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-device-modbus.yml \
 		-f add-mqtt-broker.yml \
 		-f add-modbus-simulator.yml
-	asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh app-service-http-export \
+	asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-http-export \
 		app-http-export app-service-configurable)
-	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh app-service-mqtt-export \
+	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 		app-mqtt-export app-service-configurable)
-	ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-virtual)
-	ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-rest device-rest device-rest-go)
-	ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-modbus)
+	ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
+	ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest device-rest device-rest-go)
+	ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext) -f add-taf-device-services-mods.yml
 else
@@ -276,10 +276,10 @@ else
     			-f add-device-virtual.yml \
     			-f add-device-rest.yml \
     			-f add-mqtt-broker.yml
-			asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh app-service-mqtt-export \
+			asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 				app-mqtt-export app-service-configurable)
-			ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-virtual)
-			ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_compose_ext.sh device-rest device-rest device-rest-go)
+			ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
+			ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest device-rest device-rest-go)
 			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_mqtt_export_ext) -f $(ds_virtual_ext) -f $(ds_rest_ext)
     	else
 			# Build compose for TAF non-secure performance testing (ignore all other compose file options)
