@@ -24,14 +24,15 @@ services:
     environment:
       ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
 
-  app-service-http-export:
+  ${SERVICE_NAME}:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    command: "/${EXECUTABLE} ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
+    ##${ENVIRONMENT_SECTION}
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/app-http-export:/tmp/edgex/secrets/app-http-export:ro,z
+      - /tmp/edgex/secrets/${SERVICE_KEY}:/tmp/edgex/secrets/${SERVICE_KEY}:ro,z
     depends_on:
       - security-bootstrapper

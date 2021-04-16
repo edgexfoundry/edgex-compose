@@ -24,6 +24,7 @@ include .env
 
 COMPOSE_FILES:=-f docker-compose-base.yml
 TOKEN_LIST:=""
+GEN_EXT_DIR:=gen_ext_scty
 
 # Must have spaces around words for `filter-out` function to work properly.
 # Dashes at beginning & end of line ensure space before/after the first/last option on that line
@@ -62,31 +63,102 @@ endif
 # Add Device Services
 ifeq (ds-bacnet, $(filter ds-bacnet,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-bacnet.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-bacnet
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-bacnet
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet device-bacnet startup.sh "")
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 endif
 ifeq (ds-camera, $(filter ds-camera,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-camera.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-camera
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-camera
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-camera device-camera device-camera-go)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 endif
 ifeq (ds-grove, $(filter ds-grove,$(ARGS)))
     DS_GROVE:=true
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-grove.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-grove
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-grove
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-grove)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 endif
 ifeq (ds-modbus, $(filter ds-modbus,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-modbus.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-modbus
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-modbus
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 endif
 ifeq (ds-mqtt, $(filter ds-mqtt,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-mqtt.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-mqtt
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-mqtt
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-mqtt)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 endif
 ifeq (ds-random, $(filter ds-random,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-random.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-random
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-random
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-random)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 endif
 ifeq (ds-rest, $(filter ds-rest,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-rest.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest device-rest device-rest-go)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 endif
 ifeq (ds-snmp, $(filter ds-snmp,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-snmp.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-snmp
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-snmp
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-snmp device-snmp device-snmp-go)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 endif
 ifeq (ds-virtual, $(filter ds-virtual,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-virtual.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 endif
 
 # Add ModBus Simulator
@@ -96,7 +168,6 @@ endif
 
 # Add Application Services
 ifeq (asc-http, $(filter asc-http,$(ARGS)))
-	# always add the base
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-http-export.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),"")
@@ -106,11 +177,12 @@ ifeq (asc-http, $(filter asc-http,$(ARGS)))
 		endif
 		# when no security mode (no-secty) not explicitly specified,
 		# then we also need to add the secure version on top of base yml by default.
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-http-export-secure.yml
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-http-export \
+			app-http-export app-service-configurable)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
 ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
-	# always add the base
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-mqtt-export.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),"")
@@ -120,7 +192,9 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 		endif
 		# when no security mode (no-secty) not explicitly specified,
 		# then we also need to add the secure version on top of base yml by default.
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-mqtt-export-secure.yml
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
+			app-mqtt-export app-service-configurable)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
 
@@ -154,22 +228,28 @@ endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
-	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
+	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,device-modbus
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
 		-f add-taf-app-services.yml \
 		-f add-taf-app-services-secure.yml \
 		-f add-asc-http-export.yml \
-		-f add-asc-http-export-secure.yml \
 		-f add-asc-mqtt-export.yml \
-		-f add-asc-mqtt-export-secure.yml \
 		-f add-device-virtual.yml \
 		-f add-device-rest.yml \
 		-f add-device-modbus.yml \
-		-f add-taf-device-services-mods.yml \
 		-f add-mqtt-broker.yml \
 		-f add-modbus-simulator.yml
+	asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-http-export \
+		app-http-export app-service-configurable)
+	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
+		app-mqtt-export app-service-configurable)
+	ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
+	ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest device-rest device-rest-go)
+	ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus)
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext)
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext) -f add-taf-device-services-mods.yml
 else
 	# Build compose for TAF non-secure testing (ignore all other compose file options)
     ifeq (taf-no-secty, $(filter taf-no-secty,$(ARGS)))
@@ -193,10 +273,14 @@ else
     			-f docker-compose-base.yml \
     			-f add-security.yml \
     			-f add-asc-mqtt-export.yml \
-    			-f add-asc-mqtt-export-secure.yml \
     			-f add-device-virtual.yml \
     			-f add-device-rest.yml \
     			-f add-mqtt-broker.yml
+			asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
+				app-mqtt-export app-service-configurable)
+			ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
+			ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest device-rest device-rest-go)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_mqtt_export_ext) -f $(ds_virtual_ext) -f $(ds_rest_ext)
     	else
 			# Build compose for TAF non-secure performance testing (ignore all other compose file options)
 			ifeq (taf-perf-no-secty, $(filter taf-perf-no-secty,$(ARGS)))
@@ -270,7 +354,9 @@ gen:
 	APP_SVC_REPOSITORY=$(APP_SVC_REPOSITORY) \
 	ARCH=$(ARCH) \
 	TOKEN_LIST=$(TOKEN_LIST) \
+	GEN_EXT_DIR=$(GEN_EXT_DIR) \
 	docker-compose -p edgex $(COMPOSE_FILES) config > docker-compose.yml
+	rm -rf ./$(GEN_EXT_DIR)
 
 get-token:
 	DEV=$(DEV) \
