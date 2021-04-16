@@ -239,17 +239,22 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-device-virtual.yml \
 		-f add-device-rest.yml \
 		-f add-device-modbus.yml \
+		-f add-taf-device-services-mods.yml \
 		-f add-mqtt-broker.yml \
 		-f add-modbus-simulator.yml
 	asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-http-export \
 		app-http-export app-service-configurable)
 	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 		app-mqtt-export app-service-configurable)
-	ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
 	ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest device-rest device-rest-go)
-	ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus)
+	# taf has its special place holder from taf-device-services-mods and thus we need to keep it
+	# and extend security related things on top of it
+	ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual \
+		device-virtual device-virtual ' --registry --confdir=CONF_DIR_PLACE_HOLDER')
+	ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus \
+		device-modbus device-modbus ' --registry --confdir=CONF_DIR_PLACE_HOLDER')
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext)
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext) -f add-taf-device-services-mods.yml
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext)
 else
 	# Build compose for TAF non-secure testing (ignore all other compose file options)
     ifeq (taf-no-secty, $(filter taf-no-secty,$(ARGS)))

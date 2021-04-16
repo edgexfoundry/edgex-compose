@@ -531,7 +531,7 @@ services:
     - redis-config:/run/redis/conf:z
     - /tmp/edgex/secrets/edgex-security-bootstrap-redis:/tmp/edgex/secrets/edgex-security-bootstrap-redis:ro,z
   device-modbus:
-    command: --registry --confdir=CONF_DIR_PLACE_HOLDER
+    command: /device-modbus --registry --confdir=CONF_DIR_PLACE_HOLDER
     container_name: edgex-device-modbus
     depends_on:
     - consul
@@ -652,7 +652,7 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/device-rest:/tmp/edgex/secrets/device-rest:ro,z
   device-virtual:
-    command: --registry --confdir=CONF_DIR_PLACE_HOLDER
+    command: /device-virtual --registry --confdir=CONF_DIR_PLACE_HOLDER
     container_name: edgex-device-virtual
     depends_on:
     - consul
