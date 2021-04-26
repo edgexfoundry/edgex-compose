@@ -336,7 +336,7 @@ build:
 	make taf-compose-perf taf-perf-no-secty arm64
 
 compose: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose-$(RELEASE)$(UI)$(NO_SECURITY)$(MQTT)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(UI)$(NO_SECURITY)$(MQTT)$(ARCH).yml
 
 taf-compose: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(MQTT)$(ARCH).yml

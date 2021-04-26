@@ -1,6 +1,6 @@
 ## Edgex Docker Compose Builder
 
-This folder contains the `Compose Builder` which is made up of **source** compose, environment files and a **makefile** for building the single file docker composes files for the configured `release`. The default release is `pre-release` and the generated compose files are placed in the top level of this repository. 
+This folder contains the `Compose Builder` which is made up of **source** compose, **environment** files and a **makefile** for building the single file docker composes files. The `master` branch builds the `pre-release`  compose files which are placed in the top level of this repository. 
 
 > **Note to Developers**: 
 > *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
@@ -11,7 +11,7 @@ Do the following to generate the compose files for next release such as `ireland
 
 1. Create the new `release` branch from this branch, i.e create the `ireland` branch
 2. Checkout a new working branch from the new `release` branch
-3. Update the `RELEASE`, `REPOSITORY`, `CORE_EDGEX_REPOSITORY`, `APP_SVC_REPOSITORY`, and `versions` contained in the `.env` file appropriately for the new release
+3. Update the `REPOSITORY`, `CORE_EDGEX_REPOSITORY`, `APP_SVC_REPOSITORY`, and `versions` contained in the `.env` file appropriately for the new release
 4. Run `make build` 
 5. Commit changes, open PR and merge PR
 6. TAG the new release branch, i.e. `2.0.0`
@@ -120,7 +120,7 @@ portainer-down	Stops Portainer independent of the EdgeX services
 
 ```
 build
-Generates the all standard Edgex compose file variations and the TAF testing compose files. The generated compose files are stored in the configured release folder. Each variation or standard compose files, except UI, includes Device REST & Device Virtual. Compose files are named appropriately for release and options used to generate them. TAF compose files are store in the 'taf' sub-folder
+Generates the all standard Edgex compose file variations and the TAF testing compose files. The generated compose files are stored in the top level folder. Each variation or standard compose files, except UI, includes Device REST & Device Virtual. Compose files are named appropriately for options used to generate them. TAF compose files are store in the 'taf' sub-folder
 
 Standard compose variations are:
    full secure (docker-compose-nexus.yml)
@@ -322,7 +322,7 @@ Options:
 
 ```
 taf-compose [options] 
-Generates a TAF general testing compose file as specified by options and stores them in the configured TAF release folder. Compose files are named appropriately for the options used to generate them.
+Generates a TAF general testing compose file as specified by options and stores them in the configured TAF folder. Compose files are named appropriately for the options used to generate them.
 
 Options:
     taf-secty:	  Generates general TAF testing compose file with security services
@@ -334,7 +334,7 @@ Options:
 
 ```
 taf-perf-compose [options] 
-Generates a TAF performance testing compose file as specified by options and stores them in the configured TAF release folder. Compose files are named appropriately for the options used to generate them.
+Generates a TAF performance testing compose file as specified by options and stores them in the configured TAF folder. Compose files are named appropriately for the options used to generate them.
 
 Options:
     taf-secty:	  Generates performance TAF testing compose file with security services
