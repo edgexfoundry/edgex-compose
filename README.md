@@ -4,7 +4,7 @@
 
 This repository contains the docker compose files for EdgeX releases. Each release is now on it's own branch. 
 
-> **Example**: The `Hanoi` release compose file are [here](https://github.com/edgexfoundry/edgex-compose/tree/hanoi).
+> **Example**: The `Hanoi` release compose files are [here](https://github.com/edgexfoundry/edgex-compose/tree/hanoi).
 
 This `branch` contains the `pre-release` docker compose files that pull and run the EdgeX images from the Nexus3 docker registry that are tagged with `master`. These images are built from the Edgex CI Pipeline when PRs are merged into the `master` branch.
 
@@ -24,7 +24,7 @@ This folder contains the following compose files:
 > - Use `make build` from `Compose Builder` to regenerate all the following compose files.
 > - See each description for the convenience `make` commands that are provided to work with each of these compose files.
 
-- **docker-compose-pre-release.yml**
+- **docker-compose.yml**
     Contains all the services required to run in secure configuration. Includes the Device Virtual & Device REST device services.
     **Make Commands** 
     
@@ -34,7 +34,7 @@ This folder contains the following compose files:
     
      - Use `make get-token` to generate a Kong access token for remote access of the services running from this compose file.
     
-- **docker-compose-pre-release-arm64.yml**
+- **docker-compose-arm64.yml**
     Contains all the services required to run in secure configuration on `ARM64` system.  Includes the Device Virtual & Device REST device services.
     **Make Commands** 
     
@@ -42,14 +42,14 @@ This folder contains the following compose files:
      - Use `make pull arm64 <service(s)>` to pull all or some images for the services in this compose file.
      - Use `make get-token arm64` to generate a Kong access token for remote access of the services running from this compose file.
     
-- **docker-compose-pre-release-no-secty.yml**
+- **docker-compose-no-secty.yml**
     Contains just the services needed to run in non-secure configuration.  Includes the Device Virtual & Device REST device services.
     **Make Commands**
 
     - Use `make run no-secty` and `make down` to start and stop the services using this compose file.
     - Use `make pull no-secty <service(s)>` to pull all or some images for the services in this compose file.
     
-- **docker-compose-pre-release-no-secty-arm64.yml**
+- **docker-compose-no-secty-arm64.yml**
     Contains just the services needed to run in non-secure configuration on `ARM64` system.  Includes the Device Virtual & Device REST device services.
     
     **Make Commands**
@@ -57,14 +57,14 @@ This folder contains the following compose files:
     - Use `make run no-secty arm64` and `make down` to start and stop the services using this compose file.
     - Use `make pull no-secty arm64 <service(s)>` to pull all or some images for the services in this compose file.
     
-- **docker-compose-pre-release-ui.yml**
+- **docker-compose-ui.yml**
     Stand-alone compose file for running the optional EdgeX UI.
     **Make Commands**
     
     - Use `make run-ui` and `make down-ui` to start and stop the UI using this compose file.
     - Use `make pull-ui ` to pull image for the UI service in this compose file.
     
-- **docker-compose-pre-release-ui-arm64.yml**
+- **docker-compose-ui-arm64.yml**
     Stand-alone compose file for running the optional EdgeX UI on `ARM64` system.
     
     **Make Commands**

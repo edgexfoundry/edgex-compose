@@ -41,24 +41,24 @@ portainer-down:
 	docker-compose -p portainer -f docker-compose-portainer.yml down
 
 pull:
-	docker-compose -f docker-compose-pre-release${NO_SECURITY}${ARM64}.yml pull ${SERVICES}
+	docker-compose -f docker-compose${NO_SECURITY}${ARM64}.yml pull ${SERVICES}
 
 run:
-	docker-compose -p edgex -f docker-compose-pre-release${NO_SECURITY}${ARM64}.yml up -d ${SERVICES}
+	docker-compose -p edgex -f docker-compose${NO_SECURITY}${ARM64}.yml up -d ${SERVICES}
 
 pull-ui:
-	docker-compose -p edgex -f docker-compose-pre-release-ui${ARM64}.yml pull
+	docker-compose -p edgex -f docker-compose-ui${ARM64}.yml pull
 
 run-ui:
-	docker-compose -p edgex -f docker-compose-pre-release-ui${ARM64}.yml up -d
+	docker-compose -p edgex -f docker-compose-ui${ARM64}.yml up -d
 
 down-ui:
-	docker-compose -p edgex -f docker-compose-pre-release-ui${ARM64}.yml down
+	docker-compose -p edgex -f docker-compose-ui${ARM64}.yml down
 
 down: down-ui
 	# Make sure UI is down first and then use secure version since it is a super set and
 	# can down all service even if not include in what was brought up.
-	docker-compose -p edgex -f docker-compose-pre-release.yml down
+	docker-compose -p edgex -f docker-compose.yml down
 
 clean: down
 	-docker rm $$(docker ps --filter "network=edgex_edgex-network" --filter "network=edgex_default" -aq) 2> /dev/null
