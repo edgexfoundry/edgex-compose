@@ -51,8 +51,8 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-service-configurable-rules
       SERVICE_PORT: 48100
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
-      TRIGGER_PUBLISHTOPIC: events
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-service-configurable-rules
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
     networks:
@@ -130,6 +130,7 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
@@ -303,13 +304,14 @@ services:
   rulesengine:
     container_name: edgex-kuiper
     depends_on:
-    - app-service-rules
+    - database
     environment:
-      EDGEX__DEFAULT__PORT: 5566
-      EDGEX__DEFAULT__PROTOCOL: tcp
-      EDGEX__DEFAULT__SERVER: edgex-app-service-configurable-rules
-      EDGEX__DEFAULT__SERVICESERVER: http://edgex-core-data:48080
-      EDGEX__DEFAULT__TOPIC: events
+      EDGEX__DEFAULT__PORT: 6379
+      EDGEX__DEFAULT__PROTOCOL: redis
+      EDGEX__DEFAULT__SERVER: edgex-redis
+      EDGEX__DEFAULT__SERVICESERVER: http://edgex-metadata-data:48081
+      EDGEX__DEFAULT__TOPIC: rules-events
+      EDGEX__DEFAULT__TYPE: redisstreams
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 48075
     hostname: edgex-kuiper

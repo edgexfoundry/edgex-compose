@@ -19,6 +19,7 @@ services:
   secretstore-setup:
     environment:
       ADD_SECRETSTORE_TOKENS: ${TOKEN_LIST}
+      ADD_KNOWN_SECRETS: ${KNOWN_SECRETS_LIST}
 
   consul:
     environment:

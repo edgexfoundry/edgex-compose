@@ -78,8 +78,8 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
-      TRIGGER_PUBLISHTOPIC: events
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-service-configurable-rules
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
     networks:
@@ -232,6 +232,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -734,13 +735,14 @@ services:
   rulesengine:
     container_name: edgex-kuiper
     depends_on:
-    - app-service-rules
+    - database
     environment:
-      EDGEX__DEFAULT__PORT: 5566
-      EDGEX__DEFAULT__PROTOCOL: tcp
-      EDGEX__DEFAULT__SERVER: edgex-app-service-configurable-rules
-      EDGEX__DEFAULT__SERVICESERVER: http://edgex-core-data:48080
-      EDGEX__DEFAULT__TOPIC: events
+      EDGEX__DEFAULT__PORT: 6379
+      EDGEX__DEFAULT__PROTOCOL: redis
+      EDGEX__DEFAULT__SERVER: edgex-redis
+      EDGEX__DEFAULT__SERVICESERVER: http://edgex-metadata-data:48081
+      EDGEX__DEFAULT__TOPIC: rules-events
+      EDGEX__DEFAULT__TYPE: redisstreams
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 48075
     hostname: edgex-kuiper
@@ -826,6 +828,7 @@ services:
     - security-bootstrapper
     - vault
     environment:
+      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],redisdb[device-virtual]
       ADD_SECRETSTORE_TOKENS: ''
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'

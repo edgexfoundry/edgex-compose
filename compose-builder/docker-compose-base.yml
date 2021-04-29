@@ -146,6 +146,7 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-core-data
+      MESSAGEQUEUE_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -212,8 +213,8 @@ services:
       EDGEX_PROFILE: rules-engine
       SERVICE_HOST: edgex-app-service-configurable-rules
       SERVICE_PORT: 48100
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
-      TRIGGER_PUBLISHTOPIC: events
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
     depends_on:
       - consul
       - data
@@ -234,15 +235,16 @@ services:
     volumes:
       - kuiper-data:/kuiper/data:z
     environment:
-      # KUIPER_DEBUG: "true"
+#      KUIPER_DEBUG: "true"
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 48075
-      EDGEX__DEFAULT__SERVER: edgex-app-service-configurable-rules
-      EDGEX__DEFAULT__SERVICESERVER: http://edgex-core-data:48080
-      EDGEX__DEFAULT__TOPIC: events
-      EDGEX__DEFAULT__PROTOCOL: tcp
-      EDGEX__DEFAULT__PORT: 5566
+      EDGEX__DEFAULT__SERVICESERVER: http://edgex-metadata-data:48081
+      EDGEX__DEFAULT__TYPE: redisstreams
+      EDGEX__DEFAULT__SERVER: edgex-redis
+      EDGEX__DEFAULT__PROTOCOL: redis
+      EDGEX__DEFAULT__PORT: 6379
+      EDGEX__DEFAULT__TOPIC: rules-events
     depends_on:
-      - app-service-rules
+      - database
     security_opt: 
       - no-new-privileges:true
