@@ -163,7 +163,7 @@ services:
     entrypoint:
     - /edgex-init/consul_wait_install.sh
     environment:
-      ADD_REGISTRY_ACL_ROLES: ''
+      ADD_REGISTRY_ACL_ROLES: edgex-device-rest
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -390,7 +390,7 @@ services:
     user: 2002:2001
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/device-rest:/tmp/edgex/secrets/device-rest:ro,z
+    - /tmp/edgex/secrets/edgex-device-rest:/tmp/edgex/secrets/edgex-device-rest:ro,z
   device-virtual:
     command: /device-virtual -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-device-virtual
@@ -828,8 +828,8 @@ services:
     - security-bootstrapper
     - vault
     environment:
-      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],redisdb[device-virtual]
-      ADD_SECRETSTORE_TOKENS: ''
+      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[edgex-device-rest],redisdb[device-virtual]
+      ADD_SECRETSTORE_TOKENS: edgex-device-rest
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_GROUP: '2001'
