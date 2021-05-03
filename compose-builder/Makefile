@@ -297,7 +297,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-modbus,edgex-device-rest
 	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 	# have to list them individually.
-	KNOWN_SECRETS_LIST:=redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-modbus],redisdb[edgex-device-rest]
+	KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-modbus],redisdb[edgex-device-rest]
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
@@ -349,7 +349,7 @@ else
 			TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-rest
 			# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 			# have to list them individually.
-			KNOWN_SECRETS_LIST:=redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-rest]
+			KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-rest]
 
     		COMPOSE_FILES:= \
     			-f docker-compose-base.yml \

@@ -565,7 +565,9 @@ services:
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PATH: /v1/secret/edgex/edgex-device-modbus/
       SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-device-modbus/secrets-token.json
       SERVICE_HOST: edgex-device-modbus
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
@@ -1187,7 +1189,7 @@ services:
     - security-bootstrapper
     - vault
     environment:
-      ADD_KNOWN_SECRETS: redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-modbus],redisdb[edgex-device-rest]
+      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-modbus],redisdb[edgex-device-rest]
       ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-modbus,edgex-device-rest
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'

@@ -309,6 +309,8 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
+      SECRETSTORE_PATH: /v1/secret/edgex/edgex-device-modbus/
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-device-modbus/secrets-token.json
       SERVICE_HOST: edgex-device-modbus
     hostname: edgex-device-modbus
     image: nexus3.edgexfoundry.org:10004/docker-device-modbus-go:master
