@@ -168,6 +168,8 @@ endif
 ifeq (ds-rest, $(filter ds-rest,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-rest.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		# TODO: Remove setting token list once device rest's service key has been changed
+		#       to 'device-rest' or edgex-go has been update to use 'edgex-device-rest'.
 		ifeq ($(TOKEN_LIST),"")
 			TOKEN_LIST:=edgex-device-rest
 		else
@@ -290,8 +292,12 @@ endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
+	# TODO: Remove Device Rest from token list once device rest's service key has been changed
+	#       to 'device-rest' or edgex-go has been update to use 'edgex-device-rest'.
 	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-modbus,edgex-device-rest
-	KNOWN_SECRETS_LIST:=redisdb[app-http-export,app-mqtt-export,scalability-test-mqtt-export,edgex-device-modbus,edgex-device-rest]
+	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
+	# have to list them individually.
+	KNOWN_SECRETS_LIST:=redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-modbus],redisdb[edgex-device-rest]
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
@@ -309,6 +315,8 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		app-http-export app-service-configurable)
 	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 		app-mqtt-export app-service-configurable)
+	# TODO: Adjust Device Rest service key name once device rest's service key has been changed
+	#       to 'device-rest' or remove this comment if edgex-go has been update to use 'edgex-device-rest'.
 	ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest edgex-device-rest device-rest-go)
 	# taf has its special place holder from taf-device-services-mods and thus we need to keep it
 	# and extend security related things on top of it
@@ -336,8 +344,13 @@ else
     else
     	# Build compose for TAF secure performance testing (ignore all other compose file options)
     	ifeq (taf-perf, $(filter taf-perf,$(ARGS)))
+    		# TODO: Remove Device Rest from token list once device rest's service key has been changed
+        	#       to 'device-rest' or edgex-go has been update to use 'edgex-device-rest'.
 			TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-rest
-			KNOWN_SECRETS_LIST:=redisdb[app-http-export,app-mqtt-export,scalability-test-mqtt-export,edgex-device-rest]
+			# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
+			# have to list them individually.
+			KNOWN_SECRETS_LIST:=redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-rest]
+
     		COMPOSE_FILES:= \
     			-f docker-compose-base.yml \
     			-f add-security.yml \
@@ -348,6 +361,8 @@ else
 			asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 				app-mqtt-export app-service-configurable)
 			ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
+			# TODO: Adjust Device Rest service key name once device rest's service key has been changed
+			#       to 'device-rest' or remove this comment if edgex-go has been update to use 'edgex-device-rest'.
 			ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest edgex-device-rest device-rest-go)
 			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_mqtt_export_ext) -f $(ds_virtual_ext) -f $(ds_rest_ext)
     	else
