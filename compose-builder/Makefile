@@ -24,6 +24,7 @@ include .env
 
 COMPOSE_FILES:=-f docker-compose-base.yml
 TOKEN_LIST:=""
+KNOWN_SECRETS_LIST:="redisdb[app-rules-engine]"
 GEN_EXT_DIR:=gen_ext_scty
 
 # Must have spaces around words for `filter-out` function to work properly.
@@ -69,6 +70,11 @@ ifeq (ds-bacnet, $(filter ds-bacnet,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-bacnet
 		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[device-bacnet]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-bacnet]
+		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet device-bacnet startup.sh "")
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
@@ -77,11 +83,16 @@ ifeq (ds-camera, $(filter ds-camera,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-camera.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),"")
-			TOKEN_LIST:=device-camera
+			TOKEN_LIST:=device-camera-go
 		else
-			TOKEN_LIST:=$(TOKEN_LIST),device-camera
+			TOKEN_LIST:=$(TOKEN_LIST),device-camera-go
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-camera device-camera device-camera-go)
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[device-camera-go]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-camera-go]
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-camera device-camera-go)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -94,6 +105,11 @@ ifeq (ds-grove, $(filter ds-grove,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-grove
 		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[device-grove]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-grove]
+		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-grove)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
@@ -102,11 +118,16 @@ ifeq (ds-modbus, $(filter ds-modbus,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-modbus.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),"")
-			TOKEN_LIST:=device-modbus
+			TOKEN_LIST:=edgex-device-modbus
 		else
-			TOKEN_LIST:=$(TOKEN_LIST),device-modbus
+			TOKEN_LIST:=$(TOKEN_LIST),edgex-device-modbus
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus)
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[edgex-device-modbus]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[edgex-device-modbus]
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus edgex-device-modbus device-modbus)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -114,11 +135,16 @@ ifeq (ds-mqtt, $(filter ds-mqtt,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-mqtt.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),"")
-			TOKEN_LIST:=device-mqtt
+			TOKEN_LIST:=edgex-device-mqtt
 		else
-			TOKEN_LIST:=$(TOKEN_LIST),device-mqtt
+			TOKEN_LIST:=$(TOKEN_LIST),edgex-device-mqtt
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-mqtt)
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[edgex-device-mqtt]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[edgex-device-mqtt]
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-mqtt edgex-device-mqtt device-mqtt)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -130,6 +156,11 @@ ifeq (ds-random, $(filter ds-random,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-random
 		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[device-random]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-random]
+		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-random)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
@@ -137,7 +168,19 @@ endif
 ifeq (ds-rest, $(filter ds-rest,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-rest.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest device-rest device-rest-go)
+		# TODO: Remove setting token list once device rest's service key has been changed
+		#       to 'device-rest' or edgex-go has been update to use 'edgex-device-rest'.
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=edgex-device-rest
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),edgex-device-rest
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[edgex-device-rest]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[edgex-device-rest]
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest edgex-device-rest device-rest-go)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -149,13 +192,24 @@ ifeq (ds-snmp, $(filter ds-snmp,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-snmp
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-snmp device-snmp device-snmp-go)
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[device-snmp]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-snmp]
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-snmp device-snmp-go device-snmp-go)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
 ifeq (ds-virtual, $(filter ds-virtual,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-virtual.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		# Device-virtual's token is created by default.
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[device-virtual]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-virtual]
+		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
@@ -175,6 +229,11 @@ ifeq (asc-http, $(filter asc-http,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),app-http-export
 		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[app-http-export]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-http-export]
+		endif
 		# when no security mode (no-secty) not explicitly specified,
 		# then we also need to add the secure version on top of base yml by default.
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-http-export \
@@ -189,6 +248,11 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 			TOKEN_LIST:=app-mqtt-export
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),app-mqtt-export
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[app-mqtt-export]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-mqtt-export]
 		endif
 		# when no security mode (no-secty) not explicitly specified,
 		# then we also need to add the secure version on top of base yml by default.
@@ -228,7 +292,12 @@ endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
-	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,device-modbus
+	# TODO: Remove Device Rest from token list once device rest's service key has been changed
+	#       to 'device-rest' or edgex-go has been update to use 'edgex-device-rest'.
+	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-modbus,edgex-device-rest
+	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
+	# have to list them individually.
+	KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-modbus],redisdb[edgex-device-rest]
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
@@ -246,13 +315,15 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		app-http-export app-service-configurable)
 	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 		app-mqtt-export app-service-configurable)
-	ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest device-rest device-rest-go)
+	# TODO: Adjust Device Rest service key name once device rest's service key has been changed
+	#       to 'device-rest' or remove this comment if edgex-go has been update to use 'edgex-device-rest'.
+	ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest edgex-device-rest device-rest-go)
 	# taf has its special place holder from taf-device-services-mods and thus we need to keep it
 	# and extend security related things on top of it
 	ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual \
 		device-virtual device-virtual ' --registry --confdir=CONF_DIR_PLACE_HOLDER')
 	ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus \
-		device-modbus device-modbus ' --registry --confdir=CONF_DIR_PLACE_HOLDER')
+		edgex-device-modbus device-modbus ' --registry --confdir=CONF_DIR_PLACE_HOLDER')
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext)
 else
@@ -273,7 +344,13 @@ else
     else
     	# Build compose for TAF secure performance testing (ignore all other compose file options)
     	ifeq (taf-perf, $(filter taf-perf,$(ARGS)))
-			TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
+    		# TODO: Remove Device Rest from token list once device rest's service key has been changed
+        	#       to 'device-rest' or edgex-go has been update to use 'edgex-device-rest'.
+			TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-rest
+			# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
+			# have to list them individually.
+			KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-rest]
+
     		COMPOSE_FILES:= \
     			-f docker-compose-base.yml \
     			-f add-security.yml \
@@ -284,7 +361,9 @@ else
 			asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 				app-mqtt-export app-service-configurable)
 			ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
-			ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest device-rest device-rest-go)
+			# TODO: Adjust Device Rest service key name once device rest's service key has been changed
+			#       to 'device-rest' or remove this comment if edgex-go has been update to use 'edgex-device-rest'.
+			ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest edgex-device-rest device-rest-go)
 			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_mqtt_export_ext) -f $(ds_virtual_ext) -f $(ds_rest_ext)
     	else
 			# Build compose for TAF non-secure performance testing (ignore all other compose file options)
@@ -359,6 +438,7 @@ gen:
 	APP_SVC_REPOSITORY=$(APP_SVC_REPOSITORY) \
 	ARCH=$(ARCH) \
 	TOKEN_LIST=$(TOKEN_LIST) \
+	KNOWN_SECRETS_LIST=$(KNOWN_SECRETS_LIST) \
 	GEN_EXT_DIR=$(GEN_EXT_DIR) \
 	docker-compose -p edgex $(COMPOSE_FILES) config > docker-compose.yml
 	rm -rf ./$(GEN_EXT_DIR)
@@ -387,6 +467,7 @@ down: ui-down
 	APP_SVC_DEV= \
 	ARCH= \
 	TOKEN_LIST= \
+	KNOWN_SECRETS_LIST= \
 	docker-compose -p edgex \
 		-f docker-compose-base.yml \
 		-f add-device-bacnet.yml \
@@ -399,9 +480,7 @@ down: ui-down
 		-f add-device-snmp.yml \
 		-f add-device-virtual.yml \
 		-f add-asc-http-export.yml \
-		-f add-asc-http-export-secure.yml \
 		-f add-asc-mqtt-export.yml \
-		-f add-asc-mqtt-export-secure.yml \
 		-f add-modbus-simulator.yml \
 		-f add-mqtt-broker.yml \
 		-f add-mqtt-messagebus.yml \

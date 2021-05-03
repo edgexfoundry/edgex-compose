@@ -78,7 +78,8 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
       WRITABLE_INSECURESECRETS_MQTT_SECRETS_PASSWORD: PASSWORD_PLACE_HOLDER
       WRITABLE_INSECURESECRETS_MQTT_SECRETS_USERNAME: USERNAME_PLACEH_OLDER
       WRITABLE_LOGLEVEL: INFO
@@ -148,8 +149,8 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
-      TRIGGER_PUBLISHTOPIC: events
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-service-configurable-rules
     image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
     networks:
@@ -233,7 +234,7 @@ services:
     entrypoint:
     - /edgex-init/consul_wait_install.sh
     environment:
-      ADD_REGISTRY_ACL_ROLES: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
+      ADD_REGISTRY_ACL_ROLES: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-rest
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -302,6 +303,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -459,7 +461,7 @@ services:
     user: 2002:2001
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/device-rest:/tmp/edgex/secrets/device-rest:ro,z
+    - /tmp/edgex/secrets/edgex-device-rest:/tmp/edgex/secrets/edgex-device-rest:ro,z
   device-virtual:
     command: /device-virtual -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-device-virtual
@@ -816,13 +818,14 @@ services:
   rulesengine:
     container_name: edgex-kuiper
     depends_on:
-    - app-service-rules
+    - database
     environment:
-      EDGEX__DEFAULT__PORT: 5566
-      EDGEX__DEFAULT__PROTOCOL: tcp
-      EDGEX__DEFAULT__SERVER: edgex-app-service-configurable-rules
-      EDGEX__DEFAULT__SERVICESERVER: http://edgex-core-data:48080
-      EDGEX__DEFAULT__TOPIC: events
+      EDGEX__DEFAULT__PORT: 6379
+      EDGEX__DEFAULT__PROTOCOL: redis
+      EDGEX__DEFAULT__SERVER: edgex-redis
+      EDGEX__DEFAULT__SERVICESERVER: http://edgex-metadata-data:48081
+      EDGEX__DEFAULT__TOPIC: rules-events
+      EDGEX__DEFAULT__TYPE: redisstreams
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 48075
     hostname: edgex-kuiper
@@ -908,7 +911,8 @@ services:
     - security-bootstrapper
     - vault
     environment:
-      ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
+      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-rest]
+      ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-rest
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8001'
       EDGEX_GROUP: '2001'

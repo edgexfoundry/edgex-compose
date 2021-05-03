@@ -28,6 +28,10 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-device-modbus
+      # TODO: Remove once service keys are standardized or default config has been
+      #       updated with these values.
+      SECRETSTORE_PATH: /v1/secret/edgex/edgex-device-modbus/
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-device-modbus/secrets-token.json
     depends_on:
       - consul
       - data
