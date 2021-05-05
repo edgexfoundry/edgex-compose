@@ -24,16 +24,30 @@ if [ "$DEV" = "-dev" ]; then
   CORE_EDGEX_VERSION=0.0.0
 fi
 
-rm -rf keys
-mkdir keys
-openssl ecparam -name prime256v1 -genkey -noout -out keys/ec256.key 2> /dev/null
-cat keys/ec256.key | openssl ec -out keys/ec256.pub 2> /dev/null
+# Init key dir
+GW_KEY_DIR=${GW_KEY_DIR:-/tmp/edgex-gateway-keys}
 
-ID=`uuidgen`
-docker run --rm -it -e KONGURL_SERVER=kong --network edgex_edgex-network --entrypoint "" -v ${PWD}/keys:/keys \
+rm -rf ${GW_KEY_DIR}
+mkdir -p ${GW_KEY_DIR}
+
+# Build Gateway Key
+openssl ecparam -name prime256v1 -genkey -noout -out ${GW_KEY_DIR}/gateway.key 2> /dev/null
+openssl ec -in ${GW_KEY_DIR}/gateway.key -pubout -out ${GW_KEY_DIR}/gateway.pub 2> /dev/null
+
+# JWT File
+JWT_FILE=/tmp/edgex/secrets/edgex-security-proxy-setup/kong-admin-jwt
+JWT_VOLUME=/tmp/edgex/secrets/edgex-security-proxy-setup
+
+ID="uuidgen"
+
+docker run --rm -it -e KONGURL_SERVER=kong -e "ID=${ID}" -e "JWT_FILE=${JWT_FILE}" --network edgex_edgex-network --entrypoint "" -v ${GW_KEY_DIR}:/keys -v ${JWT_VOLUME}:${JWT_VOLUME} \
        ${CORE_EDGEX_REPOSITORY}/docker-security-proxy-setup-go${ARCH}:${CORE_EDGEX_VERSION}${DEV} \
-        /edgex/secrets-config proxy adduser --token-type jwt --id ${ID} --algorithm ES256  --public_key /keys/ec256.pub --user testinguser > /dev/null
-docker run --rm -it -e KONGURL_SERVER=kong --network edgex_edgex-network --entrypoint "" -v ${PWD}/keys:/keys \
+        /bin/sh -c 'JWT=`cat ${JWT_FILE}`; /edgex/secrets-config proxy adduser --token-type jwt --id ${ID} --algorithm ES256  --public_key /keys/gateway.pub \
+              --user gateway --group gateway --jwt ${JWT} > /dev/null'
+
+docker run --rm -it -e KONGURL_SERVER=kong -e "ID=${ID}" --network edgex_edgex-network --entrypoint "" -v ${GW_KEY_DIR}:/keys \
        ${CORE_EDGEX_REPOSITORY}/docker-security-proxy-setup-go${ARCH}:${CORE_EDGEX_VERSION}${DEV} \
-       /edgex/secrets-config proxy jwt --algorithm ES256 --id ${ID} --private_key /keys/ec256.key
-rm -rf keys
+       /bin/sh -c '/edgex/secrets-config proxy jwt --algorithm ES256 --id ${ID} --private_key /keys/gateway.key'
+
+# Clean Up
+rm -rf ${GW_KEY_DIR}

@@ -40,7 +40,7 @@ services:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -111,7 +111,7 @@ services:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -177,7 +177,7 @@ services:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -236,7 +236,7 @@ services:
     environment:
       ADD_REGISTRY_ACL_ROLES: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-rest
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
@@ -288,7 +288,7 @@ services:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -348,7 +348,7 @@ services:
     - /edgex-init/redis_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -414,7 +414,7 @@ services:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -474,7 +474,7 @@ services:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -531,15 +531,17 @@ services:
     - /edgex-init/kong_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+      KONG_ADMIN_LISTEN: 127.0.0.1:8001, 127.0.0.1:8444 ssl
       KONG_DATABASE: postgres
+      KONG_DNS_ORDER: LAST,A,CNAME
       KONG_PG_HOST: kong-db
       KONG_PG_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_STATUS_LISTEN: 0.0.0.0:8100
       PROXY_SETUP_HOST: edgex-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
@@ -562,9 +564,8 @@ services:
       edgex-network: {}
     ports:
     - 8000:8000/tcp
-    - 127.0.0.1:8001:8001/tcp
+    - 127.0.0.1:8100:8100/tcp
     - 8443:8443/tcp
-    - 127.0.0.1:8444:8444/tcp
     read_only: true
     restart: on-failure
     security_opt:
@@ -576,8 +577,9 @@ services:
     user: kong:nogroup
     volumes:
     - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/edgex-security-proxy-setup:/tmp/edgex/secrets/edgex-security-proxy-setup:ro,z
     - postgres-config:/tmp/postgres-config:z
-    - kong:/usr/local/kong:rw
+    - kong:/usr/local/kong:z
   kong-db:
     container_name: kong-db
     depends_on:
@@ -586,7 +588,7 @@ services:
     - /edgex-init/postgres_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
       POSTGRES_DB: kong
@@ -641,7 +643,7 @@ services:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -716,7 +718,7 @@ services:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -775,7 +777,7 @@ services:
     - /edgex-init/proxy_setup_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
       KONGURL_SERVER: kong
@@ -854,7 +856,7 @@ services:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -914,7 +916,7 @@ services:
       ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-rest]
       ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-rest
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_GROUP: '2001'
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: '2002'
@@ -951,12 +953,13 @@ services:
     volumes:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets:/tmp/edgex/secrets:z
+    - kong:/tmp/kong:z
     - vault-config:/vault/config:z
   security-bootstrapper:
     container_name: edgex-security-bootstrapper
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_GROUP: '2001'
       EDGEX_USER: '2002'
       PROXY_SETUP_HOST: edgex-proxy-setup
@@ -1000,7 +1003,7 @@ services:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_COMMAND_HOST: edgex-core-command
       CLIENTS_COREDATA_HOST: edgex-core-data
       CLIENTS_DATA_HOST: edgex-core-data
@@ -1063,7 +1066,7 @@ services:
     - /edgex-init/vault_wait_install.sh
     environment:
       API_GATEWAY_HOST: kong
-      API_GATEWAY_STATUS_PORT: '8001'
+      API_GATEWAY_STATUS_PORT: '8100'
       PROXY_SETUP_HOST: edgex-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
