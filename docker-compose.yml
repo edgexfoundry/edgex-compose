@@ -166,7 +166,9 @@ services:
       ADD_REGISTRY_ACL_ROLES: edgex-device-rest
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
+      EDGEX_GROUP: '2001'
       EDGEX_SECURITY_SECRET_STORE: "true"
+      EDGEX_USER: '2002'
       ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       SECRETSTORE_HOST: edgex-vault
@@ -701,6 +703,7 @@ services:
       PROXY_SETUP_HOST: edgex-proxy-setup
       ROUTES_DEVICE-VIRTUAL_HOST: edgex-device-virtual
       ROUTES_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      ROUTES_EDGEX-CORE-CONSUL_HOST: edgex-core-consul
       ROUTES_EDGEX-CORE-DATA_HOST: edgex-core-data
       ROUTES_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
       ROUTES_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
@@ -733,6 +736,7 @@ services:
     user: 2002:2001
     volumes:
     - edgex-init:/edgex-init:ro,z
+    - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:ro,z
     - /tmp/edgex/secrets/edgex-security-proxy-setup:/tmp/edgex/secrets/edgex-security-proxy-setup:ro,z
   rulesengine:
     container_name: edgex-kuiper
