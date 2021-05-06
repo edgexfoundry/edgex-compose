@@ -394,7 +394,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-consul
-    image: consul:1.9.1
+    image: consul:1.9
     networks:
       edgex-network: {}
     ports:
@@ -520,7 +520,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-redis
-    image: redis:6.0.9-alpine
+    image: redis:6.2-alpine
     networks:
       edgex-network: {}
     ports:
@@ -757,7 +757,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: kong
-    image: kong:2.3-alpine
+    image: kong:2.4-alpine
     networks:
       edgex-network: {}
     ports:
@@ -906,7 +906,7 @@ services:
   mqtt-broker:
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:1.6.3
+    image: eclipse-mosquitto:2.0
     networks:
       edgex-network: {}
     ports:
@@ -1369,7 +1369,7 @@ services:
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
     hostname: edgex-vault
-    image: vault:1.5.3
+    image: vault:1.7.1
     networks:
       edgex-network: {}
     ports:

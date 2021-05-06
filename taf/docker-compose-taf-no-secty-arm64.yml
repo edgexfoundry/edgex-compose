@@ -211,7 +211,7 @@ services:
   consul:
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: consul:1.9.1
+    image: consul:1.9
     networks:
       edgex-network: {}
     ports:
@@ -275,7 +275,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
-    image: redis:6.0.9-alpine
+    image: redis:6.2-alpine
     networks:
       edgex-network: {}
     ports:
@@ -438,7 +438,7 @@ services:
   mqtt-broker:
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:1.6.3
+    image: eclipse-mosquitto:2.0
     networks:
       edgex-network: {}
     ports:
