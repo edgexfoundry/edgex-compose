@@ -18,19 +18,27 @@ version: '3.7'
 services:
   data:
     environment:
+      MESSAGEQUEUE_PROTOCOL: tcp
       MESSAGEQUEUE_HOST: edgex-mqtt-broker
       MESSAGEQUEUE_PORT: 1883
       MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEQUEUE_AUTHMODE: none
       MESSAGEQUEUE_OPTIONAL_CLIENTID: edgex-core-data
     depends_on:
       - mqtt-broker
 
   app-service-rules:
     environment:
-      EDGEX_PROFILE: rules-engine-mqtt
+      EDGEX_PROFILE: rules-engine
+      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_PUBLISHTOPIC: rules-events
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
+      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
+
     depends_on:
       - mqtt-broker
 

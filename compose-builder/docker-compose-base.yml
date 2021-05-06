@@ -146,7 +146,6 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-core-data
-      MESSAGEQUEUE_HOST: edgex-redis
     depends_on:
       - consul
       - database
