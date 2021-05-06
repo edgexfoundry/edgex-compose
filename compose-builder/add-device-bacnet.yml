@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   device-bacnet:
-    image: ${REPOSITORY}/docker-device-bacnet-c${ARCH}:${DEVICE_BACNET_VERSION}
+    image: ${REPOSITORY}/device-bacnet${ARCH}:${DEVICE_BACNET_VERSION}
     ports:
       - "127.0.0.1:49980:49980"
     container_name: edgex-device-bacnet

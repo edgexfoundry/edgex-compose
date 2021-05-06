@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   device-grove:
-    image: ${REPOSITORY}/docker-device-grove-c${ARCH}:${DEVICE_GROVE_VERSION}
+    image: ${REPOSITORY}/device-grove${ARCH}:${DEVICE_GROVE_VERSION}
     ports:
       - "127.0.0.1:49992:49992"
     container_name: edgex-device-grove

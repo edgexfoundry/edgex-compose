@@ -55,7 +55,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: app-functional-tests
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable:master
     networks:
       edgex-network: {}
     ports:
@@ -93,7 +93,7 @@ services:
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
     hostname: app-http-export
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable:master
     networks:
       edgex-network: {}
     ports:
@@ -132,7 +132,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: app-mqtt-export
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable:master
     networks:
       edgex-network: {}
     ports:
@@ -167,7 +167,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-service-configurable-rules
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable:master
     networks:
       edgex-network: {}
     ports:
@@ -199,7 +199,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: nexus3.edgexfoundry.org:10004/docker-core-command-go:master
+    image: nexus3.edgexfoundry.org:10004/core-command:master
     networks:
       edgex-network: {}
     ports:
@@ -247,7 +247,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: nexus3.edgexfoundry.org:10004/docker-core-data-go:master
+    image: nexus3.edgexfoundry.org:10004/core-data:master
     networks:
       edgex-network: {}
     ports:
@@ -313,7 +313,7 @@ services:
       SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-device-modbus/secrets-token.json
       SERVICE_HOST: edgex-device-modbus
     hostname: edgex-device-modbus
-    image: nexus3.edgexfoundry.org:10004/docker-device-modbus-go:master
+    image: nexus3.edgexfoundry.org:10004/device-modbus:master
     networks:
       edgex-network: {}
     ports:
@@ -346,7 +346,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: nexus3.edgexfoundry.org:10004/docker-device-rest-go:master
+    image: nexus3.edgexfoundry.org:10004/device-rest:master
     networks:
       edgex-network: {}
     ports:
@@ -379,7 +379,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: nexus3.edgexfoundry.org:10004/docker-device-virtual-go:master
+    image: nexus3.edgexfoundry.org:10004/device-virtual:master
     networks:
       edgex-network: {}
     ports:
@@ -414,7 +414,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: nexus3.edgexfoundry.org:10004/docker-core-metadata-go:master
+    image: nexus3.edgexfoundry.org:10004/core-metadata:master
     networks:
       edgex-network: {}
     ports:
@@ -470,7 +470,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/docker-support-notifications-go:master
+    image: nexus3.edgexfoundry.org:10004/support-notifications:master
     networks:
       edgex-network: {}
     ports:
@@ -537,7 +537,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: scalability-test-mqtt-export
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable:master
     networks:
       edgex-network: {}
     ports:
@@ -570,7 +570,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/docker-support-scheduler-go:master
+    image: nexus3.edgexfoundry.org:10004/support-scheduler:master
     networks:
       edgex-network: {}
     ports:
@@ -607,7 +607,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-sys-mgmt-agent
     hostname: edgex-sys-mgmt-agent
-    image: nexus3.edgexfoundry.org:10004/docker-sys-mgmt-agent-go:master
+    image: nexus3.edgexfoundry.org:10004/sys-mgmt-agent:master
     networks:
       edgex-network: {}
     ports:

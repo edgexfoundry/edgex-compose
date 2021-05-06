@@ -81,7 +81,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-service-configurable-rules
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable:master
     networks:
       edgex-network: {}
     ports:
@@ -143,7 +143,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-command
-    image: nexus3.edgexfoundry.org:10004/docker-core-command-go:master
+    image: nexus3.edgexfoundry.org:10004/core-command:master
     networks:
       edgex-network: {}
     ports:
@@ -257,7 +257,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-data
-    image: nexus3.edgexfoundry.org:10004/docker-core-data-go:master
+    image: nexus3.edgexfoundry.org:10004/core-data:master
     networks:
       edgex-network: {}
     ports:
@@ -381,7 +381,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-rest
-    image: nexus3.edgexfoundry.org:10004/docker-device-rest-go:master
+    image: nexus3.edgexfoundry.org:10004/device-rest:master
     networks:
       edgex-network: {}
     ports:
@@ -441,7 +441,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-virtual
-    image: nexus3.edgexfoundry.org:10004/docker-device-virtual-go:master
+    image: nexus3.edgexfoundry.org:10004/device-virtual:master
     networks:
       edgex-network: {}
     ports:
@@ -612,7 +612,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-metadata
-    image: nexus3.edgexfoundry.org:10004/docker-core-metadata-go:master
+    image: nexus3.edgexfoundry.org:10004/core-metadata:master
     networks:
       edgex-network: {}
     ports:
@@ -674,7 +674,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/docker-support-notifications-go:master
+    image: nexus3.edgexfoundry.org:10004/support-notifications:master
     networks:
       edgex-network: {}
     ports:
@@ -727,7 +727,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-proxy-setup
-    image: nexus3.edgexfoundry.org:10004/docker-security-proxy-setup-go:master
+    image: nexus3.edgexfoundry.org:10004/security-proxy-setup&{ARCH}:master
     networks:
       edgex-network: {}
     read_only: true
@@ -816,7 +816,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/docker-support-scheduler-go:master
+    image: nexus3.edgexfoundry.org:10004/support-scheduler:master
     networks:
       edgex-network: {}
     ports:
@@ -861,7 +861,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secretstore-setup
-    image: nexus3.edgexfoundry.org:10004/docker-security-secretstore-setup-go:master
+    image: nexus3.edgexfoundry.org:10004/security-secretstore-setup&{ARCH}:master
     networks:
       edgex-network: {}
     read_only: true
@@ -900,7 +900,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-bootstrapper
-    image: nexus3.edgexfoundry.org:10004/docker-security-bootstrapper-go:master
+    image: nexus3.edgexfoundry.org:10004/security-bootstrapper&{ARCH}:master
     networks:
       edgex-network: {}
     read_only: true
@@ -963,7 +963,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-sys-mgmt-agent
-    image: nexus3.edgexfoundry.org:10004/docker-sys-mgmt-agent-go:master
+    image: nexus3.edgexfoundry.org:10004/sys-mgmt-agent:master
     networks:
       edgex-network: {}
     ports:

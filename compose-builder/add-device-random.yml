@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   device-random:
-    image: ${REPOSITORY}/docker-device-random-go${ARCH}:${DEVICE_RANDOM_VERSION}
+    image: ${REPOSITORY}/device-random${ARCH}:${DEVICE_RANDOM_VERSION}
     ports:
       - "127.0.0.1:49988:49988"
     container_name: edgex-device-random

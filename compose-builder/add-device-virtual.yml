@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   device-virtual:
-    image: ${REPOSITORY}/docker-device-virtual-go${ARCH}:${DEVICE_VIRTUAL_VERSION}
+    image: ${REPOSITORY}/device-virtual${ARCH}:${DEVICE_VIRTUAL_VERSION}
     ports:
     - "127.0.0.1:49990:49990"
     container_name: edgex-device-virtual

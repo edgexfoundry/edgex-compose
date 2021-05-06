@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   app-service-http-export:
-    image: ${APP_SVC_REPOSITORY}/docker-app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
+    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     ports:
       - 127.0.0.1:48101:48101/tcp
     container_name: app-http-export

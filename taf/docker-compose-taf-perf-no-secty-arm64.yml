@@ -58,7 +58,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: app-mqtt-export
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -93,7 +93,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-service-configurable-rules
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -125,7 +125,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: nexus3.edgexfoundry.org:10004/docker-core-command-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/core-command-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -173,7 +173,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: nexus3.edgexfoundry.org:10004/docker-core-data-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/core-data-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -235,7 +235,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: nexus3.edgexfoundry.org:10004/docker-device-rest-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/device-rest-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -267,7 +267,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: nexus3.edgexfoundry.org:10004/docker-device-virtual-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/device-virtual-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -300,7 +300,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: nexus3.edgexfoundry.org:10004/docker-core-metadata-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/core-metadata-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -344,7 +344,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/docker-support-notifications-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/support-notifications-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -403,7 +403,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/docker-support-scheduler-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/support-scheduler-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -440,7 +440,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-sys-mgmt-agent
     hostname: edgex-sys-mgmt-agent
-    image: nexus3.edgexfoundry.org:10004/docker-sys-mgmt-agent-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/sys-mgmt-agent-arm64:master
     networks:
       edgex-network: {}
     ports:

@@ -57,7 +57,7 @@ KEY_FILE_NAME=$(basename ${KEY_INPUT_FILE})
 
 echo "Uploading Kong TLS certificate with certificate file: ${CERT_FILE_NAME}, key file: ${KEY_FILE_NAME}, extra server name list: [${EXTRA_SNIS}]"
 docker run --rm -it -e KONGURL_SERVER=kong --network edgex_edgex-network --entrypoint "" -v ${PWD}/${STAGING}:/${STAGING} \
-       ${CORE_EDGEX_REPOSITORY}/docker-security-proxy-setup-go${ARCH}:${CORE_EDGEX_VERSION}${DEV} \
+       ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION}${DEV} \
         /edgex/secrets-config proxy tls --incert /${STAGING}/${CERT_FILE_NAME} \
         --inkey /${STAGING}/${KEY_FILE_NAME} \
         --snis "${EXTRA_SNIS}"

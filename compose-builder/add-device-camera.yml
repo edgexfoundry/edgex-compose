@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   device-camera:
-    image: ${REPOSITORY}/docker-device-camera-go${ARCH}:${DEVICE_CAMERA_VERSION}
+    image: ${REPOSITORY}/device-camera${ARCH}:${DEVICE_CAMERA_VERSION}
     ports:
       - "127.0.0.1:49985:49985"
     container_name: edgex-device-camera
