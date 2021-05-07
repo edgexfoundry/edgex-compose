@@ -1019,7 +1019,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-proxy-setup
-    image: nexus3.edgexfoundry.org:10004/security-proxy-setup&{ARCH}:master
+    image: nexus3.edgexfoundry.org:10004/security-proxy-setup-arm64:master
     networks:
       edgex-network: {}
     read_only: true
@@ -1223,7 +1223,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secretstore-setup
-    image: nexus3.edgexfoundry.org:10004/security-secretstore-setup&{ARCH}:master
+    image: nexus3.edgexfoundry.org:10004/security-secretstore-setup-arm64:master
     networks:
       edgex-network: {}
     read_only: true
@@ -1262,7 +1262,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-bootstrapper
-    image: nexus3.edgexfoundry.org:10004/security-bootstrapper&{ARCH}:master
+    image: nexus3.edgexfoundry.org:10004/security-bootstrapper-arm64:master
     networks:
       edgex-network: {}
     read_only: true
