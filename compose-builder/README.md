@@ -151,7 +151,7 @@ Options:
     dev:         Runs using local dev built images from edgex-go repo's    
                  'make docker' which creates docker images tagged with '0.0.0-dev'
     app-dev:     Runs using local dev built images from app-service-configurable repo's
-                 'make docker' which creates docker images tagged with 'master-dev'
+                 'make docker' which creates docker images tagged with '0.0.0-dev'
     ds-modbus:   Runs with device-modbus included
     ds-bacnet:   Runs with device-bacnet included
     ds-camera:   Runs with device-camera included
@@ -224,7 +224,7 @@ Options:
     dev:        Generates compose file using local dev built images from edgex-go repo's 
                 'make docker' which creates docker images tagged with '0.0.0-dev'
     app-dev:    Generates compose file using local dev built images from app-service-configurable repo's
-                'make docker' which creates docker images tagged with 'master-dev'
+                'make docker' which creates docker images tagged with '0.0.0-dev'
     ds-modbus:  Generates compose file with device-modbus included
     ds-bacnet:  Generates compose file with device-bacnet included
     ds-camera:  Generates compose file with device-camera included
@@ -298,7 +298,7 @@ Options:
     dev:        Generates compose file using local dev built images from edgex-go repo's 
                 'make docker' which creates docker images tagged with '0.0.0-dev'    
     app-dev:    Generates compose file using local dev built images from app-service-configurable repo's
-                'make docker' which creates docker images tagged with 'master-dev'
+                'make docker' which creates docker images tagged with '0.0.0-dev'
     ds-bacnet:  Generates compose file with device-bacnet included
     ds-camera:  Generates compose file with device-camera included
     ds-grove:   Generates compose file with device-grove included (valid only with arm64 option)
