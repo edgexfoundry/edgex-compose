@@ -18,6 +18,7 @@ version: '3.7'
 services:
   mqtt-broker:
     image: eclipse-mosquitto:${MOSQUITTO_VERSION}
+    command: "/usr/sbin/mosquitto -c /mosquitto-no-auth.conf"
     ports:
       - "1883:1883"
     container_name: edgex-mqtt-broker
