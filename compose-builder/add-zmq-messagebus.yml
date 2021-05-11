@@ -18,37 +18,32 @@ version: '3.7'
 services:
   data:
     environment:
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEQUEUE_TYPE: zero
       MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_PORT: 1883
+      MESSAGEQUEUE_HOST: "*"
+      MESSAGEQUEUE_PORT: 5563
       MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
-    depends_on:
-      - mqtt-broker
 
   app-service-rules:
     environment:
       EDGEX_PROFILE: rules-engine
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
+      TRIGGER_SUBSCRIBETOPICS: edgex/events
+      TRIGGER_EDGEXMESSAGEBUS_TYPE: zero
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-core-data
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 5563
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_SUBSCRIBETOPICS: edgex/events
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: "*"
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 5566
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_CLIENTID: app-rules-engine
-    depends_on:
-      - mqtt-broker
 
   rulesengine:
     environment:
-      EDGEX__DEFAULT__TYPE: mqtt
+      EDGEX__DEFAULT__TYPE: zero
       EDGEX__DEFAULT__PROTOCOL: tcp
-      EDGEX__DEFAULT__SERVER: edgex-mqtt-broker
-      EDGEX__DEFAULT__PORT: 1883
+      EDGEX__DEFAULT__SERVER: edgex-app-service-configurable-rules
+      EDGEX__DEFAULT__PORT: 5566
       EDGEX__DEFAULT__TOPIC: rules-events
-      EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
     depends_on:
-      - mqtt-broker
+      - app-service-rules

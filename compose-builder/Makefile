@@ -32,7 +32,7 @@ GEN_EXT_DIR:=gen_ext_scty
 # and don't impact the option list
 define OPTIONS
  - arm64 no-secty dev app-dev -
- - mqtt-bus mqtt-broker -
+ - zmq-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-random ds-rest ds-snmp ds-virtual -
  - asc-http asc-mqtt -
@@ -266,13 +266,18 @@ endif
 # Add a MQTT Broker
 ifeq (mqtt-broker, $(filter mqtt-broker,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-broker.yml
-	MQTT:=-mqtt
 endif
 
 # Add switch to use MQTT Message Bus
 ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-mqtt-broker.yml
-	MQTT:=-mqtt
+	BUS:=-mqtt
+endif
+
+# Add switch to use ZMQ Message Bus
+ifeq (zmq-bus, $(filter zmq-bus,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-zmq-messagebus.yml
+	BUS:=-zmq
 endif
 
 # Add Security services and settings
@@ -416,13 +421,13 @@ build:
 	make taf-compose-perf taf-perf-no-secty arm64
 
 compose: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(UI)$(NO_SECURITY)$(MQTT)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(UI)$(NO_SECURITY)$(BUS)$(ARCH).yml
 
 taf-compose: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(MQTT)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(ARCH).yml
 
 taf-compose-perf: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf-perf$(NO_SECURITY)$(MQTT)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(ARCH).yml
 
 run: gen
 	docker-compose -p edgex up -d $(SERVICES)

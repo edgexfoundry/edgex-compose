@@ -166,6 +166,7 @@ Options:
     asc-mqtt:    Runs with App Service MQTT Export included
     mqtt-broker: Runs with a MQTT Broker service included 
     mqtt-bus:    Runs with services configure for MQTT Message Bus 
+    zmq-bus:     Runs with services configure for ZMQ Message Bus     
     ui:          Runs with the UI service included
     ui-only:     Runs only the EdgeX UI service. `asc-x`, `ds-x`, 'mqtt', 'no-ds' & 'no-secty' are ignored. Typically used after the other Edgex Services have been started
 Services:
@@ -206,7 +207,8 @@ Options:
     asc-http:    Pull includes App Service HTTP Export
     asc-mqtt:    Pull includes App Service MQTT Export
     mqtt-broker: Pull includes MQTT Broker service
-    mqtt-bus:    Pull includes additional service for MQTT Message Bus
+    mqtt-bus:    Pull includes additional services for MQTT Message Bus
+    zmq-bus:     Pull includes additional services for ZMQ Message Bus     
     ui:          Pulls includes the EdgeX UI service.
     ui-only:     Pulls only the EdgeX UI service image. `asc-x`, `ds-x`, 'mqtt', 'no-ds & 'no-secty' are ignored.
 
@@ -238,8 +240,9 @@ Options:
     asc-http:    Generates compose file with App Service HTTP Export included
     asc-mqtt:    Generates compose file with App Service MQTT Export included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
-    mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
+    mqtt-bus:    Generates compose file with services configured for MQTT Message Bus 
                  The MQTT Broker service is also included. 
+    zmq-bus:     Generates compose file with services configured for ZMQ Message Bus     
     ui:          Generates compose file with UI sevice included             
     ui-only:     Generates stand-alone compose file for EdgeX UI
 ```
@@ -314,6 +317,7 @@ Options:
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
                  The MQTT Broker service is also included.
+    zmq-bus:     Generates compose file with services configured for ZMQ Message Bus     
     ui:          Generates compose file with UI sevice included             
     ui-only:     Generates stand-alone compose file for EdgeX UI	
 ```
