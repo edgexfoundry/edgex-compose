@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   ui:
-    image: ${UI_REPOSITORY}/docker-edgex-ui-go${ARCH}:${EDGEX_UI_VERSION}
+    image: ${UI_REPOSITORY}/edgex-ui${ARCH}:${EDGEX_UI_VERSION}
     ports:
       - "127.0.0.1:4000:4000"
     container_name: edgex-ui-go

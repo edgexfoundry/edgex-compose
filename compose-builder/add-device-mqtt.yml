@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   device-mqtt:
-    image: ${REPOSITORY}/docker-device-mqtt-go${ARCH}:${DEVICE_MQTT_VERSION}
+    image: ${REPOSITORY}/device-mqtt${ARCH}:${DEVICE_MQTT_VERSION}
     ports:
       - "127.0.0.1:49982:49982"
     container_name: edgex-device-mqtt

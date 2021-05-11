@@ -32,7 +32,7 @@ services:
   ui:
     container_name: edgex-ui-go
     hostname: edgex-ui-go
-    image: nexus3.edgexfoundry.org:10004/docker-edgex-ui-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/edgex-ui-arm64:master
     networks:
       edgex-network: {}
     ports:

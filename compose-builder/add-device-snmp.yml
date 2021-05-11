@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   device-snmp:
-    image: ${REPOSITORY}/docker-device-snmp-go${ARCH}:${DEVICE_SNMP_VERSION}
+    image: ${REPOSITORY}/device-snmp${ARCH}:${DEVICE_SNMP_VERSION}
     ports:
       - "127.0.0.1:49993:49993"
     container_name: edgex-device-snmp

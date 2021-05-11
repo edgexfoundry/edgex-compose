@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   device-modbus:
-    image: ${REPOSITORY}/docker-device-modbus-go${ARCH}:${DEVICE_MODBUS_VERSION}
+    image: ${REPOSITORY}/device-modbus${ARCH}:${DEVICE_MODBUS_VERSION}
     ports:
       - "127.0.0.1:49991:49991"
     container_name: edgex-device-modbus

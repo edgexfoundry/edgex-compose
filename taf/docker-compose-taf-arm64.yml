@@ -81,7 +81,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: app-functional-tests
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -148,7 +148,7 @@ services:
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
     hostname: app-http-export
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -219,7 +219,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: app-mqtt-export
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -284,7 +284,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-service-configurable-rules
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -346,7 +346,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-command
-    image: nexus3.edgexfoundry.org:10004/docker-core-command-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/core-command-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -460,7 +460,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-data
-    image: nexus3.edgexfoundry.org:10004/docker-core-data-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/core-data-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -587,7 +587,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-modbus
-    image: nexus3.edgexfoundry.org:10004/docker-device-modbus-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/device-modbus-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -647,7 +647,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-rest
-    image: nexus3.edgexfoundry.org:10004/docker-device-rest-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/device-rest-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -707,7 +707,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-virtual
-    image: nexus3.edgexfoundry.org:10004/docker-device-virtual-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/device-virtual-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -879,7 +879,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-metadata
-    image: nexus3.edgexfoundry.org:10004/docker-core-metadata-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/core-metadata-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -966,7 +966,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/docker-support-notifications-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/support-notifications-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -1019,7 +1019,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-proxy-setup
-    image: nexus3.edgexfoundry.org:10004/docker-security-proxy-setup-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/security-proxy-setup-arm64:master
     networks:
       edgex-network: {}
     read_only: true
@@ -1114,7 +1114,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: scalability-test-mqtt-export
-    image: nexus3.edgexfoundry.org:10004/docker-app-service-configurable-arm64:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -1178,7 +1178,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/docker-support-scheduler-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/support-scheduler-arm64:master
     networks:
       edgex-network: {}
     ports:
@@ -1223,7 +1223,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secretstore-setup
-    image: nexus3.edgexfoundry.org:10004/docker-security-secretstore-setup-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/security-secretstore-setup-arm64:master
     networks:
       edgex-network: {}
     read_only: true
@@ -1262,7 +1262,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-bootstrapper
-    image: nexus3.edgexfoundry.org:10004/docker-security-bootstrapper-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/security-bootstrapper-arm64:master
     networks:
       edgex-network: {}
     read_only: true
@@ -1325,7 +1325,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-sys-mgmt-agent
-    image: nexus3.edgexfoundry.org:10004/docker-sys-mgmt-agent-go-arm64:master
+    image: nexus3.edgexfoundry.org:10004/sys-mgmt-agent-arm64:master
     networks:
       edgex-network: {}
     ports:

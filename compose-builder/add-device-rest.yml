@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   device-rest:
-    image: ${REPOSITORY}/docker-device-rest-go${ARCH}:${DEVICE_REST_VERSION}
+    image: ${REPOSITORY}/device-rest${ARCH}:${DEVICE_REST_VERSION}
     ports:
       - "127.0.0.1:49986:49986"
     container_name: edgex-device-rest

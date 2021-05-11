@@ -29,7 +29,7 @@ volumes:
 
 services:
   security-bootstrapper:
-    image: ${CORE_EDGEX_REPOSITORY}/docker-security-bootstrapper-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/security-bootstrapper${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "root:root" # Must run as root
     container_name: edgex-security-bootstrapper
     hostname: edgex-security-bootstrapper
@@ -67,7 +67,7 @@ services:
       - secretstore-setup
 
   secretstore-setup:
-    image: ${CORE_EDGEX_REPOSITORY}/docker-security-secretstore-setup-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/security-secretstore-setup${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "root:root" # must run as root
     container_name: edgex-secretstore-setup
     hostname: edgex-secretstore-setup
@@ -226,7 +226,7 @@ services:
       - no-new-privileges:true
 
   proxy-setup:
-    image: ${CORE_EDGEX_REPOSITORY}/docker-security-proxy-setup-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     container_name: edgex-proxy-setup
     hostname: edgex-proxy-setup

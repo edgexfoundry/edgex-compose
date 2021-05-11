@@ -62,7 +62,7 @@ services:
       - no-new-privileges:true
 
   system:
-    image: ${CORE_EDGEX_REPOSITORY}/docker-sys-mgmt-agent-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/sys-mgmt-agent${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "root:root" # must run as root to allow binding to docker socket.
     ports:
       - "127.0.0.1:48090:48090"
@@ -90,7 +90,7 @@ services:
       - no-new-privileges:true
 
   notifications:
-    image: ${CORE_EDGEX_REPOSITORY}/docker-support-notifications-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48060:48060"
@@ -110,7 +110,7 @@ services:
       - no-new-privileges:true
 
   metadata:
-    image: ${CORE_EDGEX_REPOSITORY}/docker-core-metadata-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/core-metadata${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48081:48081"
@@ -132,7 +132,7 @@ services:
       - no-new-privileges:true
 
   data:
-    image: ${CORE_EDGEX_REPOSITORY}/docker-core-data-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/core-data${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48080:48080"
@@ -155,7 +155,7 @@ services:
       - no-new-privileges:true
 
   command:
-    image: ${CORE_EDGEX_REPOSITORY}/docker-core-command-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/core-command${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48082:48082"
@@ -176,7 +176,7 @@ services:
       - no-new-privileges:true
 
   scheduler:
-    image: ${CORE_EDGEX_REPOSITORY}/docker-support-scheduler-go${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/support-scheduler${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48085:48085"
@@ -198,7 +198,7 @@ services:
       - no-new-privileges:true
 
   app-service-rules:
-    image: ${APP_SVC_REPOSITORY}/docker-app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
+    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:48100:48100"
