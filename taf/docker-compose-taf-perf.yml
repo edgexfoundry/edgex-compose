@@ -57,6 +57,7 @@ services:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -127,6 +128,7 @@ services:
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -192,6 +194,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -367,6 +370,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -431,6 +435,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -491,6 +496,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -660,6 +666,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       NOTIFICATIONS_SENDER: edgex-core-metadata
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -736,6 +743,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -878,6 +886,7 @@ services:
       ENABLE_REGISTRY_ACL: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -1024,6 +1033,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENABLE_REGISTRY_ACL: "true"
       EXECUTORPATH: /sys-mgmt-executor
+      MESSAGEQUEUE_HOST: edgex-redis
       METRICSMECHANISM: executor
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul

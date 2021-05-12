@@ -48,6 +48,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-service-configurable-rules
       SERVICE_PORT: 48100
@@ -83,6 +84,7 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
@@ -160,6 +162,7 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
     image: redis:6.2-alpine
@@ -193,6 +196,7 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
@@ -225,6 +229,7 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
@@ -257,6 +262,7 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       NOTIFICATIONS_SENDER: edgex-core-metadata
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
@@ -289,6 +295,7 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
@@ -348,6 +355,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
@@ -384,6 +392,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       EXECUTORPATH: /sys-mgmt-executor
+      MESSAGEQUEUE_HOST: edgex-redis
       METRICSMECHANISM: executor
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-sys-mgmt-agent
