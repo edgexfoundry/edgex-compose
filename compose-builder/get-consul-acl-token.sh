@@ -25,5 +25,4 @@ if [ "$DEV" = "-dev" ]; then
 fi
 
 docker exec -it edgex-core-consul /bin/sh -c \
-  '[[ "$ENABLE_REGISTRY_ACL" == "true" ]] &&  cat "$STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH" | jq -r '.SecretID' \
-       || echo "No Consul ACL token available"'
+  'cat "$STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH" | jq -r '.SecretID' '
