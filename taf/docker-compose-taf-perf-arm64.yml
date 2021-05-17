@@ -41,17 +41,11 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
@@ -112,17 +106,11 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -131,7 +119,6 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-rules-engine/secrets-token.json
       SERVICE_HOST: edgex-app-service-configurable-rules
       SERVICE_PORT: 48100
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -178,17 +165,11 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -196,7 +177,6 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-command/secrets-token.json
       SERVICE_HOST: edgex-core-command
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
@@ -225,7 +205,7 @@ services:
     user: 2002:2001
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/edgex-core-command:/tmp/edgex/secrets/edgex-core-command:ro,z
+    - /tmp/edgex/secrets/core-command:/tmp/edgex/secrets/core-command:ro,z
   consul:
     container_name: edgex-core-consul
     depends_on:
@@ -290,17 +270,11 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -308,7 +282,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-data/secrets-token.json
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/core-data/secrets-token.json
       SERVICE_HOST: edgex-core-data
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
@@ -338,7 +312,7 @@ services:
     user: 2002:2001
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/edgex-core-data:/tmp/edgex/secrets/edgex-core-data:ro,z
+    - /tmp/edgex/secrets/core-data:/tmp/edgex/secrets/core-data:ro,z
   database:
     container_name: edgex-redis
     depends_on:
@@ -349,17 +323,11 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASECONFIG_NAME: redis.conf
       DATABASECONFIG_PATH: /run/redis/conf
       DATABASES_PRIMARY_HOST: edgex-redis
@@ -369,7 +337,6 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-security-bootstrap-redis/secrets-token.json
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -401,7 +368,7 @@ services:
     - db-data:/data:z
     - edgex-init:/edgex-init:ro,z
     - redis-config:/run/redis/conf:z
-    - /tmp/edgex/secrets/edgex-security-bootstrap-redis:/tmp/edgex/secrets/edgex-security-bootstrap-redis:ro,z
+    - /tmp/edgex/secrets/security-bootstrapper-redis:/tmp/edgex/secrets/security-bootstrapper-redis:ro,z
   device-rest:
     command: /device-rest-go -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-device-rest
@@ -415,17 +382,11 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -475,17 +436,11 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -577,7 +532,7 @@ services:
     user: kong:nogroup
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/edgex-security-proxy-setup:/tmp/edgex/secrets/edgex-security-proxy-setup:ro,z
+    - /tmp/edgex/secrets/security-proxy-setup:/tmp/edgex/secrets/security-proxy-setup:ro,z
     - postgres-config:/tmp/postgres-config:z
     - kong:/usr/local/kong:z
   kong-db:
@@ -643,17 +598,11 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -662,7 +611,6 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-metadata/secrets-token.json
       SERVICE_HOST: edgex-core-metadata
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
@@ -691,7 +639,7 @@ services:
     user: 2002:2001
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/edgex-core-metadata:/tmp/edgex/secrets/edgex-core-metadata:ro,z
+    - /tmp/edgex/secrets/core-metadata:/tmp/edgex/secrets/core-metadata:ro,z
   mqtt-broker:
     command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
@@ -719,17 +667,11 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -737,7 +679,6 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-support-notifications/secrets-token.json
       SERVICE_HOST: edgex-support-notifications
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
@@ -766,7 +707,7 @@ services:
     user: 2002:2001
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/edgex-support-notifications:/tmp/edgex/secrets/edgex-support-notifications:ro,z
+    - /tmp/edgex/secrets/support-notifications:/tmp/edgex/secrets/support-notifications:ro,z
   proxy-setup:
     container_name: edgex-proxy-setup
     depends_on:
@@ -781,14 +722,15 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "true"
       KONGURL_SERVER: kong
       PROXY_SETUP_HOST: edgex-proxy-setup
-      ROUTES_DEVICE-VIRTUAL_HOST: edgex-device-virtual
-      ROUTES_EDGEX-CORE-COMMAND_HOST: edgex-core-command
+      ROUTES_CORE_COMMAND_HOST: edgex-core-command
+      ROUTES_CORE_CONSUL_HOST: edgex-core-consul
+      ROUTES_CORE_DATA_HOST: edgex-core-data
+      ROUTES_CORE_METADATA_HOST: edgex-core-metadata
+      ROUTES_DEVICE_VIRTUAL_HOST: device-virtual
       ROUTES_EDGEX-CORE-CONSUL_HOST: edgex-core-consul
-      ROUTES_EDGEX-CORE-DATA_HOST: edgex-core-data
-      ROUTES_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      ROUTES_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      ROUTES_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      ROUTES_RULES-ENGINE_HOST: edgex-kuiper
+      ROUTES_RULES_ENGINE_HOST: edgex-kuiper
+      ROUTES_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      ROUTES_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -817,7 +759,7 @@ services:
     volumes:
     - edgex-init:/edgex-init:ro,z
     - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:ro,z
-    - /tmp/edgex/secrets/edgex-security-proxy-setup:/tmp/edgex/secrets/edgex-security-proxy-setup:ro,z
+    - /tmp/edgex/secrets/security-proxy-setup:/tmp/edgex/secrets/security-proxy-setup:ro,z
   rulesengine:
     container_name: edgex-kuiper
     depends_on:
@@ -858,17 +800,11 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
@@ -878,7 +814,6 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-support-scheduler/secrets-token.json
       SERVICE_HOST: edgex-support-scheduler
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
@@ -907,7 +842,7 @@ services:
     user: 2002:2001
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/edgex-support-scheduler:/tmp/edgex/secrets/edgex-support-scheduler:ro,z
+    - /tmp/edgex/secrets/support-scheduler:/tmp/edgex/secrets/support-scheduler:ro,z
   secretstore-setup:
     container_name: edgex-secretstore-setup
     depends_on:
@@ -1004,17 +939,11 @@ services:
     environment:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       EXECUTORPATH: /sys-mgmt-executor
@@ -1024,7 +953,6 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-sys-mgmt-agent/secrets-token.json
       SERVICE_HOST: edgex-sys-mgmt-agent
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
@@ -1053,7 +981,7 @@ services:
     user: root:root
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/edgex-sys-mgmt-agent:/tmp/edgex/secrets/edgex-sys-mgmt-agent:ro,z
+    - /tmp/edgex/secrets/sys-mgmt-agent:/tmp/edgex/secrets/sys-mgmt-agent:ro,z
     - /var/run/docker.sock:/var/run/docker.sock:z
   vault:
     cap_add:
