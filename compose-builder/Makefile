@@ -119,16 +119,16 @@ ifeq (ds-modbus, $(filter ds-modbus,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-modbus.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),"")
-			TOKEN_LIST:=edgex-device-modbus
+			TOKEN_LIST:=device-modbus
 		else
-			TOKEN_LIST:=$(TOKEN_LIST),edgex-device-modbus
+			TOKEN_LIST:=$(TOKEN_LIST),device-modbus
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),"")
-			KNOWN_SECRETS_LIST:=redisdb[edgex-device-modbus]
+			KNOWN_SECRETS_LIST:=redisdb[device-modbus]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[edgex-device-modbus]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-modbus]
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus edgex-device-modbus device-modbus)
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -303,7 +303,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-modbus,edgex-device-rest
 	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 	# have to list them individually.
-	KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-modbus],redisdb[edgex-device-rest]
+	KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[device-modbus],redisdb[edgex-device-rest]
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
@@ -329,7 +329,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual \
 		device-virtual device-virtual ' --registry --confdir=CONF_DIR_PLACE_HOLDER')
 	ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus \
-		edgex-device-modbus device-modbus ' --registry --confdir=CONF_DIR_PLACE_HOLDER')
+		device-modbus device-modbus ' --registry --confdir=CONF_DIR_PLACE_HOLDER')
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext)
 else

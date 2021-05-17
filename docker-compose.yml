@@ -660,7 +660,6 @@ services:
       ROUTES_CORE_DATA_HOST: edgex-core-data
       ROUTES_CORE_METADATA_HOST: edgex-core-metadata
       ROUTES_DEVICE_VIRTUAL_HOST: device-virtual
-      ROUTES_EDGEX-CORE-CONSUL_HOST: edgex-core-consul
       ROUTES_RULES_ENGINE_HOST: edgex-kuiper
       ROUTES_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       ROUTES_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
