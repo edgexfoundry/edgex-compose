@@ -214,7 +214,7 @@ services:
     entrypoint:
     - /edgex-init/consul_wait_install.sh
     environment:
-      ADD_REGISTRY_ACL_ROLES: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-rest
+      ADD_REGISTRY_ACL_ROLES: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_GROUP: '2001'
@@ -370,7 +370,7 @@ services:
     - redis-config:/run/redis/conf:z
     - /tmp/edgex/secrets/security-bootstrapper-redis:/tmp/edgex/secrets/security-bootstrapper-redis:ro,z
   device-rest:
-    command: /device-rest-go -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    command: /device-rest -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-device-rest
     depends_on:
     - consul
@@ -422,7 +422,7 @@ services:
     user: 2002:2001
     volumes:
     - edgex-init:/edgex-init:ro,z
-    - /tmp/edgex/secrets/edgex-device-rest:/tmp/edgex/secrets/edgex-device-rest:ro,z
+    - /tmp/edgex/secrets/device-rest:/tmp/edgex/secrets/device-rest:ro,z
   device-virtual:
     command: /device-virtual -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-device-virtual
@@ -848,8 +848,8 @@ services:
     - security-bootstrapper
     - vault
     environment:
-      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[edgex-device-rest]
-      ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,edgex-device-rest
+      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[device-rest]
+      ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_GROUP: '2001'
