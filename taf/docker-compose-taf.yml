@@ -56,7 +56,6 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -122,7 +121,6 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -190,7 +188,6 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -261,7 +258,6 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -327,7 +323,6 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -377,7 +372,6 @@ services:
       EDGEX_GROUP: '2001'
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: '2002'
-      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -441,7 +435,6 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -503,7 +496,6 @@ services:
       DATABASECONFIG_PATH: /run/redis/conf
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -569,7 +561,6 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -632,7 +623,6 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -693,7 +683,6 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -797,7 +786,6 @@ services:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       POSTGRES_DB: kong
       POSTGRES_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
       POSTGRES_USER: kong
@@ -864,7 +852,6 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       NOTIFICATIONS_SENDER: edgex-core-metadata
       PROXY_SETUP_HOST: edgex-proxy-setup
@@ -953,7 +940,6 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1001,7 +987,6 @@ services:
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       KONGURL_SERVER: kong
       PROXY_SETUP_HOST: edgex-proxy-setup
       ROUTES_DEVICE-VIRTUAL_HOST: edgex-device-virtual
@@ -1096,7 +1081,6 @@ services:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_SERVICE_KEY: scalability-test-mqtt-export
-      ENABLE_REGISTRY_ACL: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1165,7 +1149,6 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       MESSAGEQUEUE_HOST: edgex-redis
@@ -1216,7 +1199,6 @@ services:
       EDGEX_GROUP: '2001'
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: '2002'
-      ENABLE_REGISTRY_ACL: "true"
       PROXY_SETUP_HOST: edgex-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -1313,7 +1295,6 @@ services:
       CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENABLE_REGISTRY_ACL: "true"
       EXECUTORPATH: /sys-mgmt-executor
       MESSAGEQUEUE_HOST: edgex-redis
       METRICSMECHANISM: executor
