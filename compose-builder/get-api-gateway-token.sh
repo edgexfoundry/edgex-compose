@@ -35,8 +35,8 @@ openssl ecparam -name prime256v1 -genkey -noout -out ${GW_KEY_DIR}/gateway.key 2
 openssl ec -in ${GW_KEY_DIR}/gateway.key -pubout -out ${GW_KEY_DIR}/gateway.pub 2> /dev/null
 
 # JWT File
-JWT_FILE=/tmp/edgex/secrets/edgex-security-proxy-setup/kong-admin-jwt
-JWT_VOLUME=/tmp/edgex/secrets/edgex-security-proxy-setup
+JWT_FILE=/tmp/edgex/secrets/security-proxy-setup/kong-admin-jwt
+JWT_VOLUME=/tmp/edgex/secrets/security-proxy-setup
 
 ID="uuidgen"
 
