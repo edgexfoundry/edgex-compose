@@ -53,7 +53,6 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     environment:
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-security-bootstrap-redis/secrets-token.json
       DATABASECONFIG_PATH: /run/redis/conf
       DATABASECONFIG_NAME: redis.conf
     tmpfs:
@@ -61,7 +60,7 @@ services:
     volumes:
       - edgex-init:/edgex-init:ro,z
       - redis-config:/run/redis/conf:z
-      - /tmp/edgex/secrets/edgex-security-bootstrap-redis:/tmp/edgex/secrets/edgex-security-bootstrap-redis:ro,z
+      - /tmp/edgex/secrets/security-bootstrapper-redis:/tmp/edgex/secrets/security-bootstrapper-redis:ro,z
     depends_on:
       - security-bootstrapper
       - secretstore-setup
@@ -218,7 +217,7 @@ services:
       - edgex-init:/edgex-init:ro,z
       - postgres-config:/tmp/postgres-config:z
       - kong:/usr/local/kong:z
-      - /tmp/edgex/secrets/edgex-security-proxy-setup:/tmp/edgex/secrets/edgex-security-proxy-setup:ro,z
+      - /tmp/edgex/secrets/security-proxy-setup:/tmp/edgex/secrets/security-proxy-setup:ro,z
     depends_on:
       - security-bootstrapper
       - kong-db
@@ -239,17 +238,17 @@ services:
       - common-sec-stage-gate.env
     environment:
       KONGURL_SERVER: kong
-      ROUTES_EDGEX-CORE-DATA_HOST: edgex-core-data
-      ROUTES_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      ROUTES_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      ROUTES_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      ROUTES_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      ROUTES_RULES-ENGINE_HOST: edgex-kuiper
-      ROUTES_DEVICE-VIRTUAL_HOST: edgex-device-virtual
-      ROUTES_EDGEX-CORE-CONSUL_HOST: edgex-core-consul
+      ROUTES_CORE_CONSUL_HOST: edgex-core-consul
+      ROUTES_CORE_DATA_HOST: edgex-core-data
+      ROUTES_CORE_METADATA_HOST: edgex-core-metadata
+      ROUTES_CORE_COMMAND_HOST: edgex-core-command
+      ROUTES_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      ROUTES_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
+      ROUTES_RULES_ENGINE_HOST: edgex-kuiper
+      ROUTES_DEVICE_VIRTUAL_HOST: device-virtual
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/edgex-security-proxy-setup:/tmp/edgex/secrets/edgex-security-proxy-setup:ro,z
+      - /tmp/edgex/secrets/security-proxy-setup:/tmp/edgex/secrets/security-proxy-setup:ro,z
       - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:ro,z
     depends_on:
       - security-bootstrapper
@@ -264,13 +263,11 @@ services:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
-    environment:
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-support-notifications/secrets-token.json
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/support-notifications ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/edgex-support-notifications:/tmp/edgex/secrets/edgex-support-notifications:ro,z
+      - /tmp/edgex/secrets/support-notifications:/tmp/edgex/secrets/support-notifications:ro,z
     depends_on:
       - security-bootstrapper
       - secretstore-setup
@@ -280,13 +277,11 @@ services:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
-    environment:
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-metadata/secrets-token.json
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/core-metadata ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/edgex-core-metadata:/tmp/edgex/secrets/edgex-core-metadata:ro,z
+      - /tmp/edgex/secrets/core-metadata:/tmp/edgex/secrets/core-metadata:ro,z
     depends_on:
       - security-bootstrapper
       - secretstore-setup
@@ -297,12 +292,12 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     environment:
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-data/secrets-token.json
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/core-data/secrets-token.json
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/core-data ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/edgex-core-data:/tmp/edgex/secrets/edgex-core-data:ro,z
+      - /tmp/edgex/secrets/core-data:/tmp/edgex/secrets/core-data:ro,z
     depends_on:
       - security-bootstrapper
       - secretstore-setup
@@ -312,13 +307,11 @@ services:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
-    environment:
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-core-command/secrets-token.json
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/core-command ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/edgex-core-command:/tmp/edgex/secrets/edgex-core-command:ro,z
+      - /tmp/edgex/secrets/core-command:/tmp/edgex/secrets/core-command:ro,z
     depends_on:
       - security-bootstrapper
       - secretstore-setup
@@ -328,13 +321,11 @@ services:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
-    environment:
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-support-scheduler/secrets-token.json
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/support-scheduler ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/edgex-support-scheduler:/tmp/edgex/secrets/edgex-support-scheduler:ro,z
+      - /tmp/edgex/secrets/support-scheduler:/tmp/edgex/secrets/support-scheduler:ro,z
     depends_on:
       - security-bootstrapper
       - secretstore-setup
@@ -348,8 +339,6 @@ services:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
-    environment:
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-rules-engine/secrets-token.json
     volumes:
       - edgex-init:/edgex-init:ro,z
       - /tmp/edgex/secrets/app-rules-engine:/tmp/edgex/secrets/app-rules-engine:ro,z
@@ -362,10 +351,8 @@ services:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
-    environment:
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-sys-mgmt-agent/secrets-token.json
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/edgex-sys-mgmt-agent:/tmp/edgex/secrets/edgex-sys-mgmt-agent:ro,z
+      - /tmp/edgex/secrets/sys-mgmt-agent:/tmp/edgex/secrets/sys-mgmt-agent:ro,z
     depends_on:
       - security-bootstrapper

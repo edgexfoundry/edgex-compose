@@ -34,17 +34,11 @@ services:
     - consul
     - data
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
@@ -71,17 +65,11 @@ services:
     - consul
     - data
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: http-export
@@ -110,17 +98,11 @@ services:
     - consul
     - data
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
@@ -150,17 +132,11 @@ services:
     - consul
     - data
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -187,17 +163,11 @@ services:
     - database
     - metadata
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -235,17 +205,11 @@ services:
     - database
     - metadata
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -265,17 +229,11 @@ services:
   database:
     container_name: edgex-redis
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -301,23 +259,15 @@ services:
     - metadata
     - modbus-simulator
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
-      SECRETSTORE_PATH: /v1/secret/edgex/edgex-device-modbus/
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/edgex-device-modbus/secrets-token.json
       SERVICE_HOST: edgex-device-modbus
     hostname: edgex-device-modbus
     image: nexus3.edgexfoundry.org:10004/device-modbus-arm64:master
@@ -337,17 +287,11 @@ services:
     - data
     - metadata
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -371,17 +315,11 @@ services:
     - data
     - metadata
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -406,17 +344,11 @@ services:
     - database
     - notifications
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -464,17 +396,11 @@ services:
     - consul
     - database
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
@@ -522,17 +448,11 @@ services:
     - consul
     - data
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
@@ -564,17 +484,11 @@ services:
     - consul
     - database
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
@@ -602,17 +516,11 @@ services:
     - notifications
     - scheduler
     environment:
-      CLIENTS_COMMAND_HOST: edgex-core-command
-      CLIENTS_COREDATA_HOST: edgex-core-data
-      CLIENTS_DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-COMMAND_HOST: edgex-core-command
-      CLIENTS_EDGEX-CORE-DATA_HOST: edgex-core-data
-      CLIENTS_EDGEX-CORE-METADATA_HOST: edgex-core-metadata
-      CLIENTS_EDGEX-SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_EDGEX-SUPPORT-SCHEDULER_HOST: edgex-support-scheduler
-      CLIENTS_METADATA_HOST: edgex-core-metadata
-      CLIENTS_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SCHEDULER_HOST: edgex-support-scheduler
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       EXECUTORPATH: /sys-mgmt-executor
