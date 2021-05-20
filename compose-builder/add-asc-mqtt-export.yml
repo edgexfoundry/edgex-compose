@@ -19,7 +19,7 @@ services:
   app-service-mqtt-export:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     ports:
-      - 127.0.0.1:48103:48103/tcp
+      - 127.0.0.1:59703:59703/tcp
     container_name: app-mqtt-export
     hostname: app-mqtt-export
     env_file:
@@ -28,7 +28,6 @@ services:
       - asc-mqtt-export.env
     environment:
       SERVICE_HOST: app-mqtt-export
-      SERVICE_PORT: 48103
     depends_on:
       - consul
       - data

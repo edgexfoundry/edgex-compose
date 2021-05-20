@@ -19,7 +19,7 @@ services:
   device-virtual:
     image: ${REPOSITORY}/device-virtual${ARCH}:${DEVICE_VIRTUAL_VERSION}
     ports:
-    - "127.0.0.1:49990:49990"
+    - "127.0.0.1:59900:59900"
     container_name: edgex-device-virtual
     hostname: edgex-device-virtual
     read_only: true

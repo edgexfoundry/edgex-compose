@@ -19,7 +19,7 @@ services:
   device-modbus:
     image: ${REPOSITORY}/device-modbus${ARCH}:${DEVICE_MODBUS_VERSION}
     ports:
-      - "127.0.0.1:49991:49991"
+      - "127.0.0.1:59901:59901"
     container_name: edgex-device-modbus
     hostname: edgex-device-modbus
     networks:

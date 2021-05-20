@@ -19,7 +19,7 @@ services:
   device-random:
     image: ${REPOSITORY}/device-random${ARCH}:${DEVICE_RANDOM_VERSION}
     ports:
-      - "127.0.0.1:49988:49988"
+      - "127.0.0.1:59988:59988"
     container_name: edgex-device-random
     hostname: edgex-device-random
     networks:

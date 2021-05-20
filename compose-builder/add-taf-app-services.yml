@@ -19,7 +19,7 @@ services:
   app-service-functional-tests:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     ports:
-      - 48105:48105/tcp
+      - 59705:59705/tcp
     container_name: app-functional-tests
     hostname: app-functional-tests
     env_file:
@@ -28,7 +28,6 @@ services:
     environment:
       EDGEX_PROFILE: functional-tests
       SERVICE_HOST: app-functional-tests
-      SERVICE_PORT: 48105
     depends_on:
       - consul
       - data
@@ -42,7 +41,7 @@ services:
   scalability-test-mqtt-export:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     ports:
-      - "48106:48106"
+      - "59703:59703"
     container_name: scalability-test-mqtt-export
     hostname: scalability-test-mqtt-export
     env_file:
@@ -52,7 +51,6 @@ services:
     environment:
       EDGEX_SERVICE_KEY: scalability-test-mqtt-export
       SERVICE_HOST: scalability-test-mqtt-export
-      SERVICE_PORT: 48106
       WRITABLE_PIPELINE_EXECUTIONORDER: "TransformToJSON, MQTTSecretSend"
       WRITABLE_LOGLEVEL: DEBUG
     depends_on:
