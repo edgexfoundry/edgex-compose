@@ -19,7 +19,7 @@ services:
   app-service-http-export:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     ports:
-      - 127.0.0.1:48101:48101/tcp
+      - 127.0.0.1:59704:59704/tcp
     container_name: app-http-export
     hostname: app-http-export
     env_file:
@@ -28,7 +28,6 @@ services:
       - asc-http-export.env
     environment:
       SERVICE_HOST: app-http-export
-      SERVICE_PORT: 48101
     depends_on:
       - consul
       - data

@@ -55,7 +55,6 @@ services:
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
       SERVICE_HOST: edgex-app-service-configurable-rules
-      SERVICE_PORT: 48100
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -78,7 +77,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 127.0.0.1:48100:48100/tcp
+    - 127.0.0.1:59701:59701/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -133,7 +132,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 127.0.0.1:48082:48082/tcp
+    - 127.0.0.1:59882:59882/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -240,7 +239,7 @@ services:
       edgex-network: {}
     ports:
     - 127.0.0.1:5563:5563/tcp
-    - 127.0.0.1:48080:48080/tcp
+    - 127.0.0.1:59880:59880/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -350,7 +349,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 127.0.0.1:49986:49986/tcp
+    - 127.0.0.1:59986:59986/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -404,7 +403,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 127.0.0.1:49990:49990/tcp
+    - 127.0.0.1:59900:59900/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -567,7 +566,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 127.0.0.1:48081:48081/tcp
+    - 127.0.0.1:59881:59881/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -622,7 +621,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 127.0.0.1:48060:48060/tcp
+    - 127.0.0.1:59860:59860/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -689,18 +688,17 @@ services:
       EDGEX__DEFAULT__PORT: 6379
       EDGEX__DEFAULT__PROTOCOL: redis
       EDGEX__DEFAULT__SERVER: edgex-redis
-      EDGEX__DEFAULT__SERVICESERVER: http://edgex-metadata-data:48081
+      EDGEX__DEFAULT__SERVICESERVER: http://edgex-metadata-data:59881
       EDGEX__DEFAULT__TOPIC: rules-events
       EDGEX__DEFAULT__TYPE: redisstreams
       KUIPER__BASIC__CONSOLELOG: "true"
-      KUIPER__BASIC__RESTPORT: 48075
+      KUIPER__BASIC__RESTPORT: 59720
     hostname: edgex-kuiper
     image: emqx/kuiper:1.1.2-alpine
     networks:
       edgex-network: {}
     ports:
-    - 127.0.0.1:20498:20498/tcp
-    - 127.0.0.1:48075:48075/tcp
+    - 127.0.0.1:59720:59720/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -756,7 +754,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 127.0.0.1:48085:48085/tcp
+    - 127.0.0.1:59861:59861/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -895,7 +893,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 127.0.0.1:48090:48090/tcp
+    - 127.0.0.1:58890:58890/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true

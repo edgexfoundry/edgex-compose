@@ -65,7 +65,7 @@ services:
     image: ${CORE_EDGEX_REPOSITORY}/sys-mgmt-agent${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "root:root" # must run as root to allow binding to docker socket.
     ports:
-      - "127.0.0.1:48090:48090"
+      - "127.0.0.1:58890:58890"
     container_name: edgex-sys-mgmt-agent
     hostname: edgex-sys-mgmt-agent
     read_only: true
@@ -93,7 +93,7 @@ services:
     image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
-      - "127.0.0.1:48060:48060"
+      - "127.0.0.1:59860:59860"
     container_name: edgex-support-notifications
     hostname: edgex-support-notifications
     read_only: true
@@ -113,7 +113,7 @@ services:
     image: ${CORE_EDGEX_REPOSITORY}/core-metadata${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
-      - "127.0.0.1:48081:48081"
+      - "127.0.0.1:59881:59881"
     container_name: edgex-core-metadata
     hostname: edgex-core-metadata
     read_only: true
@@ -135,7 +135,7 @@ services:
     image: ${CORE_EDGEX_REPOSITORY}/core-data${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
-      - "127.0.0.1:48080:48080"
+      - "127.0.0.1:59880:59880"
       - "127.0.0.1:5563:5563"
     container_name: edgex-core-data
     hostname: edgex-core-data
@@ -157,7 +157,7 @@ services:
     image: ${CORE_EDGEX_REPOSITORY}/core-command${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
-      - "127.0.0.1:48082:48082"
+      - "127.0.0.1:59882:59882"
     container_name: edgex-core-command
     hostname: edgex-core-command
     read_only: true
@@ -178,7 +178,7 @@ services:
     image: ${CORE_EDGEX_REPOSITORY}/support-scheduler${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
-      - "127.0.0.1:48085:48085"
+      - "127.0.0.1:59861:59861"
     container_name: edgex-support-scheduler
     hostname: edgex-support-scheduler
     read_only: true
@@ -200,7 +200,7 @@ services:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
-      - "127.0.0.1:48100:48100"
+      - "127.0.0.1:59701:59701"
     container_name: edgex-app-service-configurable-rules
     hostname: edgex-app-service-configurable-rules
     read_only: true
@@ -211,7 +211,6 @@ services:
     environment:
       EDGEX_PROFILE: rules-engine
       SERVICE_HOST: edgex-app-service-configurable-rules
-      SERVICE_PORT: 48100
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
     depends_on:
@@ -224,8 +223,7 @@ services:
     image: emqx/kuiper:${KUIPER_VERSION}
     user: "kuiper:kuiper"
     ports:
-      - "127.0.0.1:48075:48075"
-      - "127.0.0.1:20498:20498"
+      - "127.0.0.1:59720:59720"
     container_name: edgex-kuiper
     hostname: edgex-kuiper
     read_only: true
@@ -236,8 +234,8 @@ services:
     environment:
 #      KUIPER_DEBUG: "true"
       KUIPER__BASIC__CONSOLELOG: "true"
-      KUIPER__BASIC__RESTPORT: 48075
-      EDGEX__DEFAULT__SERVICESERVER: http://edgex-metadata-data:48081
+      KUIPER__BASIC__RESTPORT: 59720
+      EDGEX__DEFAULT__SERVICESERVER: http://edgex-metadata-data:59881
       EDGEX__DEFAULT__TYPE: redisstreams
       EDGEX__DEFAULT__SERVER: edgex-redis
       EDGEX__DEFAULT__PROTOCOL: redis

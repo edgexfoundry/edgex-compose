@@ -19,7 +19,7 @@ services:
   device-rest:
     image: ${REPOSITORY}/device-rest${ARCH}:${DEVICE_REST_VERSION}
     ports:
-      - "127.0.0.1:49986:49986"
+      - "127.0.0.1:59986:59986"
     container_name: edgex-device-rest
     hostname: edgex-device-rest
     read_only: true
