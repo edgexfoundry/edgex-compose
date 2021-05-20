@@ -19,7 +19,7 @@ services:
   device-bacnet:
     image: ${REPOSITORY}/device-bacnet${ARCH}:${DEVICE_BACNET_VERSION}
     ports:
-      - "127.0.0.1:49980:49980"
+      - "127.0.0.1:59980:59980"
     container_name: edgex-device-bacnet
     hostname: edgex-device-bacnet
     networks:

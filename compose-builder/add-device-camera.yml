@@ -19,7 +19,7 @@ services:
   device-camera:
     image: ${REPOSITORY}/device-camera${ARCH}:${DEVICE_CAMERA_VERSION}
     ports:
-      - "127.0.0.1:49985:49985"
+      - "127.0.0.1:59985:59985"
     container_name: edgex-device-camera
     hostname: edgex-device-camera
     read_only: true

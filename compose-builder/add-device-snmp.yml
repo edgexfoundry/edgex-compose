@@ -19,7 +19,7 @@ services:
   device-snmp:
     image: ${REPOSITORY}/device-snmp${ARCH}:${DEVICE_SNMP_VERSION}
     ports:
-      - "127.0.0.1:49993:49993"
+      - "127.0.0.1:59993:59993"
     container_name: edgex-device-snmp
     hostname: edgex-device-snmp
     networks:

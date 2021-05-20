@@ -19,7 +19,7 @@ services:
   device-mqtt:
     image: ${REPOSITORY}/device-mqtt${ARCH}:${DEVICE_MQTT_VERSION}
     ports:
-      - "127.0.0.1:49982:49982"
+      - "127.0.0.1:59982:59982"
     container_name: edgex-device-mqtt
     hostname: edgex-device-mqtt
     read_only: true

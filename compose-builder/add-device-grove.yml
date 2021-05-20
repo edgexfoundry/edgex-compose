@@ -19,7 +19,7 @@ services:
   device-grove:
     image: ${REPOSITORY}/device-grove${ARCH}:${DEVICE_GROVE_VERSION}
     ports:
-      - "127.0.0.1:49992:49992"
+      - "127.0.0.1:59992:59992"
     container_name: edgex-device-grove
     hostname: edgex-device-grove
     networks:
