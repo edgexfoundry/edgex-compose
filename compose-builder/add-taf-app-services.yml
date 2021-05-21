@@ -41,7 +41,7 @@ services:
   scalability-test-mqtt-export:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     ports:
-      - "59703:59703"
+      - "59710:59703" #Exposing as different port to avoid conflict with other MQTT export instance
     container_name: scalability-test-mqtt-export
     hostname: scalability-test-mqtt-export
     env_file:
@@ -51,7 +51,7 @@ services:
     environment:
       EDGEX_SERVICE_KEY: scalability-test-mqtt-export
       SERVICE_HOST: scalability-test-mqtt-export
-      WRITABLE_PIPELINE_EXECUTIONORDER: "TransformToJSON, MQTTSecretSend"
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
       WRITABLE_LOGLEVEL: DEBUG
     depends_on:
       - consul
