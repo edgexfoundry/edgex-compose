@@ -25,6 +25,7 @@ include .env
 COMPOSE_FILES:=-f docker-compose-base.yml
 TOKEN_LIST:=""
 KNOWN_SECRETS_LIST:="redisdb[app-rules-engine]"
+EXTRA_PROXY_ROUTE_LIST:=""
 GEN_EXT_DIR:=gen_ext_scty
 
 # Must have spaces around words for `filter-out` function to work properly.
@@ -295,6 +296,8 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 	# have to list them individually.
 	KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[device-modbus],redisdb[device-rest]
+	EXTRA_PROXY_ROUTE_LIST:=edgex-device-modbus.http://device-modbus:59901
+
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
@@ -343,6 +346,7 @@ else
 			# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 			# have to list them individually.
 			KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[device-rest]
+			EXTRA_PROXY_ROUTE_LIST:=edgex-device-modbus.http://device-modbus:59901
 
     		COMPOSE_FILES:= \
     			-f docker-compose-base.yml \
@@ -431,6 +435,7 @@ gen:
 	ARCH=$(ARCH) \
 	TOKEN_LIST=$(TOKEN_LIST) \
 	KNOWN_SECRETS_LIST=$(KNOWN_SECRETS_LIST) \
+	EXTRA_PROXY_ROUTE_LIST=$(EXTRA_PROXY_ROUTE_LIST) \
 	GEN_EXT_DIR=$(GEN_EXT_DIR) \
 	docker-compose -p edgex $(COMPOSE_FILES) config > docker-compose.yml
 	rm -rf ./$(GEN_EXT_DIR)
@@ -460,6 +465,7 @@ down: ui-down
 	ARCH= \
 	TOKEN_LIST= \
 	KNOWN_SECRETS_LIST= \
+	EXTRA_PROXY_ROUTE_LIST= \
 	docker-compose -p edgex \
 		-f docker-compose-base.yml \
 		-f add-device-bacnet.yml \
