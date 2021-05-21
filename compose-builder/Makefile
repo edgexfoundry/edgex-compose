@@ -296,7 +296,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 	# have to list them individually.
 	KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[device-modbus],redisdb[device-rest]
-	EXTRA_PROXY_ROUTE_LIST:=edgex-device-modbus.http://device-modbus:59901
+	EXTRA_PROXY_ROUTE_LIST:=device-modbus.http://edgex-device-modbus:59901
 
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
@@ -346,7 +346,7 @@ else
 			# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 			# have to list them individually.
 			KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[device-rest]
-			EXTRA_PROXY_ROUTE_LIST:=edgex-device-modbus.http://device-modbus:59901
+			EXTRA_PROXY_ROUTE_LIST:=device-modbus.http://edgex-device-modbus:59901
 
     		COMPOSE_FILES:= \
     			-f docker-compose-base.yml \
