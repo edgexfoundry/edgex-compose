@@ -995,7 +995,9 @@ services:
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_PATH: /v1/secret/edgex/scalability-test-mqtt-export/
       SECRETSTORE_PORT: '8200'
+      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/scalability-test-mqtt-export/secrets-token.json
       SERVICE_HOST: scalability-test-mqtt-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
@@ -1015,15 +1017,15 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
       WRITABLE_LOGLEVEL: DEBUG
-      WRITABLE_PIPELINE_EXECUTIONORDER: TransformToJSON, MQTTSecretSend
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: scalability-test-mqtt-export
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:master
     networks:
       edgex-network: {}
     ports:
-    - 59703:59703/tcp
+    - 59710:59703/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
