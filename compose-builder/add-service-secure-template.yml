@@ -25,6 +25,10 @@ services:
     environment:
       ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
 
+  proxy-setup:
+    environment:
+      ADD_PROXY_ROUTE: ${EXTRA_PROXY_ROUTE_LIST}
+
   ${SERVICE_NAME}:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/${EXECUTABLE} ${DEFAULT_EDGEX_RUN_CMD_PARMS}"

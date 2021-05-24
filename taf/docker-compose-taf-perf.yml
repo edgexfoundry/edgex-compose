@@ -715,6 +715,7 @@ services:
     entrypoint:
     - /edgex-init/proxy_setup_wait_install.sh
     environment:
+      ADD_PROXY_ROUTE: device-modbus.http://edgex-device-modbus:59901
       API_GATEWAY_HOST: kong
       API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_SECURITY_SECRET_STORE: "true"
