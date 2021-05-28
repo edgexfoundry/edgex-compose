@@ -244,6 +244,7 @@ services:
       ROUTES_CORE_COMMAND_HOST: edgex-core-command
       ROUTES_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       ROUTES_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
+      ROUTES_SYS_MGMT_AGENT_HOST: edgex-sys-mgmt-agent
       ROUTES_RULES_ENGINE_HOST: edgex-kuiper
       ROUTES_DEVICE_VIRTUAL_HOST: device-virtual
     volumes:
