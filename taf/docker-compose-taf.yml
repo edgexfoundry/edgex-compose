@@ -915,6 +915,7 @@ services:
       ROUTES_RULES_ENGINE_HOST: edgex-kuiper
       ROUTES_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       ROUTES_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
+      ROUTES_SYS_MGMT_AGENT_HOST: edgex-sys-mgmt-agent
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
