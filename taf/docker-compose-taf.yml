@@ -394,6 +394,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
+      MESSAGEQUEUE_SUBSCRIBEENABLED: "false"
       PROXY_SETUP_HOST: edgex-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
