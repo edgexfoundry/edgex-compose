@@ -268,7 +268,6 @@ services:
       EDGEX__DEFAULT__PORT: 6379
       EDGEX__DEFAULT__PROTOCOL: redis
       EDGEX__DEFAULT__SERVER: edgex-redis
-      EDGEX__DEFAULT__SERVICESERVER: http://edgex-metadata-data:59881
       EDGEX__DEFAULT__TOPIC: rules-events
       EDGEX__DEFAULT__TYPE: redis
       KUIPER__BASIC__CONSOLELOG: "true"

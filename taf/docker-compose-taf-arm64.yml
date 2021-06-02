@@ -950,11 +950,11 @@ services:
     container_name: edgex-kuiper
     depends_on:
     - database
+    - secretstore-setup
     environment:
       EDGEX__DEFAULT__PORT: 6379
       EDGEX__DEFAULT__PROTOCOL: redis
       EDGEX__DEFAULT__SERVER: edgex-redis
-      EDGEX__DEFAULT__SERVICESERVER: http://edgex-metadata-data:59881
       EDGEX__DEFAULT__TOPIC: rules-events
       EDGEX__DEFAULT__TYPE: redis
       KUIPER__BASIC__CONSOLELOG: "true"
@@ -971,6 +971,7 @@ services:
     user: kuiper:kuiper
     volumes:
     - kuiper-data:/kuiper/data:z
+    - kuiper-config:/kuiper/etc/sources:z
   scalability-test-mqtt-export:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
       --confdir=/res
@@ -1109,6 +1110,7 @@ services:
       PROXY_SETUP_HOST: edgex-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
+      SECUREMESSAGEBUS_TYPE: redis
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1139,6 +1141,7 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets:/tmp/edgex/secrets:z
     - kong:/tmp/kong:z
+    - kuiper-config:/tmp/kuiper:z
     - vault-config:/vault/config:z
   security-bootstrapper:
     container_name: edgex-security-bootstrapper
@@ -1286,6 +1289,7 @@ volumes:
   db-data: {}
   edgex-init: {}
   kong: {}
+  kuiper-config: {}
   kuiper-data: {}
   postgres-config: {}
   postgres-data: {}
