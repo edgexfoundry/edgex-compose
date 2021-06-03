@@ -48,7 +48,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-service-configurable-rules
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:master
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
     networks:
       edgex-network: {}
     ports:
@@ -75,7 +75,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: nexus3.edgexfoundry.org:10004/core-command:master
+    image: nexus3.edgexfoundry.org:10004/core-command:latest
     networks:
       edgex-network: {}
     ports:
@@ -118,7 +118,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: nexus3.edgexfoundry.org:10004/core-data:master
+    image: nexus3.edgexfoundry.org:10004/core-data:latest
     networks:
       edgex-network: {}
     ports:
@@ -170,7 +170,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: nexus3.edgexfoundry.org:10004/device-rest:master
+    image: nexus3.edgexfoundry.org:10004/device-rest:latest
     networks:
       edgex-network: {}
     ports:
@@ -197,7 +197,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: nexus3.edgexfoundry.org:10004/device-virtual:master
+    image: nexus3.edgexfoundry.org:10004/device-virtual:latest
     networks:
       edgex-network: {}
     ports:
@@ -225,7 +225,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: nexus3.edgexfoundry.org:10004/core-metadata:master
+    image: nexus3.edgexfoundry.org:10004/core-metadata:latest
     networks:
       edgex-network: {}
     ports:
@@ -251,7 +251,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/support-notifications:master
+    image: nexus3.edgexfoundry.org:10004/support-notifications:latest
     networks:
       edgex-network: {}
     ports:
@@ -304,7 +304,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-scheduler:master
+    image: nexus3.edgexfoundry.org:10004/support-scheduler:latest
     networks:
       edgex-network: {}
     ports:
@@ -336,7 +336,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-sys-mgmt-agent
     hostname: edgex-sys-mgmt-agent
-    image: nexus3.edgexfoundry.org:10004/sys-mgmt-agent:master
+    image: nexus3.edgexfoundry.org:10004/sys-mgmt-agent:latest
     networks:
       edgex-network: {}
     ports:
