@@ -38,7 +38,7 @@ openssl ec -in ${GW_KEY_DIR}/gateway.key -pubout -out ${GW_KEY_DIR}/gateway.pub 
 JWT_FILE=/tmp/edgex/secrets/security-proxy-setup/kong-admin-jwt
 JWT_VOLUME=/tmp/edgex/secrets/security-proxy-setup
 
-ID="uuidgen"
+ID=`uuidgen`
 
 docker run --rm -it -e KONGURL_SERVER=kong -e "ID=${ID}" -e "JWT_FILE=${JWT_FILE}" --network edgex_edgex-network --entrypoint "" -v ${GW_KEY_DIR}:/keys -v ${JWT_VOLUME}:${JWT_VOLUME} \
        ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION}${DEV} \
