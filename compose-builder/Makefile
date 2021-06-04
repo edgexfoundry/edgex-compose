@@ -279,6 +279,12 @@ ifeq (no-secty, $(filter no-secty,$(ARGS)))
 	NO_SECURITY:=-no-secty
 else
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml
+	ifneq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+		ifneq (zmq-bus, $(filter zmq-bus,$(ARGS)))
+		    # Using secure redis messagebus by default if MQTT/ZMQ bus not specified
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
+		endif
+	endif
 endif
 
 ifeq (ui, $(filter ui,$(ARGS)))
@@ -301,6 +307,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
+		-f add-secure-redis-messagebus.yml \
 		-f add-taf-app-services.yml \
 		-f add-taf-app-services-secure.yml \
 		-f add-asc-http-export.yml \
@@ -351,6 +358,7 @@ else
     		COMPOSE_FILES:= \
     			-f docker-compose-base.yml \
     			-f add-security.yml \
+    			-f add-secure-redis-messagebus.yml \
     			-f add-asc-mqtt-export.yml \
     			-f add-device-virtual.yml \
     			-f add-device-rest.yml \

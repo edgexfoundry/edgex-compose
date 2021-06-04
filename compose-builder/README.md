@@ -41,6 +41,8 @@ This folder contains the following compose files:
     Base non-secure mode compose file. Contains all the services that run in the non-secure configuration.  
 - **add-security.yml**
     Security **extending** compose file. Adds the additional security services and configuration of services so that all the services are running in the secure configuration.
+- **add-secure-redis-messagebus.yml**
+    Secure Redis MessageBus **extending** compose file. Adds the additional security configuration for when Redis is used as MessageBus in secure mode so Kuiper can connect to the secure MesssageBus.
 - **add-device-bacnet.yml**
     Device Service **extending** compose file, which adds the **Device Bacnet**  service.
 - **add-device-camera.yml**
@@ -80,7 +82,6 @@ This folder contains the following compose files:
     TAF Device Services **extending** compose file. Modifies setting of Device Virtual and Device Modbus for the TAF testing compose files. **Must be used in conjunction with add-device-modbus.yml and add-device-virtual.yml**
 - **add-ui.yml**
     UI **extending** compose file, which adds the **Edgex UI** service.
-
 - **stand-alone-ui.yml**
     Stand-alone **extending** compose file for running the optional EdgeX UI stand-alone.    Used in conjunction with the **add-ui.yml** file. This file just sets up the external network for the UI to run stand-alone and be able to communicate with the EdgeX stack. It makes the assumption the stack was started with the `-p=edgex` option. 
 
