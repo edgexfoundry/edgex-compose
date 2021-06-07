@@ -665,6 +665,7 @@ services:
       KONG_ADMIN_LISTEN: 127.0.0.1:8001, 127.0.0.1:8444 ssl
       KONG_DATABASE: postgres
       KONG_DNS_ORDER: LAST,A,CNAME
+      KONG_DNS_VALID_TTL: '1'
       KONG_PG_HOST: kong-db
       KONG_PG_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
       KONG_PROXY_ACCESS_LOG: /dev/stdout

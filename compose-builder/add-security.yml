@@ -209,6 +209,7 @@ services:
       KONG_ADMIN_LISTEN: "127.0.0.1:8001, 127.0.0.1:8444 ssl"
       KONG_STATUS_LISTEN: "0.0.0.0:8100"
       KONG_DNS_ORDER: "LAST,A,CNAME"
+      KONG_DNS_VALID_TTL: '1'
     restart: on-failure
     tmpfs:
       - /run
