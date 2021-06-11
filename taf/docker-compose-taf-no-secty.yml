@@ -426,7 +426,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 59720
     hostname: edgex-kuiper
-    image: emqx/kuiper:1.2.1-beta.0-alpine
+    image: emqx/kuiper:1.2.1-beta.1-alpine
     networks:
       edgex-network: {}
     ports:
