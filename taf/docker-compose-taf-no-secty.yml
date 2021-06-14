@@ -182,7 +182,7 @@ services:
   consul:
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: consul:1.9
+    image: consul:1.9.5
     networks:
       edgex-network: {}
     ports:
@@ -236,7 +236,7 @@ services:
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
-    image: redis:6.2-alpine
+    image: redis:6.2.4-alpine
     networks:
       edgex-network: {}
     ports:
@@ -378,7 +378,7 @@ services:
     command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0
+    image: eclipse-mosquitto:2.0.11
     networks:
       edgex-network: {}
     ports:

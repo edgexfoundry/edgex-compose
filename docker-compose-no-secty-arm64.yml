@@ -87,7 +87,7 @@ services:
   consul:
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: consul:1.9
+    image: consul:1.9.5
     networks:
       edgex-network: {}
     ports:
@@ -141,7 +141,7 @@ services:
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
-    image: redis:6.2-alpine
+    image: redis:6.2.4-alpine
     networks:
       edgex-network: {}
     ports:
