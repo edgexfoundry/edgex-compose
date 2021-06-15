@@ -1002,6 +1002,7 @@ services:
     - 127.0.0.1:58890:58890/tcp
     read_only: true
     security_opt:
+    - label:disable
     - no-new-privileges:true
     user: root:root
     volumes:
