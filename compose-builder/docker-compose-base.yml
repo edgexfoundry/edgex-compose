@@ -88,6 +88,7 @@ services:
       - command
     security_opt: 
       - no-new-privileges:true
+      - label:disable # needed for CentOS to provide docker access
 
   notifications:
     image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}${DEV}
