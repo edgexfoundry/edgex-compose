@@ -147,7 +147,6 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-core-data
-      MESSAGEQUEUE_SUBSCRIBEENABLED: "false"
     depends_on:
       - consul
       - database
