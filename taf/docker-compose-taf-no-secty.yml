@@ -124,7 +124,7 @@ services:
     - no-new-privileges:true
     user: 2002:2001
   app-service-rules:
-    container_name: edgex-app-service-configurable-rules
+    container_name: edgex-app-rules-engine
     depends_on:
     - consul
     - data
@@ -139,10 +139,10 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: edgex-app-service-configurable-rules
+      SERVICE_HOST: edgex-app-rules-engine
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
-    hostname: edgex-app-service-configurable-rules
+    hostname: edgex-app-rules-engine
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
     networks:
       edgex-network: {}
@@ -437,7 +437,7 @@ services:
     volumes:
     - kuiper-data:/kuiper/data:z
   scalability-test-mqtt-export:
-    container_name: scalability-test-mqtt-export
+    container_name: edgex-scalability-test-mqtt-export
     depends_on:
     - consul
     - data
@@ -454,14 +454,14 @@ services:
       EDGEX_SERVICE_KEY: scalability-test-mqtt-export
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: scalability-test-mqtt-export
+      SERVICE_HOST: edgex-scalability-test-mqtt-export
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
       WRITABLE_LOGLEVEL: DEBUG
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
-    hostname: scalability-test-mqtt-export
+    hostname: edgex-scalability-test-mqtt-export
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
     networks:
       edgex-network: {}

@@ -40,12 +40,12 @@ JWT_VOLUME=/tmp/edgex/secrets/security-proxy-setup
 
 ID=`uuidgen`
 
-docker run --rm -it -e KONGURL_SERVER=kong -e "ID=${ID}" -e "JWT_FILE=${JWT_FILE}" --network edgex_edgex-network --entrypoint "" -v ${GW_KEY_DIR}:/keys -v ${JWT_VOLUME}:${JWT_VOLUME} \
+docker run --rm -it -e KONGURL_SERVER=edgex-kong -e "ID=${ID}" -e "JWT_FILE=${JWT_FILE}" --network edgex_edgex-network --entrypoint "" -v ${GW_KEY_DIR}:/keys -v ${JWT_VOLUME}:${JWT_VOLUME} \
        ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION}${DEV} \
         /bin/sh -c 'JWT=`cat ${JWT_FILE}`; /edgex/secrets-config proxy adduser --token-type jwt --id ${ID} --algorithm ES256  --public_key /keys/gateway.pub \
               --user gateway --group gateway --jwt ${JWT} > /dev/null'
 
-docker run --rm -it -e KONGURL_SERVER=kong -e "ID=${ID}" --network edgex_edgex-network --entrypoint "" -v ${GW_KEY_DIR}:/keys \
+docker run --rm -it -e KONGURL_SERVER=edgex-kong -e "ID=${ID}" --network edgex_edgex-network --entrypoint "" -v ${GW_KEY_DIR}:/keys \
        ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION}${DEV} \
        /bin/sh -c '/edgex/secrets-config proxy jwt --algorithm ES256 --id ${ID} --private_key /keys/gateway.key'
 

@@ -31,7 +31,7 @@ services:
   app-service-rules:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
       --confdir=/res
-    container_name: edgex-app-service-configurable-rules
+    container_name: edgex-app-rules-engine
     depends_on:
     - consul
     - data
@@ -39,7 +39,7 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -50,29 +50,29 @@ services:
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SERVICE_HOST: edgex-app-service-configurable-rules
+      SERVICE_HOST: edgex-app-rules-engine
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
-    hostname: edgex-app-service-configurable-rules
+    hostname: edgex-app-rules-engine
     image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
     networks:
       edgex-network: {}
@@ -97,7 +97,7 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -107,7 +107,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -117,14 +117,14 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-command
@@ -149,12 +149,12 @@ services:
     - /edgex-init/consul_wait_install.sh
     environment:
       ADD_REGISTRY_ACL_ROLES: ''
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_GROUP: '2001'
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: '2002'
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -162,7 +162,7 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
@@ -171,7 +171,7 @@ services:
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-consul
@@ -202,7 +202,7 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -212,7 +212,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -223,14 +223,14 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-data
@@ -255,7 +255,7 @@ services:
     entrypoint:
     - /edgex-init/redis_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -267,7 +267,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -276,14 +276,14 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-redis
@@ -314,7 +314,7 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -324,7 +324,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -334,14 +334,14 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-rest
@@ -368,7 +368,7 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -378,7 +378,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -388,14 +388,14 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-virtual
@@ -412,14 +412,14 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/device-virtual:/tmp/edgex/secrets/device-virtual:ro,z
   kong:
-    container_name: kong
+    container_name: edgex-kong
     depends_on:
     - kong-db
     - security-bootstrapper
     entrypoint:
     - /edgex-init/kong_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ERROR_LOG: /dev/stderr
@@ -427,28 +427,28 @@ services:
       KONG_DATABASE: postgres
       KONG_DNS_ORDER: LAST,A,CNAME
       KONG_DNS_VALID_TTL: '1'
-      KONG_PG_HOST: kong-db
+      KONG_PG_HOST: edgex-kong-db
       KONG_PG_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_STATUS_LISTEN: 0.0.0.0:8100
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-    hostname: kong
+    hostname: edgex-kong
     image: kong:2.4.1-alpine
     networks:
       edgex-network: {}
@@ -471,19 +471,19 @@ services:
     - postgres-config:/tmp/postgres-config:z
     - kong:/usr/local/kong:z
   kong-db:
-    container_name: kong-db
+    container_name: edgex-kong-db
     depends_on:
     - security-bootstrapper
     entrypoint:
     - /edgex-init/postgres_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_SECURITY_SECRET_STORE: "true"
       POSTGRES_DB: kong
       POSTGRES_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
       POSTGRES_USER: kong
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -491,17 +491,17 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-    hostname: kong-db
+    hostname: edgex-kong-db
     image: postgres:12.3-alpine
     networks:
       edgex-network: {}
@@ -531,7 +531,7 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -542,7 +542,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
       NOTIFICATIONS_SENDER: edgex-core-metadata
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -552,14 +552,14 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-metadata
@@ -587,7 +587,7 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -597,7 +597,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEQUEUE_HOST: edgex-redis
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -607,14 +607,14 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-notifications
@@ -631,7 +631,7 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/support-notifications:/tmp/edgex/secrets/support-notifications:ro,z
   proxy-setup:
-    container_name: edgex-proxy-setup
+    container_name: edgex-security-proxy-setup
     depends_on:
     - kong
     - secretstore-setup
@@ -640,11 +640,11 @@ services:
     - /edgex-init/proxy_setup_wait_install.sh
     environment:
       ADD_PROXY_ROUTE: ''
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_SECURITY_SECRET_STORE: "true"
-      KONGURL_SERVER: kong
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      KONGURL_SERVER: edgex-kong
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       ROUTES_CORE_COMMAND_HOST: edgex-core-command
       ROUTES_CORE_CONSUL_HOST: edgex-core-consul
       ROUTES_CORE_DATA_HOST: edgex-core-data
@@ -661,17 +661,17 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-    hostname: edgex-proxy-setup
+    hostname: edgex-security-proxy-setup
     image: nexus3.edgexfoundry.org:10004/security-proxy-setup-arm64:latest
     networks:
       edgex-network: {}
@@ -692,7 +692,7 @@ services:
     entrypoint:
     - /edgex-init/kuiper_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       EDGEX__DEFAULT__PORT: 6379
       EDGEX__DEFAULT__PROTOCOL: redis
@@ -701,20 +701,20 @@ services:
       EDGEX__DEFAULT__TYPE: redis
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 59720
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
@@ -743,7 +743,7 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -755,7 +755,7 @@ services:
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       MESSAGEQUEUE_HOST: edgex-redis
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -765,14 +765,14 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-scheduler
@@ -789,19 +789,19 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/support-scheduler:/tmp/edgex/secrets/support-scheduler:ro,z
   secretstore-setup:
-    container_name: edgex-secretstore-setup
+    container_name: edgex-security-secretstore-setup
     depends_on:
     - security-bootstrapper
     - vault
     environment:
       ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],redisdb[device-virtual]
       ADD_SECRETSTORE_TOKENS: ''
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_GROUP: '2001'
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: '2002'
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
       SECUREMESSAGEBUS_TYPE: redis
@@ -810,17 +810,17 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-    hostname: edgex-secretstore-setup
+    hostname: edgex-security-secretstore-setup
     image: nexus3.edgexfoundry.org:10004/security-secretstore-setup-arm64:latest
     networks:
       edgex-network: {}
@@ -840,24 +840,24 @@ services:
   security-bootstrapper:
     container_name: edgex-security-bootstrapper
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       EDGEX_GROUP: '2001'
       EDGEX_USER: '2002'
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-bootstrapper
@@ -884,7 +884,7 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -896,7 +896,7 @@ services:
       EXECUTORPATH: /sys-mgmt-executor
       MESSAGEQUEUE_HOST: edgex-redis
       METRICSMECHANISM: executor
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
@@ -906,14 +906,14 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-sys-mgmt-agent
@@ -941,22 +941,22 @@ services:
     entrypoint:
     - /edgex-init/vault_wait_install.sh
     environment:
-      API_GATEWAY_HOST: kong
+      API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'
-      PROXY_SETUP_HOST: edgex-proxy-setup
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: '6379'
       STAGEGATE_DATABASE_READYPORT: '6379'
-      STAGEGATE_KONGDB_HOST: kong-db
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
       STAGEGATE_KONGDB_PORT: '5432'
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'
       STAGEGATE_REGISTRY_READYPORT: '54324'
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       VAULT_ADDR: http://edgex-vault:8200

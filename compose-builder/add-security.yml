@@ -68,8 +68,8 @@ services:
   secretstore-setup:
     image: ${CORE_EDGEX_REPOSITORY}/security-secretstore-setup${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "root:root" # must run as root
-    container_name: edgex-secretstore-setup
-    hostname: edgex-secretstore-setup
+    container_name: edgex-security-secretstore-setup
+    hostname: edgex-security-secretstore-setup
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
@@ -153,8 +153,8 @@ services:
   kong-db:
     image: postgres:${POSTGRES_VERSION}
     user: "root:root" # Note that postgres is run under the 'postgres' user, but entry point scripts need to first run as root
-    container_name: kong-db
-    hostname: kong-db
+    container_name: edgex-kong-db
+    hostname: edgex-kong-db
     read_only: true
     networks:
       - edgex-network
@@ -185,8 +185,8 @@ services:
   kong:
     image: kong:${KONG_VERSION}
     user: "kong:nogroup" # Note Kong already running as kong user but doesn't define a group
-    container_name: kong
-    hostname: kong
+    container_name: edgex-kong
+    hostname: edgex-kong
     read_only: true
     networks:
       - edgex-network
@@ -200,7 +200,7 @@ services:
       - common-sec-stage-gate.env
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: kong-db
+      KONG_PG_HOST: edgex-kong-db
       KONG_PG_PASSWORD_FILE: "${KONG_POSTGRES_PASSWORD_FILE:-/tmp/postgres-config/.pgpassword}"
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
@@ -228,8 +228,8 @@ services:
   proxy-setup:
     image: ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION}${DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
-    container_name: edgex-proxy-setup
-    hostname: edgex-proxy-setup
+    container_name: edgex-security-proxy-setup
+    hostname: edgex-security-proxy-setup
     entrypoint: ["/edgex-init/proxy_setup_wait_install.sh"]
     read_only: true
     networks:
@@ -238,7 +238,7 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     environment:
-      KONGURL_SERVER: kong
+      KONGURL_SERVER: edgex-kong
       ROUTES_CORE_CONSUL_HOST: edgex-core-consul
       ROUTES_CORE_DATA_HOST: edgex-core-data
       ROUTES_CORE_METADATA_HOST: edgex-core-metadata

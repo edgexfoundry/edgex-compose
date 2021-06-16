@@ -42,7 +42,7 @@ services:
     environment:
       EDGEX__DEFAULT__TYPE: zero
       EDGEX__DEFAULT__PROTOCOL: tcp
-      EDGEX__DEFAULT__SERVER: edgex-app-service-configurable-rules
+      EDGEX__DEFAULT__SERVER: edgex-app-rules-engine
       EDGEX__DEFAULT__PORT: 5566
       EDGEX__DEFAULT__TOPIC: rules-events
     depends_on:
