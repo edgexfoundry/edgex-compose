@@ -392,6 +392,10 @@ ifeq (true, $(DS_GROVE))
  endif
 endif
 
+# Define additional phony targets for all options to enable support for tab-completion in shell
+# Note: This must be defined after the options are parsed otherwise it will interfere with them
+.PHONY: $(OPTIONS)
+
 help:
 	echo "See README.md in this folder"
 

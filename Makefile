@@ -34,6 +34,10 @@ endif
 
 SERVICES:=$(filter-out $(OPTIONS),$(ARGS))
 
+# Define additional phony targets for all options to enable support for tab-completion in shell
+# Note: This must be defined after the options are parsed otherwise it will interfere with them
+.PHONY: $(OPTIONS)
+
 portainer:
 	docker-compose -p portainer -f docker-compose-portainer.yml up -d
 
