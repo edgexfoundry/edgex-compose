@@ -62,7 +62,7 @@ services:
     - no-new-privileges:true
     user: 2002:2001
   app-service-rules:
-    container_name: edgex-app-service-configurable-rules
+    container_name: edgex-app-rules-engine
     depends_on:
     - consul
     - data
@@ -77,10 +77,10 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: edgex-app-service-configurable-rules
+      SERVICE_HOST: edgex-app-rules-engine
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
-    hostname: edgex-app-service-configurable-rules
+    hostname: edgex-app-rules-engine
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
     networks:
       edgex-network: {}

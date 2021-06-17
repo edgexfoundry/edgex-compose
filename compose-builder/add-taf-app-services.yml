@@ -42,15 +42,15 @@ services:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
     ports:
       - "59710:59703" #Exposing as different port to avoid conflict with other MQTT export instance
-    container_name: scalability-test-mqtt-export
-    hostname: scalability-test-mqtt-export
+    container_name: edgex-scalability-test-mqtt-export
+    hostname: edgex-scalability-test-mqtt-export
     env_file:
       - common.env
       - asc-common.env
       - asc-mqtt-export.env
     environment:
       EDGEX_SERVICE_KEY: scalability-test-mqtt-export
-      SERVICE_HOST: scalability-test-mqtt-export
+      SERVICE_HOST: edgex-scalability-test-mqtt-export
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
       WRITABLE_LOGLEVEL: DEBUG
     depends_on:

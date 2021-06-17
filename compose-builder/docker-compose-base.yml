@@ -202,8 +202,8 @@ services:
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59701:59701"
-    container_name: edgex-app-service-configurable-rules
-    hostname: edgex-app-service-configurable-rules
+    container_name: edgex-app-rules-engine
+    hostname: edgex-app-rules-engine
     read_only: true
     networks:
       - edgex-network
@@ -211,7 +211,7 @@ services:
       - common.env
     environment:
       EDGEX_PROFILE: rules-engine
-      SERVICE_HOST: edgex-app-service-configurable-rules
+      SERVICE_HOST: edgex-app-rules-engine
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
     depends_on:
