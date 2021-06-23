@@ -119,7 +119,7 @@ portainer-down	Stops Portainer independent of the EdgeX services
 
 ```
 build
-Generates the all standard Edgex compose file variations and the TAF testing compose files. The generated compose files are stored in the top level folder. Each variation or standard compose files, ex includes Device REST & Device Virtual. Compose files are named appropriately for options used to generate them. TAF compose files are store in the 'taf' sub-folder
+Generates the all standard Edgex compose file variations and the TAF testing compose files. The generated compose files are stored in the top level folder. Each variation of standard compose files includes the Device REST & Device Virtual . Compose files are named appropriately for options used to generate them. TAF compose files are store in the 'taf' sub-folder
 
 Standard compose variations are:
    full secure (docker-compose.yml)
