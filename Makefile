@@ -22,7 +22,7 @@ help:
 ARGS:=$(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 $(eval $(ARGS):;@:)
 
-OPTIONS:=" arm64 no-secty " # Must have spaces around words for `filter-out` function to work properly
+OPTIONS:=" arm64 no-secty ui " # Must have spaces around words for `filter-out` function to work properly
 
 ifeq (arm64, $(filter arm64,$(ARGS)))
 	ARM64=-arm64
@@ -30,6 +30,9 @@ ifeq (arm64, $(filter arm64,$(ARGS)))
 endif
 ifeq (no-secty, $(filter no-secty,$(ARGS)))
 	NO_SECURITY:=-no-secty
+endif
+ifeq (ui, $(filter ui,$(ARGS)))
+	UI:=-with-ui
 endif
 
 SERVICES:=$(filter-out $(OPTIONS),$(ARGS))
@@ -48,21 +51,10 @@ pull:
 	docker-compose -f docker-compose${NO_SECURITY}${ARM64}.yml pull ${SERVICES}
 
 run:
-	docker-compose -p edgex -f docker-compose${NO_SECURITY}${ARM64}.yml up -d ${SERVICES}
+	docker-compose -p edgex -f docker-compose${NO_SECURITY}${UI}${ARM64}.yml up -d ${SERVICES}
 
-pull-ui:
-	docker-compose -p edgex -f docker-compose-ui${ARM64}.yml pull
-
-run-ui:
-	docker-compose -p edgex -f docker-compose-ui${ARM64}.yml up -d
-
-down-ui:
-	docker-compose -p edgex -f docker-compose-ui${ARM64}.yml down
-
-down: down-ui
-	# Make sure UI is down first and then use secure version since it is a super set and
-	# can down all service even if not include in what was brought up.
-	docker-compose -p edgex -f docker-compose.yml down
+down:
+	docker-compose -p edgex -f docker-compose.yml -f docker-compose-no-secty-with-ui.yml down
 
 clean: down
 	-docker rm $$(docker ps --filter "network=edgex_edgex-network" --filter "network=edgex_default" -aq) 2> /dev/null

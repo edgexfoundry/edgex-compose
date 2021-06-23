@@ -37,7 +37,7 @@ define OPTIONS
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-random ds-rest ds-snmp ds-virtual -
  - asc-http asc-mqtt -
- - modbus-sim ui ui-only -
+ - modbus-sim ui -
 endef
 export OPTIONS
 
@@ -289,11 +289,7 @@ endif
 
 ifeq (ui, $(filter ui,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-ui.yml
-endif
-
-ifeq (ui-only, $(filter ui-only,$(ARGS)))
-	COMPOSE_FILES:=-f stand-alone-ui.yml -f add-ui.yml
-	UI:=-ui
+	UI:=-with-ui
 endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)
@@ -410,8 +406,8 @@ build:
 	make compose ds-rest ds-virtual arm64
 	make compose ds-rest ds-virtual no-secty
 	make compose ds-rest ds-virtual no-secty arm64
-	make compose ui-only
-	make compose ui-only arm64
+	make compose ds-rest ds-virtual no-secty ui
+	make compose ds-rest ds-virtual no-secty arm64 ui
 	make taf-compose taf-secty
 	make taf-compose taf-no-secty
 	make taf-compose taf-secty arm64
@@ -422,7 +418,7 @@ build:
 	make taf-compose-perf taf-perf-no-secty arm64
 
 compose: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(UI)$(NO_SECURITY)$(BUS)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(NO_SECURITY)$(UI)$(BUS)$(ARCH).yml
 
 taf-compose: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(ARCH).yml
@@ -467,11 +463,7 @@ get-consul-acl-token:
 	ARCH=$(ARCH) \
 	sh ./get-consul-acl-token.sh
 
-ui-down:
-	ARCH= \
-	docker-compose -p edgex -f stand-alone-ui.yml -f add-ui.yml down
-
-down: ui-down
+down:
 	DEV= \
 	APP_SVC_DEV= \
 	ARCH= \
@@ -495,6 +487,7 @@ down: ui-down
 		-f add-mqtt-broker.yml \
 		-f add-mqtt-messagebus.yml \
 		-f add-security.yml \
+		-f add-ui.yml \
 		down
 
 clean: down
