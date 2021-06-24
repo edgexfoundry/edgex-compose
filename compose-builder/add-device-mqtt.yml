@@ -29,12 +29,12 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-device-mqtt
-      DRIVER_INCOMINGHOST: edgex-mqtt-broker
-      DRIVER_RESPONSEHOST: edgex-mqtt-broker
+      MQTTBROKERINFO_HOST: edgex-mqtt-broker
     depends_on:
       - consul
       - data
       - metadata
+      - mqtt-broker
     security_opt: 
       - no-new-privileges:true
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
