@@ -81,9 +81,7 @@ This folder contains the following compose files:
 - **add-taf-device-services-mods.yml**
     TAF Device Services **extending** compose file. Modifies setting of Device Virtual and Device Modbus for the TAF testing compose files. **Must be used in conjunction with add-device-modbus.yml and add-device-virtual.yml**
 - **add-ui.yml**
-    UI **extending** compose file, which adds the **Edgex UI** service.
-- **stand-alone-ui.yml**
-    Stand-alone **extending** compose file for running the optional EdgeX UI stand-alone.    Used in conjunction with the **add-ui.yml** file. This file just sets up the external network for the UI to run stand-alone and be able to communicate with the EdgeX stack. It makes the assumption the stack was started with the `-p=edgex` option. 
+    UI **extending** compose file, which adds the **Edgex UI** service. 
 
 ### Environment Files
 
@@ -121,25 +119,25 @@ portainer-down	Stops Portainer independent of the EdgeX services
 
 ```
 build
-Generates the all standard Edgex compose file variations and the TAF testing compose files. The generated compose files are stored in the top level folder. Each variation or standard compose files, except UI, includes Device REST & Device Virtual. Compose files are named appropriately for options used to generate them. TAF compose files are store in the 'taf' sub-folder
+Generates the all standard Edgex compose file variations and the TAF testing compose files. The generated compose files are stored in the top level folder. Each variation of standard compose files includes the Device REST & Device Virtual . Compose files are named appropriately for options used to generate them. TAF compose files are store in the 'taf' sub-folder
 
 Standard compose variations are:
-   full secure (docker-compose-nexus.yml)
-   full secure for arm64 (docker-compose-nexus-arm64.yml)
-   non-secure (docker-compose-nexus-no-secty.yml)
-   nonsecure for arm64 (docker-compose-nexus-no-secty-arm64.yml)
-   stand-alone UI (docker-compose-nexus-ui.yml)
-   stand-alone UI for arm64 (docker-compose-nexus-ui-arm64.yml)
-   
+   full secure (docker-compose.yml)
+   full secure for arm64 (docker-compose-arm64.yml)
+   non-secure (docker-compose-no-secty.yml)
+   non-secure for arm64 (docker-compose-no-secty-arm64.yml)
+   non-secure with UI (docker-compose-no-secty-with-ui.yml)
+   non-secure with UI for arm64 (docker-compose-no-secty-with-ui-arm64.yml)
+
  TAF compose variations are:
-   full secure general testing (docker-compose-taf-nexus.yml)
-   full secure general testing for arm64 (docker-compose-taf-nexus-arm64.yml)
-   non-secure general testing (docker-compose-nexus-taf-no-secty.yml)
-   nonsecure general testing for arm64 (docker-compose-taf-nexus-no-secty-arm64.yml)
-   full secure perf testing (docker-compose-taf-perf-nexus.yml)
-   full secure perf testing for arm64 (docker-compose-taf-perf-nexus-arm64.yml)
-   non-secure perf testing (docker-compose-nexus-taf-perf-no-secty.yml)
-   nonsecure perf testing for arm64 (docker-compose-taf-perf-nexus-no-secty-arm64.yml)
+   full secure general testing (docker-compose-taf.yml)
+   full secure general testing for arm64 (docker-compose-taf-arm64.yml)
+   non-secure general testing (docker-compose-taf-no-secty.yml)
+   nonsecure general testing for arm64 (docker-compose-taf-no-secty-arm64.yml)
+   full secure perf testing (docker-compose-taf-perf.yml)
+   full secure perf testing for arm64 (docker-compose-taf-perf-arm64.yml)
+   non-secure perf testing (docker-compose-taf-perf-no-secty.yml)
+   nonsecure perf testing for arm64 (docker-compose-taf-perf-no-secty-arm64.yml)
 ```
 #### Run
 
@@ -169,7 +167,7 @@ Options:
     mqtt-bus:    Runs with services configure for MQTT Message Bus 
     zmq-bus:     Runs with services configure for ZMQ Message Bus     
     ui:          Runs with the UI service included
-    ui-only:     Runs only the EdgeX UI service. `asc-x`, `ds-x`, 'mqtt', 'no-ds' & 'no-secty' are ignored. Typically used after the other Edgex Services have been started
+
 Services:
     <names...>: Runs only services listed (and their dependent services) where 'name' matches a service name in one of the compose files used
 ```
@@ -178,13 +176,6 @@ Services:
 ```    
 down
 Stops all EdgeX services no matter which configuration started them
-```
-
-#### Ui-down
-
-```
-ui-down 
-Stops the optional EdgeX UI service
 ```
 
 #### Pull
@@ -211,7 +202,6 @@ Options:
     mqtt-bus:    Pull includes additional services for MQTT Message Bus
     zmq-bus:     Pull includes additional services for ZMQ Message Bus     
     ui:          Pulls includes the EdgeX UI service.
-    ui-only:     Pulls only the EdgeX UI service image. `asc-x`, `ds-x`, 'mqtt', 'no-ds & 'no-secty' are ignored.
 
 Services:
     <names...>: Pulls only images for the service(s) listed
@@ -245,7 +235,6 @@ Options:
                  The MQTT Broker service is also included. 
     zmq-bus:     Generates compose file with services configured for ZMQ Message Bus     
     ui:          Generates compose file with UI sevice included             
-    ui-only:     Generates stand-alone compose file for EdgeX UI
 ```
 #### Clean
 
@@ -320,7 +309,6 @@ Options:
                  The MQTT Broker service is also included.
     zmq-bus:     Generates compose file with services configured for ZMQ Message Bus     
     ui:          Generates compose file with UI sevice included             
-    ui-only:     Generates stand-alone compose file for EdgeX UI	
 ```
 
 #### Taf-compose

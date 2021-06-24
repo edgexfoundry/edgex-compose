@@ -51,26 +51,27 @@ This folder contains the following compose files:
     
 - **docker-compose-no-secty-arm64.yml**
     Contains just the services needed to run in non-secure configuration on `ARM64` system.  Includes the Device Virtual & Device REST device services.
-    
+
     **Make Commands**
-    
+
     - Use `make run no-secty arm64` and `make down` to start and stop the services using this compose file.
     - Use `make pull no-secty arm64 <service(s)>` to pull all or some images for the services in this compose file.
-    
-- **docker-compose-ui.yml**
-    Stand-alone compose file for running the optional EdgeX UI.
-    **Make Commands**
-    
-    - Use `make run-ui` and `make down-ui` to start and stop the UI using this compose file.
-    - Use `make pull-ui ` to pull image for the UI service in this compose file.
-    
-- **docker-compose-ui-arm64.yml**
-    Stand-alone compose file for running the optional EdgeX UI on `ARM64` system.
-    
-    **Make Commands**
-    
-    - Use `make run-ui arm64` and `make down-ui arm64` to start and stop the UI using this compose file.
-    - Use `make pull-ui arm64`  to pull image for the UI service in this compose file.
+
+
+- **docker-compose-no-secty-with-ui.yml**
+  Contains just the services needed to run in non-secure configuration with the EdgeX UI.  Includes the Device Virtual & Device REST device services.
+  **Make Commands**
+
+  - Use `make run no-secty ui` and `make down` to start and stop the services using this compose file.
+  - Use `make pull no-secty ui <service(s)>` to pull all or some images for the services in this compose file.
+
+- **docker-compose-no-secty-with-ui-arm64.yml**
+  Contains just the services needed to run in non-secure configuration with the EdgeX UI on `ARM64` system .  Includes the Device Virtual & Device REST device services.
+
+  **Make Commands**
+
+  - Use `make run no-secty ui arm64` and `make down` to start and stop the services using this compose file.
+  - Use `make pull no-secty ui arm64 <service(s)>` to pull all or some images for the services in this compose file.
 
 ### TAF Compose files
 
