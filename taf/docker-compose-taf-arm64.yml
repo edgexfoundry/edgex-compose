@@ -981,7 +981,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
-    image: emqx/kuiper:1.2.1-beta.1-alpine
+    image: emqx/kuiper:1.2.1-alpine
     networks:
       edgex-network: {}
     ports:
