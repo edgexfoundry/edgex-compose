@@ -35,7 +35,7 @@ define OPTIONS
  - arm64 no-secty dev app-dev -
  - zmq-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
- - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-random ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
+ - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
  - asc-http asc-mqtt as-llrp -
  - modbus-sim ui -
 endef
@@ -147,23 +147,6 @@ ifeq (ds-mqtt, $(filter ds-mqtt,$(ARGS)))
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-mqtt]
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-mqtt)
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
-	endif
-endif
-ifeq (ds-random, $(filter ds-random,$(ARGS)))
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-random.yml
-	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
-			TOKEN_LIST:=device-random
-		else
-			TOKEN_LIST:=$(TOKEN_LIST),device-random
-		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
-			KNOWN_SECRETS_LIST:=redisdb[device-random]
-		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-random]
-		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-random)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
