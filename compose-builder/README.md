@@ -7,15 +7,16 @@ This folder contains the `Compose Builder` which is made up of **source** compos
 
 ### Generate next release compose files
 
-Do the following to generate the compose files for next release such as `ireland` 
+Do the following to generate the compose files for next release such as `jakarta` 
 
-1. Create the new `release` branch from this branch, i.e create the `ireland` branch
+1. Create the new `release` branch from this branch, i.e create the `jakarta` branch
 2. Checkout a new working branch from the new `release` branch
 3. Update the `REPOSITORY`, `CORE_EDGEX_REPOSITORY`, `APP_SVC_REPOSITORY`, and `versions` contained in the `.env` file appropriately for the new release
 4. Run `make build` 
-5. Commit changes, open PR and merge PR
-6. TAG the new release branch, i.e. `2.0.0`
-7. Update documentation for the new release to refer to the new release branch.
+5. Update the two READMEs to be specific to the new `release`
+6. Commit changes, open PR and merge PR
+7. TAG the new release branch, i.e. `2.1.0`
+8. Update EdgeX documentation to refer to the new release branch.
 
 ### Generate dot release compose files
 
