@@ -16,24 +16,23 @@
 version: '3.7'
 
 services:
-  app-service-mqtt-export:
-    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}${APP_SVC_DEV}
+  device-coap:
+    image: ${REPOSITORY}/device-coap${ARCH}:${DEVICE_COAP_VERSION}
     ports:
-      - 127.0.0.1:59703:59703/tcp
-    container_name: app-mqtt-export
-    hostname: app-mqtt-export
-    env_file:
-      - common.env
-      - asc-common.env
-      - asc-mqtt-export.env
-    environment:
-      SERVICE_HOST: app-mqtt-export
-    depends_on:
-      - consul
-      - data
+    - "127.0.0.1:59988:59988"
+    container_name: edgex-device-coap
+    hostname: edgex-device-coap
     read_only: true
     networks:
       - edgex-network
-    security_opt:
+    env_file:
+      - common.env
+    environment:
+      SERVICE_HOST: edgex-device-coap
+    depends_on:
+      - consul
+      - data
+      - metadata
+    security_opt: 
       - no-new-privileges:true
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
