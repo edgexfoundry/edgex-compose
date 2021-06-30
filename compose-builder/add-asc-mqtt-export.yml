@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   app-service-mqtt-export:
-    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
+    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}${APP_SVC_DEV}
     ports:
       - 127.0.0.1:59703:59703/tcp
     container_name: edgex-app-mqtt-export

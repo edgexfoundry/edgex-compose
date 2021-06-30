@@ -198,7 +198,7 @@ services:
       - no-new-privileges:true
 
   app-service-rules:
-    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
+    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}${APP_SVC_DEV}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59701:59701"

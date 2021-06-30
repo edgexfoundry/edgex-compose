@@ -16,24 +16,23 @@
 version: '3.7'
 
 services:
-  app-service-http-export:
-    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}${APP_SVC_DEV}
+  device-rfid-llrp:
+    image: ${REPOSITORY}/device-rfid-llrp${ARCH}:${DEVICE_LLRP_VERSION}
     ports:
-      - 127.0.0.1:59704:59704/tcp
-    container_name: edgex-app-http-export
-    hostname: edgex-app-http-export
-    env_file:
-      - common.env
-      - asc-common.env
-      - asc-http-export.env
-    environment:
-      SERVICE_HOST: edgex-app-http-export
-    depends_on:
-      - consul
-      - data
+    - "127.0.0.1:59989:59989"
+    container_name: edgex-device-rfid-llrp
+    hostname: edgex-device-rfid-llrp
     read_only: true
     networks:
       - edgex-network
-    security_opt:
+    env_file:
+      - common.env
+    environment:
+      SERVICE_HOST: edgex-device-rfid-llrp
+    depends_on:
+      - consul
+      - data
+      - metadata
+    security_opt: 
       - no-new-privileges:true
     user: "${EDGEX_USER}:${EDGEX_GROUP}"

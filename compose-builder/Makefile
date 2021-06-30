@@ -35,8 +35,8 @@ define OPTIONS
  - arm64 no-secty dev app-dev -
  - zmq-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
- - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-random ds-rest ds-snmp ds-virtual -
- - asc-http asc-mqtt -
+ - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-random ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
+ - asc-http asc-mqtt as-llrp -
  - modbus-sim ui -
 endef
 export OPTIONS
@@ -56,7 +56,7 @@ endif
 ifeq (app-dev, $(filter app-dev,$(ARGS)))
 	APP_SVC_REPOSITORY=edgexfoundry
 	APP_SVC_DEV:=-dev
-	APP_SERVICE_VERSION:="0.0.0"
+	APP_SERVICE_CONFIG_VERSION:="0.0.0"
 endif
 ifeq (arm64, $(filter arm64,$(ARGS)))
 	ARCH:=-arm64
@@ -209,7 +209,57 @@ ifeq (ds-virtual, $(filter ds-virtual,$(ARGS)))
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
-
+ifeq (ds-llrp, $(filter ds-llrp,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-rfid-llrp.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-rfid-llrp
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-rfid-llrp
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[device-rfid-llrp]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-rfid-llrp]
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rfid-llrp)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+endif
+ifeq (ds-coap, $(filter ds-coap,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-coap.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-coap
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-coap
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[device-coap]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-coap]
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-coap)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+endif
+ifeq (ds-gpio, $(filter ds-gpio,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-gpio.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-gpio
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-gpio
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[device-gpio]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-gpio]
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-gpio)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+endif
 # Add ModBus Simulator
 ifeq (modbus-sim, $(filter modbus-sim,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-modbus-simulator.yml
@@ -253,6 +303,25 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 		# then we also need to add the secure version on top of base yml by default.
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 			app-mqtt-export app-service-configurable)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+endif
+ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-app-rfid-llrp-inventory.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=app-rfid-llrp-inventory
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),app-rfid-llrp-inventory
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[app-rfid-llrp-inventory]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-rfid-llrp-inventory]
+		endif
+		# when no security mode (no-secty) not explicitly specified,
+		# then we also need to add the secure version on top of base yml by default.
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-rfid-llrp-inventory)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
@@ -439,7 +508,7 @@ gen:
 	CORE_EDGEX_REPOSITORY=$(CORE_EDGEX_REPOSITORY) \
 	CORE_EDGEX_VERSION=$(CORE_EDGEX_VERSION) \
 	APP_SVC_REPOSITORY=$(APP_SVC_REPOSITORY) \
-	APP_SERVICE_VERSION=$(APP_SERVICE_VERSION) \
+	APP_SERVICE_CONFIG_VERSION=$(APP_SERVICE_CONFIG_VERSION) \
 	ARCH=$(ARCH) \
 	TOKEN_LIST=$(TOKEN_LIST) \
 	KNOWN_SECRETS_LIST=$(KNOWN_SECRETS_LIST) \
@@ -480,6 +549,9 @@ down:
 		-f add-device-random.yml \
 		-f add-device-rest.yml \
 		-f add-device-snmp.yml \
+		-f add-device-coap.yml \
+		-f add-device-gpio.yml \
+		-f add-device-rfid-llrp.yml \
 		-f add-device-virtual.yml \
 		-f add-asc-http-export.yml \
 		-f add-asc-mqtt-export.yml \
