@@ -89,7 +89,7 @@ services:
   app-service-http-export:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
       --confdir=/res
-    container_name: app-http-export
+    container_name: edgex-app-http-export
     depends_on:
     - consul
     - data
@@ -113,7 +113,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SERVICE_HOST: app-http-export
+      SERVICE_HOST: edgex-app-http-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -133,7 +133,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
-    hostname: app-http-export
+    hostname: edgex-app-http-export
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
     networks:
       edgex-network: {}
@@ -149,7 +149,7 @@ services:
   app-service-mqtt-export:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
       --confdir=/res
-    container_name: app-mqtt-export
+    container_name: edgex-app-mqtt-export
     depends_on:
     - consul
     - data
@@ -173,7 +173,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: '8200'
-      SERVICE_HOST: app-mqtt-export
+      SERVICE_HOST: edgex-app-mqtt-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -197,7 +197,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_AUTHMODE: usernamepassword
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
-    hostname: app-mqtt-export
+    hostname: edgex-app-mqtt-export
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
     networks:
       edgex-network: {}
