@@ -59,7 +59,7 @@ services:
     - no-new-privileges:true
     user: 2002:2001
   app-service-http-export:
-    container_name: app-http-export
+    container_name: edgex-app-http-export
     depends_on:
     - consul
     - data
@@ -75,12 +75,12 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: app-http-export
+      SERVICE_HOST: edgex-app-http-export
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
-    hostname: app-http-export
+    hostname: edgex-app-http-export
     image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
     networks:
       edgex-network: {}
@@ -91,7 +91,7 @@ services:
     - no-new-privileges:true
     user: 2002:2001
   app-service-mqtt-export:
-    container_name: app-mqtt-export
+    container_name: edgex-app-mqtt-export
     depends_on:
     - consul
     - data
@@ -107,13 +107,13 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: app-mqtt-export
+      SERVICE_HOST: edgex-app-mqtt-export
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
-    hostname: app-mqtt-export
+    hostname: edgex-app-mqtt-export
     image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
     networks:
       edgex-network: {}

@@ -20,14 +20,14 @@ services:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}${APP_SVC_DEV}
     ports:
       - 127.0.0.1:59704:59704/tcp
-    container_name: app-http-export
-    hostname: app-http-export
+    container_name: edgex-app-http-export
+    hostname: edgex-app-http-export
     env_file:
       - common.env
       - asc-common.env
       - asc-http-export.env
     environment:
-      SERVICE_HOST: app-http-export
+      SERVICE_HOST: edgex-app-http-export
     depends_on:
       - consul
       - data
