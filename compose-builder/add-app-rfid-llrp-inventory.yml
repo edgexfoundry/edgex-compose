@@ -16,18 +16,16 @@
 version: '3.7'
 
 services:
-  app-service-mqtt-export:
-    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}${APP_SVC_DEV}
+  app-rfid-llrp-inventory:
+    image: ${APP_SVC_REPOSITORY}/app-rfid-llrp-inventory${ARCH}:${APP_LLRP_VERSION}
     ports:
-      - 127.0.0.1:59703:59703/tcp
-    container_name: app-mqtt-export
-    hostname: app-mqtt-export
+      - 127.0.0.1:59711:59711/tcp
+    container_name: edgex-app-rfid-llrp-inventory
+    hostname: edgex-app-rfid-llrp-inventory
     env_file:
       - common.env
-      - asc-common.env
-      - asc-mqtt-export.env
     environment:
-      SERVICE_HOST: app-mqtt-export
+      SERVICE_HOST: edgex-app-rfid-llrp-inventory
     depends_on:
       - consul
       - data

@@ -61,6 +61,14 @@ This folder contains the following compose files:
     Device Service **extending** compose file, which adds the **Device SNMP**  service.
 - **add-device-virtual.yml**
     Device Service **extending** compose file, which adds the **Device Virtual**  service.
+- **add-device-virtual.yml**
+    Device Service **extending** compose file, which adds the **Device Virtual**  service.
+- **add-device-coap.yml**
+    Device Service **extending** compose file, which adds the **Device COAP** service.
+- **add-device-gpio.yml**
+    Device Service **extending** compose file, which adds the **Device GPIO**  service.
+- **add-device-rfid-llrp.yml**
+    Device Service **extending** compose file, which adds the **Device RFID LLRP**  service.
 - **add-asc-http-export.yml**
     Application Service Configurable **extending** compose file, which adds the **App Service Http Export**  service.
 - **add-service-secure-template.yml**
@@ -68,6 +76,8 @@ This folder contains the following compose files:
     and the service is enabled with secret store by default.
 - **add-asc-mqtt-export.yml**
     Application Service Configurable **extending** compose file, which adds the **App Service MQTT Export**  service.
+- **add-app-rfid-llrp-inventory.yml**
+    Application Service Configurable **extending** compose file, which adds the **App RFID LLRP Inventory**  service.
 - **add-modbus-simulator.yml**
     ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. Must be used in conjunction with  **add-device-modbus.yml**
 - **add-mqtt-broker.yml**
@@ -160,9 +170,13 @@ Options:
     ds-rest:     Runs with device-rest included
     ds-snmp:     Runs with device-snmp included
     ds-virtual:  Runs with device-virtual included
+    ds-coap:     Runs with device-coap included
+    ds-gpio:     Runs with device-gpio included
+    ds-llrp:     Runs with device-rfid-llrp included
     modbus-sim:  Runs with ModBus simulator included
     asc-http:    Runs with App Service HTTP Export included
     asc-mqtt:    Runs with App Service MQTT Export included
+    as-llrp:     Runs with App RFID LLRP Inventory included
     mqtt-broker: Runs with a MQTT Broker service included 
     mqtt-bus:    Runs with services configure for MQTT Message Bus 
     zmq-bus:     Runs with services configure for ZMQ Message Bus     
@@ -195,9 +209,13 @@ Options:
     ds-rest:     Pull includes device-rest
     ds-snmp:     Pull includes device-snmp
     ds-virtual:  Pull includes device-virtual
+    ds-coap:     Pull includes device-coap
+    ds-gpio:     Pull includes device-gpio
+    ds-llrp:     Pull includes device-rfid-llrp
     modbus-sim:  Pull includes ModBus simulator
     asc-http:    Pull includes App Service HTTP Export
     asc-mqtt:    Pull includes App Service MQTT Export
+    as-llrp:     Pull includes App RFID LLRP Inventory
     mqtt-broker: Pull includes MQTT Broker service
     mqtt-bus:    Pull includes additional services for MQTT Message Bus
     zmq-bus:     Pull includes additional services for ZMQ Message Bus     
@@ -227,9 +245,13 @@ Options:
     ds-rest:     Generates compose file with device-rest included
     ds-snmp:     Generates compose file with device-snmp included
     ds-virtual:  Generates compose file with device-virtual included
+    ds-coap:     Generates compose file with device-coap included
+    ds-gpio:     Generates compose file with device-gpio included
+    ds-llrp:     Generates compose file with device-rfid-llrp included
     modbus-sim:  Generates compose file with ModBus simulator included
     asc-http:    Generates compose file with App Service HTTP Export included
     asc-mqtt:    Generates compose file with App Service MQTT Export included
+    as-llrp:     Generates compose file with App RFID LLRP Inventory included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configured for MQTT Message Bus 
                  The MQTT Broker service is also included. 
@@ -301,9 +323,13 @@ Options:
     ds-rest:     Generates compose file with device-rest included
     ds-snmp:     Generates compose file with device-snmp included
     ds-virtual:  Generates compose file with device-virtual included
+    ds-coap:     Generates compose file with device-coap included
+    ds-gpio:     Generates compose file with device-gpio included
+    ds-llrp:     Generates compose file with device-rfid-llrp included
     modbus-sim:  Generates compose file with ModBus simulator included
     asc-http:    Generates compose file with App Service HTTP Export included
     asc-mqtt:    Generates compose file with App Service MQTT Export included
+    as-llrp:     Generates compose file with App RFID LLRP Inventory included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
                  The MQTT Broker service is also included.

@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   app-service-functional-tests:
-    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
+    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}${APP_SVC_DEV}
     ports:
       - 59705:59705/tcp
     container_name: app-functional-tests
@@ -39,7 +39,7 @@ services:
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
 
   scalability-test-mqtt-export:
-    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_VERSION}${APP_SVC_DEV}
+    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}${APP_SVC_DEV}
     ports:
       - "59710:59703" #Exposing as different port to avoid conflict with other MQTT export instance
     container_name: edgex-scalability-test-mqtt-export
