@@ -53,8 +53,6 @@ This folder contains the following compose files:
     Device Service **extending** compose file, which adds the **Device Modbus**  service.
 - **add-device-mqtt.yml**
     Device Service **extending** compose file, which adds the **Device MQTT**  service.
-- **add-device-random.yml**
-    Device Service **extending** compose file, which adds the **Device Random**  service.
 - **add-device-rest.yml**
     Device Service **extending** compose file, which adds the **Device REST** service.
 - **add-device-snmp.yml**
@@ -166,7 +164,6 @@ Options:
     ds-camera:   Runs with device-camera included
     ds-grove:    Runs with device-grove included (valid only with arm64 option)
     ds-mqtt:     Runs with device-mqtt included
-    ds-random:   Runs with device-random included
     ds-rest:     Runs with device-rest included
     ds-snmp:     Runs with device-snmp included
     ds-virtual:  Runs with device-virtual included
@@ -205,7 +202,6 @@ Options:
     ds-grove:    Pull includes device-grove (valid only with arm64 option)
     ds-modbus:   Pull includes device-modbus 
     ds-mqtt:     Pull includes device-mqtt
-    ds-random:   Pull includes device-random
     ds-rest:     Pull includes device-rest
     ds-snmp:     Pull includes device-snmp
     ds-virtual:  Pull includes device-virtual
@@ -241,7 +237,6 @@ Options:
     ds-camera:  Generates compose file with device-camera included
     ds-grove:   Generates compose file with device-grove included (valid only with arm64 option)
     ds-mqtt:     Generates compose file with device-mqtt included
-    ds-random:   Generates compose file with device-random included
     ds-rest:     Generates compose file with device-rest included
     ds-snmp:     Generates compose file with device-snmp included
     ds-virtual:  Generates compose file with device-virtual included
@@ -319,7 +314,6 @@ Options:
     ds-grove:   Generates compose file with device-grove included (valid only with arm64 option)
     ds-modbus:   Generates compose file with device-modbus included
     ds-mqtt:     Generates compose file with device-mqtt included
-    ds-random:   Generates compose file with device-random included
     ds-rest:     Generates compose file with device-rest included
     ds-snmp:     Generates compose file with device-snmp included
     ds-virtual:  Generates compose file with device-virtual included
