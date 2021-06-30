@@ -1,29 +1,13 @@
-## Edgex Docker Compose Builder
+## Edgex Docker Compose Builder for Ireland Release
 
-This folder contains the `Compose Builder` which is made up of **source** compose, **environment** files and a **makefile** for building the single file docker composes files. The `master` branch builds the `pre-release`  compose files which are placed in the top level of this repository. 
+This folder contains the `Compose Builder` which is made up of **source** compose and environment files and **makefile** for building the single file docker composes files for the configured for the `Ireland` release.
 
 > **Note to Developers**: 
-> *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
+> For `Hanoi` patch release, once you have edited and tested your changes to the source compose files you **MUST** regenerate the committed `Ireland` compose files using the `make build` command.
 
-### Generate next release compose files
+### Generating Custom Compose files
 
-Do the following to generate the compose files for next release such as `ireland` 
-
-1. Create the new `release` branch from this branch, i.e create the `ireland` branch
-2. Checkout a new working branch from the new `release` branch
-3. Update the `REPOSITORY`, `CORE_EDGEX_REPOSITORY`, `APP_SVC_REPOSITORY`, and `versions` contained in the `.env` file appropriately for the new release
-4. Run `make build` 
-5. Commit changes, open PR and merge PR
-6. TAG the new release branch, i.e. `2.0.0`
-7. Update documentation for the new release to refer to the new release branch.
-
-### Generate dot release compose files
-
-1. Checkout a new working branch from the target `release` branch for the dot release, i.e the `ireland` branch
-2. Update the and `versions` contained in the `.env` file appropriately for the dot release
-3. Run `make build` 
-4. Commit changes, open PR and merge PR
-5. TAG the release branch for the dot release, i.e. `2.0.1`
+If one of the standard committed `Ireland` compose files doesn't meet your needs, you can generate and run a custom `Ireland` compose file using the `make gen <options>` command. See [Gen](#gen) and [Run](#run) target details below. `Run` simply runs the custom compose file after generating it.
 
 ### Multiple Compose files approach
 
