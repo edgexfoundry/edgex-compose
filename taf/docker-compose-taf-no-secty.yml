@@ -247,7 +247,7 @@ services:
     volumes:
     - db-data:/data:z
   device-modbus:
-    command: --registry --confdir=CONF_DIR_PLACE_HOLDER
+    command: --cp=consul.http://edgex-core-consul:8500 --registry --confdir=CONF_DIR_PLACE_HOLDER
     container_name: edgex-device-modbus
     depends_on:
     - consul
@@ -304,7 +304,7 @@ services:
     - no-new-privileges:true
     user: 2002:2001
   device-virtual:
-    command: --registry --confdir=CONF_DIR_PLACE_HOLDER
+    command: --cp=consul.http://edgex-core-consul:8500 --registry --confdir=CONF_DIR_PLACE_HOLDER
     container_name: edgex-device-virtual
     depends_on:
     - consul
