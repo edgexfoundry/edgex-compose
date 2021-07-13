@@ -529,7 +529,6 @@ down:
 		-f add-device-grove.yml \
 		-f add-device-modbus.yml \
 		-f add-device-mqtt.yml \
-		-f add-device-random.yml \
 		-f add-device-rest.yml \
 		-f add-device-snmp.yml \
 		-f add-device-coap.yml \
