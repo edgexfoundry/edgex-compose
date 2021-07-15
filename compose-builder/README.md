@@ -76,7 +76,7 @@ This folder contains the following compose files:
 - **add-asc-mqtt-export.yml**
     Application Service Configurable **extending** compose file, which adds the **App Service MQTT Export**  service.
 - **add-app-rfid-llrp-inventory.yml**
-    Application Service Configurable **extending** compose file, which adds the **App RFID LLRP Inventory**  service.
+    Application Service **extending** compose file, which adds the **App RFID LLRP Inventory**  service.
 - **add-modbus-simulator.yml**
     ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. Must be used in conjunction with  **add-device-modbus.yml**
 - **add-mqtt-broker.yml**
