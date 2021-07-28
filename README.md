@@ -59,14 +59,14 @@ This folder contains the following compose files:
 
 
 - **docker-compose-no-secty-with-ui.yml**
-  Contains just the services needed to run in non-secure configuration with the EdgeX UI.  Includes the Device Virtual & Device REST device services.
+  Contains just the services needed to run in non-secure configuration with the EdgeX UI.  Includes the Device Virtual, Device REST & App Sample services.
   **Make Commands**
 
   - Use `make run no-secty ui` and `make down` to start and stop the services using this compose file.
   - Use `make pull no-secty ui <service(s)>` to pull all or some images for the services in this compose file.
 
 - **docker-compose-no-secty-with-ui-arm64.yml**
-  Contains just the services needed to run in non-secure configuration with the EdgeX UI on `ARM64` system .  Includes the Device Virtual & Device REST device services.
+  Contains just the services needed to run in non-secure configuration with the EdgeX UI on `ARM64` system .  Includes the Device Virtual, Device REST & App Sample services.
 
   **Make Commands**
 

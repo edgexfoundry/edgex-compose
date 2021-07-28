@@ -36,7 +36,7 @@ define OPTIONS
  - zmq-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
- - asc-http asc-mqtt as-llrp -
+ - asc-http asc-mqtt asc-sample as-llrp -
  - modbus-sim ui -
 endef
 export OPTIONS
@@ -289,6 +289,26 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
+ifeq (asc-sample, $(filter asc-sample,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-sample.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=app-sample
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),app-sample
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[app-sample]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-sample]
+		endif
+		# when no security mode (no-secty) not explicitly specified,
+		# then we also need to add the secure version on top of base yml by default.
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-sample \
+			app-sample app-service-configurable)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+endif
 ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-app-rfid-llrp-inventory.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
@@ -458,8 +478,8 @@ build:
 	make compose ds-rest ds-virtual arm64
 	make compose ds-rest ds-virtual no-secty
 	make compose ds-rest ds-virtual no-secty arm64
-	make compose ds-rest ds-virtual no-secty ui
-	make compose ds-rest ds-virtual no-secty arm64 ui
+	make compose ds-rest ds-virtual asc-sample no-secty ui
+	make compose ds-rest ds-virtual asc-sample no-secty arm64 ui
 	make taf-compose taf-secty
 	make taf-compose taf-no-secty
 	make taf-compose taf-secty arm64
@@ -537,6 +557,8 @@ down:
 		-f add-device-virtual.yml \
 		-f add-asc-http-export.yml \
 		-f add-asc-mqtt-export.yml \
+		-f add-asc-sample.yml \
+		-f add-app-rfid-llrp-inventory.yml \
 		-f add-modbus-simulator.yml \
 		-f add-mqtt-broker.yml \
 		-f add-mqtt-messagebus.yml \
