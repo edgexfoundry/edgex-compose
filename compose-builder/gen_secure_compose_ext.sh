@@ -41,7 +41,7 @@ case "$num_of_args" in
   ;;
 esac
 
-DEFAULT_GEN_EXT_DIR="gen_ext_scty"
+DEFAULT_GEN_EXT_DIR="gen_ext_compose"
 GEN_EXT_DIR="${GEN_EXT_DIR:-$DEFAULT_GEN_EXT_DIR}"
 mkdir -p "$GEN_EXT_DIR"
 
