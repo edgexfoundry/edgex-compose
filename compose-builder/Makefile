@@ -397,13 +397,13 @@ endif
 # Add switch to use MQTT Message Bus
 ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-mqtt-broker.yml
-	BUS:=-mqtt
+	BUS:=-mqtt-bus
 endif
 
 # Add switch to use ZMQ Message Bus
 ifeq (zmq-bus, $(filter zmq-bus,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-zmq-messagebus.yml
-	BUS:=-zmq
+	BUS:=-zmq-bus
 endif
 
 # Add Security services and settings
@@ -435,7 +435,6 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
-		-f add-secure-redis-messagebus.yml \
 		-f add-taf-app-services.yml \
 		-f add-taf-app-services-secure.yml \
 		-f add-asc-http-export.yml \
@@ -446,6 +445,21 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-taf-device-services-mods.yml \
 		-f add-mqtt-broker.yml \
 		-f add-modbus-simulator.yml
+
+	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+		asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-service-http-export -a)
+		asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-service-mqtt-export -a)
+		scalability_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh scalability-test-mqtt-export -a)
+		ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-rest -d)
+		ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-virtual -d)
+		ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-modbus -d)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext) -f $(scalability_mqtt_export_ext)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext)
+	else
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
+	endif
+
 	asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-http-export \
 		app-http-export app-service-configurable)
 	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
@@ -474,6 +488,18 @@ else
 			-f add-mqtt-broker.yml \
 			-f add-modbus-simulator.yml
         NO_SECURITY:=-no-secty
+
+		ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+			asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-service-http-export -a)
+			asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-service-mqtt-export -a)
+			scalability_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh scalability-test-mqtt-export -a)
+			ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-rest -d)
+			ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-virtual -d)
+			ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-modbus -d)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext) -f $(scalability_mqtt_export_ext)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext)
+		endif
     else
     	# Build compose for TAF secure performance testing (ignore all other compose file options)
     	ifeq (taf-perf, $(filter taf-perf,$(ARGS)))
@@ -577,6 +603,10 @@ build:
 	make taf-compose taf-no-secty
 	make taf-compose taf-secty arm64
 	make taf-compose taf-no-secty arm64
+	make taf-compose taf-secty mqtt-bus
+	make taf-compose taf-no-secty mqtt-bus
+	make taf-compose taf-secty mqtt-bus arm64
+	make taf-compose taf-no-secty mqtt-bus arm64
 	make taf-compose-perf taf-perf
 	make taf-compose-perf taf-perf-no-secty
 	make taf-compose-perf taf-perf arm64
