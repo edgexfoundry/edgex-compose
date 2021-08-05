@@ -267,7 +267,7 @@ Options:
 
 ```
 clean
-Runs 'down' , then removes any stopped containers and then prunes unused volumes and networks
+Runs 'down' and removes all stopped containers, all volumes and all networks used by the EdgeX stack. Use this command when needing to do a fresh restart.
 ```
 
 #### Get-token

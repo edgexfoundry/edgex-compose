@@ -37,6 +37,10 @@ endif
 
 SERVICES:=$(filter-out $(OPTIONS),$(ARGS))
 
+define COMPOSE_DOWN
+	docker-compose -p edgex -f docker-compose.yml -f docker-compose-no-secty-with-ui.yml down $1
+endef
+
 # Define additional phony targets for all options to enable support for tab-completion in shell
 # Note: This must be defined after the options are parsed otherwise it will interfere with them
 .PHONY: $(OPTIONS)
@@ -54,12 +58,10 @@ run:
 	docker-compose -p edgex -f docker-compose${NO_SECURITY}${UI}${ARM64}.yml up -d ${SERVICES}
 
 down:
-	docker-compose -p edgex -f docker-compose.yml -f docker-compose-no-secty-with-ui.yml down
+	$(COMPOSE_DOWN)
 
-clean: down
-	-docker rm $$(docker ps --filter "network=edgex_edgex-network" --filter "network=edgex_default" -aq) 2> /dev/null
-	docker volume prune -f && \
-	docker network prune -f
+clean:
+	$(call COMPOSE_DOWN,-v)
 
 get-token:
 	DEV=$(DEV) \

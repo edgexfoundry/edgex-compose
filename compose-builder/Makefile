@@ -520,6 +520,39 @@ ifeq (true, $(DS_GROVE))
  endif
 endif
 
+define COMPOSE_DOWN
+	DEV= \
+	APP_SVC_DEV= \
+	ARCH= \
+	TOKEN_LIST= \
+	KNOWN_SECRETS_LIST= \
+	EXTRA_PROXY_ROUTE_LIST= \
+	docker-compose -p edgex \
+		-f docker-compose-base.yml \
+		-f add-device-bacnet.yml \
+		-f add-device-camera.yml \
+		-f add-device-grove.yml \
+		-f add-device-modbus.yml \
+		-f add-device-mqtt.yml \
+		-f add-device-rest.yml \
+		-f add-device-snmp.yml \
+		-f add-device-coap.yml \
+		-f add-device-gpio.yml \
+		-f add-device-rfid-llrp.yml \
+		-f add-device-virtual.yml \
+		-f add-asc-http-export.yml \
+		-f add-asc-mqtt-export.yml \
+		-f add-asc-sample.yml \
+		-f add-app-rfid-llrp-inventory.yml \
+		-f add-modbus-simulator.yml \
+		-f add-mqtt-broker.yml \
+		-f add-mqtt-messagebus.yml \
+		-f add-security.yml \
+		-f add-secure-redis-messagebus.yml \
+		-f add-ui.yml \
+		down $1
+endef
+
 # Define additional phony targets for all options to enable support for tab-completion in shell
 # Note: This must be defined after the options are parsed otherwise it will interfere with them
 .PHONY: $(OPTIONS)
@@ -596,37 +629,7 @@ get-consul-acl-token:
 	sh ./get-consul-acl-token.sh
 
 down:
-	DEV= \
-	APP_SVC_DEV= \
-	ARCH= \
-	TOKEN_LIST= \
-	KNOWN_SECRETS_LIST= \
-	EXTRA_PROXY_ROUTE_LIST= \
-	docker-compose -p edgex \
-		-f docker-compose-base.yml \
-		-f add-device-bacnet.yml \
-		-f add-device-camera.yml \
-		-f add-device-grove.yml \
-		-f add-device-modbus.yml \
-		-f add-device-mqtt.yml \
-		-f add-device-rest.yml \
-		-f add-device-snmp.yml \
-		-f add-device-coap.yml \
-		-f add-device-gpio.yml \
-		-f add-device-rfid-llrp.yml \
-		-f add-device-virtual.yml \
-		-f add-asc-http-export.yml \
-		-f add-asc-mqtt-export.yml \
-		-f add-asc-sample.yml \
-		-f add-app-rfid-llrp-inventory.yml \
-		-f add-modbus-simulator.yml \
-		-f add-mqtt-broker.yml \
-		-f add-mqtt-messagebus.yml \
-		-f add-security.yml \
-		-f add-ui.yml \
-		down
+	$(COMPOSE_DOWN)
 
-clean: down
-	-docker rm $$(docker ps --filter "network=edgex_edgex-network" --filter "network=edgex_default" -aq) 2> /dev/null
-	docker volume prune -f && \
-	docker network prune -f
+clean:
+	$(call COMPOSE_DOWN,-v)

@@ -81,7 +81,7 @@ The compose files under the `taf` subfolder are used for the automated TAF tests
 
 - `make clean`
 
-    Runs `down` commands, removes all stopped container and prunes all unused volumes and networks. Use this command when needing to do a fresh restart.
+    Runs `down` command and removes all stopped containers, all volumes and all networks used by the EdgeX stack. Use this command when needing to do a fresh restart.
     
 - `make get-token`
     For secure mode only. Runs commands via docker to generate a new API Gateway token.
