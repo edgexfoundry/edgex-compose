@@ -28,6 +28,7 @@ services:
       - /dev/i2c-1
     env_file:
       - common.env
+      - device-common.env
     environment:
       SERVICE_HOST: edgex-device-grove
     depends_on:

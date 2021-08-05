@@ -26,6 +26,7 @@ services:
       - edgex-network
     env_file:
       - common.env
+      - device-common.env
     environment:
       SERVICE_HOST: edgex-device-snmp
     depends_on:

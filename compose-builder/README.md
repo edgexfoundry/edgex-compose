@@ -79,6 +79,10 @@ This folder contains the following compose files:
 - **add-service-secure-template.yml**
     A template for a single service **extending** compose file from its base service for security mode,
     and the service is enabled with secret store by default.
+- **add-mqtt-messagebus-app-template.yml**
+    A template for a single App service **extending** compose file from its base service for using MQTT as the MessageBus.
+- **add-mqtt-messagebus-device-template.yml**
+    A template for a single Device service **extending** compose file from its base service for using MQTT as the MessageBus.
 - **add-modbus-simulator.yml**
     ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. Must be used in conjunction with  **add-device-modbus.yml**
 - **add-mqtt-broker.yml**
