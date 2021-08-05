@@ -37,7 +37,9 @@ endif
 
 SERVICES:=$(filter-out $(OPTIONS),$(ARGS))
 
-COMPOSE_DOWN:= docker-compose -p edgex -f docker-compose.yml -f docker-compose-no-secty-with-ui.yml down $1
+define COMPOSE_DOWN
+	docker-compose -p edgex -f docker-compose.yml -f docker-compose-no-secty-with-ui.yml down $1
+endef
 
 # Define additional phony targets for all options to enable support for tab-completion in shell
 # Note: This must be defined after the options are parsed otherwise it will interfere with them
