@@ -114,7 +114,7 @@ services:
   consul:
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: consul:1.9.5
+    image: consul:1.10
     networks:
       edgex-network: {}
     ports:
@@ -166,7 +166,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
-    image: redis:6.2.4-alpine
+    image: redis:6.2-alpine
     networks:
       edgex-network: {}
     ports:
