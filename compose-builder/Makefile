@@ -623,10 +623,9 @@ down:
 		-f add-mqtt-broker.yml \
 		-f add-mqtt-messagebus.yml \
 		-f add-security.yml \
+		-f add-secure-redis-messagebus.yml \
 		-f add-ui.yml \
-		down
+		down ${CLEAN}
 
-clean: down
-	-docker rm $$(docker ps --filter "network=edgex_edgex-network" --filter "network=edgex_default" -aq) 2> /dev/null
-	docker volume prune -f && \
-	docker network prune -f
+clean:
+	CLEAN=-v make down

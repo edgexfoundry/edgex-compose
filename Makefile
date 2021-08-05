@@ -54,12 +54,10 @@ run:
 	docker-compose -p edgex -f docker-compose${NO_SECURITY}${UI}${ARM64}.yml up -d ${SERVICES}
 
 down:
-	docker-compose -p edgex -f docker-compose.yml -f docker-compose-no-secty-with-ui.yml down
+	docker-compose -p edgex -f docker-compose.yml -f docker-compose-no-secty-with-ui.yml down ${CLEAN}
 
-clean: down
-	-docker rm $$(docker ps --filter "network=edgex_edgex-network" --filter "network=edgex_default" -aq) 2> /dev/null
-	docker volume prune -f && \
-	docker network prune -f
+clean:
+	CLEAN=-v make down
 
 get-token:
 	DEV=$(DEV) \
