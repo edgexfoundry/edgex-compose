@@ -73,7 +73,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:2.0.0
+    image: edgexfoundry/app-service-configurable:2.0.1
     networks:
       edgex-network: {}
     ports:
@@ -718,7 +718,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
-    image: emqx/kuiper:1.2.1-alpine
+    image: lfedge/ekuiper:1.3.0-alpine
     networks:
       edgex-network: {}
     ports:

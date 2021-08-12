@@ -221,7 +221,7 @@ services:
       - no-new-privileges:true
 
   rulesengine:
-    image: emqx/kuiper:${KUIPER_VERSION}
+    image: lfedge/ekuiper:${KUIPER_VERSION}
     user: "kuiper:kuiper"
     ports:
       - "127.0.0.1:59720:59720"
