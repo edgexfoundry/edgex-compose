@@ -18,6 +18,7 @@ version: '3.7'
 services:
   device-coap:
     image: ${REPOSITORY}/device-coap${ARCH}:${DEVICE_COAP_VERSION}
+    command: -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     ports:
     - "127.0.0.1:59988:59988"
     container_name: edgex-device-coap
