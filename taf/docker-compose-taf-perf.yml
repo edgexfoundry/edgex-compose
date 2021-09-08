@@ -491,6 +491,7 @@ services:
       KONG_PG_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_SSL_CIPHER_SUITE: modern
       KONG_STATUS_LISTEN: 0.0.0.0:8100
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
