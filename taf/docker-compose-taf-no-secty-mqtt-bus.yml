@@ -31,8 +31,10 @@ services:
   app-service-functional-tests:
     container_name: app-functional-tests
     depends_on:
-    - consul
-    - data
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -52,7 +54,9 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 59705:59705/tcp
+    - protocol: tcp
+      published: 59705
+      target: 59705
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -60,9 +64,12 @@ services:
   app-service-http-export:
     container_name: edgex-app-http-export
     depends_on:
-    - consul
-    - data
-    - mqtt-broker
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      mqtt-broker:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -98,9 +105,12 @@ services:
   app-service-mqtt-export:
     container_name: edgex-app-mqtt-export
     depends_on:
-    - consul
-    - data
-    - mqtt-broker
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      mqtt-broker:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -137,9 +147,12 @@ services:
   app-service-rules:
     container_name: edgex-app-rules-engine
     depends_on:
-    - consul
-    - data
-    - mqtt-broker
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      mqtt-broker:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -172,9 +185,12 @@ services:
   command:
     container_name: edgex-core-command
     depends_on:
-    - consul
-    - database
-    - metadata
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      metadata:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -213,10 +229,14 @@ services:
   data:
     container_name: edgex-core-data
     depends_on:
-    - consul
-    - database
-    - metadata
-    - mqtt-broker
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      metadata:
+        condition: service_started
+      mqtt-broker:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -271,11 +291,16 @@ services:
     command: -cp=consul.http://edgex-core-consul:8500 --registry --confdir=CONF_DIR_PLACE_HOLDER
     container_name: edgex-device-modbus
     depends_on:
-    - consul
-    - data
-    - metadata
-    - modbus-simulator
-    - mqtt-broker
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      metadata:
+        condition: service_started
+      modbus-simulator:
+        condition: service_started
+      mqtt-broker:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -305,10 +330,14 @@ services:
   device-rest:
     container_name: edgex-device-rest
     depends_on:
-    - consul
-    - data
-    - metadata
-    - mqtt-broker
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      metadata:
+        condition: service_started
+      mqtt-broker:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -338,10 +367,14 @@ services:
     command: -cp=consul.http://edgex-core-consul:8500 --registry --confdir=CONF_DIR_PLACE_HOLDER
     container_name: edgex-device-virtual
     depends_on:
-    - consul
-    - data
-    - metadata
-    - mqtt-broker
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      metadata:
+        condition: service_started
+      mqtt-broker:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -372,9 +405,12 @@ services:
   metadata:
     container_name: edgex-core-metadata
     depends_on:
-    - consul
-    - database
-    - notifications
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      notifications:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -416,7 +452,8 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 1883:1883/tcp
+    - published: 1883
+      target: 1883
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -424,8 +461,10 @@ services:
   notifications:
     container_name: edgex-support-notifications
     depends_on:
-    - consul
-    - database
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -449,8 +488,10 @@ services:
   rulesengine:
     container_name: edgex-kuiper
     depends_on:
-    - database
-    - mqtt-broker
+      database:
+        condition: service_started
+      mqtt-broker:
+        condition: service_started
     environment:
       EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
       EDGEX__DEFAULT__PORT: 1883
@@ -475,9 +516,12 @@ services:
   scalability-test-mqtt-export:
     container_name: edgex-scalability-test-mqtt-export
     depends_on:
-    - consul
-    - data
-    - mqtt-broker
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      mqtt-broker:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -508,7 +552,8 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 59710:59703/tcp
+    - published: 59710
+      target: 59703
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -516,8 +561,10 @@ services:
   scheduler:
     container_name: edgex-support-scheduler
     depends_on:
-    - consul
-    - database
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -543,12 +590,18 @@ services:
   system:
     container_name: edgex-sys-mgmt-agent
     depends_on:
-    - command
-    - consul
-    - data
-    - metadata
-    - notifications
-    - scheduler
+      command:
+        condition: service_started
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      metadata:
+        condition: service_started
+      notifications:
+        condition: service_started
+      scheduler:
+        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data

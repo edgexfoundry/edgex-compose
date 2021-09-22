@@ -33,9 +33,12 @@ services:
       --confdir=/res
     container_name: edgex-app-rules-engine
     depends_on:
-    - consul
-    - data
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
@@ -88,11 +91,16 @@ services:
     command: /core-command -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-command
     depends_on:
-    - consul
-    - database
-    - metadata
-    - secretstore-setup
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      metadata:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
@@ -141,8 +149,10 @@ services:
   consul:
     container_name: edgex-core-consul
     depends_on:
-    - security-bootstrapper
-    - vault
+      security-bootstrapper:
+        condition: service_started
+      vault:
+        condition: service_started
     entrypoint:
     - /edgex-init/consul_wait_install.sh
     environment:
@@ -192,11 +202,16 @@ services:
     command: /core-data -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-data
     depends_on:
-    - consul
-    - database
-    - metadata
-    - secretstore-setup
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      metadata:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
@@ -248,8 +263,10 @@ services:
   database:
     container_name: edgex-redis
     depends_on:
-    - secretstore-setup
-    - security-bootstrapper
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/redis_wait_install.sh
     environment:
@@ -304,10 +321,14 @@ services:
     command: /device-rest -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-device-rest
     depends_on:
-    - consul
-    - data
-    - metadata
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      metadata:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
@@ -358,10 +379,14 @@ services:
     command: /device-virtual -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-device-virtual
     depends_on:
-    - consul
-    - data
-    - metadata
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      metadata:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
@@ -411,8 +436,10 @@ services:
   kong:
     container_name: edgex-kong
     depends_on:
-    - kong-db
-    - security-bootstrapper
+      kong-db:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/kong_wait_install.sh
     environment:
@@ -424,12 +451,12 @@ services:
       KONG_DATABASE: postgres
       KONG_DNS_ORDER: LAST,A,CNAME
       KONG_DNS_VALID_TTL: '1'
+      KONG_NGINX_WORKER_PROCESSES: '1'
       KONG_PG_HOST: edgex-kong-db
       KONG_PG_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_SSL_CIPHER_SUITE: modern
-      KONG_NGINX_WORKER_PROCESSES: '1'
       KONG_STATUS_LISTEN: 0.0.0.0:8100
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -452,9 +479,11 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 8000:8000/tcp
+    - published: 8000
+      target: 8000
     - 127.0.0.1:8100:8100/tcp
-    - 8443:8443/tcp
+    - published: 8443
+      target: 8443
     read_only: true
     restart: on-failure
     security_opt:
@@ -472,7 +501,8 @@ services:
   kong-db:
     container_name: edgex-kong-db
     depends_on:
-    - security-bootstrapper
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/postgres_wait_install.sh
     environment:
@@ -522,11 +552,16 @@ services:
     command: /core-metadata -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-core-metadata
     depends_on:
-    - consul
-    - database
-    - notifications
-    - secretstore-setup
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      notifications:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
@@ -578,10 +613,14 @@ services:
       --confdir=/res
     container_name: edgex-support-notifications
     depends_on:
-    - consul
-    - database
-    - secretstore-setup
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
@@ -630,9 +669,12 @@ services:
   proxy-setup:
     container_name: edgex-security-proxy-setup
     depends_on:
-    - kong
-    - secretstore-setup
-    - security-bootstrapper
+      kong:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/proxy_setup_wait_install.sh
     environment:
@@ -683,9 +725,12 @@ services:
   rulesengine:
     container_name: edgex-kuiper
     depends_on:
-    - database
-    - secretstore-setup
-    - security-bootstrapper
+      database:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/kuiper_wait_install.sh
     environment:
@@ -733,10 +778,14 @@ services:
       --confdir=/res
     container_name: edgex-support-scheduler
     depends_on:
-    - consul
-    - database
-    - secretstore-setup
-    - security-bootstrapper
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+      secretstore-setup:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
@@ -787,8 +836,10 @@ services:
   secretstore-setup:
     container_name: edgex-security-secretstore-setup
     depends_on:
-    - security-bootstrapper
-    - vault
+      security-bootstrapper:
+        condition: service_started
+      vault:
+        condition: service_started
     environment:
       ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],redisdb[device-virtual]
       ADD_SECRETSTORE_TOKENS: ''
@@ -870,13 +921,20 @@ services:
     command: /sys-mgmt-agent -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
     container_name: edgex-sys-mgmt-agent
     depends_on:
-    - command
-    - consul
-    - data
-    - metadata
-    - notifications
-    - scheduler
-    - security-bootstrapper
+      command:
+        condition: service_started
+      consul:
+        condition: service_started
+      data:
+        condition: service_started
+      metadata:
+        condition: service_started
+      notifications:
+        condition: service_started
+      scheduler:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
@@ -932,7 +990,8 @@ services:
     command: server
     container_name: edgex-vault
     depends_on:
-    - security-bootstrapper
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
     - /edgex-init/vault_wait_install.sh
     environment:
