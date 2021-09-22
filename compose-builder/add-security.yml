@@ -211,6 +211,7 @@ services:
       KONG_DNS_ORDER: "LAST,A,CNAME"
       KONG_DNS_VALID_TTL: '1'
       KONG_SSL_CIPHER_SUITE: modern
+      KONG_NGINX_WORKER_PROCESSES: '1'
     restart: on-failure
     tmpfs:
       - /run
