@@ -93,16 +93,16 @@ ifeq (ds-camera, $(filter ds-camera,$(ARGS)))
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),"")
-			TOKEN_LIST:=device-camera-go
+			TOKEN_LIST:=device-camera
 		else
-			TOKEN_LIST:=$(TOKEN_LIST),device-camera-go
+			TOKEN_LIST:=$(TOKEN_LIST),device-camera
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),"")
-			KNOWN_SECRETS_LIST:=redisdb[device-camera-go]
+			KNOWN_SECRETS_LIST:=redisdb[device-camera]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-camera-go]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-camera]
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-camera device-camera-go)
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-camera)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
