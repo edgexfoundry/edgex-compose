@@ -36,6 +36,7 @@ services:
     networks:
       - edgex-network
     read_only: true
+    restart: always
     env_file:
       - common-sec-stage-gate.env
     environment:
@@ -81,6 +82,7 @@ services:
       # in service "consul".
       #ADD_SECRETSTORE_TOKENS: app-sample,app-rules-engine-redis, app-rules-engine-mqtt, app-push-to-core
     read_only: true
+    restart: always
     networks:
       - edgex-network
     tmpfs:
@@ -148,6 +150,7 @@ services:
       - vault-logs:/vault/logs:z
     depends_on:
       - security-bootstrapper
+    restart: always
 
 # containers for reverse proxy
   kong-db:
@@ -156,6 +159,7 @@ services:
     container_name: edgex-kong-db
     hostname: edgex-kong-db
     read_only: true
+    restart: always
     networks:
       - edgex-network
     ports:
@@ -188,6 +192,7 @@ services:
     container_name: edgex-kong
     hostname: edgex-kong
     read_only: true
+    restart: always
     networks:
       - edgex-network
     ports:
@@ -212,7 +217,6 @@ services:
       KONG_DNS_VALID_TTL: '1'
       KONG_SSL_CIPHER_SUITE: modern
       KONG_NGINX_WORKER_PROCESSES: '1'
-    restart: on-failure
     tmpfs:
       - /run
       - /tmp

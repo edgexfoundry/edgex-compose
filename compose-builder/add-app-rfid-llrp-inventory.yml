@@ -30,6 +30,7 @@ services:
       - consul
       - data
     read_only: true
+    restart: always
     networks:
       - edgex-network
     security_opt:

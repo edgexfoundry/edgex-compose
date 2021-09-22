@@ -23,6 +23,7 @@ services:
     container_name: edgex-device-gpio
     hostname: edgex-device-gpio
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:
