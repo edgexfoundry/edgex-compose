@@ -4,6 +4,8 @@ This folder contains the `Compose Builder` which is made up of **source** compos
 
 > **Note to Developers**: 
 > *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
+>
+> **You must use *docker-compose version 1.27.2* due to bug in later versions that generates the `depends_on` sections incorrectly for compose version 3.x**
 
 ### Generate next release compose files
 
