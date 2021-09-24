@@ -202,6 +202,7 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/core-command:/tmp/edgex/secrets/core-command:ro,z
   consul:
+    command: agent -ui -bootstrap -server -client 0.0.0.0
     container_name: edgex-core-consul
     depends_on:
     - security-bootstrapper
@@ -487,12 +488,12 @@ services:
       KONG_DATABASE: postgres
       KONG_DNS_ORDER: LAST,A,CNAME
       KONG_DNS_VALID_TTL: '1'
+      KONG_NGINX_WORKER_PROCESSES: '1'
       KONG_PG_HOST: edgex-kong-db
       KONG_PG_PASSWORD_FILE: /tmp/postgres-config/.pgpassword
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_SSL_CIPHER_SUITE: modern
-      KONG_NGINX_WORKER_PROCESSES: '1'
       KONG_STATUS_LISTEN: 0.0.0.0:8100
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
