@@ -23,6 +23,7 @@ services:
     container_name: edgex-device-rest
     hostname: edgex-device-rest
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:

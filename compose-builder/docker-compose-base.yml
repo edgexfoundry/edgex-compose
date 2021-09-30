@@ -37,6 +37,7 @@ services:
     container_name: edgex-core-consul
     hostname: edgex-core-consul
     read_only: true
+    restart: always
     networks:
       edgex-network:
     volumes:
@@ -53,6 +54,7 @@ services:
     container_name: edgex-redis
     hostname: edgex-redis
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:
@@ -70,6 +72,7 @@ services:
     container_name: edgex-sys-mgmt-agent
     hostname: edgex-sys-mgmt-agent
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:
@@ -99,6 +102,7 @@ services:
     container_name: edgex-support-notifications
     hostname: edgex-support-notifications
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:
@@ -119,6 +123,7 @@ services:
     container_name: edgex-core-metadata
     hostname: edgex-core-metadata
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:
@@ -142,6 +147,7 @@ services:
     container_name: edgex-core-data
     hostname: edgex-core-data
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:
@@ -164,6 +170,7 @@ services:
     container_name: edgex-core-command
     hostname: edgex-core-command
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:
@@ -185,6 +192,7 @@ services:
     container_name: edgex-support-scheduler
     hostname: edgex-support-scheduler
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:
@@ -207,6 +215,7 @@ services:
     container_name: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:
@@ -230,6 +239,7 @@ services:
     container_name: edgex-kuiper
     hostname: edgex-kuiper
     read_only: true
+    restart: always
     networks:
       - edgex-network
     volumes:

@@ -23,6 +23,7 @@ services:
     container_name: edgex-device-virtual
     hostname: edgex-device-virtual
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:

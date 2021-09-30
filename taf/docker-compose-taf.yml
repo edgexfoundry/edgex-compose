@@ -138,6 +138,7 @@ services:
     ports:
     - 127.0.0.1:59704:59704/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -201,6 +202,7 @@ services:
     ports:
     - 127.0.0.1:59703:59703/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -257,6 +259,7 @@ services:
     ports:
     - 127.0.0.1:59701:59701/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -311,6 +314,7 @@ services:
     ports:
     - 127.0.0.1:59882:59882/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -359,6 +363,7 @@ services:
     ports:
     - 127.0.0.1:8500:8500/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: root:root
@@ -419,6 +424,7 @@ services:
     - 127.0.0.1:5563:5563/tcp
     - 127.0.0.1:59880:59880/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -470,6 +476,7 @@ services:
     ports:
     - 127.0.0.1:6379:6379/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     tmpfs:
@@ -528,6 +535,8 @@ services:
       edgex-network: {}
     ports:
     - 127.0.0.1:59901:59901/tcp
+    read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -583,6 +592,7 @@ services:
     ports:
     - 127.0.0.1:59986:59986/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -637,6 +647,7 @@ services:
     ports:
     - 127.0.0.1:59900:59900/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -692,7 +703,7 @@ services:
     - 127.0.0.1:8100:8100/tcp
     - 8443:8443/tcp
     read_only: true
-    restart: on-failure
+    restart: always
     security_opt:
     - no-new-privileges:true
     tmpfs:
@@ -743,6 +754,7 @@ services:
     ports:
     - 127.0.0.1:5432:5432/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     tmpfs:
@@ -803,6 +815,7 @@ services:
     ports:
     - 127.0.0.1:59881:59881/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -818,6 +831,7 @@ services:
     ports:
     - 127.0.0.1:1502:1502/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -831,6 +845,7 @@ services:
     ports:
     - 1883:1883/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -882,6 +897,7 @@ services:
     ports:
     - 127.0.0.1:59860:59860/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -982,6 +998,7 @@ services:
     ports:
     - 127.0.0.1:59720:59720/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: kuiper:kuiper
@@ -1103,6 +1120,7 @@ services:
     ports:
     - 127.0.0.1:59861:59861/tcp
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -1146,6 +1164,7 @@ services:
     networks:
       edgex-network: {}
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     tmpfs:
@@ -1186,6 +1205,7 @@ services:
     networks:
       edgex-network: {}
     read_only: true
+    restart: always
     security_opt:
     - no-new-privileges:true
     user: root:root
@@ -1243,6 +1263,7 @@ services:
     ports:
     - 127.0.0.1:58890:58890/tcp
     read_only: true
+    restart: always
     security_opt:
     - label:disable
     - no-new-privileges:true
@@ -1288,6 +1309,7 @@ services:
       edgex-network: {}
     ports:
     - 127.0.0.1:8200:8200/tcp
+    restart: always
     tmpfs:
     - /vault/config
     user: root:root

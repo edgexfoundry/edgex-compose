@@ -23,6 +23,7 @@ services:
     container_name: edgex-device-rfid-llrp
     hostname: edgex-device-rfid-llrp
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:

@@ -35,4 +35,6 @@ services:
       - metadata
     security_opt: 
       - no-new-privileges:true
+    read_only: true
+    restart: always
     user: "${EDGEX_USER}:${EDGEX_GROUP}"

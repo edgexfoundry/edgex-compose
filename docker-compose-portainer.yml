@@ -24,6 +24,7 @@ services:
     ports:
       - "127.0.0.1:9000:9000"
     container_name: portainer
+    restart: always
     command: -H unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:z
