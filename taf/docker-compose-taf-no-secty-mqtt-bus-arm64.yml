@@ -203,7 +203,7 @@ services:
     command: agent -ui -bootstrap -server -client 0.0.0.0
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: consul:1.10
+    image: consul:1.10.3
     networks:
       edgex-network: {}
     ports:
@@ -263,7 +263,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
-    image: redis:6.2-alpine
+    image: redis:6.2.6-alpine
     networks:
       edgex-network: {}
     ports:
@@ -426,7 +426,7 @@ services:
     command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0
+    image: eclipse-mosquitto:2.0.12
     networks:
       edgex-network: {}
     ports:
@@ -477,7 +477,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 59720
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.3.0-alpine
+    image: lfedge/ekuiper:1.3.1-alpine
     networks:
       edgex-network: {}
     ports:
