@@ -244,7 +244,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 127.0.0.1:8500:8500/tcp
+    - 8500:8500/tcp
     read_only: true
     restart: always
     security_opt:
