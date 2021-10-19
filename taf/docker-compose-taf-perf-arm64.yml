@@ -240,7 +240,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-consul
-    image: consul:1.10
+    image: consul:1.10.3
     networks:
       edgex-network: {}
     ports:
@@ -353,7 +353,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-redis
-    image: redis:6.2-alpine
+    image: redis:6.2.6-alpine
     networks:
       edgex-network: {}
     ports:
@@ -520,7 +520,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kong
-    image: kong:2.5
+    image: kong:2.5.1
     networks:
       edgex-network: {}
     ports:
@@ -573,7 +573,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kong-db
-    image: postgres:13.3-alpine
+    image: postgres:13.4-alpine
     networks:
       edgex-network: {}
     ports:
@@ -651,7 +651,7 @@ services:
     command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0
+    image: eclipse-mosquitto:2.0.12
     networks:
       edgex-network: {}
     ports:
@@ -804,7 +804,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.3.0-alpine
+    image: lfedge/ekuiper:1.3.1-alpine
     networks:
       edgex-network: {}
     ports:
@@ -1052,7 +1052,7 @@ services:
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
     hostname: edgex-vault
-    image: vault:1.8.0
+    image: vault:1.8.4
     networks:
       edgex-network: {}
     ports:
