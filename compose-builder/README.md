@@ -78,6 +78,8 @@ This folder contains the following compose files:
     Application Service Configurable **extending** compose file, which adds the **App Service MQTT Export**  service.
 - **add-app-rfid-llrp-inventory.yml**
     Application Service Configurable **extending** compose file, which adds the **App RFID LLRP Inventory**  service.
+- **add-asc-external-mqtt-trigger.yml**
+    Application Service Configurable **extending** compose file, which adds the **App Service External MQTT Trigger**  service.
 - **add-service-secure-template.yml**
     A template for a single service **extending** compose file from its base service for security mode,
     and the service is enabled with secret store by default.
@@ -184,6 +186,7 @@ Options:
     asc-mqtt:    Runs with App Service MQTT Export included
     asc-sample:  Runs with App Service Sample included
     as-llrp:     Runs with App RFID LLRP Inventory included
+    asc-ex-mqtt: Runs with App Service External MQTT Trigger included
     mqtt-broker: Runs with a MQTT Broker service included 
     mqtt-bus:    Runs with services configure for MQTT Message Bus 
     zmq-bus:     Runs with services configure for ZMQ Message Bus     
@@ -223,6 +226,7 @@ Options:
     asc-mqtt:    Pull includes App Service MQTT Export
     asc-sample:  Pull includes App Service Sample
     as-llrp:     Pull includes App RFID LLRP Inventory
+    asc-ex-mqtt: Pull includes App Service External MQTT Trigger
     mqtt-broker: Pull includes MQTT Broker service
     mqtt-bus:    Pull includes additional services for MQTT Message Bus
     zmq-bus:     Pull includes additional services for ZMQ Message Bus     
@@ -259,6 +263,7 @@ Options:
     asc-mqtt:    Generates compose file with App Service MQTT Export included
     asc-sample:  Generates compose file with App Service Sample included
     as-llrp:     Generates compose file with App RFID LLRP Inventory included
+    asc-ex-mqtt: Generates compose file with App Service External MQTT Trigger included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configured for MQTT Message Bus 
                  The MQTT Broker service is also included. 
@@ -337,6 +342,7 @@ Options:
     asc-mqtt:    Generates compose file with App Service MQTT Export included
     asc-sample:  Generates compose file with App Service S included
     as-llrp:     Generates compose file with App RFID LLRP Inventory included
+    asc-ex-mqtt: Generates compose file with App Service External MQTT Trigger included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
                  The MQTT Broker service is also included.

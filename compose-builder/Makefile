@@ -36,7 +36,7 @@ define OPTIONS
  - zmq-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
- - asc-http asc-mqtt asc-sample as-llrp -
+ - asc-http asc-mqtt asc-sample as-llrp asc-ex-mqtt -
  - modbus-sim ui -
 endef
 export OPTIONS
@@ -388,6 +388,21 @@ ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 endif
+ifeq (asc-ex-mqtt, $(filter asc-external-mqtt-trigger,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-external-mqtt-trigger.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=app-external-mqtt-trigger
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),app-external-mqtt-trigger
+		endif
+		# when no security mode (no-secty) not explicitly specified,
+		# then we also need to add the secure version on top of base yml by default.
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-external-mqtt-trigger \
+			app-external-mqtt-trigger app-service-configurable)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+endif
 
 # Add a MQTT Broker
 ifeq (mqtt-broker, $(filter mqtt-broker,$(ARGS)))
@@ -426,7 +441,7 @@ endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
-	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,device-modbus
+	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,device-modbus,app-external-mqtt-trigger
 	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 	# have to list them individually.
 	KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[device-modbus],redisdb[device-rest],redisdb[device-virtual]
@@ -439,6 +454,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-taf-app-services-secure.yml \
 		-f add-asc-http-export.yml \
 		-f add-asc-mqtt-export.yml \
+		-f add-asc-external-mqtt-trigger.yml \
 		-f add-device-virtual.yml \
 		-f add-device-rest.yml \
 		-f add-device-modbus.yml \
@@ -464,6 +480,8 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		app-http-export app-service-configurable)
 	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 		app-mqtt-export app-service-configurable)
+	asc_external_mqtt_trigger_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-external-mqtt-trigger \
+		app-external-mqtt-trigger app-service-configurable)
 	ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest)
 	# taf has its special place holder from taf-device-services-mods and thus we need to keep it
 	# and extend security related things on top of it
@@ -471,7 +489,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		device-virtual device-virtual ' -cp=consul.http:\/\/edgex-core-consul:8500 --registry --confdir=CONF_DIR_PLACE_HOLDER')
 	ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus \
 		device-modbus device-modbus ' -cp=consul.http:\/\/edgex-core-consul:8500 --registry --confdir=CONF_DIR_PLACE_HOLDER')
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext)
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext) -f $(asc_external_mqtt_trigger_ext)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext)
 else
 	# Build compose for TAF non-secure testing (ignore all other compose file options)
@@ -481,6 +499,7 @@ else
 			-f add-taf-app-services.yml \
 			-f add-asc-http-export.yml \
 			-f add-asc-mqtt-export.yml \
+			-f add-asc-external-mqtt-trigger.yml \
 			-f add-device-virtual.yml \
 			-f add-device-rest.yml \
 			-f add-device-modbus.yml \
