@@ -16,12 +16,15 @@
 version: '3.7'
 
 volumes:
-  kuiper-config:
+  kuiper-sources:
+  kuiper-connections:
 
 services:
   secretstore-setup:
     volumes:
-      - kuiper-config:/tmp/kuiper:z
+      - kuiper-sources:/tmp/kuiper:z
+      - kuiper-connections:/tmp/kuiper-connections:z
+
     environment:
       SECUREMESSAGEBUS_TYPE: redis
 
@@ -30,7 +33,8 @@ services:
     env_file:
       - common-sec-stage-gate.env
     volumes:
-      - kuiper-config:/kuiper/etc/sources:z
+      - kuiper-sources:/kuiper/etc/sources:z
+      - kuiper-connections:/kuiper/etc/connections:z
       - edgex-init:/edgex-init:ro,z
     depends_on:
       - security-bootstrapper
