@@ -739,7 +739,8 @@ services:
     volumes:
     - edgex-init:/edgex-init:ro,z
     - kuiper-data:/kuiper/data:z
-    - kuiper-config:/kuiper/etc/sources:z
+    - kuiper-connections:/kuiper/etc/connections:z
+    - kuiper-sources:/kuiper/etc/sources:z
   scheduler:
     command: /support-scheduler -cp=consul.http://edgex-core-consul:8500 --registry
       --confdir=/res
@@ -845,7 +846,8 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets:/tmp/edgex/secrets:z
     - kong:/tmp/kong:z
-    - kuiper-config:/tmp/kuiper:z
+    - kuiper-sources:/tmp/kuiper:z
+    - kuiper-connections:/tmp/kuiper-connections:z
     - vault-config:/vault/config:z
   security-bootstrapper:
     container_name: edgex-security-bootstrapper
@@ -995,8 +997,9 @@ volumes:
   db-data: {}
   edgex-init: {}
   kong: {}
-  kuiper-config: {}
+  kuiper-connections: {}
   kuiper-data: {}
+  kuiper-sources: {}
   postgres-config: {}
   postgres-data: {}
   redis-config: {}
