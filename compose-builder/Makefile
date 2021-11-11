@@ -17,7 +17,7 @@
 	build compose run pull gen \
 	build-taf taf-compose taf-compose-perf \
 	get-token upload-tls-cert get-consul-acl-token \
-	ui-down down clean
+    down clean
 .SILENT: help get-token del-token upload-tls-cert get-consul-acl-token
 
 include .env
@@ -37,11 +37,9 @@ define OPTIONS
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
  - asc-http asc-mqtt asc-sample as-llrp asc-ex-mqtt -
- - modbus-sim ui -
+ - modbus-sim -
 endef
 export OPTIONS
-
-
 
 ARGS:=$(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 $(eval $(ARGS):;@:)
@@ -343,6 +341,7 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 endif
 ifeq (asc-sample, $(filter asc-sample,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-sample.yml
+	APP_SAMPLE:=-with-app-sample
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-service-sample -a)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
@@ -432,11 +431,6 @@ else
 			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
 		endif
 	endif
-endif
-
-ifeq (ui, $(filter ui,$(ARGS)))
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-ui.yml
-	UI:=-with-ui
 endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)
@@ -594,7 +588,6 @@ define COMPOSE_DOWN
 		-f add-mqtt-messagebus.yml \
 		-f add-security.yml \
 		-f add-secure-redis-messagebus.yml \
-		-f add-ui.yml \
 		down $1
 endef
 
@@ -614,10 +607,12 @@ portainer-down:
 build:
 	make compose ds-rest ds-virtual
 	make compose ds-rest ds-virtual arm64
+	make compose ds-rest ds-virtual asc-sample
+	make compose ds-rest ds-virtual asc-sample arm64
 	make compose ds-rest ds-virtual no-secty
 	make compose ds-rest ds-virtual no-secty arm64
-	make compose ds-rest ds-virtual asc-sample no-secty ui
-	make compose ds-rest ds-virtual asc-sample no-secty arm64 ui
+	make compose ds-rest ds-virtual asc-sample no-secty
+	make compose ds-rest ds-virtual asc-sample no-secty arm64
 	make taf-compose taf-secty
 	make taf-compose taf-no-secty
 	make taf-compose taf-secty arm64
@@ -632,7 +627,7 @@ build:
 	make taf-compose-perf taf-perf-no-secty arm64
 
 compose: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(NO_SECURITY)$(UI)$(BUS)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(NO_SECURITY)$(APP_SAMPLE)$(BUS)$(ARCH).yml
 
 taf-compose: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(ARCH).yml

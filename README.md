@@ -25,7 +25,7 @@ This folder contains the following compose files:
 > - See each description for the convenience `make` commands that are provided to work with each of these compose files.
 
 - **docker-compose.yml**
-    Contains all the services required to run in secure configuration. Includes the Device Virtual & Device REST device services.
+    Contains all the services required to run in secure configuration. Includes the Device Virtual & Device REST device services and the UI.
     **Make Commands** 
     
      - Use `make run <service(s)>` and `make down` to start and stop the services using this compose file.
@@ -35,22 +35,37 @@ This folder contains the following compose files:
      - Use `make get-token` to generate a Kong access token for remote access of the services running from this compose file.
     
 - **docker-compose-arm64.yml**
-    Contains all the services required to run in secure configuration on `ARM64` system.  Includes the Device Virtual & Device REST device services.
+    Contains all the services required to run in secure configuration on `ARM64` system.  Includes the Device Virtual & Device REST device services and the UI.
     **Make Commands** 
     
      - Use `make run arm64` and `make down` to start and stop the services using this compose file.
      - Use `make pull arm64 <service(s)>` to pull all or some images for the services in this compose file.
      - Use `make get-token arm64` to generate a Kong access token for remote access of the services running from this compose file.
     
+- **docker-compose-with-app-sample.yml**
+    Contains all the services required to run in secure configuration with Sample application service.  Includes the Device Virtual, Device REST, UI & App Sample services. Use this version when using the UI to make changes to the configurable pipeline on the Sample application service.
+    **Make Commands**
+
+    - Use `make run app-sample` and `make down` to start and stop the services using this compose file.
+    - Use `make pull app-sample <service(s)>` to pull all or some images for the services in this compose file.
+    
+- **docker-compose-with-app-sample-arm64.yml**
+    Contains all the services required to run in secure configuration with the Sample application service on `ARM64` system .  Includes the Device Virtual, Device REST, UI & App Sample services. Use this version when using the UI to make changes to the configurable pipeline on the Sample application service.
+
+    **Make Commands**
+
+    - Use `make run no-secty app-sample arm64` and `make down` to start and stop the services using this compose file.
+    - Use `make pull no-secty ui app-sample <service(s)>` to pull all or some images for the services in this compose file.
+
 - **docker-compose-no-secty.yml**
-    Contains just the services needed to run in non-secure configuration.  Includes the Device Virtual & Device REST device services.
+    Contains just the services needed to run in non-secure configuration.  Includes the Device Virtual & Device REST device services and the UI.
     **Make Commands**
 
     - Use `make run no-secty` and `make down` to start and stop the services using this compose file.
     - Use `make pull no-secty <service(s)>` to pull all or some images for the services in this compose file.
     
 - **docker-compose-no-secty-arm64.yml**
-    Contains just the services needed to run in non-secure configuration on `ARM64` system.  Includes the Device Virtual & Device REST device services.
+    Contains just the services needed to run in non-secure configuration on `ARM64` system.  Includes the Device Virtual & Device REST device services and the UI.
 
     **Make Commands**
 
@@ -58,20 +73,20 @@ This folder contains the following compose files:
     - Use `make pull no-secty arm64 <service(s)>` to pull all or some images for the services in this compose file.
 
 
-- **docker-compose-no-secty-with-ui.yml**
-  Contains just the services needed to run in non-secure configuration with the EdgeX UI.  Includes the Device Virtual, Device REST & App Sample services.
+- **docker-compose-no-secty-with-app-sample.yml**
+  Contains just the services needed to run in non-secure configuration with Sample application service.  Includes the Device Virtual, Device REST, UI & App Sample services. Use this version when using the UI to make changes to the configurable pipeline on the Sample application service.
   **Make Commands**
 
-  - Use `make run no-secty ui` and `make down` to start and stop the services using this compose file.
-  - Use `make pull no-secty ui <service(s)>` to pull all or some images for the services in this compose file.
+  - Use `make run no-secty app-sample` and `make down` to start and stop the services using this compose file.
+  - Use `make pull no-secty app-sample <service(s)>` to pull all or some images for the services in this compose file.
 
-- **docker-compose-no-secty-with-ui-arm64.yml**
-  Contains just the services needed to run in non-secure configuration with the EdgeX UI on `ARM64` system .  Includes the Device Virtual, Device REST & App Sample services.
+- **docker-compose-no-secty-with-app-sample-arm64.yml**
+  Contains just the services needed to run in non-secure configuration with the Sample application service on `ARM64` system .  Includes the Device Virtual, Device REST, UI & App Sample services. Use this version when using the UI to make changes to the configurable pipeline on the Sample application service.
 
   **Make Commands**
 
-  - Use `make run no-secty ui arm64` and `make down` to start and stop the services using this compose file.
-  - Use `make pull no-secty ui arm64 <service(s)>` to pull all or some images for the services in this compose file.
+  - Use `make run no-secty app-sample arm64` and `make down` to start and stop the services using this compose file.
+  - Use `make pull no-secty app-sample <service(s)>` to pull all or some images for the services in this compose file.
 
 ### TAF Compose files
 

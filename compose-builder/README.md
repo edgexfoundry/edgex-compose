@@ -41,7 +41,7 @@ The `Extending using multiple Compose files` approach along with environment fil
 This folder contains the following compose files:
 
 - **docker-compose-base.yml**
-    Base non-secure mode compose file. Contains all the services that run in the non-secure configuration.  
+    Base non-secure mode compose file. Contains all the services that run in the non-secure configuration, including the UI.  
 - **add-security.yml**
     Security **extending** compose file. Adds the additional security services and configuration of services so that all the services are running in the secure configuration.
 - **add-secure-redis-messagebus.yml**
@@ -99,8 +99,6 @@ This folder contains the following compose files:
     TAF App Services **extending** `add-taf-app-services` compose file, and services are enabled with secret store by default.
 - **add-taf-device-services-mods.yml**
     TAF Device Services **extending** compose file. Modifies setting of Device Virtual and Device Modbus for the TAF testing compose files. **Must be used in conjunction with add-device-modbus.yml and add-device-virtual.yml**
-- **add-ui.yml**
-    UI **extending** compose file, which adds the **Edgex UI** service. 
 
 ### Environment Files
 
@@ -143,10 +141,12 @@ Generates the all standard Edgex compose file variations and the TAF testing com
 Standard compose variations are:
    full secure (docker-compose.yml)
    full secure for arm64 (docker-compose-arm64.yml)
+   full secure with app-sample (docker-compose-with-app-sample.yml)
+   full secure with app-sample for arm64 (docker-compose-with-app-sample-arm64.yml)
    non-secure (docker-compose-no-secty.yml)
    non-secure for arm64 (docker-compose-no-secty-arm64.yml)
-   non-secure with UI (docker-compose-no-secty-with-ui.yml)
-   non-secure with UI for arm64 (docker-compose-no-secty-with-ui-arm64.yml)
+   non-secure with app-sample (docker-compose-no-secty-with-app-sample.yml)
+   non-secure with app-sample for arm64 (docker-compose-no-secty-with-app-sample-arm64.yml)
 
  TAF compose variations are:
    full secure general testing (docker-compose-taf.yml)
@@ -190,7 +190,6 @@ Options:
     mqtt-broker: Runs with a MQTT Broker service included 
     mqtt-bus:    Runs with services configure for MQTT Message Bus 
     zmq-bus:     Runs with services configure for ZMQ Message Bus     
-    ui:          Runs with the UI service included
 
 Services:
     <names...>: Runs only services listed (and their dependent services) where 'name' matches a service name in one of the compose files used
@@ -230,7 +229,6 @@ Options:
     mqtt-broker: Pull includes MQTT Broker service
     mqtt-bus:    Pull includes additional services for MQTT Message Bus
     zmq-bus:     Pull includes additional services for ZMQ Message Bus     
-    ui:          Pulls includes the EdgeX UI service.
 
 Services:
     <names...>: Pulls only images for the service(s) listed
@@ -268,7 +266,6 @@ Options:
     mqtt-bus:    Generates compose file with services configured for MQTT Message Bus 
                  The MQTT Broker service is also included. 
     zmq-bus:     Generates compose file with services configured for ZMQ Message Bus     
-    ui:          Generates compose file with UI sevice included             
 ```
 #### Clean
 
@@ -340,14 +337,13 @@ Options:
     modbus-sim:  Generates compose file with ModBus simulator included
     asc-http:    Generates compose file with App Service HTTP Export included
     asc-mqtt:    Generates compose file with App Service MQTT Export included
-    asc-sample:  Generates compose file with App Service S included
+    asc-sample:  Generates compose file with App Service Sincluded
     as-llrp:     Generates compose file with App RFID LLRP Inventory included
     asc-ex-mqtt: Generates compose file with App Service External MQTT Trigger included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
     mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
                  The MQTT Broker service is also included.
     zmq-bus:     Generates compose file with services configured for ZMQ Message Bus     
-    ui:          Generates compose file with UI sevice included             
 ```
 
 #### Taf-compose

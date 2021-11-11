@@ -22,7 +22,7 @@ help:
 ARGS:=$(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 $(eval $(ARGS):;@:)
 
-OPTIONS:=" arm64 no-secty ui " # Must have spaces around words for `filter-out` function to work properly
+OPTIONS:=" arm64 no-secty app-sample " # Must have spaces around words for `filter-out` function to work properly
 
 ifeq (arm64, $(filter arm64,$(ARGS)))
 	ARM64=-arm64
@@ -31,14 +31,14 @@ endif
 ifeq (no-secty, $(filter no-secty,$(ARGS)))
 	NO_SECURITY:=-no-secty
 endif
-ifeq (ui, $(filter ui,$(ARGS)))
-	UI:=-with-ui
+ifeq (app-sample, $(filter app-sample,$(ARGS)))
+	APP_SAMPLE:=-with-app-sample
 endif
 
 SERVICES:=$(filter-out $(OPTIONS),$(ARGS))
 
 define COMPOSE_DOWN
-	docker-compose -p edgex -f docker-compose.yml -f docker-compose-no-secty-with-ui.yml down $1
+	docker-compose -p edgex -f docker-compose.yml -f docker-compose-with-app-sample.yml down $1
 endef
 
 # Define additional phony targets for all options to enable support for tab-completion in shell
@@ -55,7 +55,7 @@ pull:
 	docker-compose -f docker-compose${NO_SECURITY}${ARM64}.yml pull ${SERVICES}
 
 run:
-	docker-compose -p edgex -f docker-compose${NO_SECURITY}${UI}${ARM64}.yml up -d ${SERVICES}
+	docker-compose -p edgex -f docker-compose${NO_SECURITY}${APP_SAMPLE}${ARM64}.yml up -d ${SERVICES}
 
 down:
 	$(COMPOSE_DOWN)

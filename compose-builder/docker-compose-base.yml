@@ -257,3 +257,19 @@ services:
       - database
     security_opt: 
       - no-new-privileges:true
+
+  ui:
+    image: ${UI_REPOSITORY}/edgex-ui${ARCH}:${EDGEX_UI_VERSION}
+    ports:
+      - "4000:4000"
+    container_name: edgex-ui-go
+    hostname: edgex-ui-go
+    environment:
+      EDGEX_SECURITY_SECRET_STORE: "false"
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
