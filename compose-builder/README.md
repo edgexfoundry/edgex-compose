@@ -337,7 +337,7 @@ Options:
     modbus-sim:  Generates compose file with ModBus simulator included
     asc-http:    Generates compose file with App Service HTTP Export included
     asc-mqtt:    Generates compose file with App Service MQTT Export included
-    asc-sample:  Generates compose file with App Service Sincluded
+    asc-sample:  Generates compose file with App Service Sample included
     as-llrp:     Generates compose file with App RFID LLRP Inventory included
     asc-ex-mqtt: Generates compose file with App Service External MQTT Trigger included
     mqtt-broker: Generates compose file with a MQTT Broker service included 
