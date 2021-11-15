@@ -364,3 +364,6 @@ services:
       - /tmp/edgex/secrets/sys-mgmt-agent:/tmp/edgex/secrets/sys-mgmt-agent:ro,z
     depends_on:
       - security-bootstrapper
+  ui:
+    environment:
+      EDGEX_SECURITY_SECRET_STORE: "true"

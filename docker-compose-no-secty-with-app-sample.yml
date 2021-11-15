@@ -384,12 +384,14 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock:z
   ui:
     container_name: edgex-ui-go
+    environment:
+      EDGEX_SECURITY_SECRET_STORE: "false"
     hostname: edgex-ui-go
     image: nexus3.edgexfoundry.org:10004/edgex-ui:latest
     networks:
       edgex-network: {}
     ports:
-    - 127.0.0.1:4000:4000/tcp
+    - 4000:4000/tcp
     read_only: true
     restart: always
     security_opt:

@@ -1359,6 +1359,21 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/sys-mgmt-agent:/tmp/edgex/secrets/sys-mgmt-agent:ro,z
     - /var/run/docker.sock:/var/run/docker.sock:z
+  ui:
+    container_name: edgex-ui-go
+    environment:
+      EDGEX_SECURITY_SECRET_STORE: "true"
+    hostname: edgex-ui-go
+    image: nexus3.edgexfoundry.org:10004/edgex-ui-arm64:latest
+    networks:
+      edgex-network: {}
+    ports:
+    - 4000:4000/tcp
+    read_only: true
+    restart: always
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
   vault:
     cap_add:
     - IPC_LOCK
