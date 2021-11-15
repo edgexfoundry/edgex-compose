@@ -23,6 +23,7 @@ services:
     container_name: edgex-app-rfid-llrp-inventory
     hostname: edgex-app-rfid-llrp-inventory
     env_file:
+      - as-common.env
       - common.env
     environment:
       SERVICE_HOST: edgex-app-rfid-llrp-inventory

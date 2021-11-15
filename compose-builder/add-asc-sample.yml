@@ -24,7 +24,7 @@ services:
     hostname: edgex-app-sample
     env_file:
       - common.env
-      - asc-common.env
+      - as-common.env
     environment:
       EDGEX_PROFILE: sample
       SERVICE_HOST: edgex-app-sample

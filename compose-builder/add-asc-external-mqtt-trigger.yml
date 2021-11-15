@@ -24,7 +24,7 @@ services:
     hostname: edgex-app-external-mqtt-trigger
     env_file:
       - common.env
-      - asc-common.env
+      - as-common.env
     environment:
       SERVICE_HOST: edgex-app-external-mqtt-trigger
       EDGEX_PROFILE: external-mqtt-trigger
