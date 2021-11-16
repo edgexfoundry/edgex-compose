@@ -24,7 +24,7 @@ services:
     hostname: edgex-app-http-export
     env_file:
       - common.env
-      - asc-common.env
+      - as-common.env
       - asc-http-export.env
     environment:
       SERVICE_HOST: edgex-app-http-export

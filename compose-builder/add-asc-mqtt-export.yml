@@ -24,7 +24,7 @@ services:
     hostname: edgex-app-mqtt-export
     env_file:
       - common.env
-      - asc-common.env
+      - as-common.env
       - asc-mqtt-export.env
     environment:
       SERVICE_HOST: edgex-app-mqtt-export
