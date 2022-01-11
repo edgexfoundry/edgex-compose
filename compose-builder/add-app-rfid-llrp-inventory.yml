@@ -15,6 +15,9 @@
 
 version: '3.7'
 
+volumes:
+  llrp-inventory-data:
+
 services:
   app-rfid-llrp-inventory:
     image: ${APP_SVC_REPOSITORY}/app-rfid-llrp-inventory${ARCH}:${APP_LLRP_VERSION}
@@ -37,3 +40,6 @@ services:
     security_opt:
       - no-new-privileges:true
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    volumes:
+      - llrp-inventory-data:/cache:z
+
