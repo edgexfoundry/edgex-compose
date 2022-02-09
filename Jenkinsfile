@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Smoke Tests') {
             when {
-                expression { !edgex.isReleaseStream() && env.ARCHIVE == 'false' }
+                expression { !edgex.isReleaseStream() && !params.ARCHIVE }
             }
             steps {
                 build job: '/edgexfoundry/edgex-taf-pipelines/smoke-test', parameters: [string(name: 'SHA1', value: env.GIT_COMMIT), string(name: 'TEST_ARCH', value: 'All'), string(name: 'WITH_SECURITY', value: 'All')]
@@ -26,7 +26,7 @@ pipeline {
 
         stage('Archive 3rd Party Images') {
             when {
-                expression { env.ARCHIVE == 'true' }
+                expression { params.ARCHIVE }
             }
             steps {
                 edgeXDockerLogin(settingsFile: 'ci-build-images-settings')
