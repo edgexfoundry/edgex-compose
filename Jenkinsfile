@@ -15,29 +15,22 @@ pipeline {
         issueCommentTrigger('.*^recheck$.*')
     }
     stages {
+        stage('Prep') {
+            steps {
+                sh 'env | sort'
+                println '============================================='
+                sh "echo I AM ARCHIVE from Jenkins Env: [${env.ARCHIVE}]"
+                sh "echo I AM ARCHIVE from Params: [${params.ARCHIVE}]"
+                sh 'echo I AM ARCHIVE from shell: [$ARCHIVE]'
+            }
+        }
         stage('Smoke Tests') {
             when {
                 expression { !edgex.isReleaseStream() && env.ARCHIVE == 'false' }
             }
             steps {
-                build job: '/edgexfoundry/edgex-taf-pipelines/smoke-test', parameters: [string(name: 'SHA1', value: env.GIT_COMMIT), string(name: 'TEST_ARCH', value: 'All'), string(name: 'WITH_SECURITY', value: 'All')]
-            }
-        }
-
-        stage('Archive 3rd Party Images') {
-            when {
-                expression { env.ARCHIVE == 'true' }
-            }
-            steps {
-                edgeXDockerLogin(settingsFile: 'ci-build-images-settings')
-                bootstrapBuildX()
-
-                script {
-                    def images = sh(script: "grep image docker-compose.yml | grep -v edgexfoundry | awk '{print \$2}'", returnStdout: true).trim()
-                    images.split('\n').each { image ->
-                        sh "echo -e 'FROM ${image}' | docker buildx build --platform 'linux/amd64,linux/arm64' -t nexus3.edgexfoundry.org:10002/archive/${image} --push -"
-                    }
-                }
+                sh 'echo running smoke tests'
+                //build job: '/edgexfoundry/edgex-taf-pipelines/smoke-test', parameters: [string(name: 'SHA1', value: env.GIT_COMMIT), string(name: 'TEST_ARCH', value: 'All'), string(name: 'WITH_SECURITY', value: 'All')]
             }
         }
     }
