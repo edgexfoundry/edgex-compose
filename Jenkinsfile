@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Smoke Tests') {
             when {
-                expression { !edgex.isReleaseStream() && env.ARCHIVE == 'false' }
+                expression { !edgex.isReleaseStream() && !params.ARCHIVE }
             }
             steps {
                 sh 'echo running smoke tests'
