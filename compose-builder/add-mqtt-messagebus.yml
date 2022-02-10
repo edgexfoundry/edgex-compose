@@ -43,11 +43,11 @@ services:
 
   rulesengine:
     environment:
-      EDGEX__DEFAULT__TYPE: mqtt
-      EDGEX__DEFAULT__PROTOCOL: tcp
-      EDGEX__DEFAULT__SERVER: edgex-mqtt-broker
-      EDGEX__DEFAULT__PORT: 1883
-      EDGEX__DEFAULT__TOPIC: rules-events
-      EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
+      CONNECTION__EDGEX__MQTTMSGBUS__PORT: 1883
+      CONNECTION__EDGEX__MQTTMSGBUS__PROTOCOL: tcp
+      CONNECTION__EDGEX__MQTTMSGBUS__SERVER: edgex-mqtt-broker
+      CONNECTION__EDGEX__MQTTMSGBUS__TYPE: mqtt
+      CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__CLIENTID: kuiper-rules-engine
+      EDGEX__DEFAULT__CONNECTIONSELECTOR: edgex.mqttMsgBus
     depends_on:
       - mqtt-broker
