@@ -1,5 +1,5 @@
 # /*******************************************************************************
-#  * Copyright 2021 Intel
+#  * Copyright 2022 Intel
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -17,7 +17,7 @@
 	build compose run pull gen \
 	build-taf taf-compose taf-compose-perf \
 	get-token upload-tls-cert get-consul-acl-token \
-    down clean
+    down clean err
 .SILENT: help get-token del-token upload-tls-cert get-consul-acl-token
 
 include .env
@@ -32,7 +32,7 @@ GEN_EXT_DIR:=gen_ext_compose
 # Dashes at beginning & end of line ensure space before/after the first/last option on that line
 # and don't impact the option list
 define OPTIONS
- - arm64 no-secty dev app-dev -
+ - arm64 no-secty dev app-dev delayed-start -
  - zmq-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
@@ -403,6 +403,15 @@ ifeq (asc-ex-mqtt, $(filter asc-external-mqtt-trigger,$(ARGS)))
 	endif
 endif
 
+# Add delayed start services suppport (SPIFFE/SPIRE)
+ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+	ifeq (no-secty, $(filter no-secty,$(ARGS)))
+		ERR:=$(error Cannot specify both delayed-start and no-secty options)
+	else
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-delayed-start-services.yml
+	endif
+endif
+
 # Add a MQTT Broker
 ifeq (mqtt-broker, $(filter mqtt-broker,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-broker.yml
@@ -593,6 +602,7 @@ define COMPOSE_DOWN
 		-f add-mqtt-messagebus.yml \
 		-f add-security.yml \
 		-f add-secure-redis-messagebus.yml \
+		-f add-delayed-start-services.yml \
 		down $1
 endef
 
@@ -682,3 +692,5 @@ down:
 
 clean:
 	$(call COMPOSE_DOWN,-v)
+
+err: ; $(ERR)
