@@ -33,7 +33,7 @@ services:
     command: "agent -ui -bootstrap -server -client 0.0.0.0"
     user: "root:root" # Note that Consul is run under the 'consul' user, but entry point scripts need to first run as root
     ports:
-      - "8500:8500"
+      - "127.0.0.1:8500:8500"
     container_name: edgex-core-consul
     hostname: edgex-core-consul
     read_only: true
