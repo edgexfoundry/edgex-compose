@@ -121,7 +121,7 @@ services:
       - edgex-network
     ports:
       - 127.0.0.1:59841:59841
-    read_only: false #fixme later
+    read_only: true
     restart: always
     env_file:
       - common.env
@@ -141,28 +141,3 @@ services:
       - security-bootstrapper
     security_opt:
       - no-new-privileges:true
-
-  security-test-client:
-    image: ${CORE_EDGEX_REPOSITORY}/security-spire-agent${ARCH}:${CORE_EDGEX_VERSION}${DEV}
-    entrypoint: [ "/usr/bin/tail", "-f", "/dev/null" ]
-    user: "root:root"
-    container_name: edgex-security-test-client
-    hostname: edgex-security-test-client
-    networks:
-      - edgex-network
-    read_only: false
-    restart: always
-    env_file:
-      - common.env
-      - common-security.env
-      - common-sec-stage-gate.env
-    tmpfs:
-      - /run
-    volumes:
-      - edgex-init:/edgex-init:z
-      - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
-    depends_on:
-      - security-spire-server
-    security_opt:
-      - no-new-privileges:true
-

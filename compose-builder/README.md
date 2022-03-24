@@ -45,7 +45,9 @@ This folder contains the following compose files:
 - **add-security.yml**
     Security **extending** compose file. Adds the additional security services and configuration of services so that all the services are running in the secure configuration.
 - **add-secure-redis-messagebus.yml**
-    Secure Redis MessageBus **extending** compose file. Adds the additional security configuration for when Redis is used as MessageBus in secure mode so Kuiper can connect to the secure MesssageBus.
+    Secure Redis MessageBus **extending** compose file. Adds the additional security configuration for when Redis is used as MessageBus in secure mode so Kuiper can connect to the secure MessageBus.
+- **add-delayed-start-services.yml**
+    Secure delayed start services **extending** compose file. Adds additional delayed start services based on spire/spiffe implementation to provide the secret store token on the runtime secure configuration.
 - **add-device-bacnet.yml**
     Device Service **extending** compose file, which adds the **Device Bacnet**  service.
 - **add-device-camera.yml**
@@ -164,32 +166,33 @@ Standard compose variations are:
 run [options] [services]
 Runs the EdgeX services as specified by:
 Options:
-    no-secty:    Runs in Non-Secure Mode, otherwise runs in Secure Mode
-    arm64:       Runs using ARM64 images    
-    dev:         Runs using local dev built images from edgex-go repo's    
-                 'make docker' which creates docker images tagged with '0.0.0-dev'
-    app-dev:     Runs using local dev built images from app-service-configurable repo's
-                 'make docker' which creates docker images tagged with '0.0.0-dev'
-    ds-modbus:   Runs with device-modbus included
-    ds-bacnet:   Runs with device-bacnet included
-    ds-camera:   Runs with device-camera included
-    ds-grove:    Runs with device-grove included (valid only with arm64 option)
-    ds-mqtt:     Runs with device-mqtt included
-    ds-rest:     Runs with device-rest included
-    ds-snmp:     Runs with device-snmp included
-    ds-virtual:  Runs with device-virtual included
-    ds-coap:     Runs with device-coap included
-    ds-gpio:     Runs with device-gpio included
-    ds-llrp:     Runs with device-rfid-llrp included
-    modbus-sim:  Runs with ModBus simulator included
-    asc-http:    Runs with App Service HTTP Export included
-    asc-mqtt:    Runs with App Service MQTT Export included
-    asc-sample:  Runs with App Service Sample included
-    as-llrp:     Runs with App RFID LLRP Inventory included
-    asc-ex-mqtt: Runs with App Service External MQTT Trigger included
-    mqtt-broker: Runs with a MQTT Broker service included 
-    mqtt-bus:    Runs with services configure for MQTT Message Bus 
-    zmq-bus:     Runs with services configure for ZMQ Message Bus     
+    no-secty:      Runs in Non-Secure Mode, otherwise runs in Secure Mode
+    arm64:         Runs using ARM64 images
+    dev:           Runs using local dev built images from edgex-go repo's
+                   'make docker' which creates docker images tagged with '0.0.0-dev'
+    app-dev:       Runs using local dev built images from app-service-configurable repo's
+                   'make docker' which creates docker images tagged with '0.0.0-dev'
+    delayed-start: Runs with delayed start services- spire related services and spiffe-token-provider service included
+    ds-modbus:     Runs with device-modbus included
+    ds-bacnet:     Runs with device-bacnet included
+    ds-camera:     Runs with device-camera included
+    ds-grove:      Runs with device-grove included (valid only with arm64 option)
+    ds-mqtt:       Runs with device-mqtt included
+    ds-rest:       Runs with device-rest included
+    ds-snmp:       Runs with device-snmp included
+    ds-virtual:    Runs with device-virtual included
+    ds-coap:       Runs with device-coap included
+    ds-gpio:       Runs with device-gpio included
+    ds-llrp:       Runs with device-rfid-llrp included
+    modbus-sim:    Runs with ModBus simulator included
+    asc-http:      Runs with App Service HTTP Export included
+    asc-mqtt:      Runs with App Service MQTT Export included
+    asc-sample:    Runs with App Service Sample included
+    as-llrp:       Runs with App RFID LLRP Inventory included
+    asc-ex-mqtt:   Runs with App Service External MQTT Trigger included
+    mqtt-broker:   Runs with a MQTT Broker service included
+    mqtt-bus:      Runs with services configure for MQTT Message Bus
+    zmq-bus:       Runs with services configure for ZMQ Message Bus
 
 Services:
     <names...>: Runs only services listed (and their dependent services) where 'name' matches a service name in one of the compose files used
@@ -207,28 +210,29 @@ Stops all EdgeX services no matter which configuration started them
 pull [options] [services]
 Pulls the EdgeX service images as specified by:
 Options:
-    no-secty:    Pulls images for Non-Secure Mode, otherwise pull images for Secure Mode
-    arm64:       Pulls ARM64 version of images    
-    ds-bacnet:   Pull includes device-bacnet 
-    ds-camera:   Pull includes device-camera
-    ds-grove:    Pull includes device-grove (valid only with arm64 option)
-    ds-modbus:   Pull includes device-modbus 
-    ds-mqtt:     Pull includes device-mqtt
-    ds-rest:     Pull includes device-rest
-    ds-snmp:     Pull includes device-snmp
-    ds-virtual:  Pull includes device-virtual
-    ds-coap:     Pull includes device-coap
-    ds-gpio:     Pull includes device-gpio
-    ds-llrp:     Pull includes device-rfid-llrp
-    modbus-sim:  Pull includes ModBus simulator
-    asc-http:    Pull includes App Service HTTP Export
-    asc-mqtt:    Pull includes App Service MQTT Export
-    asc-sample:  Pull includes App Service Sample
-    as-llrp:     Pull includes App RFID LLRP Inventory
-    asc-ex-mqtt: Pull includes App Service External MQTT Trigger
-    mqtt-broker: Pull includes MQTT Broker service
-    mqtt-bus:    Pull includes additional services for MQTT Message Bus
-    zmq-bus:     Pull includes additional services for ZMQ Message Bus     
+    no-secty:      Pulls images for Non-Secure Mode, otherwise pull images for Secure Mode
+    arm64:         Pulls ARM64 version of images
+    delayed-start: Pull includes delayed start services- spire related services and spiffe-token-provider service
+    ds-bacnet:     Pull includes device-bacnet
+    ds-camera:     Pull includes device-camera
+    ds-grove:      Pull includes device-grove (valid only with arm64 option)
+    ds-modbus:     Pull includes device-modbus
+    ds-mqtt:       Pull includes device-mqtt
+    ds-rest:       Pull includes device-rest
+    ds-snmp:       Pull includes device-snmp
+    ds-virtual:    Pull includes device-virtual
+    ds-coap:       Pull includes device-coap
+    ds-gpio:       Pull includes device-gpio
+    ds-llrp:       Pull includes device-rfid-llrp
+    modbus-sim:    Pull includes ModBus simulator
+    asc-http:      Pull includes App Service HTTP Export
+    asc-mqtt:      Pull includes App Service MQTT Export
+    asc-sample:    Pull includes App Service Sample
+    as-llrp:       Pull includes App RFID LLRP Inventory
+    asc-ex-mqtt:   Pull includes App Service External MQTT Trigger
+    mqtt-broker:   Pull includes MQTT Broker service
+    mqtt-bus:      Pull includes additional services for MQTT Message Bus
+    zmq-bus:       Pull includes additional services for ZMQ Message Bus
 
 Services:
     <names...>: Pulls only images for the service(s) listed
@@ -239,33 +243,35 @@ Services:
 gen [options]
 Generates temporary single file compose file (`docker-compose.yml`) as specified by:
 Options:
-    no-secty:   Generates non-secure compose, otherwise generates secure compose file
-    arm64:      Generates compose file using ARM64 images    
-    dev:        Generates compose file using local dev built images from edgex-go repo's 
-                'make docker' which creates docker images tagged with '0.0.0-dev'
-    app-dev:    Generates compose file using local dev built images from app-service-configurable repo's
-                'make docker' which creates docker images tagged with '0.0.0-dev'
-    ds-modbus:  Generates compose file with device-modbus included
-    ds-bacnet:  Generates compose file with device-bacnet included
-    ds-camera:  Generates compose file with device-camera included
-    ds-grove:   Generates compose file with device-grove included (valid only with arm64 option)
-    ds-mqtt:     Generates compose file with device-mqtt included
-    ds-rest:     Generates compose file with device-rest included
-    ds-snmp:     Generates compose file with device-snmp included
-    ds-virtual:  Generates compose file with device-virtual included
-    ds-coap:     Generates compose file with device-coap included
-    ds-gpio:     Generates compose file with device-gpio included
-    ds-llrp:     Generates compose file with device-rfid-llrp included
-    modbus-sim:  Generates compose file with ModBus simulator included
-    asc-http:    Generates compose file with App Service HTTP Export included
-    asc-mqtt:    Generates compose file with App Service MQTT Export included
-    asc-sample:  Generates compose file with App Service Sample included
-    as-llrp:     Generates compose file with App RFID LLRP Inventory included
-    asc-ex-mqtt: Generates compose file with App Service External MQTT Trigger included
-    mqtt-broker: Generates compose file with a MQTT Broker service included 
-    mqtt-bus:    Generates compose file with services configured for MQTT Message Bus 
-                 The MQTT Broker service is also included. 
-    zmq-bus:     Generates compose file with services configured for ZMQ Message Bus     
+    no-secty:      Generates non-secure compose, otherwise generates secure compose file
+    arm64:         Generates compose file using ARM64 images
+    dev:           Generates compose file using local dev built images from edgex-go repo's
+                   'make docker' which creates docker images tagged with '0.0.0-dev'
+    app-dev:       Generates compose file using local dev built images from app-service-configurable repo's
+                   'make docker' which creates docker images tagged with '0.0.0-dev'
+    delayed-start: Generates compose file with delayed start services- spire related services and
+                   spiffe-token-provider service included
+    ds-modbus:     Generates compose file with device-modbus included
+    ds-bacnet:     Generates compose file with device-bacnet included
+    ds-camera:     Generates compose file with device-camera included
+    ds-grove:      Generates compose file with device-grove included (valid only with arm64 option)
+    ds-mqtt:       Generates compose file with device-mqtt included
+    ds-rest:       Generates compose file with device-rest included
+    ds-snmp:       Generates compose file with device-snmp included
+    ds-virtual:    Generates compose file with device-virtual included
+    ds-coap:       Generates compose file with device-coap included
+    ds-gpio:       Generates compose file with device-gpio included
+    ds-llrp:       Generates compose file with device-rfid-llrp included
+    modbus-sim:    Generates compose file with ModBus simulator included
+    asc-http:      Generates compose file with App Service HTTP Export included
+    asc-mqtt:      Generates compose file with App Service MQTT Export included
+    asc-sample:    Generates compose file with App Service Sample included
+    as-llrp:       Generates compose file with App RFID LLRP Inventory included
+    asc-ex-mqtt:   Generates compose file with App Service External MQTT Trigger included
+    mqtt-broker:   Generates compose file with a MQTT Broker service included
+    mqtt-bus:      Generates compose file with services configured for MQTT Message Bus
+                   The MQTT Broker service is also included.
+    zmq-bus:       Generates compose file with services configured for ZMQ Message Bus
 ```
 #### Clean
 
@@ -314,36 +320,38 @@ Options:
 
 ```
 compose [options] 
-Generates the EdgeX compose file as specified by options and stores them in the configured release folder. Compose files are named appropriatly for release and options used to generate them.
+Generates the EdgeX compose file as specified by options and stores them in the configured release folder. Compose files are named appropriately for release and options used to generate them.
 
 Options:
-    no-secty:   Generates non-secure compose file, otherwise generates secure compose file
-    arm64:      Generates compose file using ARM64 images
-    dev:        Generates compose file using local dev built images from edgex-go repo's 
-                'make docker' which creates docker images tagged with '0.0.0-dev'    
-    app-dev:    Generates compose file using local dev built images from app-service-configurable repo's
-                'make docker' which creates docker images tagged with '0.0.0-dev'
-    ds-bacnet:  Generates compose file with device-bacnet included
-    ds-camera:  Generates compose file with device-camera included
-    ds-grove:   Generates compose file with device-grove included (valid only with arm64 option)
-    ds-modbus:   Generates compose file with device-modbus included
-    ds-mqtt:     Generates compose file with device-mqtt included
-    ds-rest:     Generates compose file with device-rest included
-    ds-snmp:     Generates compose file with device-snmp included
-    ds-virtual:  Generates compose file with device-virtual included
-    ds-coap:     Generates compose file with device-coap included
-    ds-gpio:     Generates compose file with device-gpio included
-    ds-llrp:     Generates compose file with device-rfid-llrp included
-    modbus-sim:  Generates compose file with ModBus simulator included
-    asc-http:    Generates compose file with App Service HTTP Export included
-    asc-mqtt:    Generates compose file with App Service MQTT Export included
-    asc-sample:  Generates compose file with App Service Sample included
-    as-llrp:     Generates compose file with App RFID LLRP Inventory included
-    asc-ex-mqtt: Generates compose file with App Service External MQTT Trigger included
-    mqtt-broker: Generates compose file with a MQTT Broker service included 
-    mqtt-bus:    Generates compose file with services configure for MQTT Message Bus 
-                 The MQTT Broker service is also included.
-    zmq-bus:     Generates compose file with services configured for ZMQ Message Bus     
+    no-secty:      Generates non-secure compose file, otherwise generates secure compose file
+    arm64:         Generates compose file using ARM64 images
+    dev:           Generates compose file using local dev built images from edgex-go repo's
+                   'make docker' which creates docker images tagged with '0.0.0-dev'
+    app-dev:       Generates compose file using local dev built images from app-service-configurable repo's
+                   'make docker' which creates docker images tagged with '0.0.0-dev'
+    delayed-start: Generates compose file with delayed start services- spire related services and
+                   spiffe-token-provider service included
+    ds-bacnet:     Generates compose file with device-bacnet included
+    ds-camera:     Generates compose file with device-camera included
+    ds-grove:      Generates compose file with device-grove included (valid only with arm64 option)
+    ds-modbus:     Generates compose file with device-modbus included
+    ds-mqtt:       Generates compose file with device-mqtt included
+    ds-rest:       Generates compose file with device-rest included
+    ds-snmp:       Generates compose file with device-snmp included
+    ds-virtual:    Generates compose file with device-virtual included
+    ds-coap:       Generates compose file with device-coap included
+    ds-gpio:       Generates compose file with device-gpio included
+    ds-llrp:       Generates compose file with device-rfid-llrp included
+    modbus-sim:    Generates compose file with ModBus simulator included
+    asc-http:      Generates compose file with App Service HTTP Export included
+    asc-mqtt:      Generates compose file with App Service MQTT Export included
+    asc-sample:    Generates compose file with App Service Sample included
+    as-llrp:       Generates compose file with App RFID LLRP Inventory included
+    asc-ex-mqtt:   Generates compose file with App Service External MQTT Trigger included
+    mqtt-broker:   Generates compose file with a MQTT Broker service included
+    mqtt-bus:      Generates compose file with services configure for MQTT Message Bus
+                   The MQTT Broker service is also included.
+    zmq-bus:       Generates compose file with services configured for ZMQ Message Bus
 ```
 
 #### Taf-compose
