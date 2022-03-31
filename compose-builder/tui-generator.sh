@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # /*******************************************************************************
-#  * Copyright 2022 
+#  * Copyright 2022 Shantanoo Desai <shantanoo.desai@gmail.com>
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -113,7 +113,10 @@ declare -A msgBusDesc=(
 #    Additional Services Options Display Function                  #
 ####################################################################
 function additionalServiceOption() {
-    message="Some Additional Services are available that can also be included."
+    message="Some Additional Services are available that can also be included. \n
+            Press <SPACEBAR> to Select \n
+            Press <ENTER> to Skip \n
+            "
 
     # Generate a Specific form of Array required by whiptail checklist
     # FORMAT: "<INDEX> <DESCRIPTION> <OFF>"
@@ -126,6 +129,7 @@ function additionalServiceOption() {
     done
     SELECTED_OTHERS+=$(/usr/bin/whiptail --title "App Services" \
                 --notags --separate-output \
+                --ok-button Next \
                 --nocancel \
                 --checklist "$message" 20 75 5 \
                 -- "${arglist[@]})" \
@@ -137,7 +141,10 @@ function additionalServiceOption() {
 #    App Services Options Display Function                         #
 ####################################################################
 function appServiceOption() {
-    message="Available App Services to include in your compose file."
+    message="Available App Services to include in your compose file. \n
+            Press <SPACEBAR> to Select \n
+            Press <ENTER> to Skip \n
+            "
 
     # Generate a Specific form of Array required by whiptail checklist
     # FORMAT: "<INDEX> <DESCRIPTION> <OFF>"
@@ -149,6 +156,7 @@ function appServiceOption() {
         arglist+=("OFF") # Nothing is selected by-default
     done
     SELECTED_APPSERVICES+=$(/usr/bin/whiptail --title "App Services" \
+                --ok-button Next \
                 --nocancel \
                 --notags --separate-output \
                 --checklist "$message" 20 75 7 \
@@ -182,7 +190,10 @@ function displayNoSecty() {
 #    Device Services Options Display Function                      #
 ####################################################################
 function devServiceOption() {
-    message="Available Device Services to include in your compose file."
+    message="Available Device Services to include in your compose file.\n
+            Press <SPACEBAR> to Select \n
+            Press <ENTER> to Skip \n
+            "
 
     # Generate a Specific form of Array required by whiptail checklist
     # FORMAT: "<INDEX> <DESCRIPTION> <OFF>"
@@ -194,6 +205,7 @@ function devServiceOption() {
         arglist+=("OFF") # Nothing is selected by-default
     done
     SELECTED_DEVSERVICES=$(/usr/bin/whiptail --title "Device Services" \
+                --ok-button Next \
                 --nocancel \
                 --notags --separate-output \
                 --checklist "$message" 20 75 13 \
@@ -205,7 +217,10 @@ function devServiceOption() {
 #    Message Bus Options Display Function                          #
 ####################################################################
 function msgBusOption() {
-    message="Available Message Buses to replace the default one."
+    message="Available Message Buses to replace the default one.\n
+            Press <SPACEBAR> to Select \n
+            Press <ENTER> to Skip \n
+            "
 
     # Generate a Specific form of Array required by whiptail checklist
     # FORMAT: "<INDEX> <DESCRIPTION> <OFF>"
@@ -217,6 +232,7 @@ function msgBusOption() {
         arglist+=("OFF") # Nothing is selected by-default
     done
     SELECTED_BUS=$(/usr/bin/whiptail --title "App Services" \
+                --ok-button Next \
                 --nocancel \
                 --notags --separate-output \
                 --radiolist "$message" 20 75 4 \
@@ -224,6 +240,17 @@ function msgBusOption() {
                 3>&1 1>&2 2>&3)
 }
 
+####################################################################
+#    Generate / Generate & Run Option Display Function             #
+####################################################################
+function finalStep() {
+    message="What would you like to do?"
+
+    /usr/bin/whiptail --title "Non-Secure Configuration" \
+        --yes-button "Generate File" \
+        --no-button "Generate File and Run" \
+         --yesno "$message" 8 78
+}
 
 ## Step - 1: Start by Asking about whether Images should be pulled for ARM64?
 displayArm64
@@ -254,5 +281,13 @@ additionalServiceOption
 # echo "app services selected: ${SELECTED_APPSERVICES}" ## DEBUG
 # echo "selected message bus: ${SELECTED_BUS}" ## DEBUG
 
-echo "Generating necessary Compose file:....."
-$MAKE compose $SELECTED_OTHERS $SELECTED_DEVSERVICES $SELECTED_APPSERVICES $SELECTED_BUS
+finalStep
+
+if [[ $? == 0 ]]; then
+    echo "Generating Compose file...\n"
+    $MAKE gen $SELECTED_OTHERS $SELECTED_DEVSERVICES $SELECTED_APPSERVICES $SELECTED_BUS
+else
+    echo "Generating Compose file and Running the Stack....\n"
+    $MAKE gen $SELECTED_OTHERS $SELECTED_DEVSERVICES $SELECTED_APPSERVICES $SELECTED_BUS
+    $MAKE run
+fi
