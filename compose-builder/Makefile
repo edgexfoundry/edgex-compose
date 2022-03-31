@@ -1,5 +1,5 @@
 # /*******************************************************************************
-#  * Copyright 2021 Intel
+#  * Copyright 2022 Intel
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -17,10 +17,11 @@
 	build compose run pull gen \
 	build-taf taf-compose taf-compose-perf \
 	get-token upload-tls-cert get-consul-acl-token \
-    down clean
+    down clean err
 .SILENT: help get-token del-token upload-tls-cert get-consul-acl-token
 
 include .env
+include common-security.env
 
 COMPOSE_FILES:=-f docker-compose-base.yml
 TOKEN_LIST:=""
@@ -32,7 +33,7 @@ GEN_EXT_DIR:=gen_ext_compose
 # Dashes at beginning & end of line ensure space before/after the first/last option on that line
 # and don't impact the option list
 define OPTIONS
- - arm64 no-secty dev app-dev -
+ - arm64 no-secty dev app-dev delayed-start -
  - zmq-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
@@ -81,6 +82,11 @@ ifeq (ds-bacnet, $(filter ds-bacnet,$(ARGS)))
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet device-bacnet startup.sh "")
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-bacnet)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (ds-camera, $(filter ds-camera,$(ARGS)))
@@ -102,6 +108,11 @@ ifeq (ds-camera, $(filter ds-camera,$(ARGS)))
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-camera)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-camera)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (ds-grove, $(filter ds-grove,$(ARGS)))
@@ -124,6 +135,11 @@ ifeq (ds-grove, $(filter ds-grove,$(ARGS)))
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-grove)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-grove)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (ds-modbus, $(filter ds-modbus,$(ARGS)))
@@ -145,6 +161,11 @@ ifeq (ds-modbus, $(filter ds-modbus,$(ARGS)))
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-modbus)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (ds-mqtt, $(filter ds-mqtt,$(ARGS)))
@@ -166,6 +187,11 @@ ifeq (ds-mqtt, $(filter ds-mqtt,$(ARGS)))
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-mqtt)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-mqtt)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (ds-rest, $(filter ds-rest,$(ARGS)))
@@ -182,6 +208,11 @@ ifeq (ds-rest, $(filter ds-rest,$(ARGS)))
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-rest)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (ds-snmp, $(filter ds-snmp,$(ARGS)))
@@ -203,6 +234,11 @@ ifeq (ds-snmp, $(filter ds-snmp,$(ARGS)))
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-snmp device-snmp-go device-snmp-go)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-snmp)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (ds-virtual, $(filter ds-virtual,$(ARGS)))
@@ -220,6 +256,11 @@ ifeq (ds-virtual, $(filter ds-virtual,$(ARGS)))
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-virtual)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (ds-llrp, $(filter ds-llrp,$(ARGS)))
@@ -241,6 +282,11 @@ ifeq (ds-llrp, $(filter ds-llrp,$(ARGS)))
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rfid-llrp)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-rfid-llrp)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (ds-coap, $(filter ds-coap,$(ARGS)))
@@ -262,6 +308,11 @@ ifeq (ds-coap, $(filter ds-coap,$(ARGS)))
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-coap)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-coap)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (ds-gpio, $(filter ds-gpio,$(ARGS)))
@@ -283,6 +334,11 @@ ifeq (ds-gpio, $(filter ds-gpio,$(ARGS)))
 		endif
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-gpio)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-gpio)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 # Add ModBus Simulator
@@ -313,6 +369,11 @@ ifeq (asc-http, $(filter asc-http,$(ARGS)))
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-http-export \
 			app-http-export app-service-configurable)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh app-service-http-export)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
@@ -337,6 +398,11 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 			app-mqtt-export app-service-configurable)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh app-service-mqtt-export)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (asc-sample, $(filter asc-sample,$(ARGS)))
@@ -362,6 +428,11 @@ ifeq (asc-sample, $(filter asc-sample,$(ARGS)))
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-sample \
 			app-sample app-service-configurable)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh app-service-sample)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
@@ -385,6 +456,11 @@ ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
 		# then we also need to add the secure version on top of base yml by default.
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-rfid-llrp-inventory)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh app-rfid-llrp-inventory)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
 	endif
 endif
 ifeq (asc-ex-mqtt, $(filter asc-external-mqtt-trigger,$(ARGS)))
@@ -400,6 +476,20 @@ ifeq (asc-ex-mqtt, $(filter asc-external-mqtt-trigger,$(ARGS)))
 		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-external-mqtt-trigger \
 			app-external-mqtt-trigger app-service-configurable)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh app-service-external-mqtt-trigger)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
+	endif
+endif
+
+# Add delayed start services suppport (SPIFFE/SPIRE)
+ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+	ifeq (no-secty, $(filter no-secty,$(ARGS)))
+		ERR:=$(error Cannot specify both delayed-start and no-secty options)
+	else
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-delayed-start-services.yml
 	endif
 endif
 
@@ -593,6 +683,7 @@ define COMPOSE_DOWN
 		-f add-mqtt-messagebus.yml \
 		-f add-security.yml \
 		-f add-secure-redis-messagebus.yml \
+		-f add-delayed-start-services.yml \
 		down $1
 endef
 
@@ -659,6 +750,8 @@ gen:
 	KNOWN_SECRETS_LIST=$(KNOWN_SECRETS_LIST) \
 	EXTRA_PROXY_ROUTE_LIST=$(EXTRA_PROXY_ROUTE_LIST) \
 	GEN_EXT_DIR=$(GEN_EXT_DIR) \
+	SPIFFE_TRUSTDOMAIN=$(SPIFFE_TRUSTDOMAIN) \
+	SPIFFE_ENDPOINTSOCKET=$(SPIFFE_ENDPOINTSOCKET) \
 	docker-compose -p edgex $(COMPOSE_FILES) config > docker-compose.yml
 	rm -rf ./$(GEN_EXT_DIR)
 
@@ -682,3 +775,5 @@ down:
 
 clean:
 	$(call COMPOSE_DOWN,-v)
+
+err: ; $(ERR)

@@ -1,0 +1,143 @@
+# /*******************************************************************************
+#  * Copyright 2022 Intel Corporation.
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  *******************************************************************************/
+
+version: '3.7'
+
+volumes:
+  spire-ca:
+  spire-server:
+  spire-agent:
+
+services:
+  security-spire-server:
+    image: ${CORE_EDGEX_REPOSITORY}/security-spire-server${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    command: docker-entrypoint.sh
+    user: "root:root"
+    container_name: edgex-security-spire-server
+    hostname: edgex-security-spire-server
+    networks:
+      - edgex-network
+    ports:
+      - 127.0.0.1:59840:59840
+    read_only: true
+    restart: always
+    env_file:
+      - common.env
+      - common-security.env
+      - common-sec-stage-gate.env
+    tmpfs:
+      - /run
+    volumes:
+      - edgex-init:/edgex-init:z
+      - spire-ca:/srv/spiffe/ca:z
+      - spire-server:/srv/spiffe/server:z
+      - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
+    depends_on:
+      - security-bootstrapper
+    pid: host
+    security_opt:
+      - no-new-privileges:true
+
+  security-spire-agent:
+    image: ${CORE_EDGEX_REPOSITORY}/security-spire-agent${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    command: docker-entrypoint.sh
+    user: "root:root"
+    container_name: edgex-security-spire-agent
+    hostname: edgex-security-spire-agent
+    networks:
+      - edgex-network
+    read_only: true
+    restart: always
+    env_file:
+      - common.env
+      - common-security.env
+      - common-sec-stage-gate.env
+    tmpfs:
+      - /run
+    volumes:
+      - edgex-init:/edgex-init:z
+      - spire-ca:/srv/spiffe/ca:z
+      - spire-agent:/srv/spiffe/agent:z
+      - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - security-spire-server
+    pid: host
+    privileged: true
+    security_opt:
+      - no-new-privileges:true
+
+  security-spire-config:
+    image: ${CORE_EDGEX_REPOSITORY}/security-spire-config${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    command: docker-entrypoint.sh
+    user: "root:root"
+    container_name: edgex-security-spire-config
+    hostname: edgex-security-spire-config
+    networks:
+      - edgex-network
+    read_only: true
+    restart: always
+    env_file:
+      - common.env
+      - common-security.env
+      - common-sec-stage-gate.env
+    tmpfs:
+      - /run
+    volumes:
+      - edgex-init:/edgex-init:z
+      - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
+    depends_on:
+      - security-spire-agent
+    security_opt:
+      - no-new-privileges:true
+
+  security-spiffe-token-provider:
+    image: ${CORE_EDGEX_REPOSITORY}/security-spiffe-token-provider${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    command: /security-spiffe-token-provider -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    user: "root:root"
+    container_name: edgex-security-spiffe-token-provider
+    hostname: edgex-security-spiffe-token-provider
+    networks:
+      - edgex-network
+    ports:
+      - 127.0.0.1:59841:59841
+    read_only: true
+    restart: always
+    env_file:
+      - common.env
+      - common-security.env
+      - common-sec-stage-gate.env
+    environment:
+      SERVICE_HOST: edgex-security-spiffe-token-provider
+    tmpfs:
+      - /run
+    volumes:
+      - edgex-init:/edgex-init:z
+      - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
+      - /tmp/edgex/secrets/security-spiffe-token-provider:/tmp/edgex/secrets/security-spiffe-token-provider:z
+    depends_on:
+      - consul
+      - security-spire-agent
+      - security-bootstrapper
+    security_opt:
+      - no-new-privileges:true
