@@ -1,5 +1,5 @@
 # /*******************************************************************************
-#  * Copyright 2021 Intel Corporation.
+#  * Copyright 2022 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -25,3 +25,7 @@ services:
       SECRETSTORE_RUNTIMETOKENPROVIDER_TRUSTDOMAIN: "${SPIFFE_TRUSTDOMAIN}"
       SECRETSTORE_RUNTIMETOKENPROVIDER_ENDPOINTSOCKET: "${SPIFFE_ENDPOINTSOCKET}"
       SECRETSTORE_RUNTIMETOKENPROVIDER_REQUIREDSECRETS: redisdb
+    volumes:
+      - /tmp/edgex/secrets/spiffe/public:/tmp/edgex/secrets/spiffe/public:ro,z
+    depends_on:
+      - security-spiffe-token-provider
