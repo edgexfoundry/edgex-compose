@@ -320,8 +320,11 @@ services:
       CONNECTION__EDGEX__REDISMSGBUS__PROTOCOL: redis
       CONNECTION__EDGEX__REDISMSGBUS__SERVER: edgex-redis
       CONNECTION__EDGEX__REDISMSGBUS__TYPE: redis
-      EDGEX__DEFAULT__CONNECTIONSELECTOR: edgex.redisMsgBus
+      EDGEX__DEFAULT__PORT: 6379
+      EDGEX__DEFAULT__PROTOCOL: redis
+      EDGEX__DEFAULT__SERVER: edgex-redis
       EDGEX__DEFAULT__TOPIC: rules-events
+      EDGEX__DEFAULT__TYPE: redis
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 59720
     hostname: edgex-kuiper
