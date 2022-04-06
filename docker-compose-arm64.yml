@@ -745,7 +745,6 @@ services:
       EDGEX__DEFAULT__TOPIC: rules-events
       EDGEX__DEFAULT__TYPE: redis
       KUIPER__BASIC__CONSOLELOG: "true"
-      KUIPER__BASIC__DEBUG: "true"
       KUIPER__BASIC__RESTPORT: 59720
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper

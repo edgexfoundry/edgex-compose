@@ -48,10 +48,12 @@ services:
       CONNECTION__EDGEX__MQTTMSGBUS__SERVER: edgex-mqtt-broker
       CONNECTION__EDGEX__MQTTMSGBUS__TYPE: mqtt
       CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__CLIENTID: kuiper-rules-engine
+      CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__KEEPALIVE: 500
       EDGEX__DEFAULT__PORT: 1883
       EDGEX__DEFAULT__PROTOCOL: tcp
       EDGEX__DEFAULT__SERVER: edgex-mqtt-broker
       EDGEX__DEFAULT__TYPE: mqtt
       EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
+      EDGEX__DEFAULT__OPTIONAL__KEEPALIVE: 500
     depends_on:
       - mqtt-broker

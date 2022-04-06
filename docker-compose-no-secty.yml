@@ -279,7 +279,6 @@ services:
       EDGEX__DEFAULT__TOPIC: rules-events
       EDGEX__DEFAULT__TYPE: redis
       KUIPER__BASIC__CONSOLELOG: "true"
-      KUIPER__BASIC__DEBUG: "true"
       KUIPER__BASIC__RESTPORT: 59720
     hostname: edgex-kuiper
     image: lfedge/ekuiper:1.4-alpine

@@ -245,7 +245,7 @@ services:
     volumes:
       - kuiper-data:/kuiper/data:z
     environment:
-      KUIPER__BASIC__DEBUG: "true"
+#      KUIPER__BASIC__DEBUG: "true"
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 59720
       CONNECTION__EDGEX__REDISMSGBUS__PORT: 6379
