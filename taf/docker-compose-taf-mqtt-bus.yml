@@ -10,7 +10,7 @@
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
 #  *
-#  * EdgeX Foundry, Hanoi, version "master"
+#  * EdgeX Foundry, Kamakura WIP release
 #  *******************************************************************************/
 #
 #
@@ -461,7 +461,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-consul
-    image: consul:1.10
+    image: consul:1.10.10
     networks:
       edgex-network: {}
     ports:
@@ -586,7 +586,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-redis
-    image: redis:6.2-alpine
+    image: redis:6.2.6-alpine
     networks:
       edgex-network: {}
     ports:
@@ -898,7 +898,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kong
-    image: kong:2.6
+    image: kong:2.6.1
     networks:
       edgex-network: {}
     ports:
@@ -1048,7 +1048,7 @@ services:
     command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0
+    image: eclipse-mosquitto:2.0.14
     networks:
       edgex-network: {}
     ports:
@@ -1198,7 +1198,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 59720
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.4-alpine
+    image: lfedge/ekuiper:1.4.4-alpine
     networks:
       edgex-network: {}
     ports:
@@ -1540,7 +1540,7 @@ services:
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
     hostname: edgex-vault
-    image: vault:1.8.5
+    image: vault:1.8.9
     networks:
       edgex-network: {}
     ports:
