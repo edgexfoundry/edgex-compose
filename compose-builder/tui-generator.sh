@@ -33,33 +33,18 @@ then
     exit 1;
 fi
 
-MAKE=/usr/bin/make
+MAKE=$(which make)
 
 SELECTED_DEVSERVICES=()
 SELECTED_APPSERVICES=()
 SELECTED_BUS=()
-SELECTED_OTHERS=()
-
-## Additional Options
-additionalOpts=(
-    "mqtt-broker"
-    "modbus-sim"
-)
+LINES=$(tput lines)
+COLUMNS=$(tput cols)
 
 ## General Options Description
 declare -A additionalOptsDesc=(
     [modbus-sim]="Include ModBus Simulator"
     [mqtt-broker]="Include MQTT Broker"
-)
-
-
-## Available App Services in EdgeX-Foundry
-appServices=(
-    "asc-http"
-    "asc-mqtt"
-    "asc-sample"
-    "as-llrp"
-    "asc-ex-mqtt"
 )
 
 ## App Service Descriptions
@@ -69,22 +54,6 @@ declare -A appServiceDesc=(
     [asc-sample]="Include Sample App Service"
     [as-llrp]="Include RFID LLRP Inventory"
     [asc-ex-mqtt]="Include External MQTT Trigger App Service"
-)
-
-
-## Available Device Services in EdgeX-Foundry
-deviceServices=(
-    "ds-bacnet"
-    "ds-camera"
-    "ds-grove"
-    "ds-modbus"
-    "ds-mqtt"
-    "ds-rest"
-    "ds-snmp"
-    "ds-virtual"
-    "ds-coap"
-    "ds-gpio"
-    "ds-llrp"
 )
 
 ## Device Service Descriptions
@@ -103,14 +72,6 @@ declare -A deviceServiceDesc=(
 
 )
 
-
-## Available Message Bus Services in EdgeX-Foundry
-messageBus=(
-    "mqtt-bus"
-    "zmq-bus"
-)
-
-
 ## Message Bus Descriptions
 declare -A msgBusDesc=(
     [mqtt-bus]="Configure MQTT Message Bus"
@@ -122,26 +83,24 @@ declare -A msgBusDesc=(
 #    Additional Services Options Display Function                  #
 ####################################################################
 function additionalServiceOption() {
-    message="Some Additional Services are available that can also be included. \n
+    local message="Some Additional Services are available that can also be included. \n
             Press <SPACEBAR> to Select \n
             Press <ENTER> to Skip
             "
 
     # Generate a Specific form of Array required by whiptail checklist
     # FORMAT: "<INDEX> <DESCRIPTION> <OFF>"
-    arglist=()
-    for index in "${additionalOpts[@]}";
+    local arglist=()
+    for index in "${!additionalOptsDesc[@]}";
     do
-        arglist+=("$index")
-        arglist+=("${additionalOptsDesc[$index]}")
-        arglist+=("OFF") # Nothing is selected by-default
+        arglist+=("$index" "${additionalOptsDesc[$index]}" "OFF") # Nothing is selected by-default
     done
-    SELECTED_OTHERS+=$($WHIPTAIL --title "App Services" \
+    SELECTED_OTHERS+=$($WHIPTAIL --title "Additional Services" \
                 --notags --separate-output \
                 --ok-button Next \
                 --nocancel \
-                --checklist "$message" $LINES $COLUMNS $(( $LINES - 12 )) \
-                -- "${arglist[@]})" \
+                --checklist "$message" $LINES $COLUMNS $(( LINES - 12 )) \
+                -- "${arglist[@]}" \
                 3>&1 1>&2 2>&3)
 }
 
@@ -150,25 +109,23 @@ function additionalServiceOption() {
 #    App Services Options Display Function                         #
 ####################################################################
 function appServiceOption() {
-    message="Available App Services to include in your compose file. \n
+    local message="Available App Services to include in your compose file. \n
             Press <SPACEBAR> to Select \n
             Press <ENTER> to Skip
             "
 
     # Generate a Specific form of Array required by whiptail checklist
     # FORMAT: "<INDEX> <DESCRIPTION> <OFF>"
-    arglist=()
-    for index in "${appServices[@]}";
+    local arglist=()
+    for index in "${!appServiceDesc[@]}";
     do
-        arglist+=("$index")
-        arglist+=("${appServiceDesc[$index]}")
-        arglist+=("OFF") # Nothing is selected by-default
+        arglist+=("$index" "${appServiceDesc[$index]}" "OFF") # Nothing is selected by-default
     done
     SELECTED_APPSERVICES+=$($WHIPTAIL --title "App Services" \
                 --ok-button Next \
                 --nocancel \
                 --notags --separate-output \
-                --checklist "$message" $LINES $COLUMNS $(( $LINES - 12 )) \
+                --checklist "$message" $LINES $COLUMNS $(( LINES - 12 )) \
                 -- "${arglist[@]}" \
                 3>&1 1>&2 2>&3)
 }
@@ -179,7 +136,7 @@ function appServiceOption() {
 #    ARM64 Question Display Function                               #
 ####################################################################
 function displayArm64() {
-    message="Would you like to use ARM64 Images to generate the Compose file?"
+    local message="Would you like to use ARM64 Images to generate the Compose file?"
     $WHIPTAIL --title "Images Architecture" --yesno --defaultno "$message" $LINES $COLUMNS
 }
 
@@ -188,8 +145,11 @@ function displayArm64() {
 #    No-Security Question Display Function                         #
 ####################################################################
 function displayNoSecty() {
-    message="Would you like to generate a non-secure configuration of the Compose file?"
-    $WHIPTAIL --title "Non-Secure Configuration" --yesno "$message" $LINES $COLUMNS
+    local message="Select a Security Configuration for EdgeX"
+    $WHIPTAIL --title "Security Configuration for EdgeX" \
+            --yes-button "Secure" \
+            --no-button "Non-Secure" \
+            --yesno "$message" $LINES $COLUMNS
 }
 
 
@@ -197,26 +157,24 @@ function displayNoSecty() {
 #    Device Services Options Display Function                      #
 ####################################################################
 function devServiceOption() {
-    message="Available Device Services to include in your compose file.\n
+    local message="Available Device Services to include in your compose file.\n
             Press <SPACEBAR> to Select \n
             Press <ENTER> to Skip
             "
 
     # Generate a Specific form of Array required by whiptail checklist
     # FORMAT: "<INDEX> <DESCRIPTION> <OFF>"
-    arglist=()
-    for index in "${deviceServices[@]}";
+    local arglist=()
+    for index in "${!deviceServiceDesc[@]}";
     do
-        arglist+=("$index")
-        arglist+=("${deviceServiceDesc[$index]}")
-        arglist+=("OFF") # Nothing is selected by-default
+        arglist+=("$index" "${deviceServiceDesc[$index]}" "OFF") # Nothing is selected by-default
     done
     SELECTED_DEVSERVICES=$($WHIPTAIL --title "Device Services" \
                 --ok-button Next \
                 --nocancel \
                 --notags --separate-output \
-                --checklist "$message" $LINES $COLUMNS $(( $LINES - 12 )) \
-                -- "${arglist[@]})" \
+                --checklist "$message" $LINES $COLUMNS $(( LINES - 12 )) \
+                -- "${arglist[@]}" \
                 3>&1 1>&2 2>&3)
 }
 
@@ -224,26 +182,24 @@ function devServiceOption() {
 #    Message Bus Options Display Function                          #
 ####################################################################
 function msgBusOption() {
-    message="Available Message Buses to replace the default one.\n
+    local message="Alternative Message Buses to replace the default one.\n
             Press <SPACEBAR> to Select \n
             Press <ENTER> to Skip
             "
 
     # Generate a Specific form of Array required by whiptail checklist
     # FORMAT: "<INDEX> <DESCRIPTION> <OFF>"
-    arglist=()
-    for index in "${messageBus[@]}";
+    local arglist=()
+    for index in "${!msgBusDesc[@]}";
     do
-        arglist+=("$index")
-        arglist+=("${msgBusDesc[$index]}")
-        arglist+=("OFF") # Nothing is selected by-default
+        arglist+=("$index" "${msgBusDesc[$index]}" "OFF") # Nothing is selected by-default
     done
-    SELECTED_BUS=$($WHIPTAIL --title "App Services" \
+    SELECTED_BUS=$($WHIPTAIL --title "Message Bus Alternatives" \
                 --ok-button Next \
                 --nocancel \
                 --notags --separate-output \
-                --radiolist "$message" $LINES $COLUMNS $(( $LINES - 12 )) \
-                -- "${arglist[@]})" \
+                --radiolist "$message" $LINES $COLUMNS $(( LINES - 12 )) \
+                -- "${arglist[@]}" \
                 3>&1 1>&2 2>&3)
 }
 
@@ -251,23 +207,24 @@ function msgBusOption() {
 #    Generate / Generate & Run Option Display Function             #
 ####################################################################
 function finalStep() {
-    message="What would you like to do?"
-    $WHIPTAIL --title "Non-Secure Configuration" \
+    local message="What would you like to do?"
+    $WHIPTAIL --title "Generate / Run EdgeX" \
         --yes-button "Generate File" \
         --no-button "Generate File and Run" \
          --yesno "$message" $LINES $COLUMNS
 }
 
 ## Step - 1: Start by Asking about whether Images should be pulled for ARM64?
-displayArm64
-if [[ $? == 0 ]]; then
-    SELECTED_OTHERS+=("arm64 ")
+ARM64_OPT=""
+if displayArm64; then
+    ARM64_OPT="arm64"
 fi
 
-## Step - 2: Ask whether a non-secure Configuration is needed
-displayNoSecty
-if [[ $? == 0 ]]; then
-    SELECTED_OTHERS+=("no-secty ")
+## Step - 2: Ask for Security Configuration is needed
+## DEFAULT: always secure, only if user selects Non-Secure in TUI, should `no-secty` be set
+SECURITY_OPT=""
+if ! displayNoSecty; then
+    SECURITY_OPT="no-secty"
 fi  
 
 ## Step - 3: Add Device Services Option
@@ -282,18 +239,10 @@ msgBusOption
 ## Step -6: Ask for Additional Options
 additionalServiceOption
 
-# echo "additional services selected: ${SELECTED_OTHERS}" ## DEBUG
-# echo "device services selected: ${SELECTED_DEVSERVICES}" ## DEBUG
-# echo "app services selected: ${SELECTED_APPSERVICES}" ## DEBUG
-# echo "selected message bus: ${SELECTED_BUS}" ## DEBUG
-
-finalStep
-
-if [[ $? == 0 ]]; then
-    echo "Generating Compose file...\n"
-    $MAKE gen $SELECTED_OTHERS $SELECTED_DEVSERVICES $SELECTED_APPSERVICES $SELECTED_BUS
+if finalStep; then
+    echo "Generating Compose file..."
+    $MAKE gen ${ARM64_OPT} ${SECURITY_OPT} ${SELECTED_OTHERS[@]} ${SELECTED_DEVSERVICES[@]} ${SELECTED_APPSERVICES[@]} ${SELECTED_BUS[@]}
 else
     echo "Generating Compose file and Running the Stack....\n"
-    $MAKE gen $SELECTED_OTHERS $SELECTED_DEVSERVICES $SELECTED_APPSERVICES $SELECTED_BUS
-    $MAKE run
+    $MAKE run  ${ARM64_OPT} ${SECURITY_OPT} ${SELECTED_OTHERS[@]} ${SELECTED_DEVSERVICES[@]} ${SELECTED_APPSERVICES[@]} ${SELECTED_BUS[@]}
 fi
