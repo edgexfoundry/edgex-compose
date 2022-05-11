@@ -37,7 +37,7 @@ define OPTIONS
  - zmq-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
- - asc-http asc-mqtt asc-sample as-llrp asc-ex-mqtt -
+ - asc-http asc-mqtt asc-sample asc-metrics as-llrp asc-ex-mqtt -
  - modbus-sim -
 endef
 export OPTIONS
@@ -435,6 +435,36 @@ ifeq (asc-sample, $(filter asc-sample,$(ARGS)))
 		endif
 	endif
 endif
+ifeq (asc-metrics, $(filter asc-metrics,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-metrics-influxdb.yml
+	APP_METRICS:=-with-app-metrics-influxdb
+	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-metrics-influxdb -a)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=app-metrics-influxdb
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),app-metrics-influxdb
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[app-metrics-influxdb]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-metrics-influxdb]
+		endif
+		# when no security mode (no-secty) not explicitly specified,
+		# then we also need to add the secure version on top of base yml by default.
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-metrics-influxdb \
+			app-metrics-influxdb app-service-configurable)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh app-metrics-influxdb)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
+	endif
+endif
 ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-app-rfid-llrp-inventory.yml
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
@@ -677,6 +707,7 @@ define COMPOSE_DOWN
 		-f add-asc-http-export.yml \
 		-f add-asc-mqtt-export.yml \
 		-f add-asc-sample.yml \
+		-f add-asc-metrics-influxdb.yml \
 		-f add-app-rfid-llrp-inventory.yml \
 		-f add-modbus-simulator.yml \
 		-f add-mqtt-broker.yml \

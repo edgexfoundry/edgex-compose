@@ -73,11 +73,13 @@ This folder contains the following compose files:
 - **add-device-rfid-llrp.yml**
     Device Service **extending** compose file, which adds the **Device RFID LLRP**  service.
 - **add-asc-http-export.yml**
-    Application Service Configurable **extending** compose file, which adds the **App Service Http Export**  service.
+    Application Service Configurable **extending** compose file, which adds the **App Service Http Export**  service. Additional configuration required. See [http-export profile](https://docs.edgexfoundry.org/2.2/microservices/application/AppServiceConfigurable/#http-export) for details
+- **add-asc-mqtt-export.yml**
+    Application Service Configurable **extending** compose file, which adds the **App Service MQTT Export**  service. Additional configuration required. See [mqtt-export profile](https://docs.edgexfoundry.org/2.2/microservices/application/AppServiceConfigurable/#mqtt-export) for details
+- **add-asc-metrics-influxdb.yml**
+    Application Service Configurable **extending** compose file, which adds the **App Service Metrics Infludb**  service.  Additional configuration required. See [metrics-influxdb profile](https://docs.edgexfoundry.org/2.2/microservices/application/AppServiceConfigurable/#metrics-influxdb) for details
 - **add-asc-sample.yml**
     Application Service Configurable **extending** compose file, which adds the **App Service Sample**  service.
-- **add-asc-mqtt-export.yml**
-    Application Service Configurable **extending** compose file, which adds the **App Service MQTT Export**  service.
 - **add-app-rfid-llrp-inventory.yml**
     Application Service Configurable **extending** compose file, which adds the **App RFID LLRP Inventory**  service.
 - **add-asc-external-mqtt-trigger.yml**
@@ -187,6 +189,7 @@ Options:
     modbus-sim:    Runs with ModBus simulator included
     asc-http:      Runs with App Service HTTP Export included
     asc-mqtt:      Runs with App Service MQTT Export included
+    asc-metrics:   Runs with App Service Metrics InfluxDb included
     asc-sample:    Runs with App Service Sample included
     as-llrp:       Runs with App RFID LLRP Inventory included
     asc-ex-mqtt:   Runs with App Service External MQTT Trigger included
@@ -227,6 +230,7 @@ Options:
     modbus-sim:    Pull includes ModBus simulator
     asc-http:      Pull includes App Service HTTP Export
     asc-mqtt:      Pull includes App Service MQTT Export
+    asc-metrics:   Pull includes App Service Metrics InfluxDb included
     asc-sample:    Pull includes App Service Sample
     as-llrp:       Pull includes App RFID LLRP Inventory
     asc-ex-mqtt:   Pull includes App Service External MQTT Trigger
@@ -265,6 +269,7 @@ Options:
     modbus-sim:    Generates compose file with ModBus simulator included
     asc-http:      Generates compose file with App Service HTTP Export included
     asc-mqtt:      Generates compose file with App Service MQTT Export included
+    asc-metrics:   Generates compose file with App Service Metrics InfluxDb included
     asc-sample:    Generates compose file with App Service Sample included
     as-llrp:       Generates compose file with App RFID LLRP Inventory included
     asc-ex-mqtt:   Generates compose file with App Service External MQTT Trigger included
@@ -345,6 +350,7 @@ Options:
     modbus-sim:    Generates compose file with ModBus simulator included
     asc-http:      Generates compose file with App Service HTTP Export included
     asc-mqtt:      Generates compose file with App Service MQTT Export included
+    asc-metrics:   Generates compose file with App Service Metrics InfluxDb included
     asc-sample:    Generates compose file with App Service Sample included
     as-llrp:       Generates compose file with App RFID LLRP Inventory included
     asc-ex-mqtt:   Generates compose file with App Service External MQTT Trigger included
