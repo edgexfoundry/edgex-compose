@@ -10,7 +10,7 @@
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
 #  *
-#  * EdgeX Foundry, Kamakura release
+#  * EdgeX Foundry, Kamakura (2.2.0) release
 #  *******************************************************************************/
 #
 #
@@ -86,9 +86,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - protocol: tcp
-      published: 59705
-      target: 59705
+    - 59705:59705/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -542,8 +540,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - published: 59710
-      target: 59703
+    - 59710:59703/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -620,8 +617,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - published: 4000
-      target: 4000
+    - 4000:4000/tcp
     read_only: true
     restart: always
     security_opt:
