@@ -5,6 +5,8 @@ This folder contains the `Compose Builder` which is made up of **source** compos
 > **Note to Developers**: 
 > *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
 >
+> Any new options added to the `make gen` and `make run` commands must to also be added to the new` tui-generator.sh` script
+>
 > **You must use *docker-compose version 1.27.2* due to bug in later versions that generates the `depends_on` sections incorrectly for compose version 3.x**
 
 ### Generate next release compose files
@@ -122,6 +124,10 @@ This folder contains the following environment files:
     This file contains the common environment overrides used by all App Service Configurable instances using the `http-export` profile
 - **asc-mqtt-export.env**
 - This file contains the common environment overrides used by all App Service Configurable instances using the `mqtt-export` profile
+
+### TUI (terminal UI)
+
+Compose builder now has the TUI Generator tool that provides menus to select the options described in the [Makefile](#makefile) section below for generation and running of custom compose files. To use this tool simply run `./tui-generator.sh` in a Linux terminal from the `compose-builder` folder.
 
 ### Makefile
 
