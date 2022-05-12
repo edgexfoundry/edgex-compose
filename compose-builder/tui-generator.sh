@@ -51,6 +51,7 @@ declare -A additionalOptsDesc=(
 declare -A appServiceDesc=(
     [asc-http]="Include HTTP Export App Service"
     [asc-mqtt]="Include MQTT Export App Service"
+    [asc-metrics]="Include Metrics to InfluxDB App Service"
     [asc-sample]="Include Sample App Service"
     [as-llrp]="Include RFID LLRP Inventory"
     [asc-ex-mqtt]="Include External MQTT Trigger App Service"
