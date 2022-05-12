@@ -10,7 +10,7 @@
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
 #  *
-#  * EdgeX Foundry, Kamakura WIP release
+#  * EdgeX Foundry, Kamakura release
 #  *******************************************************************************/
 #
 #
@@ -29,8 +29,8 @@ networks:
     driver: bridge
 services:
   app-service-external-mqtt-trigger:
-    command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+    command: /app-service-configurable "-cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res"
     container_name: edgex-app-external-mqtt-trigger
     depends_on:
     - consul
@@ -80,7 +80,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-export
     hostname: edgex-app-external-mqtt-trigger
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    image: edgexfoundry/app-service-configurable-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -94,8 +94,8 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/app-external-mqtt-trigger:/tmp/edgex/secrets/app-external-mqtt-trigger:ro,z
   app-service-functional-tests:
-    command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+    command: /app-service-configurable "-cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res"
     container_name: app-functional-tests
     depends_on:
     - consul
@@ -141,11 +141,13 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: app-functional-tests
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    image: edgexfoundry/app-service-configurable-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
-    - 59705:59705/tcp
+    - protocol: tcp
+      published: 59705
+      target: 59705
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -154,8 +156,8 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/app-functional-tests:/tmp/edgex/secrets/app-functional-tests:ro,z
   app-service-http-export:
-    command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+    command: /app-service-configurable "-cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res"
     container_name: edgex-app-http-export
     depends_on:
     - consul
@@ -210,7 +212,7 @@ services:
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
     hostname: edgex-app-http-export
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    image: edgexfoundry/app-service-configurable-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -224,8 +226,8 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/app-http-export:/tmp/edgex/secrets/app-http-export:ro,z
   app-service-mqtt-export:
-    command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+    command: /app-service-configurable "-cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res"
     container_name: edgex-app-mqtt-export
     depends_on:
     - consul
@@ -284,7 +286,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-mqtt-export
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    image: edgexfoundry/app-service-configurable-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -298,8 +300,8 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/app-mqtt-export:/tmp/edgex/secrets/app-mqtt-export:ro,z
   app-service-rules:
-    command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+    command: /app-service-configurable "-cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res"
     container_name: edgex-app-rules-engine
     depends_on:
     - consul
@@ -351,7 +353,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
       TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
     hostname: edgex-app-rules-engine
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    image: edgexfoundry/app-service-configurable-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -365,7 +367,7 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/app-rules-engine:/tmp/edgex/secrets/app-rules-engine:ro,z
   command:
-    command: /core-command -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    command: /core-command "-cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res"
     container_name: edgex-core-command
     depends_on:
     - consul
@@ -409,7 +411,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-command
-    image: nexus3.edgexfoundry.org:10004/core-command-arm64:latest
+    image: edgexfoundry/core-command-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -478,7 +480,7 @@ services:
     - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:z
     - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
   data:
-    command: /core-data -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    command: /core-data "-cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res"
     container_name: edgex-core-data
     depends_on:
     - consul
@@ -530,7 +532,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-data
-    image: nexus3.edgexfoundry.org:10004/core-data-arm64:latest
+    image: edgexfoundry/core-data-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -604,7 +606,7 @@ services:
     - redis-config:/run/redis/conf:z
     - /tmp/edgex/secrets/security-bootstrapper-redis:/tmp/edgex/secrets/security-bootstrapper-redis:ro,z
   device-camera:
-    command: /device-camera -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    command: /device-camera "-cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res"
     container_name: edgex-device-camera
     depends_on:
     - consul
@@ -653,7 +655,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-camera
-    image: nexus3.edgexfoundry.org:10004/device-camera-arm64:latest
+    image: edgexfoundry/device-camera-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -717,7 +719,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-modbus
-    image: nexus3.edgexfoundry.org:10004/device-modbus-arm64:latest
+    image: edgexfoundry/device-modbus-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -732,7 +734,7 @@ services:
     - /tmp/edgex/secrets/device-modbus:/tmp/edgex/secrets/device-modbus:ro,z
     - PROFILE_VOLUME_PLACE_HOLDER:CONF_DIR_PLACE_HOLDER:z
   device-rest:
-    command: /device-rest -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    command: /device-rest "-cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res"
     container_name: edgex-device-rest
     depends_on:
     - consul
@@ -781,7 +783,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-rest
-    image: nexus3.edgexfoundry.org:10004/device-rest-arm64:latest
+    image: edgexfoundry/device-rest-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -844,7 +846,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-virtual
-    image: nexus3.edgexfoundry.org:10004/device-virtual-arm64:latest
+    image: edgexfoundry/device-virtual-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -902,9 +904,11 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - 8000:8000/tcp
+    - published: 8000
+      target: 8000
     - 127.0.0.1:8100:8100/tcp
-    - 8443:8443/tcp
+    - published: 8443
+      target: 8443
     read_only: true
     restart: always
     security_opt:
@@ -973,7 +977,7 @@ services:
     - postgres-config:/tmp/postgres-config:z
     - postgres-data:/var/lib/postgresql/data:z
   metadata:
-    command: /core-metadata -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    command: /core-metadata "-cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res"
     container_name: edgex-core-metadata
     depends_on:
     - consul
@@ -1018,7 +1022,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-metadata
-    image: nexus3.edgexfoundry.org:10004/core-metadata-arm64:latest
+    image: edgexfoundry/core-metadata-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -1059,8 +1063,8 @@ services:
     - no-new-privileges:true
     user: 2002:2001
   notifications:
-    command: /support-notifications -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+    command: /support-notifications "-cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res"
     container_name: edgex-support-notifications
     depends_on:
     - consul
@@ -1103,7 +1107,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/support-notifications-arm64:latest
+    image: edgexfoundry/support-notifications-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -1161,7 +1165,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-proxy-setup
-    image: nexus3.edgexfoundry.org:10004/security-proxy-setup-arm64:latest
+    image: edgexfoundry/security-proxy-setup-arm64:2.2.0
     networks:
       edgex-network: {}
     read_only: true
@@ -1211,8 +1215,8 @@ services:
     volumes:
     - kuiper-data:/kuiper/data:z
   scalability-test-mqtt-export:
-    command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+    command: /app-service-configurable "-cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res"
     container_name: edgex-scalability-test-mqtt-export
     depends_on:
     - consul
@@ -1272,11 +1276,12 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-scalability-test-mqtt-export
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    image: edgexfoundry/app-service-configurable-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
-    - 59710:59703/tcp
+    - published: 59710
+      target: 59703
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -1285,8 +1290,8 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/scalability-test-mqtt-export:/tmp/edgex/secrets/scalability-test-mqtt-export:ro,z
   scheduler:
-    command: /support-scheduler -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+    command: /support-scheduler "-cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res"
     container_name: edgex-support-scheduler
     depends_on:
     - consul
@@ -1331,7 +1336,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-scheduler-arm64:latest
+    image: edgexfoundry/support-scheduler-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -1379,7 +1384,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-secretstore-setup
-    image: nexus3.edgexfoundry.org:10004/security-secretstore-setup-arm64:latest
+    image: edgexfoundry/security-secretstore-setup-arm64:2.2.0
     networks:
       edgex-network: {}
     read_only: true
@@ -1419,7 +1424,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-bootstrapper
-    image: nexus3.edgexfoundry.org:10004/security-bootstrapper-arm64:latest
+    image: edgexfoundry/security-bootstrapper-arm64:2.2.0
     networks:
       edgex-network: {}
     read_only: true
@@ -1430,7 +1435,8 @@ services:
     volumes:
     - edgex-init:/edgex-init:z
   system:
-    command: /sys-mgmt-agent -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    command: /sys-mgmt-agent "-cp=consul.http://edgex-core-consul:8500 --registry
+      --confdir=/res"
     container_name: edgex-sys-mgmt-agent
     depends_on:
     - command
@@ -1478,7 +1484,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-sys-mgmt-agent
-    image: nexus3.edgexfoundry.org:10004/sys-mgmt-agent-arm64:latest
+    image: edgexfoundry/sys-mgmt-agent-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -1498,11 +1504,12 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
     hostname: edgex-ui-go
-    image: nexus3.edgexfoundry.org:10004/edgex-ui-arm64:latest
+    image: edgexfoundry/edgex-ui-arm64:2.2.0
     networks:
       edgex-network: {}
     ports:
-    - 4000:4000/tcp
+    - published: 4000
+      target: 4000
     read_only: true
     restart: always
     security_opt:
