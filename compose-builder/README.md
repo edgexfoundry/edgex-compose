@@ -52,8 +52,8 @@ This folder contains the following compose files:
     Secure delayed start services **extending** compose file. Adds additional delayed start services based on spire/spiffe implementation to provide the secret store token on the runtime secure configuration.
 - **add-device-bacnet.yml**
     Device Service **extending** compose file, which adds the **Device Bacnet**  service.
-- **add-device-camera.yml** (***not this service will be Deprecated, use Device ONVIF Camera***)
-    Device Service *extending** compose file, which adds the **Device Camera**  service.
+- **add-device-camera.yml** (***note this service will be Deprecated, use Device ONVIF Camera***)
+    Device Service **extending** compose file, which adds the **Device Camera**  service.
 - **add-device-onvif-camera.yml**
     Device Service **extending** compose file, which adds the **Device ONVIF Camera**  service.
 - **add-device-usb-camera.yml**
