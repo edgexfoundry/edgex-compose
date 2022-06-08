@@ -97,7 +97,7 @@ function additionalServiceOption() {
     do
         arglist+=("$index" "${additionalOptsDesc[$index]}" "OFF") # Nothing is selected by-default
     done
-    SELECTED_OTHERS+=$($WHIPTAIL --title "Additional Services" \
+    readarray -t SELECTED_OTHERS < <("$WHIPTAIL" --title "Additional Services" \
                 --notags --separate-output \
                 --ok-button Next \
                 --nocancel \
@@ -123,7 +123,7 @@ function appServiceOption() {
     do
         arglist+=("$index" "${appServiceDesc[$index]}" "OFF") # Nothing is selected by-default
     done
-    SELECTED_APPSERVICES+=$($WHIPTAIL --title "App Services" \
+    readarray -t SELECTED_APPSERVICES < <("$WHIPTAIL" --title "App Services" \
                 --ok-button Next \
                 --nocancel \
                 --notags --separate-output \
@@ -171,7 +171,7 @@ function devServiceOption() {
     do
         arglist+=("$index" "${deviceServiceDesc[$index]}" "OFF") # Nothing is selected by-default
     done
-    SELECTED_DEVSERVICES=$($WHIPTAIL --title "Device Services" \
+    readarray -t SELECTED_DEVSERVICES < <("$WHIPTAIL" --title "Device Services" \
                 --ok-button Next \
                 --nocancel \
                 --notags --separate-output \
@@ -196,7 +196,7 @@ function msgBusOption() {
     do
         arglist+=("$index" "${msgBusDesc[$index]}" "OFF") # Nothing is selected by-default
     done
-    SELECTED_BUS=$($WHIPTAIL --title "Message Bus Alternatives" \
+    readarray -t SELECTED_BUS < <("$WHIPTAIL" --title "Message Bus Alternatives" \
                 --ok-button Next \
                 --nocancel \
                 --notags --separate-output \
