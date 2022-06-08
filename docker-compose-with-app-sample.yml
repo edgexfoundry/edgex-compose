@@ -72,7 +72,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:2.1.0
+    image: edgexfoundry/app-service-configurable:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -130,7 +130,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-sample
-    image: edgexfoundry/app-service-configurable:2.1.0
+    image: edgexfoundry/app-service-configurable:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -185,7 +185,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-command
-    image: edgexfoundry/core-command:2.1.0
+    image: edgexfoundry/core-command:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -294,7 +294,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-data
-    image: edgexfoundry/core-data:2.1.0
+    image: edgexfoundry/core-data:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -406,7 +406,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-rest
-    image: edgexfoundry/device-rest:2.1.0
+    image: edgexfoundry/device-rest:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -461,7 +461,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-virtual
-    image: edgexfoundry/device-virtual:2.1.0
+    image: edgexfoundry/device-virtual:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -628,7 +628,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-metadata
-    image: edgexfoundry/core-metadata:2.1.0
+    image: edgexfoundry/core-metadata:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -683,7 +683,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-notifications
-    image: edgexfoundry/support-notifications:2.1.0
+    image: edgexfoundry/support-notifications:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -738,7 +738,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-proxy-setup
-    image: edgexfoundry/security-proxy-setup:2.1.0
+    image: edgexfoundry/security-proxy-setup:2.1.1
     networks:
       edgex-network: {}
     read_only: true
@@ -847,7 +847,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-scheduler
-    image: edgexfoundry/support-scheduler:2.1.0
+    image: edgexfoundry/support-scheduler:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -893,7 +893,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-secretstore-setup
-    image: edgexfoundry/security-secretstore-setup:2.1.0
+    image: edgexfoundry/security-secretstore-setup:2.1.1
     networks:
       edgex-network: {}
     read_only: true
@@ -935,7 +935,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-bootstrapper
-    image: edgexfoundry/security-bootstrapper:2.1.0
+    image: edgexfoundry/security-bootstrapper:2.1.1
     networks:
       edgex-network: {}
     read_only: true
@@ -991,7 +991,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-sys-mgmt-agent
-    image: edgexfoundry/sys-mgmt-agent:2.1.0
+    image: edgexfoundry/sys-mgmt-agent:2.1.1
     networks:
       edgex-network: {}
     ports:

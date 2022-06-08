@@ -52,7 +52,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-export
     hostname: edgex-app-external-mqtt-trigger
-    image: edgexfoundry/app-service-configurable:2.1.0
+    image: edgexfoundry/app-service-configurable:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -82,7 +82,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: app-functional-tests
-    image: edgexfoundry/app-service-configurable:2.1.0
+    image: edgexfoundry/app-service-configurable:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -120,7 +120,7 @@ services:
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
     hostname: edgex-app-http-export
-    image: edgexfoundry/app-service-configurable:2.1.0
+    image: edgexfoundry/app-service-configurable:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -160,7 +160,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-mqtt-export
-    image: edgexfoundry/app-service-configurable:2.1.0
+    image: edgexfoundry/app-service-configurable:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -196,7 +196,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
       TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:2.1.0
+    image: edgexfoundry/app-service-configurable:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -223,7 +223,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: edgexfoundry/core-command:2.1.0
+    image: edgexfoundry/core-command:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -274,7 +274,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: edgexfoundry/core-data:2.1.0
+    image: edgexfoundry/core-data:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -334,7 +334,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-modbus
     hostname: edgex-device-modbus
-    image: edgexfoundry/device-modbus:2.1.0
+    image: edgexfoundry/device-modbus:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -369,7 +369,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: edgexfoundry/device-rest:2.1.0
+    image: edgexfoundry/device-rest:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -403,7 +403,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: edgexfoundry/device-virtual:2.1.0
+    image: edgexfoundry/device-virtual:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -433,7 +433,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: edgexfoundry/core-metadata:2.1.0
+    image: edgexfoundry/core-metadata:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -486,7 +486,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: edgexfoundry/support-notifications:2.1.0
+    image: edgexfoundry/support-notifications:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -566,7 +566,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-scalability-test-mqtt-export
-    image: edgexfoundry/app-service-configurable:2.1.0
+    image: edgexfoundry/app-service-configurable:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -593,7 +593,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: edgexfoundry/support-scheduler:2.1.0
+    image: edgexfoundry/support-scheduler:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -625,7 +625,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-sys-mgmt-agent
     hostname: edgex-sys-mgmt-agent
-    image: edgexfoundry/sys-mgmt-agent:2.1.0
+    image: edgexfoundry/sys-mgmt-agent:2.1.1
     networks:
       edgex-network: {}
     ports:

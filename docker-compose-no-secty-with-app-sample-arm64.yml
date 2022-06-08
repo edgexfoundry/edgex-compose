@@ -47,7 +47,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable-arm64:2.1.0
+    image: edgexfoundry/app-service-configurable-arm64:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -77,7 +77,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-sample
-    image: edgexfoundry/app-service-configurable-arm64:2.1.0
+    image: edgexfoundry/app-service-configurable-arm64:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -104,7 +104,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: edgexfoundry/core-command-arm64:2.1.0
+    image: edgexfoundry/core-command-arm64:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -149,7 +149,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: edgexfoundry/core-data-arm64:2.1.0
+    image: edgexfoundry/core-data-arm64:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -202,7 +202,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: edgexfoundry/device-rest-arm64:2.1.0
+    image: edgexfoundry/device-rest-arm64:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -230,7 +230,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: edgexfoundry/device-virtual-arm64:2.1.0
+    image: edgexfoundry/device-virtual-arm64:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -258,7 +258,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: edgexfoundry/core-metadata-arm64:2.1.0
+    image: edgexfoundry/core-metadata-arm64:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -284,7 +284,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: edgexfoundry/support-notifications-arm64:2.1.0
+    image: edgexfoundry/support-notifications-arm64:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -341,7 +341,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: edgexfoundry/support-scheduler-arm64:2.1.0
+    image: edgexfoundry/support-scheduler-arm64:2.1.1
     networks:
       edgex-network: {}
     ports:
@@ -373,7 +373,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-sys-mgmt-agent
     hostname: edgex-sys-mgmt-agent
-    image: edgexfoundry/sys-mgmt-agent-arm64:2.1.0
+    image: edgexfoundry/sys-mgmt-agent-arm64:2.1.1
     networks:
       edgex-network: {}
     ports:
