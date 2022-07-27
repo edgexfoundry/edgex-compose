@@ -49,7 +49,7 @@ services:
       - as-common.env
       - asc-mqtt-export.env
     environment:
-      EDGEX_SERVICE_KEY: scalability-test-mqtt-export
+      EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
       SERVICE_HOST: edgex-scalability-test-mqtt-export
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
       WRITABLE_LOGLEVEL: DEBUG

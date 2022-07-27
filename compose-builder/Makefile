@@ -14,7 +14,7 @@
 #  *******************************************************************************/
 
 .PHONY: help portainer portainer-down \
-	build compose run pull gen \
+	build build-canned compose run pull gen \
 	build-taf taf-compose taf-compose-perf \
 	get-token upload-tls-cert get-consul-acl-token \
     down clean err
@@ -607,10 +607,10 @@ endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
-	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export,device-modbus,app-external-mqtt-trigger,device-camera
+	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,device-modbus,app-external-mqtt-trigger,device-camera
 	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 	# have to list them individually.
-	KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[device-modbus],redisdb[device-rest],redisdb[device-virtual],redisdb[device-camera]
+	KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[device-modbus],redisdb[device-rest],redisdb[device-virtual],redisdb[device-camera]
 	EXTRA_PROXY_ROUTE_LIST:=device-modbus.http://edgex-device-modbus:59901
 
 	COMPOSE_FILES:= \
@@ -693,10 +693,10 @@ else
     else
     	# Build compose for TAF secure performance testing (ignore all other compose file options)
     	ifeq (taf-perf, $(filter taf-perf,$(ARGS)))
-			TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,scalability-test-mqtt-export
+			TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export
 			# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 			# have to list them individually.
-			KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[scalability-test-mqtt-export],redisdb[device-rest],redisdb[device-virtual]
+			KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[device-rest],redisdb[device-virtual]
 			EXTRA_PROXY_ROUTE_LIST:=device-modbus.http://edgex-device-modbus:59901
 
     		COMPOSE_FILES:= \
@@ -785,7 +785,9 @@ portainer:
 portainer-down:
 	make -C ${RELEASE_FOLDER} portainer-down
 
-build:
+build: build-canned build-taf
+
+build-canned:
 	make compose ds-rest ds-virtual
 	make compose ds-rest ds-virtual arm64
 	make compose ds-rest ds-virtual asc-sample
@@ -794,6 +796,8 @@ build:
 	make compose ds-rest ds-virtual no-secty arm64
 	make compose ds-rest ds-virtual asc-sample no-secty
 	make compose ds-rest ds-virtual asc-sample no-secty arm64
+
+build-taf:
 	make taf-compose taf-secty
 	make taf-compose taf-no-secty
 	make taf-compose taf-secty arm64
