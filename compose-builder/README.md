@@ -214,6 +214,13 @@ Options:
 Services:
     <names...>: Runs only services listed (and their dependent services) where 'name' matches a service name in one of the compose files used
 ```
+#### Up
+
+```
+up
+Start all Edgex services using the docker-compose.yml file resulting from last time "make gen" was run. Use this command when the docker-compose.yml file has been modified after generating it. This command Will result in error if the docker-compose.yml file doesn't exist.
+```
+
 #### Down
 
 ```    

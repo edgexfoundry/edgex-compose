@@ -855,6 +855,9 @@ get-consul-acl-token:
 	ARCH=$(ARCH) \
 	sh ./get-consul-acl-token.sh
 
+up:
+	docker-compose -p edgex -f docker-compose.yml up -d
+
 down:
 	$(COMPOSE_DOWN)
 
