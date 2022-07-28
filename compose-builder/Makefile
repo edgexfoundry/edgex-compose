@@ -36,7 +36,7 @@ define OPTIONS
  - arm64 no-secty dev app-dev delayed-start -
  - zmq-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
- - ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
+ - ds-onvif-camera  ds-usb-camera ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp asc-ex-mqtt -
  - modbus-sim -
 endef
@@ -63,6 +63,58 @@ ifeq (arm64, $(filter arm64,$(ARGS)))
 endif
 
 # Add Device Services
+ifeq (ds-onvif-camera, $(filter ds-onvif-camera,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-onvif-camera.yml
+	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-onvif-camera -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-onvif-camera
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-onvif-camera
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[device-onvif-camera]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-onvif-camera]
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-onvif-camera)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-onvif-camera)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
+	endif
+endif
+ifeq (ds-usb-camera, $(filter ds-usb-camera,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-usb-camera.yml
+	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-usb-camera -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),"")
+			TOKEN_LIST:=device-usb-camera
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-usb-camera
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),"")
+			KNOWN_SECRETS_LIST:=redisdb[device-usb-camera]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-usb-camera]
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-usb-camera)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-usb-camera)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
+	endif
+endif
 ifeq (ds-bacnet, $(filter ds-bacnet,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-bacnet.yml
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
@@ -695,6 +747,8 @@ define COMPOSE_DOWN
 		-f docker-compose-base.yml \
 		-f add-device-bacnet.yml \
 		-f add-device-camera.yml \
+		-f add-device-onvif-camera.yml \
+		-f add-device-usb-camera.yml \
 		-f add-device-grove.yml \
 		-f add-device-modbus.yml \
 		-f add-device-mqtt.yml \
