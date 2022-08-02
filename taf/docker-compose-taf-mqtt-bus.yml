@@ -50,6 +50,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: external-mqtt-trigger
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -115,6 +116,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -176,6 +178,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -246,6 +249,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -319,6 +323,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -371,6 +376,7 @@ services:
     - consul
     - database
     - metadata
+    - mqtt-broker
     - secretstore-setup
     - security-bootstrapper
     entrypoint:
@@ -385,6 +391,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-command
+      MESSAGEQUEUE_PORT: '1883'
+      MESSAGEQUEUE_PROTOCOL: tcp
+      MESSAGEQUEUE_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -502,7 +514,7 @@ services:
       MESSAGEQUEUE_AUTHMODE: none
       MESSAGEQUEUE_HOST: edgex-mqtt-broker
       MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
-      MESSAGEQUEUE_PORT: 1883
+      MESSAGEQUEUE_PORT: '1883'
       MESSAGEQUEUE_PROTOCOL: tcp
       MESSAGEQUEUE_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -563,6 +575,7 @@ services:
       DATABASECONFIG_PATH: /run/redis/conf
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -978,6 +991,7 @@ services:
     depends_on:
     - consul
     - database
+    - mqtt-broker
     - notifications
     - secretstore-setup
     - security-bootstrapper
@@ -993,6 +1007,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: metadata-data
+      MESSAGEQUEUE_PORT: '1883'
+      MESSAGEQUEUE_PROTOCOL: tcp
+      MESSAGEQUEUE_TYPE: mqtt
       NOTIFICATIONS_SENDER: edgex-core-metadata
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1065,6 +1085,7 @@ services:
     depends_on:
     - consul
     - database
+    - mqtt-broker
     - secretstore-setup
     - security-bootstrapper
     entrypoint:
@@ -1079,6 +1100,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-notifications
+      MESSAGEQUEUE_PORT: '1883'
+      MESSAGEQUEUE_PROTOCOL: tcp
+      MESSAGEQUEUE_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -1234,6 +1261,7 @@ services:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_SERVICE_KEY: scalability-test-mqtt-export
+      MESSAGEQUEUE_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -1291,6 +1319,7 @@ services:
     depends_on:
     - consul
     - database
+    - mqtt-broker
     - secretstore-setup
     - security-bootstrapper
     entrypoint:
@@ -1307,6 +1336,12 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
+      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-scheduler
+      MESSAGEQUEUE_PORT: '1883'
+      MESSAGEQUEUE_PROTOCOL: tcp
+      MESSAGEQUEUE_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -1453,6 +1488,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       EXECUTORPATH: /sys-mgmt-executor
+      MESSAGEQUEUE_HOST: edgex-redis
       METRICSMECHANISM: executor
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul

@@ -43,6 +43,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: external-mqtt-trigger
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-external-mqtt-trigger
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
@@ -77,6 +78,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: app-functional-tests
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
@@ -107,6 +109,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-http-export
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
@@ -146,6 +149,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-mqtt-export
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
@@ -185,6 +189,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-rules-engine
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
@@ -212,6 +217,7 @@ services:
     - consul
     - database
     - metadata
+    - mqtt-broker
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -220,6 +226,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-command
+      MESSAGEQUEUE_PORT: '1883'
+      MESSAGEQUEUE_PROTOCOL: tcp
+      MESSAGEQUEUE_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
@@ -268,7 +280,7 @@ services:
       MESSAGEQUEUE_AUTHMODE: none
       MESSAGEQUEUE_HOST: edgex-mqtt-broker
       MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
-      MESSAGEQUEUE_PORT: 1883
+      MESSAGEQUEUE_PORT: '1883'
       MESSAGEQUEUE_PROTOCOL: tcp
       MESSAGEQUEUE_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
@@ -295,6 +307,7 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
     image: redis:6.2-alpine
@@ -453,6 +466,7 @@ services:
     depends_on:
     - consul
     - database
+    - mqtt-broker
     - notifications
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
@@ -462,6 +476,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: metadata-data
+      MESSAGEQUEUE_PORT: '1883'
+      MESSAGEQUEUE_PROTOCOL: tcp
+      MESSAGEQUEUE_TYPE: mqtt
       NOTIFICATIONS_SENDER: edgex-core-metadata
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
@@ -508,6 +528,7 @@ services:
     depends_on:
     - consul
     - database
+    - mqtt-broker
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -516,6 +537,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-notifications
+      MESSAGEQUEUE_PORT: '1883'
+      MESSAGEQUEUE_PROTOCOL: tcp
+      MESSAGEQUEUE_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
@@ -584,6 +611,7 @@ services:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
       EDGEX_SERVICE_KEY: scalability-test-mqtt-export
+      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-scalability-test-mqtt-export
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
@@ -613,6 +641,7 @@ services:
     depends_on:
     - consul
     - database
+    - mqtt-broker
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -623,6 +652,12 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
+      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-scheduler
+      MESSAGEQUEUE_PORT: '1883'
+      MESSAGEQUEUE_PROTOCOL: tcp
+      MESSAGEQUEUE_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
@@ -654,6 +689,7 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       EXECUTORPATH: /sys-mgmt-executor
+      MESSAGEQUEUE_HOST: edgex-redis
       METRICSMECHANISM: executor
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-sys-mgmt-agent
