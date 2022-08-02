@@ -1,5 +1,6 @@
 ## Edgex Docker Compose Builder
 
+Just a test
 This folder contains the `Compose Builder` which is made up of **source** compose, **environment** files and a **makefile** for building the single file docker composes files. The `master` branch builds the `pre-release`  compose files which are placed in the top level of this repository. 
 
 > **Note to Developers**: 
