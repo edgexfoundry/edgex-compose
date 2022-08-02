@@ -17,13 +17,42 @@ version: '3.7'
 
 services:
   data:
+    env_file:
+      - mqtt-bus.env
     environment:
-      MESSAGEQUEUE_TYPE: mqtt
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_PORT: 1883
-      MESSAGEQUEUE_AUTHMODE: none
       MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
+    depends_on:
+      - mqtt-broker
+
+  metadata:
+    env_file:
+      - mqtt-bus.env
+    environment:
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-metadata
+    depends_on:
+      - mqtt-broker
+
+  command:
+    env_file:
+      - mqtt-bus.env
+    environment:
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-command
+    depends_on:
+      - mqtt-broker
+
+  notifications:
+    env_file:
+      - mqtt-bus.env
+    environment:
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-notifications
+    depends_on:
+      - mqtt-broker
+
+  scheduler:
+    env_file:
+      - mqtt-bus.env
+    environment:
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-scheduler
     depends_on:
       - mqtt-broker
 
