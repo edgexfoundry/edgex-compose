@@ -508,7 +508,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 59720
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.5-alpine
+    image: lfedge/ekuiper:1.6-alpine
     networks:
       edgex-network: {}
     ports:
