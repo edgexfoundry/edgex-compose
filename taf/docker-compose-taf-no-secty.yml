@@ -277,7 +277,7 @@ services:
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
-    image: redis:6.2-alpine
+    image: redis:7.0-alpine
     networks:
       edgex-network: {}
     ports:
