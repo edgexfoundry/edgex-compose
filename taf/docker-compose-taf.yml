@@ -566,7 +566,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-redis
-    image: redis:6.2-alpine
+    image: redis:7.0-alpine
     networks:
       edgex-network: {}
     ports:
