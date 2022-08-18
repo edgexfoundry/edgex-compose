@@ -179,6 +179,7 @@ services:
       STAGEGATE_KONGDB_READYPORT: '54325'
       STAGEGATE_READY_TORUNPORT: '54329'
       STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
+      STAGEGATE_REGISTRY_ACL_MANAGEMENTTOKENPATH: /tmp/edgex/secrets/consul-acl-token/mgmt_token.json
       STAGEGATE_REGISTRY_ACL_SENTINELFILEPATH: /consul/config/consul_acl_done
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: '8500'

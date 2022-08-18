@@ -25,4 +25,4 @@ if [ "$DEV" = "-dev" ]; then
 fi
 
 docker exec -it edgex-core-consul /bin/sh -c \
-  'cat "$STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH" | jq -r '.SecretID' '
+  'cat "$STAGEGATE_REGISTRY_ACL_MANAGEMENTTOKENPATH" | jq -r '.SecretID' '

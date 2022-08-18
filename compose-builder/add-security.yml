@@ -113,6 +113,7 @@ services:
       #ADD_REGISTRY_ACL_ROLES: app-sample,app-rules-engine-redis, app-rules-engine-mqtt, app-push-to-core
       STAGEGATE_REGISTRY_ACL_SENTINELFILEPATH: /consul/config/consul_acl_done
       STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
+      STAGEGATE_REGISTRY_ACL_MANAGEMENTTOKENPATH: /tmp/edgex/secrets/consul-acl-token/mgmt_token.json
     volumes:
       - edgex-init:/edgex-init:ro,z
       - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
