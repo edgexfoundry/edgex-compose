@@ -109,3 +109,8 @@ The compose files under the `taf` subfolder are used for the automated TAF tests
 - **docker-compose-portainer.yml**
     Stand-alone compose file for running Portainer which is a  Docker container management tool. Visit here https://www.portainer.io/ for more details on Portianer.
     Use `make portainer`and `make portainer-down` to start and stop Portainer.
+
+
+### Infrastructure model
+
+![Infrastructure model](.infragenie/infrastructure_model.png)
