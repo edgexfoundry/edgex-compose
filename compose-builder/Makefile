@@ -34,7 +34,7 @@ GEN_EXT_DIR=gen_ext_compose
 # and don't impact the option list
 define OPTIONS
  - arm64 no-secty dev app-dev device-dev ui-dev delayed-start -
- - zmq-bus mqtt-bus mqtt-broker -
+ - zmq-bus nats-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-onvif-camera  ds-usb-camera ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp asc-ex-mqtt -
@@ -90,6 +90,10 @@ ifeq (ds-onvif-camera, $(filter ds-onvif-camera,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-onvif-camera -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-onvif-camera -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-onvif-camera
@@ -114,6 +118,10 @@ ifeq (ds-usb-camera, $(filter ds-usb-camera,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-usb-camera.yml
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-usb-camera -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-usb-camera -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
@@ -142,6 +150,10 @@ ifeq (ds-bacnet, $(filter ds-bacnet,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-bacnet -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-bacnet -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-bacnet
@@ -166,6 +178,10 @@ ifeq (ds-camera, $(filter ds-camera,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-camera.yml
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-camera -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-camera -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
@@ -195,6 +211,10 @@ ifeq (ds-grove, $(filter ds-grove,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-grove -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-grove -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-grove
@@ -219,6 +239,10 @@ ifeq (ds-modbus, $(filter ds-modbus,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-modbus.yml
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-modbus -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-modbus -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
@@ -247,6 +271,10 @@ ifeq (ds-mqtt, $(filter ds-mqtt,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-mqtt -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-mqtt -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-mqtt
@@ -273,6 +301,10 @@ ifeq (ds-rest, $(filter ds-rest,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-rest -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-rest -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-rest]
@@ -292,6 +324,10 @@ ifeq (ds-snmp, $(filter ds-snmp,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-snmp.yml
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-snmp -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-snmp -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
@@ -320,6 +356,10 @@ ifeq (ds-virtual, $(filter ds-virtual,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-virtual -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-virtual -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		# Device-virtual's token is created by default.
 		ifeq ($(KNOWN_SECRETS_LIST),)
@@ -340,6 +380,10 @@ ifeq (ds-llrp, $(filter ds-llrp,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-rfid-llrp.yml
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-rfid-llrp -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-rfid-llrp -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
@@ -368,6 +412,10 @@ ifeq (ds-coap, $(filter ds-coap,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-coap -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-coap -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-coap
@@ -392,6 +440,10 @@ ifeq (ds-gpio, $(filter ds-gpio,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-gpio.yml
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh device-gpio -d)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-gpio -d)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
@@ -426,6 +478,10 @@ ifeq (asc-http, $(filter asc-http,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-service-http-export -a)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh app-service-http-export -a)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=app-http-export
@@ -453,6 +509,10 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-mqtt-export.yml
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-service-mqtt-export -a)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh app-service-mqtt-export -a)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
@@ -485,6 +545,10 @@ ifeq (asc-sample, $(filter asc-sample,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-service-sample -a)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh app-service-sample -a)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=app-sample
@@ -515,6 +579,10 @@ ifeq (asc-metrics, $(filter asc-metrics,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-metrics-influxdb -a)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh app-metrics-influxdb -a)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=app-metrics-influxdb
@@ -542,6 +610,10 @@ ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-app-rfid-llrp-inventory.yml
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-rfid-llrp-inventory -a)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh app-rfid-llrp-inventory -a)
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
@@ -607,6 +679,12 @@ ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 	BUS:=-mqtt-bus
 endif
 
+# Add switch to use NATS Message Bus
+ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-nats-messagebus.yml
+	BUS:=-nats-bus
+endif
+
 # Add switch to use ZMQ Message Bus
 ifeq (zmq-bus, $(filter zmq-bus,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-zmq-messagebus.yml
@@ -619,9 +697,11 @@ ifeq (no-secty, $(filter no-secty,$(ARGS)))
 else
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml
 	ifneq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
-		ifneq (zmq-bus, $(filter zmq-bus,$(ARGS)))
-		    # Using secure redis messagebus by default if MQTT/ZMQ bus not specified
-			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
+		ifneq (nats-bus, $(filter nats-bus,$(ARGS)))
+			ifneq (zmq-bus, $(filter zmq-bus,$(ARGS)))
+		    	# Using secure redis messagebus by default if MQTT/ZMQ bus not specified
+				COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
+			endif
 		endif
 	endif
 endif
@@ -788,6 +868,7 @@ define COMPOSE_DOWN
 		-f add-modbus-simulator.yml \
 		-f add-mqtt-broker.yml \
 		-f add-mqtt-messagebus.yml \
+		-f add-nats-messagebus.yml \
 		-f add-security.yml \
 		-f add-secure-redis-messagebus.yml \
 		-f add-delayed-start-services.yml \

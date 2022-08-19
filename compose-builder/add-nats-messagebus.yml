@@ -1,0 +1,100 @@
+# /*******************************************************************************
+#  * Copyright 2021 Intel Corporation.
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  *******************************************************************************/
+
+version: '3.7'
+
+services:
+  nats:
+    image: nats:${NATS_VERSION}
+    ports:
+      - "127.0.0.1:4222:4222"
+    container_name: edgex-nats-server
+    hostname: edgex-nats-server
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+
+  data:
+    env_file:
+      - nats-bus.env
+    environment:
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
+    depends_on:
+      - nats
+
+  metadata:
+    env_file:
+      - nats-bus.env
+    environment:
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-metadata
+    depends_on:
+      - nats
+
+  command:
+    env_file:
+      - nats-bus.env
+    environment:
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-command
+    depends_on:
+      - nats
+
+  notifications:
+    env_file:
+      - nats-bus.env
+    environment:
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-notifications
+    depends_on:
+      - nats
+
+  scheduler:
+    env_file:
+      - nats-bus.env
+    environment:
+      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-scheduler
+    depends_on:
+      - nats
+
+  app-service-rules:
+    environment:
+      EDGEX_PROFILE: rules-engine
+      TRIGGER_EDGEXMESSAGEBUS_TYPE: nats-core
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-nats-server
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 4222
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-nats-server
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 4222
+      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
+    depends_on:
+      - nats
+
+  rulesengine:
+    environment:
+      CONNECTION__EDGEX__NATSMSGBUS__PORT: 4222
+      CONNECTION__EDGEX__NATSMSGBUS__PROTOCOL: tcp
+      CONNECTION__EDGEX__NATSMSGBUS__SERVER: edgex-nats-server
+      CONNECTION__EDGEX__NATSMSGBUS__TYPE: nats-core
+      CONNECTION__EDGEX__NATSMSGBUS__OPTIONAL__CLIENTID: kuiper-rules-engine
+      EDGEX__DEFAULT__PORT: 4222
+      EDGEX__DEFAULT__PROTOCOL: tcp
+      EDGEX__DEFAULT__SERVER: edgex-nats-server
+      EDGEX__DEFAULT__TYPE: nats-core
+      EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
+    depends_on:
+      - nats
