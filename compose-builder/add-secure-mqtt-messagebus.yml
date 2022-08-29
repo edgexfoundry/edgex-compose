@@ -16,12 +16,17 @@
 version: '3.7'
 
 services:
+  secretstore-setup:
+    environment:
+      SECUREMESSAGEBUS_TYPE: mqtt
+  
   data:
     env_file:
       - mqtt-bus.env
     environment:
       MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
-      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_AUTHMODE: usernamepassword
+      MESSAGEQUEUE_SECRETNAME: message-bus
     depends_on:
       - mqtt-broker
 
@@ -30,7 +35,8 @@ services:
       - mqtt-bus.env
     environment:
       MESSAGEQUEUE_OPTIONAL_CLIENTID: core-metadata
-      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_AUTHMODE: usernamepassword
+      MESSAGEQUEUE_SECRETNAME: message-bus
     depends_on:
       - mqtt-broker
 
@@ -39,7 +45,8 @@ services:
       - mqtt-bus.env
     environment:
       MESSAGEQUEUE_OPTIONAL_CLIENTID: core-command
-      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_AUTHMODE: usernamepassword
+      MESSAGEQUEUE_SECRETNAME: message-bus
     depends_on:
       - mqtt-broker
 
@@ -48,7 +55,8 @@ services:
       - mqtt-bus.env
     environment:
       MESSAGEQUEUE_OPTIONAL_CLIENTID: support-notifications
-      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_AUTHMODE: usernamepassword
+      MESSAGEQUEUE_SECRETNAME: message-bus
     depends_on:
       - mqtt-broker
 
@@ -57,7 +65,8 @@ services:
       - mqtt-bus.env
     environment:
       MESSAGEQUEUE_OPTIONAL_CLIENTID: support-scheduler
-      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_AUTHMODE: usernamepassword
+      MESSAGEQUEUE_SECRETNAME: message-bus
     depends_on:
       - mqtt-broker
 
@@ -71,7 +80,8 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
+      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: usernamepassword
+      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_SECRETNAME: message-bus
     depends_on:
       - mqtt-broker
 

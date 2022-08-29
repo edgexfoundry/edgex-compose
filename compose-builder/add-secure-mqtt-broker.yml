@@ -1,0 +1,50 @@
+# /*******************************************************************************
+#  * Copyright 2022 Intel Corporation.
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  *******************************************************************************/
+
+version: '3.7'
+
+volumes:
+  mqtt:
+
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto:${MOSQUITTO_VERSION}
+    entrypoint: ["/edgex-init/messagebus_wait_install.sh"]
+    env_file:
+      - common-security.env
+      - common-sec-stage-gate.env
+    environment:
+      BROKER_TYPE: mosquitto
+      CONF_DIR: /edgex-init/bootstrap-mosquitto/res
+      ENTRYPOINT: /docker-entrypoint.sh /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
+    ports:
+      - "127.0.0.1:1883:1883"
+    volumes:
+    - mqtt:/mosquitto:z
+    - edgex-init:/edgex-init:ro,z
+    - /tmp/edgex/secrets/security-bootstrapper-messagebus:/tmp/edgex/secrets/security-bootstrapper-messagebus:ro,z
+    depends_on:
+      - security-bootstrapper
+      - secretstore-setup      
+    container_name: edgex-mqtt-broker
+    hostname: edgex-mqtt-broker
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    security_opt:
+      - no-new-privileges:true
+    # root privilege required for bootstrapper's process
+    user: root:root

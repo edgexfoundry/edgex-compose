@@ -16,15 +16,29 @@
 version: '3.7'
 
 services:
-  ${SERVICE_NAME}:
+  device-mqtt:
+    image: ${DEVICE_SVC_REPOSITORY}/device-mqtt${ARCH}:${DEVICE_MQTT_VERSION}
+    ports:
+      - "127.0.0.1:59982:59982"
+    container_name: edgex-device-mqtt
+    hostname: edgex-device-mqtt
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common.env
+      - device-common.env
     environment:
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
-      ${MESSSAGEQUEUE_AUTHCONFIG}
+      SERVICE_HOST: edgex-device-mqtt
+      MQTTBROKERINFO_HOST: edgex-mqtt-broker
+      MQTTBROKERINFO_AUTHMODE: usernamepassword
+      MQTTBROKERINFO_CREDENTIALSPATH: message-bus
     depends_on:
+      - consul
+      - data
+      - metadata
       - mqtt-broker
+    security_opt: 
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"

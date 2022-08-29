@@ -22,6 +22,6 @@ services:
       MESSAGEQUEUE_PORT: 1883
       MESSAGEQUEUE_PROTOCOL: tcp
       MESSAGEQUEUE_TYPE: mqtt
-      MESSAGEQUEUE_AUTHMODE: none
+      ${MESSSAGEQUEUE_AUTHCONFIG}
     depends_on:
       - mqtt-broker
