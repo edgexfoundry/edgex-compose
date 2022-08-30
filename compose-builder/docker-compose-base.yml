@@ -1,6 +1,6 @@
 # /*******************************************************************************
 #  * Copyright 2020 Redis Labs Inc.
-#  * Copyright 2021 Intel Corporation.
+#  * Copyright 2022 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -65,7 +65,7 @@ services:
       - no-new-privileges:true
 
   system:
-    image: ${CORE_EDGEX_REPOSITORY}/sys-mgmt-agent${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/sys-mgmt-agent${ARCH}:${CORE_EDGEX_VERSION}
     user: "root:root" # must run as root to allow binding to docker socket.
     ports:
       - "127.0.0.1:58890:58890"
@@ -95,7 +95,7 @@ services:
       - label:disable # needed for CentOS to provide docker access
 
   notifications:
-    image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59860:59860"
@@ -116,7 +116,7 @@ services:
       - no-new-privileges:true
 
   metadata:
-    image: ${CORE_EDGEX_REPOSITORY}/core-metadata${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/core-metadata${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59881:59881"
@@ -139,7 +139,7 @@ services:
       - no-new-privileges:true
 
   data:
-    image: ${CORE_EDGEX_REPOSITORY}/core-data${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/core-data${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59880:59880"
@@ -162,7 +162,7 @@ services:
       - no-new-privileges:true
 
   command:
-    image: ${CORE_EDGEX_REPOSITORY}/core-command${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/core-command${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59882:59882"
@@ -184,7 +184,7 @@ services:
       - no-new-privileges:true
 
   scheduler:
-    image: ${CORE_EDGEX_REPOSITORY}/support-scheduler${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/support-scheduler${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59861:59861"
@@ -207,7 +207,7 @@ services:
       - no-new-privileges:true
 
   app-service-rules:
-    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}${APP_SVC_DEV}
+    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59701:59701"

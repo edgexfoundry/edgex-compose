@@ -22,7 +22,7 @@ volumes:
 
 services:
   security-spire-server:
-    image: ${CORE_EDGEX_REPOSITORY}/security-spire-server${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/security-spire-server${ARCH}:${CORE_EDGEX_VERSION}
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     command: docker-entrypoint.sh
@@ -53,7 +53,7 @@ services:
       - no-new-privileges:true
 
   security-spire-agent:
-    image: ${CORE_EDGEX_REPOSITORY}/security-spire-agent${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/security-spire-agent${ARCH}:${CORE_EDGEX_VERSION}
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     command: docker-entrypoint.sh
@@ -84,7 +84,7 @@ services:
       - no-new-privileges:true
 
   security-spire-config:
-    image: ${CORE_EDGEX_REPOSITORY}/security-spire-config${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/security-spire-config${ARCH}:${CORE_EDGEX_VERSION}
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     command: docker-entrypoint.sh
@@ -110,7 +110,7 @@ services:
       - no-new-privileges:true
 
   security-spiffe-token-provider:
-    image: ${CORE_EDGEX_REPOSITORY}/security-spiffe-token-provider${ARCH}:${CORE_EDGEX_VERSION}${DEV}
+    image: ${CORE_EDGEX_REPOSITORY}/security-spiffe-token-provider${ARCH}:${CORE_EDGEX_VERSION}
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     command: /security-spiffe-token-provider -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res

@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   app-service-external-mqtt-trigger:
-    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}${APP_SVC_DEV}
+    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
     ports:
       - 127.0.0.1:59706:59706/tcp
     container_name: edgex-app-external-mqtt-trigger

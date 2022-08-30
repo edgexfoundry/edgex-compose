@@ -18,7 +18,7 @@ version: '3.7'
 
 services:
   device-usb-camera:
-    image: ${REPOSITORY}/device-usb-camera${ARCH}:${DEVICE_USBCAM_VERSION}
+    image: ${DEVICE_SVC_REPOSITORY}/device-usb-camera${ARCH}:${DEVICE_USBCAM_VERSION}
     ports:
       - "127.0.0.1:59983:59983"
       - "127.0.0.1:8554:8554/tcp"

@@ -180,11 +180,14 @@ Runs the EdgeX services as specified by:
 Options:
     no-secty:        Runs in Non-Secure Mode, otherwise runs in Secure Mode
     arm64:           Runs using ARM64 images
-    dev:             Runs using local dev built images from edgex-go repo's
-                     'make docker' which creates docker images tagged with '0.0.0-dev'
-    app-dev:         Runs using local dev built images from 
-                     app-service-configurable repo's
-                     'make docker' which creates docker images tagged with '0.0.0-dev'
+    dev:             Runs using local built images from edgex-go repo
+                     'make docker' creates local docker images tagged with '0.0.0-dev'
+    app-dev:         Runs using local built images from application service repos
+                     'make docker' creates local docker images tagged with '0.0.0-dev`
+    device-dev:      Runs using local built images from device service repos
+                     'make docker' creates local docker images tagged with '0.0.0-dev'
+    ui-dev:          Runs using local built images from edgex-ui-go repo
+                     'make docker' creates local docker image tagged with '0.0.0-dev'
     delayed-start:   Runs with delayed start services- 
                      spire related services and spiffe-token-provider service included
     ds-modbus:       Runs with device-modbus included
@@ -275,12 +278,14 @@ Options:
     no-secty:        Generates non-secure compose,
                      otherwise generates secure compose file
     arm64:           Generates compose file using ARM64 images
-    dev:             Generates compose file using local dev built images 
-                     from edgex-go repo's. 
-                     'make docker' which creates docker images tagged with '0.0.0-dev'
-    app-dev:         Generates compose file using local dev built images 
-                     from app-service-configurable repo's
-                     'make docker' which creates docker images tagged with '0.0.0-dev'
+    dev:             Generates using local built images from edgex-go repo
+                     'make docker' creates local docker images tagged with '0.0.0-dev'
+    app-dev:         Generates using local built images from application service repos
+                     'make docker' creates local docker images tagged with '0.0.0-dev`
+    device-dev:      Generates using local built images from device service repos
+                     'make docker' creates local docker images tagged with '0.0.0-dev'
+    ui-dev:          Generates using local built images from edgex-ui-go repo
+                     'make docker' creates local docker image tagged with '0.0.0-dev'
     delayed-start:   Generates compose file with delayed start services- spire 
                      related services and spiffe-token-provider service included
     ds-modbus:       Generates compose file with device-modbus included
@@ -323,7 +328,7 @@ Generates a Kong access token as specified by:
 Options:
     arm64:  Generates a Kong access token using ARM64 image
     dev:    Generates a Kong access token using local dev built docker image
-            'make docker', which creates docker images tagged with '0.0.0-dev'    
+            'make docker' creates local docker images tagged with '0.0.0-dev'    
 ```
 #### Upload-tls-cert
 
@@ -333,8 +338,8 @@ Upload a bring-your-own (BYO) TLS certificate to the Kong proxy server as specif
 Options:
     arm64:  Upload TLS certificate to the Kong server using ARM64 image
     dev:    Upload TLS certificate to the Kong server using local dev built docker image
-            'make docker', which creates docker images tagged with '0.0.0-dev'
-Environment Variables: 
+            'make docker' creates local docker images tagged with '0.0.0-dev'    
+    Environment Variables: 
     CERT_INPUT_FILE=<full_path_to_cert_file>: the full file name path to your own certificate file, this is required
     KEY_INPUT_FILE=<full_path_to_key_file>: the full file name path to your own key file, this is required
     EXTRA_SNIS="comma_separated_server_name_list_if_any": an extra server name indicator list in addition to localhost and kong, this is optional and can be omitted
@@ -343,12 +348,8 @@ Environment Variables:
 #### Get-consul-acl-token
 
 ```
-get-consul-acl-token [options]
-Retrieve the Consul ACL token as specified by:
-Options:
-    arm64:  Retrieves the Consul ACL token using ARM64 image
-    dev:    Retrieves the Consul ACL token using local dev built docker image
-            'make docker', which creates docker images tagged with '0.0.0-dev'
+get-consul-acl-token 
+Retrieves the Consul ACL token
 ```
 
 #### Compose
@@ -360,10 +361,14 @@ Generates the EdgeX compose file as specified by options and stores them in the 
 Options:
     no-secty:      Generates non-secure compose file, otherwise generates secure compose file
     arm64:         Generates compose file using ARM64 images
-    dev:           Generates compose file using local dev built images from edgex-go repo's
-                   'make docker' which creates docker images tagged with '0.0.0-dev'
-    app-dev:       Generates compose file using local dev built images from app-service-configurable repo's
-                   'make docker' which creates docker images tagged with '0.0.0-dev'
+    dev:           Generates using local built images from edgex-go repo
+                   'make docker' creates local docker images tagged with '0.0.0-dev'
+    app-dev:       Generates using local built images from application service repos
+                   'make docker' creates local docker images tagged with '0.0.0-dev`
+    device-dev:    Generates using local built images from device service repos
+                   'make docker' creates local docker images tagged with '0.0.0-dev'
+    ui-dev:        Generates using local built images from edgex-ui-go repo
+                   'make docker' creates local docker image tagged with '0.0.0-dev'
     delayed-start: Generates compose file with delayed start services- spire related services and
                    spiffe-token-provider service included
     ds-bacnet:     Generates compose file with device-bacnet included

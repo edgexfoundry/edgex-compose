@@ -18,7 +18,7 @@ version: '3.7'
 
 services:
   device-onvif-camera:
-    image: ${REPOSITORY}/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
+    image: ${DEVICE_SVC_REPOSITORY}/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
     ports:
       - "127.0.0.1:59984:59984"
     container_name: edgex-device-onvif-camera
