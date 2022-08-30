@@ -33,7 +33,7 @@ GEN_EXT_DIR=gen_ext_compose
 # Dashes at beginning & end of line ensure space before/after the first/last option on that line
 # and don't impact the option list
 define OPTIONS
- - arm64 no-secty dev app-dev delayed-start -
+ - arm64 no-secty dev app-dev device-dev ui-dev delayed-start -
  - zmq-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-onvif-camera  ds-usb-camera ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
@@ -46,22 +46,37 @@ ARGS:=$(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 $(eval $(ARGS):;@:)
 
 # Order of processing these arguments is important so the overrides in the 'add' compose files occur properly.
+
 ifeq (dev, $(filter dev,$(ARGS)))
 	export CORE_EDGEX_REPOSITORY=edgexfoundry
-	export DEV=-dev
-	# matches the way that edgex-go to versioning the docker images for `make docker`
-	export CORE_EDGEX_VERSION:="0.0.0"
-else
-	export DEV=
+	export CORE_EDGEX_VERSION=0.0.0-dev
+	export DEV=-dev # require for the gateways scripts since they look for this
 endif
 ifeq (app-dev, $(filter app-dev,$(ARGS)))
 	export APP_SVC_REPOSITORY=edgexfoundry
 	export APP_SVC_DEV=-dev
-	export APP_SERVICE_CONFIG_VERSION="0.0.0"
-else
-	export APP_SVC_DEV=
+	export APP_SERVICE_CONFIG_VERSION=0.0.0-dev
+	export APP_LLRP_VERSION=0.0.0-dev
 endif
-
+ifeq (device-dev, $(filter device-dev,$(ARGS)))
+	export DEVICE_SVC_REPOSITORY=edgexfoundry
+	export DEVICE_BACNET_VERSION=0.0.0-dev
+	export DEVICE_CAMERA_VERSION=0.0.0-dev
+	export DEVICE_MODBUS_VERSION=0.0.0-dev
+	export DEVICE_MQTT_VERSION=0.0.0-dev
+	export DEVICE_REST_VERSION=0.0.0-dev
+	export DEVICE_SNMP_VERSION=0.0.0-dev
+	export DEVICE_VIRTUAL_VERSION=0.0.0-dev
+	export DEVICE_LLRP_VERSION=0.0.0-dev
+	export DEVICE_COAP_VERSION=0.0.0-dev
+	export DEVICE_GPIO_VERSION=0.0.0-dev
+	export DEVICE_ONVIFCAM_VERSION=0.0.0-dev
+	export DEVICE_USBCAM_VERSION=0.0.0-dev
+endif
+ifeq (ui-dev, $(filter ui-dev,$(ARGS)))
+	export UI_REPOSITORY=edgexfoundry
+	export EDGEX_UI_VERSION=0.0.0-dev
+endif
 ifeq (arm64, $(filter arm64,$(ARGS)))
 	export ARCH=-arm64
 else
@@ -839,18 +854,12 @@ gen:
 	rm -rf ./$(GEN_EXT_DIR)
 
 get-token:
-	DEV=$(DEV) \
-	ARCH=$(ARCH) \
 	sh ./get-api-gateway-token.sh
 
 upload-tls-cert:
-	DEV=$(DEV) \
-	ARCH=$(ARCH) \
 	sh ./upload-api-gateway-cert.sh
 
 get-consul-acl-token:
-	DEV=$(DEV) \
-	ARCH=$(ARCH) \
 	sh ./get-consul-acl-token.sh
 
 up:

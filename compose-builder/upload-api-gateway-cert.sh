@@ -1,6 +1,6 @@
 #!/bin/sh
 # /*******************************************************************************
-#  * Copyright 2021 Intel Corporation.
+#  * Copyright 2022 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -29,9 +29,9 @@ usage()
 # versions are loaded from .env file
 . ./.env
 
-if [ "$DEV" = "-dev" ]; then
-  CORE_EDGEX_REPOSITORY=edgexfoundry
-  CORE_EDGEX_VERSION=0.0.0
+if [ $DEV = "-dev" ]; then
+  export CORE_EDGEX_REPOSITORY=edgexfoundry
+  export CORE_EDGEX_VERSION=0.0.0-dev
 fi
 
 # required input sanity checks
@@ -57,7 +57,7 @@ KEY_FILE_NAME=$(basename ${KEY_INPUT_FILE})
 
 echo "Uploading Kong TLS certificate with certificate file: ${CERT_FILE_NAME}, key file: ${KEY_FILE_NAME}, extra server name list: [${EXTRA_SNIS}]"
 docker run --rm -it -e KONGURL_SERVER=edgex-kong --network edgex_edgex-network --entrypoint "" -v ${PWD}/${STAGING}:/${STAGING} \
-       ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION}${DEV} \
+       ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION} \
         /edgex/secrets-config proxy tls --incert /${STAGING}/${CERT_FILE_NAME} \
         --inkey /${STAGING}/${KEY_FILE_NAME} \
         --snis "${EXTRA_SNIS}"
