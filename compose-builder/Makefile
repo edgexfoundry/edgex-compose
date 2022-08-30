@@ -24,10 +24,10 @@ include .env
 include common-security.env
 
 COMPOSE_FILES:=-f docker-compose-base.yml
-TOKEN_LIST:=""
-KNOWN_SECRETS_LIST:="redisdb[app-rules-engine]"
-EXTRA_PROXY_ROUTE_LIST:=""
-GEN_EXT_DIR:=gen_ext_compose
+TOKEN_LIST=
+KNOWN_SECRETS_LIST=redisdb[app-rules-engine]
+EXTRA_PROXY_ROUTE_LIST=
+GEN_EXT_DIR=gen_ext_compose
 
 # Must have spaces around words for `filter-out` function to work properly.
 # Dashes at beginning & end of line ensure space before/after the first/last option on that line
@@ -47,19 +47,25 @@ $(eval $(ARGS):;@:)
 
 # Order of processing these arguments is important so the overrides in the 'add' compose files occur properly.
 ifeq (dev, $(filter dev,$(ARGS)))
-	CORE_EDGEX_REPOSITORY=edgexfoundry
-	DEV:=-dev
+	export CORE_EDGEX_REPOSITORY=edgexfoundry
+	export DEV=-dev
 	# matches the way that edgex-go to versioning the docker images for `make docker`
-	CORE_EDGEX_VERSION:="0.0.0"
+	export CORE_EDGEX_VERSION:="0.0.0"
+else
+	export DEV=
 endif
 ifeq (app-dev, $(filter app-dev,$(ARGS)))
-	APP_SVC_REPOSITORY=edgexfoundry
-	APP_SVC_DEV:=-dev
-	APP_SERVICE_CONFIG_VERSION:="0.0.0"
+	export APP_SVC_REPOSITORY=edgexfoundry
+	export APP_SVC_DEV=-dev
+	export APP_SERVICE_CONFIG_VERSION="0.0.0"
+else
+	export APP_SVC_DEV=
 endif
+
 ifeq (arm64, $(filter arm64,$(ARGS)))
-	ARCH:=-arm64
-	KONG_UBUNTU:=-ubuntu
+	export ARCH=-arm64
+else
+	export ARCH=
 endif
 
 # Add Device Services
@@ -70,12 +76,12 @@ ifeq (ds-onvif-camera, $(filter ds-onvif-camera,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-onvif-camera
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-onvif-camera
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-onvif-camera]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-onvif-camera]
@@ -96,12 +102,12 @@ ifeq (ds-usb-camera, $(filter ds-usb-camera,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-usb-camera
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-usb-camera
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-usb-camera]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-usb-camera]
@@ -122,12 +128,12 @@ ifeq (ds-bacnet, $(filter ds-bacnet,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-bacnet
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-bacnet
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-bacnet]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-bacnet]
@@ -148,12 +154,12 @@ ifeq (ds-camera, $(filter ds-camera,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-camera
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-camera
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-camera]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-camera]
@@ -175,12 +181,12 @@ ifeq (ds-grove, $(filter ds-grove,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-grove
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-grove
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-grove]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-grove]
@@ -201,12 +207,12 @@ ifeq (ds-modbus, $(filter ds-modbus,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-modbus
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-modbus
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-modbus]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-modbus]
@@ -227,12 +233,12 @@ ifeq (ds-mqtt, $(filter ds-mqtt,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-mqtt
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-mqtt
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-mqtt]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-mqtt]
@@ -253,7 +259,7 @@ ifeq (ds-rest, $(filter ds-rest,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-rest]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-rest]
@@ -274,12 +280,12 @@ ifeq (ds-snmp, $(filter ds-snmp,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-snmp
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-snmp
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-snmp]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-snmp]
@@ -301,7 +307,7 @@ ifeq (ds-virtual, $(filter ds-virtual,$(ARGS)))
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		# Device-virtual's token is created by default.
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-virtual]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-virtual]
@@ -322,12 +328,12 @@ ifeq (ds-llrp, $(filter ds-llrp,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-rfid-llrp
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-rfid-llrp
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-rfid-llrp]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-rfid-llrp]
@@ -348,12 +354,12 @@ ifeq (ds-coap, $(filter ds-coap,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-coap
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-coap
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-coap]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-coap]
@@ -374,12 +380,12 @@ ifeq (ds-gpio, $(filter ds-gpio,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-gpio
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),device-gpio
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[device-gpio]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-gpio]
@@ -406,12 +412,12 @@ ifeq (asc-http, $(filter asc-http,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=app-http-export
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),app-http-export
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[app-http-export]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-http-export]
@@ -435,12 +441,12 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=app-mqtt-export
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),app-mqtt-export
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[app-mqtt-export]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-mqtt-export]
@@ -465,12 +471,12 @@ ifeq (asc-sample, $(filter asc-sample,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=app-sample
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),app-sample
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[app-sample]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-sample]
@@ -495,12 +501,12 @@ ifeq (asc-metrics, $(filter asc-metrics,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=app-metrics-influxdb
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),app-metrics-influxdb
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[app-metrics-influxdb]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-metrics-influxdb]
@@ -524,12 +530,12 @@ ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
 	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=app-rfid-llrp-inventory
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),app-rfid-llrp-inventory
 		endif
-		ifeq ($(KNOWN_SECRETS_LIST),"")
+		ifeq ($(KNOWN_SECRETS_LIST),)
 			KNOWN_SECRETS_LIST:=redisdb[app-rfid-llrp-inventory]
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-rfid-llrp-inventory]
@@ -548,7 +554,7 @@ endif
 ifeq (asc-ex-mqtt, $(filter asc-external-mqtt-trigger,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-external-mqtt-trigger.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),"")
+		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=app-external-mqtt-trigger
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),app-external-mqtt-trigger
@@ -736,13 +742,14 @@ ifeq (true, $(DS_GROVE))
  endif
 endif
 
+export TOKEN_LIST
+export KNOWN_SECRETS_LIST
+export EXTRA_PROXY_ROUTE_LIST
+export GEN_EXT_DIR
+export SPIFFE_TRUSTDOMAIN
+export SPIFFE_ENDPOINTSOCKET
+
 define COMPOSE_DOWN
-	DEV= \
-	APP_SVC_DEV= \
-	ARCH= \
-	TOKEN_LIST= \
-	KNOWN_SECRETS_LIST= \
-	EXTRA_PROXY_ROUTE_LIST= \
 	docker-compose -p edgex \
 		-f docker-compose-base.yml \
 		-f add-device-bacnet.yml \
@@ -828,19 +835,6 @@ pull: gen
 
 gen:
 	$(GROVE_CHECK) \
-	DEV=$(DEV) \
-	APP_SVC_DEV=$(APP_SVC_DEV) \
-	CORE_EDGEX_REPOSITORY=$(CORE_EDGEX_REPOSITORY) \
-	CORE_EDGEX_VERSION=$(CORE_EDGEX_VERSION) \
-	APP_SVC_REPOSITORY=$(APP_SVC_REPOSITORY) \
-	APP_SERVICE_CONFIG_VERSION=$(APP_SERVICE_CONFIG_VERSION) \
-	ARCH=$(ARCH) \
-	TOKEN_LIST=$(TOKEN_LIST) \
-	KNOWN_SECRETS_LIST=$(KNOWN_SECRETS_LIST) \
-	EXTRA_PROXY_ROUTE_LIST=$(EXTRA_PROXY_ROUTE_LIST) \
-	GEN_EXT_DIR=$(GEN_EXT_DIR) \
-	SPIFFE_TRUSTDOMAIN=$(SPIFFE_TRUSTDOMAIN) \
-	SPIFFE_ENDPOINTSOCKET=$(SPIFFE_ENDPOINTSOCKET) \
 	docker-compose -p edgex $(COMPOSE_FILES) config > docker-compose.yml
 	rm -rf ./$(GEN_EXT_DIR)
 
