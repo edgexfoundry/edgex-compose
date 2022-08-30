@@ -77,6 +77,7 @@ declare -A deviceServiceDesc=(
 ## Message Bus Descriptions
 declare -A msgBusDesc=(
     [mqtt-bus]="Configure MQTT Message Bus"
+    [nats-bus]="Configure NATS Message Bus"
     [zmq-bus]="Configure ZMQ Message Bus"
 )
 
