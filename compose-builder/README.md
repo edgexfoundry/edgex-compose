@@ -42,72 +42,78 @@ The `Extending using multiple Compose files` approach along with environment fil
 
 This folder contains the following compose files:
 
-- **docker-compose-base.yml**
-    Base non-secure mode compose file. Contains all the services that run in the non-secure configuration, including the UI.  
-- **add-security.yml**
+- **docker-compose-base.yml**<br/>
+  Base non-secure mode compose file. Contains all the services that run in the non-secure configuration, including the UI.  
+- **add-security.yml**<br/>
     Security **extending** compose file. Adds the additional security services and configuration of services so that all the services are running in the secure configuration.
-- **add-secure-redis-messagebus.yml**
+- **add-secure-redis-messagebus.yml**<br/>
     Secure Redis MessageBus **extending** compose file. Adds the additional security configuration for when Redis is used as MessageBus in secure mode so Kuiper can connect to the secure MessageBus.
-- **add-delayed-start-services.yml**
+- **add-delayed-start-services.yml**<br/>
     Secure delayed start services **extending** compose file. Adds additional delayed start services based on spire/spiffe implementation to provide the secret store token on the runtime secure configuration.
-- **add-device-bacnet.yml**
+- **add-device-bacnet.yml**<br/>
     Device Service **extending** compose file, which adds the **Device Bacnet**  service.
-- **add-device-camera.yml** (***note this service will be Deprecated, use Device ONVIF Camera***)
+- **add-device-camera.yml** (***note this service will be Deprecated, use Device ONVIF Camera***)<br/>
     Device Service **extending** compose file, which adds the **Device Camera**  service.
-- **add-device-onvif-camera.yml**
+- **add-device-onvif-camera.yml**<br/>
     Device Service **extending** compose file, which adds the **Device ONVIF Camera**  service.
-- **add-device-usb-camera.yml**
+- **add-device-usb-camera.yml**<br/>
     Device Service **extending** compose file, which adds the **Device USB Camera**  service.
-- **add-device-grove.yml**
+- **add-device-grove.yml**<br/>
     Device Service **extending** compose file, which adds the **Device Grove**  service.
-- **add-device-modbus.yml**
+- **add-device-modbus.yml**<br/>
     Device Service **extending** compose file, which adds the **Device Modbus**  service.
-- **add-device-mqtt.yml**
+- **add-device-mqtt.yml**<br/>
     Device Service **extending** compose file, which adds the **Device MQTT**  service.
-- **add-device-rest.yml**
+- **add-device-rest.yml**<br/>
     Device Service **extending** compose file, which adds the **Device REST** service.
-- **add-device-snmp.yml**
+- **add-device-snmp.yml**<br/>
     Device Service **extending** compose file, which adds the **Device SNMP**  service.
-- **add-device-virtual.yml**
+- **add-device-virtual.yml**<br/>
     Device Service **extending** compose file, which adds the **Device Virtual**  service.
-- **add-device-virtual.yml**
+- **add-device-virtual.yml**<br/>
     Device Service **extending** compose file, which adds the **Device Virtual**  service.
-- **add-device-coap.yml**
+- **add-device-coap.yml**<br/>
     Device Service **extending** compose file, which adds the **Device COAP** service.
-- **add-device-gpio.yml**
+- **add-device-gpio.yml**<br/>
     Device Service **extending** compose file, which adds the **Device GPIO**  service.
-- **add-device-rfid-llrp.yml**
+- **add-device-rfid-llrp.yml**<br/>
     Device Service **extending** compose file, which adds the **Device RFID LLRP**  service.
-- **add-asc-http-export.yml**
+- **add-asc-http-export.yml**<br/>
     Application Service Configurable **extending** compose file, which adds the **App Service Http Export**  service. Additional configuration required. See [http-export profile](https://docs.edgexfoundry.org/2.2/microservices/application/AppServiceConfigurable/#http-export) for details
-- **add-asc-mqtt-export.yml**
+- **add-asc-mqtt-export.yml**<br/>
     Application Service Configurable **extending** compose file, which adds the **App Service MQTT Export**  service. Additional configuration required. See [mqtt-export profile](https://docs.edgexfoundry.org/2.2/microservices/application/AppServiceConfigurable/#mqtt-export) for details
-- **add-asc-metrics-influxdb.yml**
+- **add-asc-metrics-influxdb.yml**<br/>
     Application Service Configurable **extending** compose file, which adds the **App Service Metrics Infludb**  service.  Additional configuration required. See [metrics-influxdb profile](https://docs.edgexfoundry.org/2.2/microservices/application/AppServiceConfigurable/#metrics-influxdb) for details
-- **add-asc-sample.yml**
+- **add-asc-sample.yml**<br/>
     Application Service Configurable **extending** compose file, which adds the **App Service Sample**  service.
-- **add-app-rfid-llrp-inventory.yml**
+- **add-app-rfid-llrp-inventory.yml**<br/>
     Application Service Configurable **extending** compose file, which adds the **App RFID LLRP Inventory**  service.
-- **add-asc-external-mqtt-trigger.yml**
+- **add-asc-external-mqtt-trigger.yml**<br/>
     Application Service Configurable **extending** compose file, which adds the **App Service External MQTT Trigger**  service.
-- **add-service-secure-template.yml**
+- **add-service-secure-template.yml**<br/>
     A template for a single service **extending** compose file from its base service for security mode,
     and the service is enabled with secret store by default.
-- **add-mqtt-messagebus-app-template.yml**
+- **add-mqtt-messagebus-app-template.yml**<br/>
     A template for a single App service **extending** compose file from its base service for using MQTT as the MessageBus.
-- **add-mqtt-messagebus-device-template.yml**
+- **add-mqtt-messagebus-device-template.yml**<br/>
     A template for a single Device service **extending** compose file from its base service for using MQTT as the MessageBus.
-- **add-modbus-simulator.yml**
+- **add-modbus-simulator.yml**<br/>
     ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. Must be used in conjunction with  **add-device-modbus.yml**
-- **add-mqtt-broker.yml**
+- **add-mqtt-broker.yml**<br/>
     MQTT Broker **extending** compose file. Adds the Eclipse Mosquitto MQTT Broker.
-- **add-mqtt-messagebus.yml**
+- **add-mqtt-messagebus.yml**<br/>
     MQTT MesssageBus **extending** compose file. Adds additional configuration of services so that the `MQTT` implementation of the Edgex Message Bus is used. **Must be used in conjunction with add-mqtt-broker.yml**
-- **add-taf-app-services.yml**
+- **add-nats-messagebus.yml**<br/>
+    NATS MesssageBus **extending** compose file. Adds NATS Server and additional configuration of services so that the `NATS` implementation of the Edgex Message Bus is used. 
+- **add-nats-messagebus-app-template.yml**<br/>
+    A template for a single App service **extending** compose file from its base service for using NATS as the MessageBus.
+- **add-nats-messagebus-device-template.yml**<br/>
+    A template for a single Device service **extending** compose file from its base service for using NATS as the MessageBus.
+- **add-taf-app-services.yml**<br/>
     TAF App Services **extending** compose file. Adds additional App Service for the TAF testing compose files.
-- **add-taf-app-services-secure.yml**
+- **add-taf-app-services-secure.yml**<br/>
     TAF App Services **extending** `add-taf-app-services` compose file, and services are enabled with secret store by default.
-- **add-taf-device-services-mods.yml**
+- **add-taf-device-services-mods.yml**<br/>
     TAF Device Services **extending** compose file. Modifies setting of Device Virtual and Device Modbus for the TAF testing compose files. **Must be used in conjunction with add-device-modbus.yml and add-device-virtual.yml**
 
 ### Environment Files
@@ -116,18 +122,32 @@ This folder contains the following environment files:
 
 - **.env**
     This file contains the `version`, `repositories` and image `version` variables referenced in compose files. Docker compose implicitly uses the `.env` file, if it exists, so you will not see it referenced in the compose files. It is referenced in the Makefile so that it can also use these settings.
+
 - **common.env**
     This file contains the common environment overrides used by all Edgex services.
+
 - **common-security.env**
     This file contains the common security related environment overrides used by many Edgex services.
+
 - **common-sec-stage-gate.env**
     This file contains the common security-bootstrapper stage gate related environment overrides used by many Edgex services.
+
 - **asc-common.env**
     This file contains the common environment overrides used by all Application Services
+
 - **asc-http-export.env**
     This file contains the common environment overrides used by all App Service Configurable instances using the `http-export` profile
+
 - **asc-mqtt-export.env**
-- This file contains the common environment overrides used by all App Service Configurable instances using the `mqtt-export` profile
+    This file contains the common environment overrides used by all App Service Configurable instances using the `mqtt-export` profile
+
+- **mqtt-bus.env**
+    This file contains the common MQTT related environment overrides used by many Edgex services when using MQTT as the MessageBus.
+
+- **nats-bus.env**
+    This file contains the common NATS related environment overrides used by many Edgex services when using NATS as the MessageBus.
+
+    
 
 ### TUI (terminal UI)
 
@@ -212,6 +232,9 @@ Options:
     asc-ex-mqtt:     Runs with App Service External MQTT Trigger included
     mqtt-broker:     Runs with a MQTT Broker service included
     mqtt-bus:        Runs with services configure for MQTT Message Bus
+                     The MQTT Broker service is also included.
+    nats-bus:        Runs with services configure for NATS Message Bus
+                     The NATS Server service is also included.
     zmq-bus:         Runs with services configure for ZMQ Message Bus
 
 Services:
@@ -264,6 +287,7 @@ Options:
     asc-ex-mqtt:     Pull includes App Service External MQTT Trigger
     mqtt-broker:     Pull includes MQTT Broker service
     mqtt-bus:        Pull includes additional services for MQTT Message Bus
+    nats-bus:        Pull includes additional services for NATS Message Bus
     zmq-bus:         Pull includes additional services for ZMQ Message Bus
 
 Services:
@@ -311,6 +335,8 @@ Options:
     mqtt-broker:     Generates compose file with a MQTT Broker service included
     mqtt-bus:        Generates compose file with services configured for MQTT Message Bus
                      The MQTT Broker service is also included.
+    nats-bus:        Generates compose file with services configured for NAT Message Bus
+                     The NATS Server service is also included.
     zmq-bus:         Generates compose file with services configured for ZMQ Message Bus
 ```
 #### Clean
@@ -392,6 +418,8 @@ Options:
     mqtt-broker:   Generates compose file with a MQTT Broker service included
     mqtt-bus:      Generates compose file with services configure for MQTT Message Bus
                    The MQTT Broker service is also included.
+    nats-bus:      Generates compose file with services configure for NATS Message Bus
+                   The NATS Server service is also included.
     zmq-bus:       Generates compose file with services configured for ZMQ Message Bus
 ```
 
