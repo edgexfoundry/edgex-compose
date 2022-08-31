@@ -28,6 +28,7 @@ TOKEN_LIST=
 KNOWN_SECRETS_LIST=redisdb[app-rules-engine]
 EXTRA_PROXY_ROUTE_LIST=
 GEN_EXT_DIR=gen_ext_compose
+BUS=
 
 # Must have spaces around words for `filter-out` function to work properly.
 # Dashes at beginning & end of line ensure space before/after the first/last option on that line
@@ -46,6 +47,12 @@ ARGS:=$(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 $(eval $(ARGS):;@:)
 
 # Order of processing these arguments is important so the overrides in the 'add' compose files occur properly.
+
+# if using the NATS bus, must then also use dev, app-dev and device-dev since NATS is only available if
+# built local dev images to include it.
+ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+  ARGS:=$(ARGS) dev app-dev device-dev
+endif
 
 ifeq (dev, $(filter dev,$(ARGS)))
 	export CORE_EDGEX_REPOSITORY=edgexfoundry
@@ -696,13 +703,8 @@ ifeq (no-secty, $(filter no-secty,$(ARGS)))
 	NO_SECURITY:=-no-secty
 else
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml
-	ifneq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
-		ifneq (nats-bus, $(filter nats-bus,$(ARGS)))
-			ifneq (zmq-bus, $(filter zmq-bus,$(ARGS)))
-		    	# Using secure redis messagebus by default if MQTT/ZMQ bus not specified
-				COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
-			endif
-		endif
+	ifeq ($(BUS),) # if BUS not set, then we are using secure redis messagebus by default
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
 	endif
 endif
 
@@ -953,3 +955,8 @@ clean:
 	$(call COMPOSE_DOWN,-v)
 
 err: ; $(ERR)
+
+args:
+	echo $(ARGS)
+	echo $(CORE_EDGEX_REPOSITORY)
+	echo $(CORE_EDGEX_VERSION)
