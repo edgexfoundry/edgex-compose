@@ -727,10 +727,11 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-device-virtual.yml \
 		-f add-device-rest.yml \
 		-f add-device-modbus.yml \
-        -f add-device-camera.yml \
+		-f add-device-camera.yml \
 		-f add-taf-device-services-mods.yml \
 		-f add-mqtt-broker.yml \
 		-f add-modbus-simulator.yml \
+		-f add-delayed-start-services.yml \
 
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 		asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_mqtt_messagebus_compose_ext.sh app-service-http-export -a)
@@ -809,7 +810,8 @@ else
     			-f add-asc-mqtt-export.yml \
     			-f add-device-virtual.yml \
     			-f add-device-rest.yml \
-    			-f add-mqtt-broker.yml
+    			-f add-mqtt-broker.yml \
+			-f add-delayed-start-services.yml
 			asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 				app-mqtt-export app-service-configurable)
 			ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
