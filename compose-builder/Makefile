@@ -23,6 +23,16 @@
 include .env
 include common-security.env
 
+# Current default is to use stand alone docker-compose.
+# Since compose V2 with the new "docker compose" command in the docker CLI has been released
+# we are supporting both versions. In EdgeX 3.0 we'll just support compose V2.
+DOCKER_COMPOSE=docker-compose
+GEN_COMMAND=config
+ ifeq (, $(shell which docker-compose))
+	 DOCKER_COMPOSE=docker compose
+	 GEN_COMMAND=convert
+ endif
+
 COMPOSE_FILES:=-f docker-compose-base.yml
 TOKEN_LIST=
 KNOWN_SECRETS_LIST=redisdb[app-rules-engine]
@@ -849,7 +859,7 @@ export SPIFFE_TRUSTDOMAIN
 export SPIFFE_ENDPOINTSOCKET
 
 define COMPOSE_DOWN
-	docker-compose -p edgex \
+	${DOCKER_COMPOSE} -p edgex \
 		-f docker-compose-base.yml \
 		-f add-device-bacnet.yml \
 		-f add-device-camera.yml \
@@ -928,14 +938,14 @@ taf-compose-perf: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(ARCH).yml
 
 run: gen
-	docker-compose -p edgex up -d $(SERVICES)
+	${DOCKER_COMPOSE}  -p edgex up -d $(SERVICES)
 
 pull: gen
-	docker-compose pull $(SERVICES)
+	${DOCKER_COMPOSE}  pull $(SERVICES)
 
 gen:
 	$(GROVE_CHECK) \
-	docker-compose -p edgex $(COMPOSE_FILES) config > docker-compose.yml
+	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} > docker-compose.yml
 	rm -rf ./$(GEN_EXT_DIR)
 
 get-token:
@@ -948,7 +958,7 @@ get-consul-acl-token:
 	sh ./get-consul-acl-token.sh
 
 up:
-	docker-compose -p edgex -f docker-compose.yml up -d
+	${DOCKER_COMPOSE}  -p edgex -f docker-compose.yml up -d
 
 down:
 	$(COMPOSE_DOWN)

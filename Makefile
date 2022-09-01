@@ -24,6 +24,14 @@ $(eval $(ARGS):;@:)
 
 OPTIONS:=" arm64 no-secty app-sample " # Must have spaces around words for `filter-out` function to work properly
 
+# Current default is to use stand alone docker-compose.
+# Since compose V2 with the new "docker compose" command in the docker CLI has been released
+# we are supporting both versions. In EdgeX 3.0 we'll just support compose V2.
+DOCKER_COMPOSE=docker-compose
+ifeq (, $(shell which docker-compose))
+	DOCKER_COMPOSE=docker compose
+endif
+
 ifeq (arm64, $(filter arm64,$(ARGS)))
 	ARM64=-arm64
 	ARM64_OPTION=arm64
@@ -38,7 +46,7 @@ endif
 SERVICES:=$(filter-out $(OPTIONS),$(ARGS))
 
 define COMPOSE_DOWN
-	docker-compose -p edgex -f docker-compose.yml -f docker-compose-with-app-sample.yml down $1
+	${DOCKER_COMPOSE} -p edgex -f docker-compose.yml -f docker-compose-with-app-sample.yml down $1
 endef
 
 # Define additional phony targets for all options to enable support for tab-completion in shell
@@ -46,16 +54,16 @@ endef
 .PHONY: $(OPTIONS)
 
 portainer:
-	docker-compose -p portainer -f docker-compose-portainer.yml up -d
+	${DOCKER_COMPOSE} -p portainer -f docker-compose-portainer.yml up -d
 
 portainer-down:
-	docker-compose -p portainer -f docker-compose-portainer.yml down
+	${DOCKER_COMPOSE} -p portainer -f docker-compose-portainer.yml down
 
 pull:
-	docker-compose -f docker-compose${NO_SECURITY}${ARM64}.yml pull ${SERVICES}
+	${DOCKER_COMPOSE} -f docker-compose${NO_SECURITY}${ARM64}.yml pull ${SERVICES}
 
 run:
-	docker-compose -p edgex -f docker-compose${NO_SECURITY}${APP_SAMPLE}${ARM64}.yml up -d ${SERVICES}
+	${DOCKER_COMPOSE} -p edgex -f docker-compose${NO_SECURITY}${APP_SAMPLE}${ARM64}.yml up -d ${SERVICES}
 
 down:
 	$(COMPOSE_DOWN)
