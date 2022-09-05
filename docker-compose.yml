@@ -851,6 +851,7 @@ services:
     - security-bootstrapper
     - vault
     environment:
+      SECRETSTORE_REVOKEROOTTOKENS: "false"
       ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],redisdb[device-virtual]
       ADD_SECRETSTORE_TOKENS: ''
       API_GATEWAY_HOST: edgex-kong
