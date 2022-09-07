@@ -9,6 +9,10 @@ This folder contains the `Compose Builder` which is made up of **source** compos
 >
 > **You must use *docker-compose version 1.27.2* due to bug in later versions that generates the `depends_on` sections incorrectly for compose version 3.x**
 
+### Compose Tool
+
+The Makefile in this folder expects `docker-compose` tool or the new Compose V2 plug-in for the Docker CLI. The `docker-compose` tool will be used if it is found in the `path`, otherwise it will try the `docker compose` CLI command.
+
 ### Generate next release compose files
 
 Do the following to generate the compose files for next release such as `jakarta` 
