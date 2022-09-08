@@ -21,83 +21,32 @@ services:
       SECUREMESSAGEBUS_TYPE: mqtt
   
   data:
-    env_file:
-      - mqtt-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
       MESSAGEQUEUE_AUTHMODE: usernamepassword
       MESSAGEQUEUE_SECRETNAME: message-bus
-    depends_on:
-      - mqtt-broker
 
   metadata:
-    env_file:
-      - mqtt-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-metadata
       MESSAGEQUEUE_AUTHMODE: usernamepassword
       MESSAGEQUEUE_SECRETNAME: message-bus
-    depends_on:
-      - mqtt-broker
 
   command:
-    env_file:
-      - mqtt-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-command
       MESSAGEQUEUE_AUTHMODE: usernamepassword
       MESSAGEQUEUE_SECRETNAME: message-bus
-    depends_on:
-      - mqtt-broker
 
   notifications:
-    env_file:
-      - mqtt-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-notifications
       MESSAGEQUEUE_AUTHMODE: usernamepassword
       MESSAGEQUEUE_SECRETNAME: message-bus
-    depends_on:
-      - mqtt-broker
 
   scheduler:
-    env_file:
-      - mqtt-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-scheduler
       MESSAGEQUEUE_AUTHMODE: usernamepassword
       MESSAGEQUEUE_SECRETNAME: message-bus
-    depends_on:
-      - mqtt-broker
 
   app-service-rules:
     environment:
-      EDGEX_PROFILE: rules-engine
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: usernamepassword
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_SECRETNAME: message-bus
-    depends_on:
-      - mqtt-broker
-
-  rulesengine:
-    environment:
-      CONNECTION__EDGEX__MQTTMSGBUS__PORT: 1883
-      CONNECTION__EDGEX__MQTTMSGBUS__PROTOCOL: tcp
-      CONNECTION__EDGEX__MQTTMSGBUS__SERVER: edgex-mqtt-broker
-      CONNECTION__EDGEX__MQTTMSGBUS__TYPE: mqtt
-      CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__CLIENTID: kuiper-rules-engine
-      CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__KEEPALIVE: 500
-      EDGEX__DEFAULT__PORT: 1883
-      EDGEX__DEFAULT__PROTOCOL: tcp
-      EDGEX__DEFAULT__SERVER: edgex-mqtt-broker
-      EDGEX__DEFAULT__TYPE: mqtt
-      EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
-      EDGEX__DEFAULT__OPTIONAL__KEEPALIVE: 500
-    depends_on:
-      - mqtt-broker
+      

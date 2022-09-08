@@ -20,7 +20,7 @@ volumes:
 
 services:
   mqtt-broker:
-    image: eclipse-mosquitto:${MOSQUITTO_VERSION}
+    command: /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
     entrypoint: ["/edgex-init/messagebus_wait_install.sh"]
     env_file:
       - common-security.env
@@ -29,22 +29,12 @@ services:
       BROKER_TYPE: mosquitto
       CONF_DIR: /edgex-init/bootstrap-mosquitto/res
       ENTRYPOINT: /docker-entrypoint.sh /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
-    ports:
-      - "127.0.0.1:1883:1883"
     volumes:
     - mqtt:/mosquitto:z
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/security-bootstrapper-messagebus:/tmp/edgex/secrets/security-bootstrapper-messagebus:ro,z
     depends_on:
       - security-bootstrapper
-      - secretstore-setup      
-    container_name: edgex-mqtt-broker
-    hostname: edgex-mqtt-broker
-    read_only: true
-    restart: always
-    networks:
-      - edgex-network
-    security_opt:
-      - no-new-privileges:true
+      - secretstore-setup 
     # root privilege required for bootstrapper's process
     user: root:root
