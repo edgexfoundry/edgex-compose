@@ -2,12 +2,18 @@
 
 This folder contains the `Compose Builder` which is made up of **source** compose, **environment** files and a **makefile** for building the single file docker composes files. The `master` branch builds the `pre-release`  compose files which are placed in the top level of this repository. 
 
-> **Note to Developers**: 
+### **Note to Developers**: 
 > *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
 >
 > Any new options added to the `make gen` and `make run` commands must to also be added to the new` tui-generator.sh` script
 >
-> **You must use *docker-compose version 1.27.2* due to bug in later versions that generates the `depends_on` sections incorrectly for compose version 3.x**
+> **You must use *docker-compose version 1.27.2* due to bug in later versions that generates the `depends_on` sections incorrectly for compose version 3.x**.
+>
+> **You MUST NOT use the new `compose v2` as it generates compose files that are not compatible with `docker-compose` which is used by TAF**
+
+### Compose Tool
+
+The Makefile in this folder expects `docker-compose` tool or the new Compose V2 plug-in for the Docker CLI. The `docker-compose` tool will be used if it is found in the `path`, otherwise it will try the `docker compose` CLI command.
 
 ### Generate next release compose files
 
