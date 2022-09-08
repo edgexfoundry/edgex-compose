@@ -843,7 +843,6 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-device-camera.yml \
 		-f add-taf-device-services-mods.yml \
 		-f add-mqtt-broker.yml \
-		-f add-secure-mqtt-broker.yml \
 		-f add-modbus-simulator.yml \
 		-f add-delayed-start-services.yml \
 
@@ -856,7 +855,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_SECURE_MODE="$(IS_SECURE_MODE)" ./gen_mqtt_messagebus_compose_ext.sh device-virtual -d)
 		ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_SECURE_MODE="$(IS_SECURE_MODE)" ./gen_mqtt_messagebus_compose_ext.sh device-modbus -d)
 		ds_camera_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_SECURE_MODE="$(IS_SECURE_MODE)" ./gen_mqtt_messagebus_compose_ext.sh device-camera -d)
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f add-secure-mqtt-broker.yml
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext) -f $(scalability_mqtt_export_ext)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext) -f $(ds_camera_ext)
 	else
