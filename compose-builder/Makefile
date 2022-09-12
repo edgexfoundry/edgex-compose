@@ -826,7 +826,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 	# have to list them individually.
 	KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[device-modbus],redisdb[device-rest],redisdb[device-virtual],redisdb[device-camera]
-	KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[app-rules-engine],message-bus[app-http-export],message-bus[app-mqtt-export],message-bus[app-scalability-test-mqtt-export],message-bus[device-modbus],message-bus[device-rest],message-bus[device-virtual],message-bus[device-camera]
+	KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[app-rules-engine],message-bus[app-http-export],message-bus[app-mqtt-export],message-bus[app-external-mqtt-trigger],message-bus[app-scalability-test-mqtt-export],message-bus[device-modbus],message-bus[device-rest],message-bus[device-virtual],message-bus[device-camera]
 	EXTRA_PROXY_ROUTE_LIST:=device-modbus.http://edgex-device-modbus:59901
 
 	COMPOSE_FILES:= \
@@ -866,6 +866,8 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		app-http-export app-service-configurable)
 	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 		app-mqtt-export app-service-configurable)
+	scalability_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh scalability-test-mqtt-export \
+		app-scalability-test-mqtt-export app-service-configurable)
 	asc_external_mqtt_trigger_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-external-mqtt-trigger \
 		app-external-mqtt-trigger app-service-configurable)
 	ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest)
@@ -876,7 +878,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus \
 		device-modbus device-modbus ' -cp=consul.http:\/\/edgex-core-consul:8500 --registry --confdir=CONF_DIR_PLACE_HOLDER')
 	ds_camera_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-camera)
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext) -f $(asc_external_mqtt_trigger_ext)
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext) -f $(asc_external_mqtt_trigger_ext) -f $(scalability_mqtt_export_ext)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext) -f $(ds_camera_ext)
 else
 	# Build compose for TAF non-secure testing (ignore all other compose file options)

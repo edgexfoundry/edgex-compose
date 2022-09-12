@@ -76,6 +76,8 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
+      TRIGGER_EXTERNALMQTT_AUTHMODE: usernamepassword
+      TRIGGER_EXTERNALMQTT_SECRETPATH: message-bus
       TRIGGER_EXTERNALMQTT_URL: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
@@ -1338,6 +1340,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: usernamepassword
+      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_SECRETNAME: message-bus
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
@@ -1346,9 +1349,13 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
       TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
+      WRITABLE_INSECURESECRETS_MQTT_SECRETS_PASSWORD: PASSWORD_PLACE_HOLDER
+      WRITABLE_INSECURESECRETS_MQTT_SECRETS_USERNAME: USERNAME_PLACEH_OLDER
       WRITABLE_LOGLEVEL: DEBUG
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_AUTHMODE: usernamepassword
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_SECRETNAME: message-bus
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-scalability-test-mqtt-export
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
@@ -1437,7 +1444,7 @@ services:
     - security-bootstrapper
     - vault
     environment:
-      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[device-modbus],redisdb[device-rest],redisdb[device-virtual],redisdb[device-camera],message-bus[app-rules-engine],message-bus[app-http-export],message-bus[app-mqtt-export],message-bus[app-scalability-test-mqtt-export],message-bus[device-modbus],message-bus[device-rest],message-bus[device-virtual],message-bus[device-camera]
+      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[device-modbus],redisdb[device-rest],redisdb[device-virtual],redisdb[device-camera],message-bus[app-rules-engine],message-bus[app-http-export],message-bus[app-mqtt-export],message-bus[app-external-mqtt-trigger],message-bus[app-scalability-test-mqtt-export],message-bus[device-modbus],message-bus[device-rest],message-bus[device-virtual],message-bus[device-camera]
       ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,device-modbus,app-external-mqtt-trigger,device-camera
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'

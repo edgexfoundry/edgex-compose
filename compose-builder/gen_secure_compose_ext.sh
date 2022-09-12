@@ -57,8 +57,12 @@ if [ "$num_of_args" -eq 4 ]; then
 fi
 
 # app-service-mqtt-export has non-empty env section
-if [ "$service_name" = "app-service-mqtt-export" ]; then
+if [ "$service_name" = "app-service-mqtt-export" ] || [ "$service_name" = "scalability-test-mqtt-export" ]; then
   ENV_SECTION='environment:\r      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_AUTHMODE : usernamepassword\r      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_SECRETNAME : message-bus\r      WRITABLE_INSECURESECRETS_MQTT_SECRETS_USERNAME: USERNAME_PLACEH_OLDER\r      WRITABLE_INSECURESECRETS_MQTT_SECRETS_PASSWORD: PASSWORD_PLACE_HOLDER'
+  sed -i 's/##${ENVIRONMENT_SECTION}/'"$ENV_SECTION"'/g' "$SERVICE_EXT_COMPOSE_PATH"
+fi
+if [ "$service_name" = "app-service-external-mqtt-trigger" ]; then
+  ENV_SECTION='environment:\r      TRIGGER_EXTERNALMQTT_AUTHMODE : usernamepassword\r      TRIGGER_EXTERNALMQTT_SECRETPATH : message-bus\r'
   sed -i 's/##${ENVIRONMENT_SECTION}/'"$ENV_SECTION"'/g' "$SERVICE_EXT_COMPOSE_PATH"
 fi
 
