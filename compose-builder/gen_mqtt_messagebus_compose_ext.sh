@@ -1,6 +1,6 @@
 #!/bin/sh
 # /*******************************************************************************
-#  * Copyright 2021 Intel Corporation.
+#  * Copyright 2022 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -33,12 +33,15 @@ service_type=$2
 DEFAULT_GEN_EXT_DIR="gen_ext_compose"
 GEN_EXT_DIR="${GEN_EXT_DIR:-$DEFAULT_GEN_EXT_DIR}"
 mkdir -p "$GEN_EXT_DIR"
+auth_conf_prefix=""
 
 if [ "$service_type" = "-a" ]; then
   ADD_MQTT_MESSAGEBUS_TEMPLATE="add-mqtt-messagebus-app-template.yml"
+  auth_conf_prefix="TRIGGER_EDGEXMESSAGEBUS_OPTIONAL"
 else
   if  [ "$service_type" = "-d" ]; then
      ADD_MQTT_MESSAGEBUS_TEMPLATE="add-mqtt-messagebus-device-template.yml"
+     auth_conf_prefix="MESSAGEQUEUE"
   else
       echo "ERROR: Invalid 2nd argument '$service_type'. Must be -a (App Service) or -d (device service)"
       exit 1
@@ -47,6 +50,14 @@ fi
 
 SERVICE_EXT_COMPOSE_PATH=./"$GEN_EXT_DIR"/add-"$service_name"-mqtt-messagebus.yml
 sed 's/${SERVICE_NAME}:/'"$service_name"':/g' "$ADD_MQTT_MESSAGEBUS_TEMPLATE" > "$SERVICE_EXT_COMPOSE_PATH"
+
+if [ "$IS_SECURE_MODE" = "1" ]; then
+  msgConfig=${auth_conf_prefix}'_AUTHMODE: usernamepassword\n      '${auth_conf_prefix}'_SECRETNAME: message-bus'
+else
+  msgConfig=${auth_conf_prefix}'_AUTHMODE: none'
+fi
+
+sed -i 's/${MESSSAGEQUEUE_AUTHCONFIG}/'"$msgConfig"'/g' "$SERVICE_EXT_COMPOSE_PATH"
 
 # return the extension compose file path
 echo "$SERVICE_EXT_COMPOSE_PATH"

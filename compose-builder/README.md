@@ -70,6 +70,8 @@ This folder contains the following compose files:
     Device Service **extending** compose file, which adds the **Device Modbus**  service.
 - **add-device-mqtt.yml**<br/>
     Device Service **extending** compose file, which adds the **Device MQTT**  service.
+- **add-secure-device-mqtt.yml**<br/>
+    Device Service **extending** compose file, which adds the **Secure Device MQTT**  service.
 - **add-device-rest.yml**<br/>
     Device Service **extending** compose file, which adds the **Device REST** service.
 - **add-device-snmp.yml**<br/>
@@ -107,8 +109,12 @@ This folder contains the following compose files:
     ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. Must be used in conjunction with  **add-device-modbus.yml**
 - **add-mqtt-broker.yml**<br/>
     MQTT Broker **extending** compose file. Adds the Eclipse Mosquitto MQTT Broker.
+- **add-secure-mqtt-broker.yml**<br/>
+    MQTT Broker **extending** compose file. Adds the Secure Eclipse Mosquitto MQTT Broker.
 - **add-mqtt-messagebus.yml**<br/>
     MQTT MesssageBus **extending** compose file. Adds additional configuration of services so that the `MQTT` implementation of the Edgex Message Bus is used. **Must be used in conjunction with add-mqtt-broker.yml**
+- **add-secure-mqtt-messagebus.yml**<br/>
+    MQTT MesssageBus **extending** compose file. Adds additional configuration of services so that the Secure `MQTT` implementation of the Edgex Message Bus is used. **Must be used in conjunction with add-secure-mqtt-broker.yml**
 - **add-nats-messagebus.yml**<br/>
     NATS MesssageBus **extending** compose file. Adds NATS Server and additional configuration of services so that the `NATS` implementation of the Edgex Message Bus is used. 
 - **add-nats-messagebus-app-template.yml**<br/>

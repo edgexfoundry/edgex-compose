@@ -851,7 +851,7 @@ services:
     - security-bootstrapper
     - vault
     environment:
-      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],redisdb[device-virtual]
+      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],message-bus[device-rest],redisdb[device-virtual],message-bus[device-virtual]
       ADD_SECRETSTORE_TOKENS: ''
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: '8100'

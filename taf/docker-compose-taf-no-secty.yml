@@ -539,6 +539,7 @@ services:
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-scalability-test-mqtt-export
+      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
       WRITABLE_LOGLEVEL: DEBUG
