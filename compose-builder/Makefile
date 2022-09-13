@@ -622,9 +622,14 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-mqtt-export],message-bus[app-mqtt-export]
 		endif
+		ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+			IS_MQTT_BUS:=1
+		else
+			IS_MQTT_BUS:=0
+		endif
 		# when no security mode (no-secty) not explicitly specified,
 		# then we also need to add the secure version on top of base yml by default.
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_MQTT_BUS="$(IS_MQTT_BUS)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 			app-mqtt-export app-service-configurable)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 		# add runtime token config for delayed-start if specified
@@ -749,7 +754,7 @@ ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
 		endif
 	endif
 endif
-ifeq (asc-ex-mqtt, $(filter asc-external-mqtt-trigger,$(ARGS)))
+ifeq (asc-ex-mqtt, $(filter asc-ex-mqtt,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-external-mqtt-trigger.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
@@ -757,9 +762,19 @@ ifeq (asc-ex-mqtt, $(filter asc-external-mqtt-trigger,$(ARGS)))
 		else
 			TOKEN_LIST:=$(TOKEN_LIST),app-external-mqtt-trigger
 		endif
+		ifeq ($(KNOWN_SECRETS_LIST),)
+			KNOWN_SECRETS_LIST:=message-bus[app-external-mqtt-trigger]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[app-external-mqtt-trigger]
+		endif
+		ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+			IS_MQTT_BUS:=1
+		else
+			IS_MQTT_BUS:=0
+		endif
 		# when no security mode (no-secty) not explicitly specified,
 		# then we also need to add the secure version on top of base yml by default.
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-external-mqtt-trigger \
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_MQTT_BUS="$(IS_MQTT_BUS)" ./gen_secure_compose_ext.sh app-service-external-mqtt-trigger \
 			app-external-mqtt-trigger app-service-configurable)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 		# add runtime token config for delayed-start if specified
@@ -781,11 +796,7 @@ endif
 
 # Add a MQTT Broker
 ifeq (mqtt-broker, $(filter mqtt-broker,$(ARGS)))
-	ifeq (no-secty, $(filter no-secty,$(ARGS)))
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-broker.yml
-	else
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-broker.yml -f add-secure-mqtt-broker.yml
-	endif
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-broker.yml
 endif
 
 # Add switch to use MQTT Message Bus
@@ -848,6 +859,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 		IS_SECURE_MODE:=1
+		IS_MQTT_BUS:=1
 		asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_SECURE_MODE="$(IS_SECURE_MODE)" ./gen_mqtt_messagebus_compose_ext.sh app-service-http-export -a)
 		asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_SECURE_MODE="$(IS_SECURE_MODE)" ./gen_mqtt_messagebus_compose_ext.sh app-service-mqtt-export -a)
 		scalability_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_SECURE_MODE="$(IS_SECURE_MODE)" ./gen_mqtt_messagebus_compose_ext.sh scalability-test-mqtt-export -a)
@@ -860,15 +872,16 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext) -f $(ds_camera_ext)
 	else
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
+		IS_MQTT_BUS:=0
 	endif
 
 	asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-http-export \
 		app-http-export app-service-configurable)
-	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
+	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_MQTT_BUS="$(IS_MQTT_BUS)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 		app-mqtt-export app-service-configurable)
-	scalability_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh scalability-test-mqtt-export \
+	scalability_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_MQTT_BUS="$(IS_MQTT_BUS)" ./gen_secure_compose_ext.sh scalability-test-mqtt-export \
 		app-scalability-test-mqtt-export app-service-configurable)
-	asc_external_mqtt_trigger_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-external-mqtt-trigger \
+	asc_external_mqtt_trigger_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_MQTT_BUS="$(IS_MQTT_BUS)" ./gen_secure_compose_ext.sh app-service-external-mqtt-trigger \
 		app-external-mqtt-trigger app-service-configurable)
 	ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest)
 	# taf has its special place holder from taf-device-services-mods and thus we need to keep it
@@ -929,7 +942,7 @@ else
     			-f add-device-rest.yml \
     			-f add-mqtt-broker.yml \
 			-f add-delayed-start-services.yml
-			asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-service-mqtt-export \
+			asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)"  IS_MQTT_BUS="0" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 				app-mqtt-export app-service-configurable)
 			ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
 			ds_rest_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-rest)
@@ -984,6 +997,7 @@ define COMPOSE_DOWN
 		-f add-device-virtual.yml \
 		-f add-asc-http-export.yml \
 		-f add-asc-mqtt-export.yml \
+		-f add-asc-external-mqtt-trigger.yml \
 		-f add-asc-sample.yml \
 		-f add-asc-metrics-influxdb.yml \
 		-f add-app-rfid-llrp-inventory.yml \
