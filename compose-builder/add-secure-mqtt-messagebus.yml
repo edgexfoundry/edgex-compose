@@ -15,10 +15,17 @@
 
 version: '3.7'
 
+volumes:
+  kuiper-sources:
+  kuiper-connections:
+
 services:
   secretstore-setup:
     environment:
       SECUREMESSAGEBUS_TYPE: mqtt
+    volumes:
+      - kuiper-sources:/tmp/kuiper:z
+      - kuiper-connections:/tmp/kuiper-connections:z
   
   data:
     environment:
@@ -49,4 +56,17 @@ services:
     environment:
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: usernamepassword
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_SECRETNAME: message-bus
-      
+  
+  rulesengine:
+    entrypoint: [ "/edgex-init/kuiper_wait_install.sh" ]
+    env_file:
+      - common-sec-stage-gate.env
+    volumes:
+      - kuiper-sources:/kuiper/etc/sources:z
+      - kuiper-connections:/kuiper/etc/connections:z
+      - edgex-init:/edgex-init:ro,z
+    depends_on:
+      - security-bootstrapper
+      - secretstore-setup
+      - database
+  
