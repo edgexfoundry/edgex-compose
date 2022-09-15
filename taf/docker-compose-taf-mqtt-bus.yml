@@ -1258,7 +1258,13 @@ services:
     depends_on:
     - database
     - mqtt-broker
+    - secretstore-setup
+    - security-bootstrapper
+    entrypoint:
+    - /edgex-init/kuiper_wait_install.sh
     environment:
+      API_GATEWAY_HOST: edgex-kong
+      API_GATEWAY_STATUS_PORT: '8100'
       CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__CLIENTID: kuiper-rules-engine
       CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__KEEPALIVE: 500
       CONNECTION__EDGEX__MQTTMSGBUS__PORT: 1883
@@ -1278,6 +1284,22 @@ services:
       EDGEX__DEFAULT__TYPE: mqtt
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 59720
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: '54321'
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: '6379'
+      STAGEGATE_DATABASE_READYPORT: '6379'
+      STAGEGATE_KONGDB_HOST: edgex-kong-db
+      STAGEGATE_KONGDB_PORT: '5432'
+      STAGEGATE_KONGDB_READYPORT: '54325'
+      STAGEGATE_READY_TORUNPORT: '54329'
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: '8500'
+      STAGEGATE_REGISTRY_READYPORT: '54324'
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
     image: lfedge/ekuiper:1.6-alpine
     networks:
@@ -1290,7 +1312,10 @@ services:
     - no-new-privileges:true
     user: kuiper:kuiper
     volumes:
+    - edgex-init:/edgex-init:ro,z
     - kuiper-data:/kuiper/data:z
+    - kuiper-connections:/kuiper/etc/connections:z
+    - kuiper-sources:/kuiper/etc/sources:z
   scalability-test-mqtt-export:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
       --confdir=/res
@@ -1491,6 +1516,8 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets:/tmp/edgex/secrets:z
     - kong:/tmp/kong:z
+    - kuiper-sources:/tmp/kuiper:z
+    - kuiper-connections:/tmp/kuiper-connections:z
     - vault-config:/vault/config:z
   security-bootstrapper:
     container_name: edgex-security-bootstrapper
@@ -1893,7 +1920,9 @@ volumes:
   db-data: {}
   edgex-init: {}
   kong: {}
+  kuiper-connections: {}
   kuiper-data: {}
+  kuiper-sources: {}
   mqtt: {}
   postgres-config: {}
   postgres-data: {}
