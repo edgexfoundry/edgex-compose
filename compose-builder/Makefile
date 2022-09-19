@@ -856,6 +856,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-mqtt-broker.yml \
 		-f add-modbus-simulator.yml \
 		-f add-delayed-start-services.yml \
+		-f add-taf-mqtt-broker.yml \
 
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 		IS_SECURE_MODE:=1
@@ -908,7 +909,9 @@ else
             -f add-device-camera.yml \
 			-f add-taf-device-services-mods.yml \
 			-f add-mqtt-broker.yml \
-			-f add-modbus-simulator.yml
+			-f add-modbus-simulator.yml \
+			-f add-taf-mqtt-broker.yml 
+
         NO_SECURITY:=-no-secty
 
         ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
@@ -941,6 +944,7 @@ else
     			-f add-device-virtual.yml \
     			-f add-device-rest.yml \
     			-f add-mqtt-broker.yml \
+				-f add-taf-mqtt-broker.yml \
 			-f add-delayed-start-services.yml
 			asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)"  IS_MQTT_BUS="0" ./gen_secure_compose_ext.sh app-service-mqtt-export \
 				app-mqtt-export app-service-configurable)
@@ -955,7 +959,9 @@ else
 					-f add-asc-mqtt-export.yml \
 					-f add-device-virtual.yml \
 					-f add-device-rest.yml \
-					-f add-mqtt-broker.yml
+					-f add-mqtt-broker.yml \
+					-f add-taf-mqtt-broker.yml 
+
 				NO_SECURITY:=-no-secty
 			endif
 		endif

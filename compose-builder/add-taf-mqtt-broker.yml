@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  mqtt-taf-broker:
+    image: eclipse-mosquitto:${MOSQUITTO_VERSION}
+    command: "/usr/sbin/mosquitto -c /mosquitto-no-auth.conf"
+    ports:
+      - "127.0.0.1:1884:1883"
+    container_name: edgex-taf-mqtt-broker
+    hostname: edgex-taf-mqtt-broker
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
