@@ -470,6 +470,20 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+  mqtt-taf-broker:
+    command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
+    container_name: edgex-taf-mqtt-broker
+    hostname: edgex-taf-mqtt-broker
+    image: eclipse-mosquitto:2.0.12
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:1884:1883/tcp
+    read_only: true
+    restart: always
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
   notifications:
     container_name: edgex-support-notifications
     depends_on:
