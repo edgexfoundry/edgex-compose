@@ -454,6 +454,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-device-modbus.yml \
 		-f add-taf-device-services-mods.yml \
 		-f add-mqtt-broker.yml \
+		-f add-taf-mqtt-broker.yml \
 		-f add-modbus-simulator.yml
 
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
@@ -499,6 +500,7 @@ else
 			-f add-device-modbus.yml \
 			-f add-taf-device-services-mods.yml \
 			-f add-mqtt-broker.yml \
+			-f add-taf-mqtt-broker.yml \
 			-f add-modbus-simulator.yml
         NO_SECURITY:=-no-secty
 
