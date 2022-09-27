@@ -15,9 +15,13 @@
 
 version: '3.7'
 
+volumes:
+  nats-data:
+
 services:
   nats:
     image: nats:${NATS_VERSION}
+    command: [ "-js" ]
     ports:
       - "127.0.0.1:4222:4222"
     container_name: edgex-nats-server
@@ -28,7 +32,9 @@ services:
       - edgex-network
     security_opt:
       - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    user: "root:root"
+    volumes:
+      - nats-data:/tmp/nats:z
 
   data:
     env_file:
@@ -80,6 +86,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-nats-server
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 4222
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PUBLISHTOPIC: edgex/rules-events
       TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
     depends_on:
       - nats
@@ -89,12 +96,13 @@ services:
       CONNECTION__EDGEX__NATSMSGBUS__PORT: 4222
       CONNECTION__EDGEX__NATSMSGBUS__PROTOCOL: tcp
       CONNECTION__EDGEX__NATSMSGBUS__SERVER: edgex-nats-server
-      CONNECTION__EDGEX__NATSMSGBUS__TYPE: nats-core
+      CONNECTION__EDGEX__NATSMSGBUS__TYPE: nats-jetstream
       CONNECTION__EDGEX__NATSMSGBUS__OPTIONAL__CLIENTID: kuiper-rules-engine
       EDGEX__DEFAULT__PORT: 4222
       EDGEX__DEFAULT__PROTOCOL: tcp
       EDGEX__DEFAULT__SERVER: edgex-nats-server
-      EDGEX__DEFAULT__TYPE: nats-core
+      EDGEX__DEFAULT__TYPE: nats-jetstream
+      EDGEX__DEFAULT__TOPIC: edgex/rules-events
       EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
     depends_on:
       - nats
