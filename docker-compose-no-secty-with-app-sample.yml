@@ -121,7 +121,7 @@ services:
     command: agent -ui -bootstrap -server -client 0.0.0.0
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: consul:1.12
+    image: consul:1.13
     networks:
       edgex-network: {}
     ports:

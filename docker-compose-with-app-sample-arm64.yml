@@ -250,7 +250,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-consul
-    image: consul:1.12
+    image: consul:1.13
     networks:
       edgex-network: {}
     ports:
@@ -543,7 +543,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kong
-    image: kong:2.8
+    image: kong:3.0
     networks:
       edgex-network: {}
     ports:
@@ -599,7 +599,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kong-db
-    image: postgres:13.7-alpine
+    image: postgres:14.5-alpine
     networks:
       edgex-network: {}
     ports:
@@ -1107,7 +1107,7 @@ services:
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
     hostname: edgex-vault
-    image: vault:1.10.3
+    image: vault:1.11.3
     networks:
       edgex-network: {}
     ports:
