@@ -920,7 +920,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kong
-    image: kong:3.0
+    image: kong:2.8
     networks:
       edgex-network: {}
     ports:
