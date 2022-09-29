@@ -19,7 +19,7 @@
 # versions are loaded from .env file
 . ./.env
 
-if [ $DEV = "-dev" ]; then
+if [ "$DEV" = "-dev" ]; then
   export CORE_EDGEX_REPOSITORY=edgexfoundry
   export CORE_EDGEX_VERSION=0.0.0-dev
 fi
