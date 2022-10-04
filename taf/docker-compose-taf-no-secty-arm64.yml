@@ -190,6 +190,37 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+  app-service-sample:
+    container_name: edgex-app-sample
+    depends_on:
+    - consul
+    - data
+    environment:
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
+      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
+      EDGEX_PROFILE: sample
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEQUEUE_HOST: edgex-redis
+      REGISTRY_HOST: edgex-core-consul
+      SERVICE_HOST: edgex-app-sample
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
+    hostname: edgex-app-sample
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    networks:
+      edgex-network: {}
+    ports:
+    - 127.0.0.1:59700:59700/tcp
+    read_only: true
+    restart: always
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
   command:
     container_name: edgex-core-command
     depends_on:
