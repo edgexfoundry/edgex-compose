@@ -14,18 +14,16 @@
 #  *******************************************************************************/
 
 version: '3.7'
-volumes:
-  PROFILE_VOLUME_PLACE_HOLDER:
 
 services:
   device-virtual:
     command: "-cp=consul.http://edgex-core-consul:8500 --registry --configDir=CONFIG_DIR_PLACE_HOLDER"
     volumes:
-      - PROFILE_VOLUME_PLACE_HOLDER:CONFIG_DIR_PLACE_HOLDER:z
+      - /PROFILE_VOLUME_PLACE_HOLDER:CONFIG_DIR_PLACE_HOLDER:z
 
   device-modbus:
     command: "-cp=consul.http://edgex-core-consul:8500 --registry --configDir=CONFIG_DIR_PLACE_HOLDER"
     volumes:
-      - PROFILE_VOLUME_PLACE_HOLDER:CONFIG_DIR_PLACE_HOLDER:z
+      - /PROFILE_VOLUME_PLACE_HOLDER:CONFIG_DIR_PLACE_HOLDER:z
     depends_on:
       - modbus-simulator

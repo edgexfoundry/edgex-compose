@@ -23,15 +23,9 @@
 include .env
 include common-security.env
 
-# Current default is to use stand alone docker-compose.
-# Since compose V2 with the new "docker compose" command in the docker CLI has been released
-# we are supporting both versions. In EdgeX 3.0 we'll just support compose V2.
-DOCKER_COMPOSE=docker-compose
-GEN_COMMAND=config
- ifeq (, $(shell which docker-compose))
-	 DOCKER_COMPOSE=docker compose
-	 GEN_COMMAND=convert
- endif
+# This tool now only supports compose V2, aka "docker compose" as it has replaced to old docker-compose tool.
+DOCKER_COMPOSE=docker compose
+GEN_COMMAND=convert
 
 COMPOSE_FILES:=-f docker-compose-base.yml
 TOKEN_LIST=

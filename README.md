@@ -16,7 +16,9 @@ These `pre-release` docker compose files are generated from the multiple source 
 
 ### Compose Tool
 
-The Makefile in this folder expects `docker-compose` tool or the new Compose V2 plug-in for the Docker CLI. The `docker-compose` tool will be used if it is found in the `path`, otherwise it will try the `docker compose` CLI command.
+The Makefile in this folder expects the `docker compose` CLI command.
+The old stand-alone `docker-compose` tool is no longer supported.
+See https://docs.docker.com/compose/install/ for installation details for the latest `docker compose` CLI command.
 
 ### Compose Files
 

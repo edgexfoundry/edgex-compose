@@ -24,13 +24,8 @@ $(eval $(ARGS):;@:)
 
 OPTIONS:=" arm64 no-secty app-sample " # Must have spaces around words for `filter-out` function to work properly
 
-# Current default is to use stand alone docker-compose.
-# Since compose V2 with the new "docker compose" command in the docker CLI has been released
-# we are supporting both versions. In EdgeX 3.0 we'll just support compose V2.
-DOCKER_COMPOSE=docker-compose
-ifeq (, $(shell which docker-compose))
-	DOCKER_COMPOSE=docker compose
-endif
+# This tool now only supports compose V2, aka "docker compose" as it has replaced to old docker-compose tool.
+DOCKER_COMPOSE=docker compose
 
 ifeq (arm64, $(filter arm64,$(ARGS)))
 	ARM64=-arm64
