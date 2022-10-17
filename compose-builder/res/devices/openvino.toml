@@ -1,0 +1,9 @@
+# Pre-define Devices
+[[DeviceList]]
+  Name = "openvino"
+  ProfileName = "people-count"
+  Description = "RESTful Device that sends CV People Count data"
+  Labels = [ "rest", "cv", "people", "openvino" ]
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.other]
+
