@@ -269,6 +269,7 @@ services:
     hostname: edgex-ui-go
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
+      SERVICE_HOST: edgex-ui-go
     read_only: true
     restart: always
     networks:
