@@ -428,7 +428,9 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEQUEUE_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
       MESSAGEQUEUE_HOST: edgex-redis
+      MESSAGEQUEUE_INTERNAL_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -506,7 +508,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-consul
-    image: consul:1.13
+    image: consul:1.13.2
     networks:
       edgex-network: {}
     ports:
@@ -626,7 +628,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-redis
-    image: redis:7.0-alpine
+    image: redis:7.0.5-alpine
     networks:
       edgex-network: {}
     ports:
@@ -918,7 +920,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kong
-    image: kong:2.8
+    image: kong:2.8.1
     networks:
       edgex-network: {}
     ports:
@@ -1069,7 +1071,7 @@ services:
     command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0
+    image: eclipse-mosquitto:2.0.15
     networks:
       edgex-network: {}
     ports:
@@ -1083,7 +1085,7 @@ services:
     command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
     container_name: edgex-taf-mqtt-broker
     hostname: edgex-taf-mqtt-broker
-    image: eclipse-mosquitto:2.0
+    image: eclipse-mosquitto:2.0.15
     networks:
       edgex-network: {}
     ports:
@@ -1247,7 +1249,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.6-alpine
+    image: lfedge/ekuiper:1.6.3-alpine
     networks:
       edgex-network: {}
     ports:
@@ -1826,7 +1828,7 @@ services:
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
     hostname: edgex-vault
-    image: vault:1.11.3
+    image: vault:1.11.4
     networks:
       edgex-network: {}
     ports:

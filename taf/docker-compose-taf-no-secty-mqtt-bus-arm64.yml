@@ -264,12 +264,14 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-command
-      MESSAGEQUEUE_PORT: '1883'
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEQUEUE_EXTERNAL_CLIENTID: core-command-ex
+      MESSAGEQUEUE_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
+      MESSAGEQUEUE_HOST: edgex-redis
+      MESSAGEQUEUE_INTERNAL_AUTHMODE: none
+      MESSAGEQUEUE_INTERNAL_HOST: edgex-mqtt-broker
+      MESSAGEQUEUE_INTERNAL_PORT: 1883
+      MESSAGEQUEUE_INTERNAL_PROTOCOL: tcp
+      MESSAGEQUEUE_INTERNAL_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
@@ -287,7 +289,7 @@ services:
     command: agent -ui -bootstrap -server -client 0.0.0.0
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: consul:1.13
+    image: consul:1.13.2
     networks:
       edgex-network: {}
     ports:
@@ -348,7 +350,7 @@ services:
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
-    image: redis:7.0-alpine
+    image: redis:7.0.5-alpine
     networks:
       edgex-network: {}
     ports:
@@ -551,7 +553,7 @@ services:
     command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0
+    image: eclipse-mosquitto:2.0.15
     networks:
       edgex-network: {}
     ports:
@@ -565,7 +567,7 @@ services:
     command: /usr/sbin/mosquitto -c /mosquitto-no-auth.conf
     container_name: edgex-taf-mqtt-broker
     hostname: edgex-taf-mqtt-broker
-    image: eclipse-mosquitto:2.0
+    image: eclipse-mosquitto:2.0.15
     networks:
       edgex-network: {}
     ports:
@@ -634,7 +636,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 59720
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.6-alpine
+    image: lfedge/ekuiper:1.6.3-alpine
     networks:
       edgex-network: {}
     ports:

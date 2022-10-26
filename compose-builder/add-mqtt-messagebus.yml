@@ -35,11 +35,13 @@ services:
       - mqtt-broker
 
   command:
-    env_file:
-      - mqtt-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-command
-      MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_INTERNAL_TYPE: mqtt
+      MESSAGEQUEUE_INTERNAL_PROTOCOL: tcp
+      MESSAGEQUEUE_INTERNAL_HOST: edgex-mqtt-broker
+      MESSAGEQUEUE_INTERNAL_PORT: 1883
+      MESSAGEQUEUE_INTERNAL_AUTHMODE: none
+      MESSAGEQUEUE_EXTERNAL_CLIENTID: core-command-ex
     depends_on:
       - mqtt-broker
 
