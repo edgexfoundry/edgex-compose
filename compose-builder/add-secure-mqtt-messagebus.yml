@@ -39,8 +39,8 @@ services:
 
   command:
     environment:
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_SECRETNAME: message-bus
+      MESSAGEQUEUE_INTERNAL_AUTHMODE: usernamepassword
+      MESSAGEQUEUE_INTERNAL_SECRETNAME: message-bus
 
   notifications:
     environment:
