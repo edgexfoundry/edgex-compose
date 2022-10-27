@@ -53,10 +53,12 @@ services:
       - nats
 
   command:
-    env_file:
-      - nats-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-command
+      MESSAGEQUEUE_INTERNAL_TYPE: nats-jetstream
+      MESSAGEQUEUE_INTERNAL_PROTOCOL: tcp
+      MESSAGEQUEUE_INTERNAL_HOST: edgex-nats-server
+      MESSAGEQUEUE_INTERNAL_PORT: 4222
+      MESSAGEQUEUE_INTERNAL_AUTHMODE: none
     depends_on:
       - nats
 

@@ -176,6 +176,8 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-core-command
+      MESSAGEQUEUE_INTERNAL_HOST: edgex-redis
+      MESSAGEQUEUE_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
     depends_on:
       - consul
       - database
