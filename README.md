@@ -1,22 +1,11 @@
-## Edgex Docker Compose
-[![Build Status](https://jenkins.edgexfoundry.org/view/EdgeX%20Foundry%20Project/job/edgexfoundry/job/edgex-compose/job/main/badge/icon)](https://jenkins.edgexfoundry.org/view/EdgeX%20Foundry%20Project/job/edgexfoundry/job/edgex-compose/job/main/) [![GitHub License](https://img.shields.io/github/license/edgexfoundry/edgex-compose)](https://choosealicense.com/licenses/apache-2.0/) [![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/edgexfoundry/edgex-compose)](https://github.com/edgexfoundry/edgex-compose/pulls) [![GitHub Contributors](https://img.shields.io/github/contributors/edgexfoundry/edgex-compose)](https://github.com/edgexfoundry/edgex-compose/contributors) [![GitHub Committers](https://img.shields.io/badge/team-committers-green)](https://github.com/orgs/edgexfoundry/teams/edgex-compose-committers/members) [![GitHub Commit Activity](https://img.shields.io/github/commit-activity/m/edgexfoundry/edgex-compose)](https://github.com/edgexfoundry/edgex-compose/commits)
+## Edgex Docker Compose (Levski)
 
-
-This repository contains the docker compose files for EdgeX releases. Each release is now on it's own branch. 
-
-> **Example**: The `Hanoi` release compose files are [here](https://github.com/edgexfoundry/edgex-compose/tree/hanoi).
-
-This `branch` contains the `pre-release` docker compose files that pull and run the EdgeX images from the Nexus3 docker registry that are tagged with `master`. These images are built from the Edgex CI Pipeline when PRs are merged into the `master` branch.
-
-> **Note**: Docker does not re-pull newer instances of these images. You must pull the new image instances. See the `make pull` command described below that will do this for you.
-
-These `pre-release` docker compose files are generated from the multiple source compose files located in the `compose-builder` folder. See [README](compose-builder/README.md) there for details on regenerating these files after making changes to the source files. 
-
-
+This branch contains the docker compose files that pull and run the `EdgeX Levski` release images
 
 ### Compose Tool
 
-The Makefile in this folder expects `docker-compose` tool or the new Compose V2 plug-in for the Docker CLI. The `docker-compose` tool will be used if it is found in the `path`, otherwise it will try the `docker compose` CLI command.
+The Makefile in this folder expects `docker-compose` tool or the new Compose V2 plug-in for the Docker CLI. 
+The `docker-compose` tool will be used if it is found in the `path`, otherwise it will try the `docker compose` CLI command.
 
 ### Compose Files
 
@@ -24,7 +13,7 @@ This folder contains the following compose files:
 
 #### Generated Compose files
 
-> **NOTES: **
+> **Note to Developers:**
 >
 > - *DO NOT EDIT the files directly for permanent changes. Make all permanent changes to the source compose files in the `compose-builder` folder and then regenerate these files*
 > - Use `make build` from `Compose Builder` to regenerate all the following compose files.
@@ -105,10 +94,10 @@ The compose files under the `taf` subfolder are used for the automated TAF tests
     Runs `down` command and removes all stopped containers, all volumes and all networks used by the EdgeX stack. Use this command when needing to do a fresh restart.
     
 - `make get-token`
-    For secure mode only. Runs commands via docker to generate a new API Gateway token.
+    For secure mode only. Runs command via docker to generate a new API Gateway token.
 
 - `make get-consul-acl-token`
-  For secure mode only. Runs commands via docker to retrieve a Consul Access token.
+  For secure mode only. Runs command via docker to retrieve a Consul Access token.
 
 ### Additional compose files
 

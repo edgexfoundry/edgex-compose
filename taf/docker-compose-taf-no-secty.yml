@@ -88,9 +88,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - protocol: tcp
-      published: 59705
-      target: 59705
+    - 59705:59705/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -344,7 +342,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-modbus
     hostname: edgex-device-modbus
-    image: edgexfoundry/device-modbus:2.2.0
+    image: edgexfoundry/device-modbus:2.3.0
     networks:
       edgex-network: {}
     ports:
@@ -374,7 +372,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-onvif-camera
     hostname: edgex-device-onvif-camera
-    image: edgexfoundry/device-onvif-camera:latest
+    image: edgexfoundry/device-onvif-camera:2.3.0
     networks:
       edgex-network: {}
     ports:
@@ -402,7 +400,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: edgexfoundry/device-rest:2.2.0
+    image: edgexfoundry/device-rest:2.3.0
     networks:
       edgex-network: {}
     ports:
@@ -431,7 +429,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: edgexfoundry/device-virtual:2.2.0
+    image: edgexfoundry/device-virtual:2.3.0
     networks:
       edgex-network: {}
     ports:
@@ -600,8 +598,7 @@ services:
     networks:
       edgex-network: {}
     ports:
-    - published: 59710
-      target: 59703
+    - 59710:59703/tcp
     read_only: true
     security_opt:
     - no-new-privileges:true
@@ -677,12 +674,11 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-ui-go
     hostname: edgex-ui-go
-    image: edgexfoundry/edgex-ui:2.2.0
+    image: edgexfoundry/edgex-ui:2.3.0
     networks:
       edgex-network: {}
     ports:
-    - published: 4000
-      target: 4000
+    - 4000:4000/tcp
     read_only: true
     restart: always
     security_opt:
