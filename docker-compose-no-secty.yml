@@ -10,7 +10,7 @@
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
 #  *
-#  * EdgeX Foundry, Kamakura WIP release
+#  * EdgeX Foundry, Kamakura release
 #  *******************************************************************************/
 #
 #
@@ -48,7 +48,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-rules-engine
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    image: edgexfoundry/app-service-configurable:2.3.0
     networks:
       edgex-network: {}
     ports:
@@ -78,7 +78,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: nexus3.edgexfoundry.org:10004/core-command:latest
+    image: edgexfoundry/core-command:2.3.0
     networks:
       edgex-network: {}
     ports:
@@ -123,7 +123,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: nexus3.edgexfoundry.org:10004/core-data:latest
+    image: edgexfoundry/core-data:2.3.0
     networks:
       edgex-network: {}
     ports:
@@ -177,7 +177,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: nexus3.edgexfoundry.org:10004/device-rest:latest
+    image: edgexfoundry/device-rest:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -205,7 +205,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: nexus3.edgexfoundry.org:10004/device-virtual:latest
+    image: edgexfoundry/device-virtual:2.2.0
     networks:
       edgex-network: {}
     ports:
@@ -234,7 +234,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: nexus3.edgexfoundry.org:10004/core-metadata:latest
+    image: edgexfoundry/core-metadata:2.3.0
     networks:
       edgex-network: {}
     ports:
@@ -261,7 +261,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/support-notifications:latest
+    image: edgexfoundry/support-notifications:2.3.0
     networks:
       edgex-network: {}
     ports:
@@ -319,7 +319,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-scheduler:latest
+    image: edgexfoundry/support-scheduler:2.3.0
     networks:
       edgex-network: {}
     ports:
@@ -352,7 +352,7 @@ services:
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-sys-mgmt-agent
     hostname: edgex-sys-mgmt-agent
-    image: nexus3.edgexfoundry.org:10004/sys-mgmt-agent:latest
+    image: edgexfoundry/sys-mgmt-agent:2.3.0
     networks:
       edgex-network: {}
     ports:
@@ -371,11 +371,12 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-ui-go
     hostname: edgex-ui-go
-    image: nexus3.edgexfoundry.org:10004/edgex-ui:latest
+    image: edgexfoundry/edgex-ui:2.2.0
     networks:
       edgex-network: {}
     ports:
-    - 4000:4000/tcp
+    - published: 4000
+      target: 4000
     read_only: true
     restart: always
     security_opt:
