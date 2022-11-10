@@ -1,40 +1,21 @@
 ## Edgex Docker Compose Builder
 
-This folder contains the `Compose Builder` which is made up of **source** compose, **environment** files and a **makefile** for building the single file docker composes files. The `master` branch builds the `pre-release`  compose files which are placed in the top level of this repository. 
-
+This folder contains the `Compose Builder` which is made up of **source** compose, **environment** files and a **makefile** for building the single file docker composes files configured for the `Levski` release
 ### **Note to Developers**: 
-> *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
->
-> Any new options added to the `make gen` and `make run` commands must to also be added to the new` tui-generator.sh` script
+> For a Levski patch release, once you have edited and tested your changes to the source compose files
+> and then you MUST regenerate the committed Levski compose files using the `make build` command.
 >
 > **You must use *docker-compose version 1.27.2* due to bug in later versions that generates the `depends_on` sections incorrectly for compose version 3.x**.
 >
-> **You MUST NOT use the new `compose v2` as it generates compose files that are not compatible with `docker-compose` which is used by TAF**
+> **You MUST NOT use the new `compose v2` as it generates compose files that are not compatible with TAF**
 
 ### Compose Tool
 
 The Makefile in this folder expects `docker-compose` tool or the new Compose V2 plug-in for the Docker CLI. The `docker-compose` tool will be used if it is found in the `path`, otherwise it will try the `docker compose` CLI command.
 
-### Generate next release compose files
-
-Do the following to generate the compose files for next release such as `jakarta` 
-
-1. Create the new `release` branch from this branch, i.e create the `jakarta` branch
-2. Checkout a new working branch from the new `release` branch
-3. Update the `REPOSITORY`, `CORE_EDGEX_REPOSITORY`, `APP_SVC_REPOSITORY`, and `versions` contained in the `.env` file appropriately for the new release
-4. Run `make build` 
-5. Update the two READMEs to be specific to the new `release`
-6. Commit changes, open PR and merge PR
-7. TAG the new release branch, i.e. `2.1.0`
-8. Update EdgeX documentation to refer to the new release branch.
-
-### Generate dot release compose files
-
-1. Checkout a new working branch from the target `release` branch for the dot release, i.e the `ireland` branch
-2. Update the and `versions` contained in the `.env` file appropriately for the dot release
-3. Run `make build` 
-4. Commit changes, open PR and merge PR
-5. TAG the release branch for the dot release, i.e. `2.0.1`
+### Generating Custom Compose files
+If one of the standard committed Levski compose files doesn't meet your needs, you can generate and run a custom Levski compose file using the make gen <options> command. 
+See Gen and Run target details below. The Run target simply runs the custom compose file after generating it.
 
 ### Multiple Compose files approach
 
