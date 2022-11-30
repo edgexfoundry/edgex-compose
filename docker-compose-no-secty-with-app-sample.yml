@@ -123,7 +123,7 @@ services:
     command: agent -ui -bootstrap -server -client 0.0.0.0
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: consul:1.13.2
+    image: consul:1.13
     networks:
       edgex-network: {}
     ports:
@@ -178,7 +178,7 @@ services:
       MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
-    image: redis:7.0.5-alpine
+    image: redis:7.0-alpine
     networks:
       edgex-network: {}
     ports:
@@ -319,7 +319,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: 59720
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.7.1-alpine
+    image: lfedge/ekuiper:1.7-alpine
     networks:
       edgex-network: {}
     ports:
