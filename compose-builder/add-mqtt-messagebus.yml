@@ -22,6 +22,7 @@ services:
     environment:
       MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
       MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
     depends_on:
       - mqtt-broker
 
@@ -31,6 +32,7 @@ services:
     environment:
       MESSAGEQUEUE_OPTIONAL_CLIENTID: core-metadata
       MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
     depends_on:
       - mqtt-broker
 
@@ -51,6 +53,7 @@ services:
     environment:
       MESSAGEQUEUE_OPTIONAL_CLIENTID: support-notifications
       MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
     depends_on:
       - mqtt-broker
 
@@ -60,6 +63,7 @@ services:
     environment:
       MESSAGEQUEUE_OPTIONAL_CLIENTID: support-scheduler
       MESSAGEQUEUE_AUTHMODE: none
+      MESSAGEQUEUE_HOST: edgex-mqtt-broker
     depends_on:
       - mqtt-broker
 
