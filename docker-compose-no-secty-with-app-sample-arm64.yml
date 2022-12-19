@@ -42,7 +42,6 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-rules-engine
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
@@ -73,7 +72,6 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: sample
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-sample
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
@@ -104,7 +102,6 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEQUEUE_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
-      MESSAGEQUEUE_HOST: edgex-redis
       MESSAGEQUEUE_INTERNAL_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
@@ -175,7 +172,6 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
     image: redis:7.0-alpine
@@ -378,7 +374,6 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       EXECUTORPATH: /sys-mgmt-executor
-      MESSAGEQUEUE_HOST: edgex-redis
       METRICSMECHANISM: executor
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-sys-mgmt-agent

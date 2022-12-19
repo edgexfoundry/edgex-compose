@@ -109,6 +109,7 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-support-notifications
+      MESSAGEQUEUE_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -131,6 +132,7 @@ services:
     environment:
       SERVICE_HOST: edgex-core-metadata
       NOTIFICATIONS_SENDER: edgex-core-metadata
+      MESSAGEQUEUE_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -154,6 +156,7 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-core-data
+      MESSAGEQUEUE_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -202,6 +205,7 @@ services:
       SERVICE_HOST: edgex-support-scheduler
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
+      MESSAGEQUEUE_HOST: edgex-redis
     depends_on:
       - consul
       - database
