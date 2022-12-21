@@ -64,36 +64,6 @@ services:
     security_opt: 
       - no-new-privileges:true
 
-  system:
-    image: ${CORE_EDGEX_REPOSITORY}/sys-mgmt-agent${ARCH}:${CORE_EDGEX_VERSION}
-    user: "root:root" # must run as root to allow binding to docker socket.
-    ports:
-      - "127.0.0.1:58890:58890"
-    container_name: edgex-sys-mgmt-agent
-    hostname: edgex-sys-mgmt-agent
-    read_only: true
-    restart: always
-    networks:
-      - edgex-network
-    env_file:
-      - common.env
-    environment:
-      SERVICE_HOST: edgex-sys-mgmt-agent
-      EXECUTORPATH: /sys-mgmt-executor
-      METRICSMECHANISM: executor
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:z
-    depends_on:
-      - consul
-      - scheduler
-      - notifications
-      - metadata
-      - data
-      - command
-    security_opt: 
-      - no-new-privileges:true
-      - label:disable # needed for CentOS to provide docker access
-
   notifications:
     image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"

@@ -47,7 +47,7 @@ define OPTIONS
  - arm64 no-secty dev app-dev device-dev ui-dev delayed-start -
  - zmq-bus nats-bus mqtt-bus mqtt-broker -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
- - ds-onvif-camera  ds-usb-camera ds-bacnet ds-camera ds-grove ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
+ - ds-onvif-camera  ds-usb-camera ds-bacnet ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp asc-ex-mqtt -
  - modbus-sim -
 endef
@@ -206,77 +206,7 @@ ifeq (ds-bacnet, $(filter ds-bacnet,$(ARGS)))
 		endif
 	endif
 endif
-ifeq (ds-camera, $(filter ds-camera,$(ARGS)))
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-camera.yml
-	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
-	  ifeq (no-secty, $(filter no-secty,$(ARGS)))
-	    IS_SECURE_MODE:=0
-	  else
-	    IS_SECURE_MODE:=1
-	  endif
-	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_SECURE_MODE="$(IS_SECURE_MODE)" ./gen_mqtt_messagebus_compose_ext.sh device-camera -d)
-	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
-	endif
-	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
-	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-camera -d)
-	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
-	endif
-	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),)
-			TOKEN_LIST:=device-camera
-		else
-			TOKEN_LIST:=$(TOKEN_LIST),device-camera
-		endif
-		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-camera],message-bus[device-camera]
-		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-camera],message-bus[device-camera]
-		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-camera)
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
-		# add runtime token config for delayed-start if specified
-		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
-			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-camera)
-			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
-		endif
-	endif
-endif
-ifeq (ds-grove, $(filter ds-grove,$(ARGS)))
-    DS_GROVE:=true
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-grove.yml
-	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
-	  ifeq (no-secty, $(filter no-secty,$(ARGS)))
-	    IS_SECURE_MODE:=0
-	  else
-	    IS_SECURE_MODE:=1
-	  endif
-	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_SECURE_MODE="$(IS_SECURE_MODE)" ./gen_mqtt_messagebus_compose_ext.sh device-grove -d)
-	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
-	endif
-	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
-	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh device-grove -d)
-	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
-	endif
-	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq ($(TOKEN_LIST),)
-			TOKEN_LIST:=device-grove
-		else
-			TOKEN_LIST:=$(TOKEN_LIST),device-grove
-		endif
-		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-grove],message-bus[device-grove]
-		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-grove],message-bus[device-grove]
-		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-grove)
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
-		# add runtime token config for delayed-start if specified
-		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
-			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-grove)
-			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
-		endif
-	endif
-endif
+
 ifeq (ds-modbus, $(filter ds-modbus,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-modbus.yml
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
@@ -976,13 +906,6 @@ endif
 
 SERVICES:=$(filter-out ${OPTIONS},$(ARGS))
 
-ifeq (true, $(DS_GROVE))
- ifneq (-arm64, $(ARCH))
-	 GROVE_CHECK:="ds-grove option only valid with arm64 option"
-	 COMPOSE_FILES:=""
- endif
-endif
-
 export TOKEN_LIST
 export KNOWN_SECRETS_LIST
 export EXTRA_PROXY_ROUTE_LIST
@@ -994,10 +917,8 @@ define COMPOSE_DOWN
 	${DOCKER_COMPOSE} -p edgex \
 		-f docker-compose-base.yml \
 		-f add-device-bacnet.yml \
-		-f add-device-camera.yml \
 		-f add-device-onvif-camera.yml \
 		-f add-device-usb-camera.yml \
-		-f add-device-grove.yml \
 		-f add-device-modbus.yml \
 		-f add-device-mqtt.yml \
 		-f add-secure-device-mqtt.yml \
@@ -1080,7 +1001,6 @@ pull: gen
 	${DOCKER_COMPOSE}  pull $(SERVICES)
 
 gen:
-	$(GROVE_CHECK) \
 	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} > docker-compose.yml
 	rm -rf ./$(GEN_EXT_DIR)
 

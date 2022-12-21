@@ -58,14 +58,10 @@ This folder contains the following compose files:
     Secure delayed start services **extending** compose file. Adds additional delayed start services based on spire/spiffe implementation to provide the secret store token on the runtime secure configuration.
 - **add-device-bacnet.yml**<br/>
     Device Service **extending** compose file, which adds the **Device Bacnet**  service.
-- **add-device-camera.yml** (***note this service will be Deprecated, use Device ONVIF Camera***)<br/>
-    Device Service **extending** compose file, which adds the **Device Camera**  service.
 - **add-device-onvif-camera.yml**<br/>
     Device Service **extending** compose file, which adds the **Device ONVIF Camera**  service.
 - **add-device-usb-camera.yml**<br/>
     Device Service **extending** compose file, which adds the **Device USB Camera**  service.
-- **add-device-grove.yml**<br/>
-    Device Service **extending** compose file, which adds the **Device Grove**  service.
 - **add-device-modbus.yml**<br/>
     Device Service **extending** compose file, which adds the **Device Modbus**  service.
 - **add-device-mqtt.yml**<br/>
@@ -224,10 +220,8 @@ Options:
                      spire related services and spiffe-token-provider service included
     ds-modbus:       Runs with device-modbus included
     ds-bacnet:       Runs with device-bacnet included
-    ds-camera:       Runs with device-camera included
     ds-onvif-camera: Runs with device-onvif-camera included
     ds-usb-camera:   Runs with device-usb-camera included
-    ds-grove:        Runs with device-grove included (valid only with arm64 option)
     ds-mqtt:         Runs with device-mqtt included
     ds-rest:         Runs with device-rest included
     ds-snmp:         Runs with device-snmp included
@@ -278,10 +272,8 @@ Options:
     delayed-start:   Pull includes delayed start services- spire related services 
                      and spiffe-token-provider service
     ds-bacnet:       Pull includes device-bacnet
-    ds-camera:       Pull includes device-camera
     ds-onvif-camera: Pull includes device-onvif-camera included
     ds-usb-camera:   Pull includes device-usb-camera included
-    ds-grove:        Pull includes device-grove (valid only with arm64 option)
     ds-modbus:       Pull includes device-modbus
     ds-mqtt:         Pull includes device-mqtt
     ds-rest:         Pull includes device-rest
@@ -326,10 +318,8 @@ Options:
                      related services and spiffe-token-provider service included
     ds-modbus:       Generates compose file with device-modbus included
     ds-bacnet:       Generates compose file with device-bacnet included
-    ds-camera:       Generates compose file with device-camera included
     ds-onvif-camera: Generates compose file with device-onvif-camera included
     ds-usb-camera:   Generates compose file with device-usb-camera included
-    ds-grove:        Generates compose file with device-grove included (valid only with arm64 option)
     ds-mqtt:         Generates compose file with device-mqtt included
     ds-rest:         Generates compose file with device-rest included
     ds-snmp:         Generates compose file with device-snmp included
@@ -410,8 +400,6 @@ Options:
     delayed-start: Generates compose file with delayed start services- spire related services and
                    spiffe-token-provider service included
     ds-bacnet:     Generates compose file with device-bacnet included
-    ds-camera:     Generates compose file with device-camera included
-    ds-grove:      Generates compose file with device-grove included (valid only with arm64 option)
     ds-modbus:     Generates compose file with device-modbus included
     ds-mqtt:       Generates compose file with device-mqtt included
     ds-rest:       Generates compose file with device-rest included

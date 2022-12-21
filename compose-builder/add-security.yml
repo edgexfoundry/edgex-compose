@@ -354,17 +354,6 @@ services:
     depends_on:
       - security-bootstrapper
 
-  system:
-    entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: "/sys-mgmt-agent ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
-    env_file:
-      - common-security.env
-      - common-sec-stage-gate.env
-    volumes:
-      - edgex-init:/edgex-init:ro,z
-      - /tmp/edgex/secrets/sys-mgmt-agent:/tmp/edgex/secrets/sys-mgmt-agent:ro,z
-    depends_on:
-      - security-bootstrapper
   ui:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
