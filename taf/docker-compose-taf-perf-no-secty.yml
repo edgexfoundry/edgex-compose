@@ -387,41 +387,6 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
-  system:
-    container_name: edgex-sys-mgmt-agent
-    depends_on:
-    - command
-    - consul
-    - data
-    - metadata
-    - notifications
-    - scheduler
-    environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
-      EDGEX_SECURITY_SECRET_STORE: "false"
-      EXECUTORPATH: /sys-mgmt-executor
-      METRICSMECHANISM: executor
-      REGISTRY_HOST: edgex-core-consul
-      SERVICE_HOST: edgex-sys-mgmt-agent
-    hostname: edgex-sys-mgmt-agent
-    image: nexus3.edgexfoundry.org:10004/sys-mgmt-agent:latest
-    networks:
-      edgex-network: {}
-    ports:
-    - 127.0.0.1:58890:58890/tcp
-    read_only: true
-    restart: always
-    security_opt:
-    - label:disable
-    - no-new-privileges:true
-    user: root:root
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock:z
   ui:
     container_name: edgex-ui-go
     environment:
