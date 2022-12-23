@@ -355,7 +355,7 @@ services:
     volumes:
     - db-data:/data:z
   device-modbus:
-    command: -cp=consul.http://edgex-core-consul:8500 --registry --confdir=CONF_DIR_PLACE_HOLDER
+    command: -cp=consul.http://edgex-core-consul:8500 --registry --configDir=CONFIG_DIR_PLACE_HOLDER
     container_name: edgex-device-modbus
     depends_on:
     - consul
@@ -390,7 +390,7 @@ services:
     - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - PROFILE_VOLUME_PLACE_HOLDER:CONF_DIR_PLACE_HOLDER:z
+    - PROFILE_VOLUME_PLACE_HOLDER:CONFIG_DIR_PLACE_HOLDER:z
   device-onvif-camera:
     container_name: edgex-device-onvif-camera
     depends_on:
@@ -458,7 +458,7 @@ services:
     - no-new-privileges:true
     user: 2002:2001
   device-virtual:
-    command: -cp=consul.http://edgex-core-consul:8500 --registry --confdir=CONF_DIR_PLACE_HOLDER
+    command: -cp=consul.http://edgex-core-consul:8500 --registry --configDir=CONFIG_DIR_PLACE_HOLDER
     container_name: edgex-device-virtual
     depends_on:
     - consul
@@ -492,7 +492,7 @@ services:
     - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - PROFILE_VOLUME_PLACE_HOLDER:CONF_DIR_PLACE_HOLDER:z
+    - PROFILE_VOLUME_PLACE_HOLDER:CONFIG_DIR_PLACE_HOLDER:z
   metadata:
     container_name: edgex-core-metadata
     depends_on:
