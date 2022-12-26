@@ -965,7 +965,6 @@ services:
     - /usr/sbin/mosquitto
     - -c
     - /mosquitto-no-auth.conf
-    - -v
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
     image: eclipse-mosquitto:2.0

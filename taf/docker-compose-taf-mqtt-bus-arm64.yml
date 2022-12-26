@@ -1568,6 +1568,7 @@ services:
   mqtt-broker:
     command:
     - /usr/sbin/mosquitto
+    - -v
     - -c
     - /mosquitto/config/mosquitto.conf
     container_name: edgex-mqtt-broker
@@ -1584,7 +1585,7 @@ services:
       BROKER_TYPE: mosquitto
       CONF_DIR: /edgex-init/bootstrap-mosquitto/res
       EDGEX_SECURITY_SECRET_STORE: "true"
-      ENTRYPOINT: /docker-entrypoint.sh /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
+      ENTRYPOINT: /docker-entrypoint.sh /usr/sbin/mosquitto -v -c  /mosquitto/config/mosquitto.conf
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SECRETSTORE_PORT: "8200"

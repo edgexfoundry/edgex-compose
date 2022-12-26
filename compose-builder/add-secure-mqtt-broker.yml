@@ -20,7 +20,7 @@ volumes:
 
 services:
   mqtt-broker:
-    command: /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
+    command: "/usr/sbin/mosquitto ${MQTT_VERBOSE} -c /mosquitto/config/mosquitto.conf"
     entrypoint: ["/edgex-init/messagebus_wait_install.sh"]
     env_file:
       - common-security.env
@@ -28,7 +28,7 @@ services:
     environment:
       BROKER_TYPE: mosquitto
       CONF_DIR: /edgex-init/bootstrap-mosquitto/res
-      ENTRYPOINT: /docker-entrypoint.sh /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf
+      ENTRYPOINT: /docker-entrypoint.sh /usr/sbin/mosquitto ${MQTT_VERBOSE} -c  /mosquitto/config/mosquitto.conf
     volumes:
     - mqtt:/mosquitto:z
     - edgex-init:/edgex-init:ro,z

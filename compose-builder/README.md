@@ -239,6 +239,7 @@ Options:
     mqtt-broker:     Runs with a MQTT Broker service included
     mqtt-bus:        Runs with services configure for MQTT Message Bus
                      The MQTT Broker service is also included.
+    mqtt-verbose     Enables MQTT Broker verbose logging.
     nats-bus:        Runs with services configure for NATS Message Bus
                      The NATS Server service is also included.
     zmq-bus:         Runs with services configure for ZMQ Message Bus
@@ -337,6 +338,7 @@ Options:
     mqtt-broker:     Generates compose file with a MQTT Broker service included
     mqtt-bus:        Generates compose file with services configured for MQTT Message Bus
                      The MQTT Broker service is also included.
+    mqtt-verbose     Enables MQTT Broker verbose logging.
     nats-bus:        Generates compose file with services configured for NAT Message Bus
                      The NATS Server service is also included.
     zmq-bus:         Generates compose file with services configured for ZMQ Message Bus
@@ -418,6 +420,7 @@ Options:
     mqtt-broker:   Generates compose file with a MQTT Broker service included
     mqtt-bus:      Generates compose file with services configure for MQTT Message Bus
                    The MQTT Broker service is also included.
+    mqtt-verbose   Enables MQTT Broker verbose logging.
     nats-bus:      Generates compose file with services configure for NATS Message Bus
                    The NATS Server service is also included.
     zmq-bus:       Generates compose file with services configured for ZMQ Message Bus
