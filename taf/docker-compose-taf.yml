@@ -30,7 +30,7 @@ networks:
 services:
   app-service-external-mqtt-trigger:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+      --configDir=/res
     container_name: edgex-app-external-mqtt-trigger
     depends_on:
     - consul
@@ -95,7 +95,7 @@ services:
     - /tmp/edgex/secrets/app-external-mqtt-trigger:/tmp/edgex/secrets/app-external-mqtt-trigger:ro,z
   app-service-functional-tests:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+      --configDir=/res
     container_name: app-functional-tests
     depends_on:
     - consul
@@ -155,7 +155,7 @@ services:
     - /tmp/edgex/secrets/app-functional-tests:/tmp/edgex/secrets/app-functional-tests:ro,z
   app-service-http-export:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+      --configDir=/res
     container_name: edgex-app-http-export
     depends_on:
     - consul
@@ -218,7 +218,7 @@ services:
     - /tmp/edgex/secrets/app-http-export:/tmp/edgex/secrets/app-http-export:ro,z
   app-service-mqtt-export:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+      --configDir=/res
     container_name: edgex-app-mqtt-export
     depends_on:
     - consul
@@ -282,7 +282,7 @@ services:
     - /tmp/edgex/secrets/app-mqtt-export:/tmp/edgex/secrets/app-mqtt-export:ro,z
   app-service-rules:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+      --configDir=/res
     container_name: edgex-app-rules-engine
     depends_on:
     - consul
@@ -342,7 +342,7 @@ services:
     - /tmp/edgex/secrets/app-rules-engine:/tmp/edgex/secrets/app-rules-engine:ro,z
   app-service-sample:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+      --configDir=/res
     container_name: edgex-app-sample
     depends_on:
     - consul
@@ -402,7 +402,7 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/app-sample:/tmp/edgex/secrets/app-sample:ro,z
   command:
-    command: /core-command -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    command: /core-command -cp=consul.http://edgex-core-consul:8500 --registry --configDir=/res
     container_name: edgex-core-command
     depends_on:
     - consul
@@ -518,7 +518,7 @@ services:
     - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:z
     - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
   data:
-    command: /core-data -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    command: /core-data -cp=consul.http://edgex-core-consul:8500 --registry --configDir=/res
     container_name: edgex-core-data
     depends_on:
     - consul
@@ -638,7 +638,7 @@ services:
     - redis-config:/run/redis/conf:z
     - /tmp/edgex/secrets/security-bootstrapper-redis:/tmp/edgex/secrets/security-bootstrapper-redis:ro,z
   device-modbus:
-    command: /device-modbus -cp=consul.http://edgex-core-consul:8500 --registry --confdir=CONF_DIR_PLACE_HOLDER
+    command: /device-modbus -cp=consul.http://edgex-core-consul:8500 --registry --configDir=CONF_DIR_PLACE_HOLDER
     container_name: edgex-device-modbus
     depends_on:
     - consul
@@ -699,7 +699,7 @@ services:
     - PROFILE_VOLUME_PLACE_HOLDER:CONF_DIR_PLACE_HOLDER:z
   device-onvif-camera:
     command: /device-onvif-camera -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+      --configDir=/res
     container_name: edgex-device-onvif-camera
     depends_on:
     - consul
@@ -757,7 +757,7 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/device-onvif-camera:/tmp/edgex/secrets/device-onvif-camera:ro,z
   device-rest:
-    command: /device-rest -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    command: /device-rest -cp=consul.http://edgex-core-consul:8500 --registry --configDir=/res
     container_name: edgex-device-rest
     depends_on:
     - consul
@@ -815,7 +815,7 @@ services:
     - edgex-init:/edgex-init:ro,z
     - /tmp/edgex/secrets/device-rest:/tmp/edgex/secrets/device-rest:ro,z
   device-virtual:
-    command: /device-virtual -cp=consul.http://edgex-core-consul:8500 --registry --confdir=CONF_DIR_PLACE_HOLDER
+    command: /device-virtual -cp=consul.http://edgex-core-consul:8500 --registry --configDir=CONF_DIR_PLACE_HOLDER
     container_name: edgex-device-virtual
     depends_on:
     - consul
@@ -988,7 +988,7 @@ services:
     - postgres-config:/tmp/postgres-config:z
     - postgres-data:/var/lib/postgresql/data:z
   metadata:
-    command: /core-metadata -cp=consul.http://edgex-core-consul:8500 --registry --confdir=/res
+    command: /core-metadata -cp=consul.http://edgex-core-consul:8500 --registry --configDir=/res
     container_name: edgex-core-metadata
     depends_on:
     - consul
@@ -1090,7 +1090,7 @@ services:
     user: 2002:2001
   notifications:
     command: /support-notifications -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+      --configDir=/res
     container_name: edgex-support-notifications
     depends_on:
     - consul
@@ -1259,7 +1259,7 @@ services:
     - kuiper-sources:/kuiper/etc/sources:z
   scalability-test-mqtt-export:
     command: /app-service-configurable -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+      --configDir=/res
     container_name: edgex-scalability-test-mqtt-export
     depends_on:
     - consul
@@ -1327,7 +1327,7 @@ services:
     - /tmp/edgex/secrets/app-scalability-test-mqtt-export:/tmp/edgex/secrets/app-scalability-test-mqtt-export:ro,z
   scheduler:
     command: /support-scheduler -cp=consul.http://edgex-core-consul:8500 --registry
-      --confdir=/res
+      --configDir=/res
     container_name: edgex-support-scheduler
     depends_on:
     - consul
@@ -1476,7 +1476,7 @@ services:
     - edgex-init:/edgex-init:z
   security-spiffe-token-provider:
     command: /security-spiffe-token-provider -cp=consul.http://edgex-core-consul:8500
-      --registry --confdir=/res
+      --registry --configDir=/res
     container_name: edgex-security-spiffe-token-provider
     depends_on:
     - consul
