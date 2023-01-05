@@ -20,11 +20,11 @@ volumes:
   vault-config:
   vault-file:
   vault-logs:
-  kong:
-  postgres-config:
   consul-acl-token:
   # non-shared volumes
-  postgres-data:
+  nginx-templates:
+  nginx-tls:
+  nginx-conf:
   redis-config:
 
 services:
@@ -92,7 +92,6 @@ services:
       - edgex-init:/edgex-init:ro,z
       - vault-config:/vault/config:z
       - /tmp/edgex/secrets:/tmp/edgex/secrets:z
-      - kong:/tmp/kong:z
     depends_on:
       - security-bootstrapper
       - vault
@@ -154,87 +153,45 @@ services:
     restart: always
 
 # containers for reverse proxy
-  kong-db:
-    image: postgres:${POSTGRES_VERSION}
-    user: "root:root" # Note that postgres is run under the 'postgres' user, but entry point scripts need to first run as root
-    container_name: edgex-kong-db
-    hostname: edgex-kong-db
-    read_only: true
-    restart: always
-    networks:
-      - edgex-network
-    ports:
-        - "127.0.0.1:5432:5432"
-    tmpfs:
-      - /var/run
-      - /tmp
-      - /run
-    volumes:
-      - edgex-init:/edgex-init:ro,z
-      - postgres-data:/var/lib/postgresql/data:z
-      - postgres-config:/tmp/postgres-config:z
-    entrypoint: ["/edgex-init/postgres_wait_install.sh"]
-    env_file:
-      # needed for vault host/port
-      - common-security.env
-      - common-sec-stage-gate.env
-    environment:
-      POSTGRES_DB: kong
-      POSTGRES_USER: kong
-      POSTGRES_PASSWORD_FILE: "${POSTGRES_PASSWORD_FILE:-/tmp/postgres-config/.pgpassword}"
-    depends_on:
-      - security-bootstrapper
-    security_opt: 
-      - no-new-privileges:true
 
-  kong:
-    image: kong:${KONG_VERSION}
-    user: "kong:nogroup" # Note Kong already running as kong user but doesn't define a group
-    container_name: edgex-kong
-    hostname: edgex-kong
+  nginx:
+    image: nginx:alpine-slim
+    container_name: edgex-nginx
+    hostname: edgex-nginx
     read_only: true
     restart: always
     networks:
-      - edgex-network
+      edgex-network:
+        aliases:
+          - edgex-kong  # temp patch for edgex-ui-go
     ports:
-        - "8000:8000"
-        - "8443:8443"
-        - "127.0.0.1:8100:8100"
-    tty: true
-    entrypoint: ["/edgex-init/kong_wait_install.sh"]
+      - "8443:8443"  # port 8000 (insecure) is not mapped externally)
+    entrypoint: ["/bin/sh", "/edgex-init/nginx_wait_install.sh"]
+    command:
+      - "/docker-entrypoint.sh"
+      - nginx
+      - "-g"
+      - "daemon off;"
     env_file:
       - common-sec-stage-gate.env
-    environment:
-      KONG_DATABASE: postgres
-      KONG_PG_HOST: edgex-kong-db
-      KONG_PG_PASSWORD_FILE: "${KONG_POSTGRES_PASSWORD_FILE:-/tmp/postgres-config/.pgpassword}"
-      KONG_PROXY_ACCESS_LOG: /dev/stdout
-      KONG_ADMIN_ACCESS_LOG: /dev/stdout
-      KONG_PROXY_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_LISTEN: "127.0.0.1:8001, 127.0.0.1:8444 ssl"
-      KONG_STATUS_LISTEN: "0.0.0.0:8100"
-      KONG_DNS_ORDER: "LAST,A,CNAME"
-      KONG_DNS_VALID_TTL: '1'
-      KONG_SSL_CIPHER_SUITE: modern
-      KONG_NGINX_WORKER_PROCESSES: '1'
-    tmpfs:
-      - /run
-      - /tmp
     volumes:
       - edgex-init:/edgex-init:ro,z
-      - postgres-config:/tmp/postgres-config:z
-      - kong:/usr/local/kong:z
-      - /tmp/edgex/secrets/security-proxy-setup:/tmp/edgex/secrets/security-proxy-setup:ro,z
+      - nginx-templates:/etc/nginx/templates
+      - nginx-tls:/etc/ssl/nginx
+      #- nginx-conf:/etc/nginx/conf.d
     depends_on:
-      - security-bootstrapper
-      - kong-db
+      - secretstore-setup
     security_opt: 
       - no-new-privileges:true
+    tmpfs:
+      - /etc/nginx/conf.d
+      - /var/cache/nginx
+      - /var/log/nginx
+      - /var/run
 
   proxy-setup:
     image: ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION}
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    user: "root:root"
     container_name: edgex-security-proxy-setup
     hostname: edgex-security-proxy-setup
     entrypoint: ["/edgex-init/proxy_setup_wait_install.sh"]
@@ -257,12 +214,40 @@ services:
       ROUTES_DEVICE_VIRTUAL_HOST: device-virtual
     volumes:
       - edgex-init:/edgex-init:ro,z
+      - vault-config:/vault/config:z
+      - nginx-templates:/etc/nginx/templates
+      - nginx-tls:/etc/ssl/nginx
       - /tmp/edgex/secrets/security-proxy-setup:/tmp/edgex/secrets/security-proxy-setup:ro,z
       - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:ro,z
     depends_on:
       - security-bootstrapper
       - secretstore-setup
-      - kong
+    security_opt: 
+      - no-new-privileges:true
+
+  authproxy:
+    image: ${CORE_EDGEX_REPOSITORY}/security-proxy-auth${ARCH}:${CORE_EDGEX_VERSION}
+    container_name: edgex-proxy-auth
+    hostname: edgex-proxy-auth
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    entrypoint: ["/bin/sh", "/edgex-init/ready_to_run_wait_install.sh"]
+    command:
+      - "entrypoint.sh"
+      - "/security-proxy-auth"
+      - "-cp=consul.http://edgex-core-consul:8500"
+    env_file:
+      - common-security.env
+      - common-sec-stage-gate.env
+    environment:
+      SERVICE_HOST: edgex-proxy-auth
+    volumes:
+      - edgex-init:/edgex-init:ro,z
+      - /tmp/edgex/secrets/security-proxy-auth:/tmp/edgex/secrets/security-proxy-auth:ro,z
+    depends_on:
+      - secretstore-setup
     security_opt: 
       - no-new-privileges:true
 
