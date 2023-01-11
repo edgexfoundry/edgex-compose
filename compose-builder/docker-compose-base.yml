@@ -79,7 +79,7 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-support-notifications
-      MESSAGEQUEUE_HOST: edgex-redis
+      MESSAGEBUS_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -102,7 +102,7 @@ services:
     environment:
       SERVICE_HOST: edgex-core-metadata
       NOTIFICATIONS_SENDER: edgex-core-metadata
-      MESSAGEQUEUE_HOST: edgex-redis
+      MESSAGEBUS_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -126,7 +126,7 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-core-data
-      MESSAGEQUEUE_HOST: edgex-redis
+      MESSAGEBUS_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -149,8 +149,8 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-core-command
-      MESSAGEQUEUE_INTERNAL_HOST: edgex-redis
-      MESSAGEQUEUE_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
+      MESSAGEBUS_INTERNAL_HOST: edgex-redis
+      MESSAGEBUS_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
     depends_on:
       - consul
       - database
@@ -175,7 +175,7 @@ services:
       SERVICE_HOST: edgex-support-scheduler
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
-      MESSAGEQUEUE_HOST: edgex-redis
+      MESSAGEBUS_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -198,8 +198,7 @@ services:
     environment:
       EDGEX_PROFILE: rules-engine
       SERVICE_HOST: edgex-app-rules-engine
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
+      MESSAGEBUS_HOST: edgex-redis
     depends_on:
       - consul
       - data

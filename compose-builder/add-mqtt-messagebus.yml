@@ -20,9 +20,9 @@ services:
     env_file:
       - mqtt-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: core-data
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
     depends_on:
       - mqtt-broker
 
@@ -30,20 +30,20 @@ services:
     env_file:
       - mqtt-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-metadata
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: core-metadata
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
     depends_on:
       - mqtt-broker
 
   command:
     environment:
-      MESSAGEQUEUE_INTERNAL_TYPE: mqtt
-      MESSAGEQUEUE_INTERNAL_PROTOCOL: tcp
-      MESSAGEQUEUE_INTERNAL_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_INTERNAL_PORT: 1883
-      MESSAGEQUEUE_INTERNAL_AUTHMODE: none
-      MESSAGEQUEUE_EXTERNAL_CLIENTID: core-command-ex
+      MESSAGEBUS_INTERNAL_TYPE: mqtt
+      MESSAGEBUS_INTERNAL_PROTOCOL: tcp
+      MESSAGEBUS_INTERNAL_HOST: edgex-mqtt-broker
+      MESSAGEBUS_INTERNAL_PORT: 1883
+      MESSAGEBUS_INTERNAL_AUTHMODE: none
+      MESSAGEBUS_EXTERNAL_CLIENTID: core-command-ex
     depends_on:
       - mqtt-broker
 
@@ -51,9 +51,9 @@ services:
     env_file:
       - mqtt-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-notifications
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: support-notifications
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
     depends_on:
       - mqtt-broker
 
@@ -61,23 +61,20 @@ services:
     env_file:
       - mqtt-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-scheduler
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: support-scheduler
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
     depends_on:
       - mqtt-broker
 
   app-service-rules:
     environment:
       EDGEX_PROFILE: rules-engine
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
+      MESSAGEBUS_TYPE: mqtt
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: 1883
+      MESSAGEBUS_AUTHMODE: none
     depends_on:
       - mqtt-broker
 

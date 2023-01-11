@@ -52,7 +52,7 @@ services:
       EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
       SERVICE_HOST: edgex-scalability-test-mqtt-export
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
+      MESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
       WRITABLE_LOGLEVEL: DEBUG
     depends_on:
       - consul
