@@ -686,6 +686,19 @@ ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
 endif
 ifeq (asc-ex-mqtt, $(filter asc-ex-mqtt,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-external-mqtt-trigger.yml
+	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+	  ifeq (no-secty, $(filter no-secty,$(ARGS)))
+		IS_SECURE_MODE:=0
+	  else
+		IS_SECURE_MODE:=1
+	  endif
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_SECURE_MODE="$(IS_SECURE_MODE)" ./gen_mqtt_messagebus_compose_ext.sh app-service-external-mqtt-trigger -a)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
+	ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
+	  extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_nats_messagebus_compose_ext.sh app-service-external-mqtt-trigger -a)
+	  COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+	endif
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=app-external-mqtt-trigger

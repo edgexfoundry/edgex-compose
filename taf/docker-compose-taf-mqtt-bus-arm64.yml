@@ -49,6 +49,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: external-mqtt-trigger
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -72,8 +73,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
       TRIGGER_EXTERNALMQTT_URL: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
@@ -113,6 +112,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -136,8 +136,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: app-functional-tests
     image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
     networks:
@@ -173,6 +171,12 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -196,15 +200,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: usernamepassword
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_SECRETNAME: message-bus
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
     hostname: edgex-app-http-export
@@ -243,6 +238,12 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -266,15 +267,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: usernamepassword
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_SECRETNAME: message-bus
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
       WRITABLE_INSECURESECRETS_MQTT_SECRETS_PASSWORD: PASSWORD_PLACE_HOLDER
       WRITABLE_INSECURESECRETS_MQTT_SECRETS_USERNAME: USERNAME_PLACEH_OLDER
       WRITABLE_LOGLEVEL: INFO
@@ -315,6 +307,12 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: 1883
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -338,15 +336,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: usernamepassword
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_SECRETNAME: message-bus
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
     hostname: edgex-app-rules-engine
     image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
     networks:
@@ -383,6 +372,12 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: sample
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -406,15 +401,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: usernamepassword
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_SECRETNAME: message-bus
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
     hostname: edgex-app-sample
     image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
     networks:
@@ -451,14 +437,14 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEQUEUE_EXTERNAL_CLIENTID: core-command-ex
-      MESSAGEQUEUE_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
-      MESSAGEQUEUE_INTERNAL_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_INTERNAL_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_INTERNAL_PORT: 1883
-      MESSAGEQUEUE_INTERNAL_PROTOCOL: tcp
-      MESSAGEQUEUE_INTERNAL_SECRETNAME: message-bus
-      MESSAGEQUEUE_INTERNAL_TYPE: mqtt
+      MESSAGEBUS_EXTERNAL_CLIENTID: core-command-ex
+      MESSAGEBUS_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
+      MESSAGEBUS_INTERNAL_AUTHMODE: usernamepassword
+      MESSAGEBUS_INTERNAL_HOST: edgex-mqtt-broker
+      MESSAGEBUS_INTERNAL_PORT: 1883
+      MESSAGEBUS_INTERNAL_PROTOCOL: tcp
+      MESSAGEBUS_INTERNAL_SECRETNAME: message-bus
+      MESSAGEBUS_INTERNAL_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -574,13 +560,13 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
-      MESSAGEQUEUE_PORT: '1883'
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_SECRETNAME: message-bus
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: core-data
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -701,12 +687,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_PORT: 1883
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_SECRETNAME: message-bus
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -766,12 +752,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_PORT: 1883
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_SECRETNAME: message-bus
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -830,12 +816,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_PORT: 1883
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_SECRETNAME: message-bus
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -894,12 +880,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_PORT: 1883
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_SECRETNAME: message-bus
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -1074,13 +1060,13 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-metadata
-      MESSAGEQUEUE_PORT: '1883'
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_SECRETNAME: message-bus
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: core-metadata
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       NOTIFICATIONS_SENDER: edgex-core-metadata
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1218,13 +1204,13 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-notifications
-      MESSAGEQUEUE_PORT: '1883'
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_SECRETNAME: message-bus
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: support-notifications
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -1404,6 +1390,13 @@ services:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -1429,16 +1422,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: '54322'
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: usernamepassword
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_SECRETNAME: message-bus
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
       WRITABLE_INSECURESECRETS_MQTT_SECRETS_PASSWORD: PASSWORD_PLACE_HOLDER
       WRITABLE_INSECURESECRETS_MQTT_SECRETS_USERNAME: USERNAME_PLACEH_OLDER
       WRITABLE_LOGLEVEL: DEBUG
@@ -1481,13 +1464,13 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-scheduler
-      MESSAGEQUEUE_PORT: '1883'
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_SECRETNAME: message-bus
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: support-scheduler
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault

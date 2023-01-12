@@ -43,10 +43,9 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: external-mqtt-trigger
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-external-mqtt-trigger
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
       TRIGGER_EXTERNALMQTT_URL: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
@@ -77,10 +76,9 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: app-functional-tests
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: app-functional-tests
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
     networks:
@@ -107,16 +105,13 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-http-export
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
     hostname: edgex-app-http-export
@@ -146,16 +141,13 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-mqtt-export
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
@@ -185,16 +177,13 @@ services:
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: 1883
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-rules-engine
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
     hostname: edgex-app-rules-engine
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
     networks:
@@ -222,16 +211,13 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: sample
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-sample
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
     hostname: edgex-app-sample
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
     networks:
@@ -258,13 +244,13 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_EXTERNAL_CLIENTID: core-command-ex
-      MESSAGEQUEUE_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
-      MESSAGEQUEUE_INTERNAL_AUTHMODE: none
-      MESSAGEQUEUE_INTERNAL_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_INTERNAL_PORT: 1883
-      MESSAGEQUEUE_INTERNAL_PROTOCOL: tcp
-      MESSAGEQUEUE_INTERNAL_TYPE: mqtt
+      MESSAGEBUS_EXTERNAL_CLIENTID: core-command-ex
+      MESSAGEBUS_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
+      MESSAGEBUS_INTERNAL_AUTHMODE: none
+      MESSAGEBUS_INTERNAL_HOST: edgex-mqtt-broker
+      MESSAGEBUS_INTERNAL_PORT: 1883
+      MESSAGEBUS_INTERNAL_PROTOCOL: tcp
+      MESSAGEBUS_INTERNAL_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
@@ -310,12 +296,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
-      MESSAGEQUEUE_PORT: '1883'
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: core-data
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
@@ -371,11 +357,11 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_PORT: 1883
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-modbus
     hostname: edgex-device-modbus
@@ -406,11 +392,11 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_PORT: 1883
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-onvif-camera
     hostname: edgex-device-onvif-camera
@@ -439,11 +425,11 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_PORT: 1883
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
@@ -473,11 +459,11 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_PORT: 1883
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
@@ -508,12 +494,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-metadata
-      MESSAGEQUEUE_PORT: '1883'
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: core-metadata
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       NOTIFICATIONS_SENDER: edgex-core-metadata
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
@@ -583,12 +569,12 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-notifications
-      MESSAGEQUEUE_PORT: '1883'
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: support-notifications
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
@@ -657,17 +643,14 @@ services:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
       EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-scalability-test-mqtt-export
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-mqtt-broker
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
       WRITABLE_LOGLEVEL: DEBUG
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
@@ -698,12 +681,12 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
-      MESSAGEQUEUE_AUTHMODE: none
-      MESSAGEQUEUE_HOST: edgex-mqtt-broker
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-scheduler
-      MESSAGEQUEUE_PORT: '1883'
-      MESSAGEQUEUE_PROTOCOL: tcp
-      MESSAGEQUEUE_TYPE: mqtt
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: support-scheduler
+      MESSAGEBUS_PORT: '1883'
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler

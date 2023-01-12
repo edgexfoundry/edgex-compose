@@ -29,33 +29,33 @@ services:
   
   data:
     environment:
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_SECRETNAME: message-bus
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_SECRETNAME: message-bus
 
   metadata:
     environment:
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_SECRETNAME: message-bus
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_SECRETNAME: message-bus
 
   command:
     environment:
-      MESSAGEQUEUE_INTERNAL_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_INTERNAL_SECRETNAME: message-bus
+      MESSAGEBUS_INTERNAL_AUTHMODE: usernamepassword
+      MESSAGEBUS_INTERNAL_SECRETNAME: message-bus
 
   notifications:
     environment:
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_SECRETNAME: message-bus
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_SECRETNAME: message-bus
 
   scheduler:
     environment:
-      MESSAGEQUEUE_AUTHMODE: usernamepassword
-      MESSAGEQUEUE_SECRETNAME: message-bus
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_SECRETNAME: message-bus
 
   app-service-rules:
     environment:
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: usernamepassword
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_SECRETNAME: message-bus
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_SECRETNAME: message-bus
   
   rulesengine:
     entrypoint: [ "/edgex-init/kuiper_wait_install.sh" ]

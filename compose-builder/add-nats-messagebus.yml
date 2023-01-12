@@ -40,7 +40,7 @@ services:
     env_file:
       - nats-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-data
+      MESSAGEBUS_OPTIONAL_CLIENTID: core-data
     depends_on:
       - nats
 
@@ -48,17 +48,17 @@ services:
     env_file:
       - nats-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: core-metadata
+      MESSAGEBUS_OPTIONAL_CLIENTID: core-metadata
     depends_on:
       - nats
 
   command:
     environment:
-      MESSAGEQUEUE_INTERNAL_TYPE: nats-jetstream
-      MESSAGEQUEUE_INTERNAL_PROTOCOL: tcp
-      MESSAGEQUEUE_INTERNAL_HOST: edgex-nats-server
-      MESSAGEQUEUE_INTERNAL_PORT: 4222
-      MESSAGEQUEUE_INTERNAL_AUTHMODE: none
+      MESSAGEBUS_INTERNAL_TYPE: nats-jetstream
+      MESSAGEBUS_INTERNAL_PROTOCOL: tcp
+      MESSAGEBUS_INTERNAL_HOST: edgex-nats-server
+      MESSAGEBUS_INTERNAL_PORT: 4222
+      MESSAGEBUS_INTERNAL_AUTHMODE: none
     depends_on:
       - nats
 
@@ -66,7 +66,7 @@ services:
     env_file:
       - nats-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-notifications
+      MESSAGEBUS_OPTIONAL_CLIENTID: support-notifications
     depends_on:
       - nats
 
@@ -74,22 +74,22 @@ services:
     env_file:
       - nats-bus.env
     environment:
-      MESSAGEQUEUE_OPTIONAL_CLIENTID: support-scheduler
+      MESSAGEBUS_OPTIONAL_CLIENTID: support-scheduler
     depends_on:
       - nats
 
   app-service-rules:
     environment:
       EDGEX_PROFILE: rules-engine
-      TRIGGER_EDGEXMESSAGEBUS_TYPE: nats-jetstream
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-nats-server
-      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 4222
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-nats-server
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 4222
-      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PUBLISHTOPIC: edgex/rules-events
-      TRIGGER_EDGEXMESSAGEBUS_OPTIONAL_AUTHMODE: none
+      MESSAGEBUS_TYPE: nats-jetstream
+      MESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
+      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-nats-server
+      MESSAGEBUS_SUBSCRIBEHOST_PORT: 4222
+      MESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
+      MESSAGEBUS_PUBLISHHOST_HOST: edgex-nats-server
+      MESSAGEBUS_PUBLISHHOST_PORT: 4222
+      MESSAGEBUS_PUBLISHHOST_PUBLISHTOPIC: edgex/rules-events
+      MESSAGEBUS_OPTIONAL_AUTHMODE: none
     depends_on:
       - nats
 

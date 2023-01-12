@@ -32,7 +32,6 @@ services:
       - device-common.env
     environment:
       SERVICE_HOST: edgex-device-onvif-camera
-      MESSAGEQUEUE_HOST: edgex-redis
     depends_on:
       - consul
       - data
