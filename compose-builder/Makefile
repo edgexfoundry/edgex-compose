@@ -39,7 +39,7 @@ BUS=
 # and don't impact the option list
 define OPTIONS
  - arm64 no-secty dev app-dev device-dev ui-dev delayed-start -
- - zmq-bus nats-bus mqtt-bus mqtt-broker mqtt-verbose -
+ - nats-bus mqtt-bus mqtt-broker mqtt-verbose -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-onvif-camera  ds-usb-camera ds-bacnet ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp asc-ex-mqtt -
@@ -756,12 +756,6 @@ endif
 ifeq (nats-bus, $(filter nats-bus,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-nats-messagebus.yml
 	BUS:=-nats-bus
-endif
-
-# Add switch to use ZMQ Message Bus
-ifeq (zmq-bus, $(filter zmq-bus,$(ARGS)))
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-zmq-messagebus.yml
-	BUS:=-zmq-bus
 endif
 
 # Add Security services and settings
