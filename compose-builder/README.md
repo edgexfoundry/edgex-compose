@@ -5,36 +5,36 @@ This folder contains the `Compose Builder` which is made up of **source** compos
 ### **Note to Developers**: 
 > *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
 >
-> Any new options added to the `make gen` and `make run` commands must to also be added to the new` tui-generator.sh` script
+> Any options added or removed to/from the `make gen` and `make run` commands must to also be added/removed to/from the new` tui-generator.sh` script
 >
-> **You must use *docker-compose version 1.27.2* due to bug in later versions that generates the `depends_on` sections incorrectly for compose version 3.x**.
->
-> **You MUST NOT use the new `compose v2` as it generates compose files that are not compatible with `docker-compose` which is used by TAF**
 
-### Compose Tool
+### Compose CLI Command
 
-The Makefile in this folder expects `docker-compose` tool or the new Compose V2 plug-in for the Docker CLI. The `docker-compose` tool will be used if it is found in the `path`, otherwise it will try the `docker compose` CLI command.
+The Makefile in this folder expects the `docker compose` CLI command.
+The old stand-alone `docker-compose` tool is no longer supported.
+See https://docs.docker.com/compose/install/ for installation details for the latest `docker compose` CLI command.
 
 ### Generate next release compose files
 
-Do the following to generate the compose files for next release such as `jakarta` 
+Do the following to generate the compose files for next release such as `minnesota`
 
-1. Create the new `release` branch from this branch, i.e create the `jakarta` branch
+1. Create the new `release` branch from this branch, i.e create the `minnesota` branch (**Now done by DevOps release processes**)
 2. Checkout a new working branch from the new `release` branch
-3. Update the `REPOSITORY`, `CORE_EDGEX_REPOSITORY`, `APP_SVC_REPOSITORY`, and `versions` contained in the `.env` file appropriately for the new release
-4. Run `make build` 
-5. Update the two READMEs to be specific to the new `release`
-6. Commit changes, open PR and merge PR
-7. TAG the new release branch, i.e. `2.1.0`
-8. Update EdgeX documentation to refer to the new release branch.
+3. Update the `REPOSITORY`, `CORE_EDGEX_REPOSITORY` and `APP_SVC_REPOSITORY` (**Now done by DevOps release processes**)
+4. Update `versions` contained in the `.env` file appropriately for the new release
+5. Run `make build` 
+6. Update the two READMEs to be specific to the new `release`
+7. Commit changes, open PR and merge PR
+8. TAG the new release branch (**Now done by DevOps release processes**)
+9. Update EdgeX documentation to refer to the new release branch. (**Now done by DevOps release processes**)
 
 ### Generate dot release compose files
 
-1. Checkout a new working branch from the target `release` branch for the dot release, i.e the `ireland` branch
+1. Checkout a new working branch from the target `release` branch for the dot release, i.e the `jakarta` branch
 2. Update the and `versions` contained in the `.env` file appropriately for the dot release
 3. Run `make build` 
 4. Commit changes, open PR and merge PR
-5. TAG the release branch for the dot release, i.e. `2.0.1`
+5. TAG the release branch for the dot release (**Now done by DevOps release processes**)
 
 ### Multiple Compose files approach
 
@@ -239,6 +239,7 @@ Options:
     mqtt-broker:     Runs with a MQTT Broker service included
     mqtt-bus:        Runs with services configure for MQTT Message Bus
                      The MQTT Broker service is also included.
+    mqtt-verbose     Enables MQTT Broker verbose logging.
     nats-bus:        Runs with services configure for NATS Message Bus
                      The NATS Server service is also included.
     zmq-bus:         Runs with services configure for ZMQ Message Bus
@@ -337,6 +338,7 @@ Options:
     mqtt-broker:     Generates compose file with a MQTT Broker service included
     mqtt-bus:        Generates compose file with services configured for MQTT Message Bus
                      The MQTT Broker service is also included.
+    mqtt-verbose     Enables MQTT Broker verbose logging.
     nats-bus:        Generates compose file with services configured for NAT Message Bus
                      The NATS Server service is also included.
     zmq-bus:         Generates compose file with services configured for ZMQ Message Bus
@@ -418,6 +420,7 @@ Options:
     mqtt-broker:   Generates compose file with a MQTT Broker service included
     mqtt-bus:      Generates compose file with services configure for MQTT Message Bus
                    The MQTT Broker service is also included.
+    mqtt-verbose   Enables MQTT Broker verbose logging.
     nats-bus:      Generates compose file with services configure for NATS Message Bus
                    The NATS Server service is also included.
     zmq-bus:       Generates compose file with services configured for ZMQ Message Bus

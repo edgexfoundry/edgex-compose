@@ -23,15 +23,9 @@
 include .env
 include common-security.env
 
-# Current default is to use stand alone docker-compose.
-# Since compose V2 with the new "docker compose" command in the docker CLI has been released
-# we are supporting both versions. In EdgeX 3.0 we'll just support compose V2.
-DOCKER_COMPOSE=docker-compose
-GEN_COMMAND=config
- ifeq (, $(shell which docker-compose))
-	 DOCKER_COMPOSE=docker compose
-	 GEN_COMMAND=convert
- endif
+# This tool now only supports compose V2, aka "docker compose" as it has replaced to old docker-compose tool.
+DOCKER_COMPOSE=docker compose
+GEN_COMMAND=convert
 
 COMPOSE_FILES:=-f docker-compose-base.yml
 TOKEN_LIST=
@@ -45,7 +39,7 @@ BUS=
 # and don't impact the option list
 define OPTIONS
  - arm64 no-secty dev app-dev device-dev ui-dev delayed-start -
- - zmq-bus nats-bus mqtt-bus mqtt-broker -
+ - zmq-bus nats-bus mqtt-bus mqtt-broker mqtt-verbose -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-onvif-camera  ds-usb-camera ds-bacnet ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp asc-ex-mqtt -
@@ -98,6 +92,12 @@ ifeq (arm64, $(filter arm64,$(ARGS)))
 	export ARCH=-arm64
 else
 	export ARCH=
+endif
+
+ifeq (mqtt-verbose, $(filter mqtt-verbose,$(ARGS)))
+	export MQTT_VERBOSE=-v
+else
+    export MQTT_VERBOSE=
 endif
 
 # Add Device Services
@@ -989,10 +989,10 @@ build-taf:
 	make taf-compose taf-no-secty
 	make taf-compose taf-secty arm64
 	make taf-compose taf-no-secty arm64
-	make taf-compose taf-secty mqtt-bus
-	make taf-compose taf-no-secty mqtt-bus
-	make taf-compose taf-secty mqtt-bus arm64
-	make taf-compose taf-no-secty mqtt-bus arm64
+	make taf-compose taf-secty mqtt-bus mqtt-verbose
+	make taf-compose taf-no-secty mqtt-bus mqtt-verbose
+	make taf-compose taf-secty mqtt-bus mqtt-verbose arm64
+	make taf-compose taf-no-secty mqtt-bus mqtt-verbose arm64
 	make taf-compose-perf taf-perf
 	make taf-compose-perf taf-perf-no-secty
 	make taf-compose-perf taf-perf arm64
@@ -1014,6 +1014,7 @@ pull: gen
 	${DOCKER_COMPOSE}  pull $(SERVICES)
 
 gen:
+	echo MQTT_VERBOSE=${MQTT_VERBOSE}
 	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} > docker-compose.yml
 	rm -rf ./$(GEN_EXT_DIR)
 

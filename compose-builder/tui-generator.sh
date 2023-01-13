@@ -45,6 +45,7 @@ COLUMNS=$(tput cols)
 declare -A additionalOptsDesc=(
     [modbus-sim]="Include ModBus Simulator"
     [mqtt-broker]="Include MQTT Broker"
+    [mqtt-verbose]="Enable MQTT Broker verbose logging"
 )
 
 ## App Service Descriptions
