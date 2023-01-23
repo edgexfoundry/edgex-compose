@@ -163,11 +163,6 @@ services:
       target: 59880
       published: "59880"
       protocol: tcp
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 5563
-      published: "5563"
-      protocol: tcp
     read_only: true
     restart: always
     security_opt:

@@ -115,7 +115,6 @@ services:
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59880:59880"
-      - "127.0.0.1:5563:5563"
     container_name: edgex-core-data
     hostname: edgex-core-data
     read_only: true
