@@ -157,6 +157,21 @@ services:
     security_opt: 
       - no-new-privileges:true
 
+  common-config:
+    image: ${CORE_EDGEX_REPOSITORY}/core-common-config-bootstrapper${ARCH}:${CORE_EDGEX_VERSION}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    container_name: edgex-core-common-config-bootstrapper
+    hostname: edgex-core-common-config-bootstrapper
+    read_only: true
+    networks:
+      - edgex-network
+    env_file:
+      - common.env
+    depends_on:
+      - consul
+    security_opt:
+      - no-new-privileges:true
+
   scheduler:
     image: ${CORE_EDGEX_REPOSITORY}/support-scheduler${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
