@@ -951,6 +951,7 @@ services:
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
       MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-modbus/#
       MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1045,6 +1046,7 @@ services:
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
       MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-onvif-camera/#
       MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1133,6 +1135,7 @@ services:
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
       MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-rest/#
       MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1222,6 +1225,7 @@ services:
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
       MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-virtual/#
       MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
