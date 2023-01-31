@@ -39,8 +39,8 @@ services:
 
   command:
     environment:
-      MESSAGEBUS_INTERNAL_AUTHMODE: usernamepassword
-      MESSAGEBUS_INTERNAL_SECRETNAME: message-bus
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_SECRETNAME: message-bus
 
   notifications:
     environment:

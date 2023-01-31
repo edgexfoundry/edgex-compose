@@ -77,8 +77,8 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
-      MESSAGEBUS_INTERNAL_HOST: edgex-redis
+      EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
+      MESSAGEBUS_HOST: edgex-redis
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command

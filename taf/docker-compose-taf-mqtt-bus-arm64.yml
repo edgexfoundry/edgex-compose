@@ -574,14 +574,15 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_EXTERNAL_CLIENTID: core-command-ex
-      MESSAGEBUS_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
-      MESSAGEBUS_INTERNAL_AUTHMODE: usernamepassword
-      MESSAGEBUS_INTERNAL_HOST: edgex-mqtt-broker
-      MESSAGEBUS_INTERNAL_PORT: "1883"
-      MESSAGEBUS_INTERNAL_PROTOCOL: tcp
-      MESSAGEBUS_INTERNAL_SECRETNAME: message-bus
-      MESSAGEBUS_INTERNAL_TYPE: mqtt
+      EXTERNALMQTT_CLIENTID: core-command-ex
+      EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: core-command
+      MESSAGEBUS_PORT: "1883"
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
