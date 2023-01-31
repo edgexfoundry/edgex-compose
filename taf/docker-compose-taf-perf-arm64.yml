@@ -50,7 +50,6 @@ services:
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASE_HOST: edgex-redis
-      DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_HOST: edgex-redis
@@ -133,7 +132,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_HOST: edgex-redis
@@ -217,10 +216,10 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
-      MESSAGEBUS_INTERNAL_HOST: edgex-redis
+      EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
+      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -396,7 +395,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -470,9 +469,9 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
+      DATABASE_HOST: edgex-redis
       DATABASECONFIG_NAME: redis.conf
       DATABASECONFIG_PATH: /run/redis/conf
-      DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -565,7 +564,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -646,7 +645,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -898,7 +897,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_HOST: edgex-redis
       NOTIFICATIONS_SENDER: edgex-core-metadata
@@ -1022,7 +1021,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1262,7 +1261,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
@@ -1469,7 +1468,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1547,7 +1546,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1631,7 +1630,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1696,7 +1695,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul

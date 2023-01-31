@@ -54,11 +54,7 @@ services:
 
   command:
     environment:
-      MESSAGEBUS_INTERNAL_TYPE: nats-jetstream
-      MESSAGEBUS_INTERNAL_PROTOCOL: tcp
-      MESSAGEBUS_INTERNAL_HOST: edgex-nats-server
-      MESSAGEBUS_INTERNAL_PORT: 4222
-      MESSAGEBUS_INTERNAL_AUTHMODE: none
+      MESSAGEBUS_OPTIONAL_CLIENTID: core-command
     depends_on:
       - nats
 

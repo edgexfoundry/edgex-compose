@@ -50,7 +50,6 @@ services:
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASE_HOST: edgex-redis
-      DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: external-mqtt-trigger
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_HOST: edgex-redis
@@ -135,7 +134,6 @@ services:
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASE_HOST: edgex-redis
-      DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_HOST: edgex-redis
@@ -216,7 +214,6 @@ services:
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASE_HOST: edgex-redis
-      DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
@@ -306,7 +303,6 @@ services:
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASE_HOST: edgex-redis
-      DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
@@ -398,7 +394,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
@@ -486,7 +482,6 @@ services:
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASE_HOST: edgex-redis
-      DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: sample
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
@@ -577,16 +572,17 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_EXTERNAL_CLIENTID: core-command-ex
-      MESSAGEBUS_EXTERNAL_URL: tcp://edgex-mqtt-broker:1883
-      MESSAGEBUS_INTERNAL_AUTHMODE: usernamepassword
-      MESSAGEBUS_INTERNAL_HOST: edgex-mqtt-broker
-      MESSAGEBUS_INTERNAL_PORT: "1883"
-      MESSAGEBUS_INTERNAL_PROTOCOL: tcp
-      MESSAGEBUS_INTERNAL_SECRETNAME: message-bus
-      MESSAGEBUS_INTERNAL_TYPE: mqtt
+      EXTERNALMQTT_CLIENTID: core-command-ex
+      EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_OPTIONAL_CLIENTID: core-command
+      MESSAGEBUS_PORT: "1883"
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
@@ -764,7 +760,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
       MESSAGEBUS_HOST: edgex-mqtt-broker
@@ -844,9 +840,9 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
+      DATABASE_HOST: edgex-redis
       DATABASECONFIG_NAME: redis.conf
       DATABASECONFIG_PATH: /run/redis/conf
-      DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -944,13 +940,14 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
       MESSAGEBUS_HOST: edgex-mqtt-broker
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
       MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-modbus/#
       MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1038,13 +1035,14 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
       MESSAGEBUS_HOST: edgex-mqtt-broker
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
       MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-onvif-camera/#
       MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1126,13 +1124,14 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
       MESSAGEBUS_HOST: edgex-mqtt-broker
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
       MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-rest/#
       MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1215,13 +1214,14 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
       MESSAGEBUS_HOST: edgex-mqtt-broker
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
       MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-virtual/#
       MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -1480,7 +1480,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
       MESSAGEBUS_HOST: edgex-mqtt-broker
@@ -1686,7 +1686,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
       MESSAGEBUS_HOST: edgex-mqtt-broker
@@ -1943,7 +1943,6 @@ services:
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASE_HOST: edgex-redis
-      DATABASES_PRIMARY_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
@@ -2040,7 +2039,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
@@ -2253,7 +2252,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -2331,7 +2330,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -2415,7 +2414,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
@@ -2480,7 +2479,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASES_PRIMARY_HOST: edgex-redis
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
