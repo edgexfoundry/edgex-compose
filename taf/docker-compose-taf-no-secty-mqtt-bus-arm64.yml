@@ -305,6 +305,28 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+  common-config:
+    container_name: edgex-core-common-config-bootstrapper
+    depends_on:
+      consul:
+        condition: service_started
+    environment:
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
+      DATABASE_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      REGISTRY_HOST: edgex-core-consul
+    hostname: edgex-core-common-config-bootstrapper
+    image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper-arm64:latest
+    networks:
+      edgex-network: null
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
   consul:
     command:
     - agent

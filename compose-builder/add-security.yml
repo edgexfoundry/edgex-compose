@@ -326,6 +326,19 @@ services:
       - secretstore-setup
       - database
 
+  common-config:
+    env_file:
+      - common-security.env
+      - common-sec-stage-gate.env
+    entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
+    command: ["/entrypoint.sh", "/core-common-config-bootstrapper", "-cp=consul.http://edgex-core-consul:8500"]
+    volumes:
+      - edgex-init:/edgex-init:ro,z
+      - /tmp/edgex/secrets/core-common-config-bootstrapper:/tmp/edgex/secrets/core-common-config-bootstrapper:ro,z
+    depends_on:
+      - security-bootstrapper
+      - secretstore-setup
+
   scheduler:
     env_file:
       - common-security.env
