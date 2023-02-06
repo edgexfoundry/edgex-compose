@@ -31,7 +31,6 @@ services:
       - device-common.env
     environment:
       SERVICE_HOST: edgex-device-gpio
-      SERVICE_PORT: "59994"
     depends_on:
       - consul
       - data
