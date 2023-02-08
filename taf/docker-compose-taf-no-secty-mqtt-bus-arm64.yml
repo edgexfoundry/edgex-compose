@@ -468,7 +468,6 @@ services:
       MESSAGEBUS_HOST: edgex-mqtt-broker
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-modbus/#
       MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-modbus
@@ -517,7 +516,6 @@ services:
       MESSAGEBUS_HOST: edgex-mqtt-broker
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-onvif-camera/#
       MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-onvif-camera
@@ -559,7 +557,6 @@ services:
       MESSAGEBUS_HOST: edgex-mqtt-broker
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-rest/#
       MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
@@ -605,7 +602,6 @@ services:
       MESSAGEBUS_HOST: edgex-mqtt-broker
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/device-virtual/#
       MESSAGEBUS_TYPE: mqtt
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual

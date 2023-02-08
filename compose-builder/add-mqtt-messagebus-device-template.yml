@@ -21,7 +21,6 @@ services:
       - mqtt-bus.env
     environment:
       MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_TOPICS_SYSTEMEVENTTOPIC: edgex/system-events/core-metadata/device/+/${SERVICE_NAME}/#
       ${MESSSAGEQUEUE_AUTHCONFIG}
     depends_on:
       - mqtt-broker
