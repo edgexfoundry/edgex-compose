@@ -275,6 +275,7 @@ services:
     - /entrypoint.sh
     - /core-common-config-bootstrapper
     - -cp=consul.http://edgex-core-consul:8500
+    - -cf=configuration.yaml
     container_name: edgex-core-common-config-bootstrapper
     depends_on:
       consul:

@@ -46,7 +46,7 @@ else
 fi
 
 SERVICE_EXT_COMPOSE_PATH=./"$GEN_EXT_DIR"/add-"$service_name"-mqtt-messagebus.yml
-sed 's/${SERVICE_NAME}/'"$service_name"'/g' "$ADD_MQTT_MESSAGEBUS_TEMPLATE" > "$SERVICE_EXT_COMPOSE_PATH"
+sed 's/${SERVICE_NAME}:/'"$service_name"':/g' "$ADD_MQTT_MESSAGEBUS_TEMPLATE" > "$SERVICE_EXT_COMPOSE_PATH"
 
 if [ "$IS_SECURE_MODE" = "1" ]; then
   msgConfig='MESSAGEBUS_AUTHMODE: usernamepassword\n      MESSAGEBUS_SECRETNAME: message-bus'
