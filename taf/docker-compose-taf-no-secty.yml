@@ -571,8 +571,6 @@ services:
         condition: service_started
       database:
         condition: service_started
-      notifications:
-        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -582,7 +580,6 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEBUS_HOST: edgex-redis
-      NOTIFICATIONS_SENDER: edgex-core-metadata
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata

@@ -636,8 +636,6 @@ services:
         condition: service_started
       mqtt-broker:
         condition: service_started
-      notifications:
-        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -652,7 +650,6 @@ services:
       MESSAGEBUS_PORT: "1883"
       MESSAGEBUS_PROTOCOL: tcp
       MESSAGEBUS_TYPE: mqtt
-      NOTIFICATIONS_SENDER: edgex-core-metadata
       REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
