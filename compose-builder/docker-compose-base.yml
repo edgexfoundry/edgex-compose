@@ -101,13 +101,11 @@ services:
       - common.env
     environment:
       SERVICE_HOST: edgex-core-metadata
-      NOTIFICATIONS_SENDER: edgex-core-metadata
       MESSAGEBUS_HOST: edgex-redis
     depends_on:
       - consul
       - database
-      - notifications
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
 
   data:

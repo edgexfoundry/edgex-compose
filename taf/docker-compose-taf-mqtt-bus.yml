@@ -1531,8 +1531,6 @@ services:
         condition: service_started
       mqtt-broker:
         condition: service_started
-      notifications:
-        condition: service_started
       secretstore-setup:
         condition: service_started
       security-bootstrapper:
@@ -1556,7 +1554,6 @@ services:
       MESSAGEBUS_PROTOCOL: tcp
       MESSAGEBUS_SECRETNAME: message-bus
       MESSAGEBUS_TYPE: mqtt
-      NOTIFICATIONS_SENDER: edgex-core-metadata
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault

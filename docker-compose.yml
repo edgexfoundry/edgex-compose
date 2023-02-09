@@ -869,8 +869,6 @@ services:
         condition: service_started
       database:
         condition: service_started
-      notifications:
-        condition: service_started
       secretstore-setup:
         condition: service_started
       security-bootstrapper:
@@ -888,7 +886,6 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_HOST: edgex-redis
-      NOTIFICATIONS_SENDER: edgex-core-metadata
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
