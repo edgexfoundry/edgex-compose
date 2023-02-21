@@ -17,12 +17,18 @@ version: '3.7'
 
 services:
   device-virtual:
-    command: "-cp=consul.http://edgex-core-consul:8500 --registry --configDir=CONFIG_DIR_PLACE_HOLDER"
+    command: "-cp=consul.http://edgex-core-consul:8500 --registry"
+    environment:
+      DEVICE_PROFILESDIR: CONFIG_DIR_PLACE_HOLDER
+      DEVICE_DEVICESDIR: CONFIG_DIR_PLACE_HOLDER
     volumes:
       - /PROFILE_VOLUME_PLACE_HOLDER:CONFIG_DIR_PLACE_HOLDER:z
 
   device-modbus:
-    command: "-cp=consul.http://edgex-core-consul:8500 --registry --configDir=CONFIG_DIR_PLACE_HOLDER"
+    command: "-cp=consul.http://edgex-core-consul:8500 --registry"
+    environment:
+      DEVICE_PROFILESDIR: CONFIG_DIR_PLACE_HOLDER
+      DEVICE_DEVICESDIR: CONFIG_DIR_PLACE_HOLDER
     volumes:
       - /PROFILE_VOLUME_PLACE_HOLDER:CONFIG_DIR_PLACE_HOLDER:z
     depends_on:

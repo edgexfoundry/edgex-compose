@@ -443,7 +443,6 @@ services:
     command:
     - -cp=consul.http://edgex-core-consul:8500
     - --registry
-    - --configDir=CONFIG_DIR_PLACE_HOLDER
     container_name: edgex-device-modbus
     depends_on:
       consul:
@@ -463,6 +462,8 @@ services:
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASE_HOST: edgex-redis
+      DEVICE_DEVICESDIR: CONFIG_DIR_PLACE_HOLDER
+      DEVICE_PROFILESDIR: CONFIG_DIR_PLACE_HOLDER
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEBUS_AUTHMODE: none
       MESSAGEBUS_HOST: edgex-mqtt-broker
@@ -579,7 +580,6 @@ services:
     command:
     - -cp=consul.http://edgex-core-consul:8500
     - --registry
-    - --configDir=CONFIG_DIR_PLACE_HOLDER
     container_name: edgex-device-virtual
     depends_on:
       consul:
@@ -597,6 +597,8 @@ services:
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
       CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       DATABASE_HOST: edgex-redis
+      DEVICE_DEVICESDIR: CONFIG_DIR_PLACE_HOLDER
+      DEVICE_PROFILESDIR: CONFIG_DIR_PLACE_HOLDER
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEBUS_AUTHMODE: none
       MESSAGEBUS_HOST: edgex-mqtt-broker

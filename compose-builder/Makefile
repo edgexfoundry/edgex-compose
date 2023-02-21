@@ -829,9 +829,9 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	# taf has its special place holder from taf-device-services-mods and thus we need to keep it
 	# and extend security related things on top of it
 	ds_virtual_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual \
-		device-virtual device-virtual ' -cp=consul.http:\/\/edgex-core-consul:8500 --registry --configDir=CONFIG_DIR_PLACE_HOLDER')
+		device-virtual device-virtual ' -cp=consul.http:\/\/edgex-core-consul:8500 --registry')
 	ds_modbus_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus \
-		device-modbus device-modbus ' -cp=consul.http:\/\/edgex-core-consul:8500 --registry --configDir=CONFIG_DIR_PLACE_HOLDER')
+		device-modbus device-modbus ' -cp=consul.http:\/\/edgex-core-consul:8500 --registry')
 	ds_camera_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-onvif-camera)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext) -f $(asc_external_mqtt_trigger_ext) -f $(scalability_mqtt_export_ext) -f $(asc_sample_ext)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext) -f $(ds_camera_ext)
