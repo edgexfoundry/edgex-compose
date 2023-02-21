@@ -1920,7 +1920,7 @@ services:
       EDGEX__DEFAULT__PORT: "1883"
       EDGEX__DEFAULT__PROTOCOL: tcp
       EDGEX__DEFAULT__SERVER: edgex-mqtt-broker
-      EDGEX__DEFAULT__TOPIC: rules-events
+      EDGEX__DEFAULT__TOPIC: edgex/rules-events
       EDGEX__DEFAULT__TYPE: mqtt
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: "59720"
