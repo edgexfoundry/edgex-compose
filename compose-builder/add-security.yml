@@ -300,8 +300,6 @@ services:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
-    environment:
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/core-data/secrets-token.json
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/core-data ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     volumes:

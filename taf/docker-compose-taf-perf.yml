@@ -56,11 +56,7 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
       SERVICE_HOST: edgex-app-mqtt-export
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -139,11 +135,7 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
       SERVICE_HOST: edgex-app-rules-engine
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -223,11 +215,7 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
       SERVICE_HOST: edgex-core-command
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -302,10 +290,6 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -369,10 +353,6 @@ services:
       EDGEX_USER: "2002"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -472,12 +452,7 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/core-data/secrets-token.json
       SERVICE_HOST: edgex-core-data
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -547,10 +522,6 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -641,11 +612,7 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
       SERVICE_HOST: edgex-device-rest
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -722,11 +689,7 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
       SERVICE_HOST: edgex-device-virtual
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -883,10 +846,6 @@ services:
       POSTGRES_USER: kong
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -972,11 +931,7 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
       SERVICE_HOST: edgex-core-metadata
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1095,11 +1050,7 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
       SERVICE_HOST: edgex-support-notifications
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1173,10 +1124,6 @@ services:
       ROUTES_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
       ROUTES_SYS_MGMT_AGENT_HOST: edgex-sys-mgmt-agent
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1337,11 +1284,7 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
       SERVICE_HOST: edgex-support-scheduler
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1404,11 +1347,7 @@ services:
       EDGEX_USER: "2002"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
       SECUREMESSAGEBUS_TYPE: redis
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1541,11 +1480,7 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
       SERVICE_HOST: edgex-security-spiffe-token-provider
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1619,10 +1554,6 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1703,10 +1634,6 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1768,10 +1695,6 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
-      SECRETSTORE_PORT: "8200"
-      SPIFFE_ENDPOINTSOCKET: /tmp/edgex/secrets/spiffe/public/api.sock
-      SPIFFE_TRUSTBUNDLE_PATH: /tmp/edgex/secrets/spiffe/trust/bundle
-      SPIFFE_TRUSTDOMAIN: edgexfoundry.org
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
