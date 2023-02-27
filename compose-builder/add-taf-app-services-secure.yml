@@ -43,9 +43,6 @@ services:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
-    environment:
-      SECRETSTORE_PATH: /app-scalability-test-mqtt-export
-      SECRETSTORE_TOKENFILE: /tmp/edgex/secrets/app-scalability-test-mqtt-export/secrets-token.json
     volumes:
       - edgex-init:/edgex-init:ro,z
       - /tmp/edgex/secrets/app-scalability-test-mqtt-export:/tmp/edgex/secrets/app-scalability-test-mqtt-export:ro,z
