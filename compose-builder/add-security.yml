@@ -225,7 +225,7 @@ services:
     security_opt: 
       - no-new-privileges:true
 
-  authproxy:
+  proxy-auth:
     image: ${CORE_EDGEX_REPOSITORY}/security-proxy-auth${ARCH}:${CORE_EDGEX_VERSION}
     container_name: edgex-proxy-auth
     hostname: edgex-proxy-auth
