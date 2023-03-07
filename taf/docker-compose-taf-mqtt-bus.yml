@@ -1518,7 +1518,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-nginx
-    image: nginx:alpine-slim
+    image: nginx:1.23-alpine-slim
     networks:
       edgex-network:
         aliases:

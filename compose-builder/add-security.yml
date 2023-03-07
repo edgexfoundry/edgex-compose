@@ -24,7 +24,6 @@ volumes:
   # non-shared volumes
   nginx-templates:
   nginx-tls:
-  nginx-conf:
   redis-config:
 
 services:
@@ -155,7 +154,7 @@ services:
 # containers for reverse proxy
 
   nginx:
-    image: nginx:alpine-slim
+    image: nginx:${NGINX_VERSION}
     container_name: edgex-nginx
     hostname: edgex-nginx
     read_only: true
@@ -163,7 +162,7 @@ services:
     networks:
       edgex-network:
         aliases:
-          - edgex-kong  # temp patch for edgex-ui-go
+          - edgex-kong  # TODO remove after edgex-ui-go docker configuration.toml is updated
     ports:
       - "8443:8443"  # port 8000 (insecure) is not mapped externally)
     entrypoint: ["/bin/sh", "/edgex-init/nginx_wait_install.sh"]
@@ -178,7 +177,6 @@ services:
       - edgex-init:/edgex-init:ro,z
       - nginx-templates:/etc/nginx/templates
       - nginx-tls:/etc/ssl/nginx
-      #- nginx-conf:/etc/nginx/conf.d
     depends_on:
       - secretstore-setup
     security_opt: 
