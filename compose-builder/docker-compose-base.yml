@@ -26,6 +26,9 @@ volumes:
   consul-config:
   consul-data:
   kuiper-data:
+  kuiper-etc:
+  kuiper-log:
+  kuiper-plugins:
 
 services:
   consul:
@@ -230,6 +233,9 @@ services:
       - edgex-network
     volumes:
       - kuiper-data:/kuiper/data
+      - kuiper-etc:/kuiper/etc
+      - kuiper-log:/kuiper/log
+      - kuiper-plugins:/kuiper/plugins
     environment:
 #      KUIPER__BASIC__DEBUG: "true"
       KUIPER__BASIC__CONSOLELOG: "true"
