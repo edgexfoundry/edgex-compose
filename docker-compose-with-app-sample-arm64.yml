@@ -92,8 +92,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/app-rules-engine
@@ -168,8 +166,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/app-sample
@@ -248,8 +244,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/core-command
@@ -315,8 +309,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/core-common-config-bootstrapper
@@ -387,27 +379,19 @@ services:
     - type: volume
       source: consul-config
       target: /consul/config
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: consul-data
       target: /consul/data
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: consul-acl-token
       target: /tmp/edgex/secrets/consul-acl-token
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/edgex-consul
@@ -485,8 +469,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/core-data
@@ -555,21 +537,15 @@ services:
     - type: volume
       source: db-data
       target: /data
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: redis-config
       target: /run/redis/conf
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/security-bootstrapper-redis
@@ -645,8 +621,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/device-rest
@@ -722,8 +696,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/device-virtual
@@ -799,8 +771,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/core-metadata
@@ -866,8 +836,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: nginx-templates
@@ -944,8 +912,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/support-notifications
@@ -1001,8 +967,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/security-proxy-auth
@@ -1065,14 +1029,10 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: vault-config
       target: /vault/config
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: nginx-templates
@@ -1093,8 +1053,6 @@ services:
       source: consul-acl-token
       target: /tmp/edgex/secrets/consul-acl-token
       read_only: true
-      bind:
-        selinux: z
       volume: {}
   rulesengine:
     container_name: edgex-kuiper
@@ -1157,26 +1115,18 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: kuiper-data
       target: /kuiper/data
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: kuiper-connections
       target: /kuiper/etc/connections
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: kuiper-sources
       target: /kuiper/etc/sources
-      bind:
-        selinux: z
       volume: {}
   scheduler:
     command:
@@ -1247,8 +1197,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets/support-scheduler
@@ -1307,8 +1255,6 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: bind
       source: /tmp/edgex/secrets
@@ -1319,20 +1265,14 @@ services:
     - type: volume
       source: kuiper-sources
       target: /tmp/kuiper
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: kuiper-connections
       target: /tmp/kuiper-connections
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: vault-config
       target: /vault/config
-      bind:
-        selinux: z
       volume: {}
   security-bootstrapper:
     container_name: edgex-security-bootstrapper
@@ -1370,8 +1310,6 @@ services:
     - type: volume
       source: edgex-init
       target: /edgex-init
-      bind:
-        selinux: z
       volume: {}
   ui:
     container_name: edgex-ui-go
@@ -1444,20 +1382,14 @@ services:
       source: edgex-init
       target: /edgex-init
       read_only: true
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: vault-file
       target: /vault/file
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: vault-logs
       target: /vault/logs
-      bind:
-        selinux: z
       volume: {}
 networks:
   edgex-network:

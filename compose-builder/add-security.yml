@@ -42,7 +42,7 @@ services:
       EDGEX_USER: ${EDGEX_USER}
       EDGEX_GROUP: ${EDGEX_GROUP}
     volumes:
-      - edgex-init:/edgex-init:z
+      - edgex-init:/edgex-init
     security_opt:
       - no-new-privileges:true
 
@@ -58,8 +58,8 @@ services:
     tmpfs:
       - /run
     volumes:
-      - edgex-init:/edgex-init:ro,z
-      - redis-config:/run/redis/conf:z
+      - edgex-init:/edgex-init:ro
+      - redis-config:/run/redis/conf
       - /tmp/edgex/secrets/security-bootstrapper-redis:/tmp/edgex/secrets/security-bootstrapper-redis:ro,z
     depends_on:
       - security-bootstrapper
@@ -88,8 +88,8 @@ services:
       - /run
       - /vault
     volumes:
-      - edgex-init:/edgex-init:ro,z
-      - vault-config:/vault/config:z
+      - edgex-init:/edgex-init:ro
+      - vault-config:/vault/config
       - /tmp/edgex/secrets:/tmp/edgex/secrets:z
     depends_on:
       - security-bootstrapper
@@ -113,11 +113,11 @@ services:
       STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
       STAGEGATE_REGISTRY_ACL_MANAGEMENTTOKENPATH: /tmp/edgex/secrets/consul-acl-token/mgmt_token.json
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
       # using regular volume to avoid lose of token due to host system reboot
       # and it is only shared between consul and proxy-setup
-      - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:z
+      - consul-acl-token:/tmp/edgex/secrets/consul-acl-token
     depends_on:
       - security-bootstrapper
       - vault
@@ -144,9 +144,9 @@ services:
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
     volumes:
-      - edgex-init:/edgex-init:ro,z
-      - vault-file:/vault/file:z
-      - vault-logs:/vault/logs:z
+      - edgex-init:/edgex-init:ro
+      - vault-file:/vault/file
+      - vault-logs:/vault/logs
     depends_on:
       - security-bootstrapper
     restart: always
@@ -174,7 +174,7 @@ services:
     env_file:
       - common-sec-stage-gate.env
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - nginx-templates:/etc/nginx/templates
       - nginx-tls:/etc/ssl/nginx
     depends_on:
@@ -211,16 +211,16 @@ services:
       ROUTES_RULES_ENGINE_HOST: edgex-kuiper
       ROUTES_DEVICE_VIRTUAL_HOST: device-virtual
     volumes:
-      - edgex-init:/edgex-init:ro,z
-      - vault-config:/vault/config:z
+      - edgex-init:/edgex-init:ro
+      - vault-config:/vault/config
       - nginx-templates:/etc/nginx/templates
       - nginx-tls:/etc/ssl/nginx
       - /tmp/edgex/secrets/security-proxy-setup:/tmp/edgex/secrets/security-proxy-setup:ro,z
-      - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:ro,z
+      - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:ro
     depends_on:
       - security-bootstrapper
       - secretstore-setup
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
 
   proxy-auth:
@@ -242,7 +242,7 @@ services:
     environment:
       SERVICE_HOST: edgex-proxy-auth
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/security-proxy-auth:/tmp/edgex/secrets/security-proxy-auth:ro,z
     depends_on:
       - secretstore-setup
@@ -258,7 +258,7 @@ services:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/support-notifications ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/support-notifications:/tmp/edgex/secrets/support-notifications:ro,z
     depends_on:
       - security-bootstrapper
@@ -272,7 +272,7 @@ services:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/core-metadata ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/core-metadata:/tmp/edgex/secrets/core-metadata:ro,z
     depends_on:
       - security-bootstrapper
@@ -286,7 +286,7 @@ services:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/core-data ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/core-data:/tmp/edgex/secrets/core-data:ro,z
     depends_on:
       - security-bootstrapper
@@ -300,7 +300,7 @@ services:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/core-command ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/core-command:/tmp/edgex/secrets/core-command:ro,z
     depends_on:
       - security-bootstrapper
@@ -314,7 +314,7 @@ services:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: ["/entrypoint.sh", "/core-common-config-bootstrapper", "-cp=consul.http://edgex-core-consul:8500", "-cf=configuration.yaml"]
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/core-common-config-bootstrapper:/tmp/edgex/secrets/core-common-config-bootstrapper:ro,z
     depends_on:
       - security-bootstrapper
@@ -327,7 +327,7 @@ services:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/support-scheduler ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/support-scheduler:/tmp/edgex/secrets/support-scheduler:ro,z
     depends_on:
       - security-bootstrapper
@@ -343,7 +343,7 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/app-rules-engine:/tmp/edgex/secrets/app-rules-engine:ro,z
     depends_on:
       - security-bootstrapper

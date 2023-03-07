@@ -42,9 +42,9 @@ services:
     tmpfs:
       - /run
     volumes:
-      - edgex-init:/edgex-init:z
-      - spire-ca:/srv/spiffe/ca:z
-      - spire-server:/srv/spiffe/server:z
+      - edgex-init:/edgex-init
+      - spire-ca:/srv/spiffe/ca
+      - spire-server:/srv/spiffe/server
       - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
     depends_on:
       - security-bootstrapper
@@ -71,9 +71,9 @@ services:
     tmpfs:
       - /run
     volumes:
-      - edgex-init:/edgex-init:z
-      - spire-ca:/srv/spiffe/ca:z
-      - spire-agent:/srv/spiffe/agent:z
+      - edgex-init:/edgex-init
+      - spire-ca:/srv/spiffe/ca
+      - spire-agent:/srv/spiffe/agent
       - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
@@ -102,7 +102,7 @@ services:
     tmpfs:
       - /run
     volumes:
-      - edgex-init:/edgex-init:z
+      - edgex-init:/edgex-init
       - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
     depends_on:
       - security-spire-agent
@@ -132,7 +132,7 @@ services:
     tmpfs:
       - /run
     volumes:
-      - edgex-init:/edgex-init:z
+      - edgex-init:/edgex-init
       - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
       - /tmp/edgex/secrets/security-spiffe-token-provider:/tmp/edgex/secrets/security-spiffe-token-provider:z
     depends_on:

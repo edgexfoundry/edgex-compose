@@ -30,8 +30,8 @@ services:
       CONF_DIR: /edgex-init/bootstrap-mosquitto/res
       ENTRYPOINT: /docker-entrypoint.sh /usr/sbin/mosquitto ${MQTT_VERBOSE} -c  /mosquitto/config/mosquitto.conf
     volumes:
-    - mqtt:/mosquitto:z
-    - edgex-init:/edgex-init:ro,z
+    - mqtt:/mosquitto
+    - edgex-init:/edgex-init:ro
     - /tmp/edgex/secrets/security-bootstrapper-messagebus:/tmp/edgex/secrets/security-bootstrapper-messagebus:ro,z
     depends_on:
       - security-bootstrapper

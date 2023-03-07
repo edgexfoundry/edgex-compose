@@ -37,7 +37,7 @@ services:
       - common-sec-stage-gate.env
     ##${ENVIRONMENT_SECTION}
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/${SERVICE_KEY}:/tmp/edgex/secrets/${SERVICE_KEY}:ro,z
     depends_on:
       - security-bootstrapper

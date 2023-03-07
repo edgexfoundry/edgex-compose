@@ -34,7 +34,7 @@ services:
       - no-new-privileges:true
     user: "root:root"
     volumes:
-      - nats-data:/tmp/nats:z
+      - nats-data:/tmp/nats
 
   data:
     env_file:
