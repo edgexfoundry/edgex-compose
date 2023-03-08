@@ -24,8 +24,8 @@ services:
     environment:
       SECUREMESSAGEBUS_TYPE: mqtt
     volumes:
-      - kuiper-sources:/tmp/kuiper:z
-      - kuiper-connections:/tmp/kuiper-connections:z
+      - kuiper-sources:/tmp/kuiper
+      - kuiper-connections:/tmp/kuiper-connections
   
   data:
     environment:
@@ -62,9 +62,9 @@ services:
     env_file:
       - common-sec-stage-gate.env
     volumes:
-      - kuiper-sources:/kuiper/etc/sources:z
-      - kuiper-connections:/kuiper/etc/connections:z
-      - edgex-init:/edgex-init:ro,z
+      - kuiper-sources:/kuiper/etc/sources
+      - kuiper-connections:/kuiper/etc/connections
+      - edgex-init:/edgex-init:ro
     depends_on:
       - security-bootstrapper
       - secretstore-setup

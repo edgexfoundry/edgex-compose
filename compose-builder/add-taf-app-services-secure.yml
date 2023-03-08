@@ -32,7 +32,7 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/app-functional-tests:/tmp/edgex/secrets/app-functional-tests:ro,z
     depends_on:
       - security-bootstrapper
@@ -44,7 +44,7 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     volumes:
-      - edgex-init:/edgex-init:ro,z
+      - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/app-scalability-test-mqtt-export:/tmp/edgex/secrets/app-scalability-test-mqtt-export:ro,z
     depends_on:
       - security-bootstrapper

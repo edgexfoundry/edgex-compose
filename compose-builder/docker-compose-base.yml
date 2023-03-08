@@ -41,8 +41,8 @@ services:
     networks:
       edgex-network:
     volumes:
-      - consul-config:/consul/config:z
-      - consul-data:/consul/data:z
+      - consul-config:/consul/config
+      - consul-data:/consul/data
     security_opt: 
       - no-new-privileges:true
 
@@ -60,7 +60,7 @@ services:
     env_file:
       - common.env
     volumes:
-      - db-data:/data:z
+      - db-data:/data
     security_opt: 
       - no-new-privileges:true
 
@@ -229,7 +229,7 @@ services:
     networks:
       - edgex-network
     volumes:
-      - kuiper-data:/kuiper/data:z
+      - kuiper-data:/kuiper/data
     environment:
 #      KUIPER__BASIC__DEBUG: "true"
       KUIPER__BASIC__CONSOLELOG: "true"

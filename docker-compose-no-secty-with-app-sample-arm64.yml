@@ -180,14 +180,10 @@ services:
     - type: volume
       source: consul-config
       target: /consul/config
-      bind:
-        selinux: z
       volume: {}
     - type: volume
       source: consul-data
       target: /consul/data
-      bind:
-        selinux: z
       volume: {}
   data:
     container_name: edgex-core-data
@@ -254,8 +250,6 @@ services:
     - type: volume
       source: db-data
       target: /data
-      bind:
-        selinux: z
       volume: {}
   device-rest:
     container_name: edgex-device-rest
@@ -429,8 +423,6 @@ services:
     - type: volume
       source: kuiper-data
       target: /kuiper/data
-      bind:
-        selinux: z
       volume: {}
   scheduler:
     container_name: edgex-support-scheduler
