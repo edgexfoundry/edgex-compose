@@ -136,14 +136,12 @@ services:
       consul:
         condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
+      ALL_SERVICES_DATABASE_HOST: edgex-redis
+      ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
+      ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
+      APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
-      REGISTRY_HOST: edgex-core-consul
     hostname: edgex-core-common-config-bootstrapper
     image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper-arm64:latest
     networks:
@@ -424,6 +422,18 @@ services:
       source: kuiper-data
       target: /kuiper/data
       volume: {}
+    - type: volume
+      source: kuiper-etc
+      target: /kuiper/etc
+      volume: {}
+    - type: volume
+      source: kuiper-log
+      target: /kuiper/log
+      volume: {}
+    - type: volume
+      source: kuiper-plugins
+      target: /kuiper/plugins
+      volume: {}
   scheduler:
     container_name: edgex-support-scheduler
     depends_on:
@@ -491,3 +501,9 @@ volumes:
     name: edgex_db-data
   kuiper-data:
     name: edgex_kuiper-data
+  kuiper-etc:
+    name: edgex_kuiper-etc
+  kuiper-log:
+    name: edgex_kuiper-log
+  kuiper-plugins:
+    name: edgex_kuiper-plugins

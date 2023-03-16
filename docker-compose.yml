@@ -195,17 +195,15 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      ALL_SERVICES_DATABASE_HOST: edgex-redis
+      ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
+      ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
+      APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -1047,12 +1045,24 @@ services:
       target: /kuiper/data
       volume: {}
     - type: volume
+      source: kuiper-etc
+      target: /kuiper/etc
+      volume: {}
+    - type: volume
       source: kuiper-connections
       target: /kuiper/etc/connections
       volume: {}
     - type: volume
       source: kuiper-sources
       target: /kuiper/etc/sources
+      volume: {}
+    - type: volume
+      source: kuiper-log
+      target: /kuiper/log
+      volume: {}
+    - type: volume
+      source: kuiper-plugins
+      target: /kuiper/plugins
       volume: {}
   scheduler:
     command:
@@ -1336,6 +1346,12 @@ volumes:
     name: edgex_kuiper-connections
   kuiper-data:
     name: edgex_kuiper-data
+  kuiper-etc:
+    name: edgex_kuiper-etc
+  kuiper-log:
+    name: edgex_kuiper-log
+  kuiper-plugins:
+    name: edgex_kuiper-plugins
   kuiper-sources:
     name: edgex_kuiper-sources
   nginx-templates:
