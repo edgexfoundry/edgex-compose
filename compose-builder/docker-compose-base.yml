@@ -166,8 +166,9 @@ services:
     read_only: true
     networks:
       - edgex-network
+    env_file:
+      - common.env
     environment:
-      EDGEX_SECURITY_SECRET_STORE: false
       ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
       ALL_SERVICES_DATABASE_HOST: edgex-redis
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
