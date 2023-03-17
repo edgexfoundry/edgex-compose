@@ -106,8 +106,15 @@ services:
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
       ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
+      DATABASE_HOST: edgex-redis
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
+      REGISTRY_HOST: edgex-core-consul
     hostname: edgex-core-common-config-bootstrapper
     image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper:latest
     networks:
