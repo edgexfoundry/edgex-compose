@@ -236,11 +236,15 @@ services:
       - "entrypoint.sh"
       - "/security-proxy-auth"
       - "-cp=consul.http://edgex-core-consul:8500"
+      - "--registry"
     env_file:
+      - common.env
       - common-security.env
       - common-sec-stage-gate.env
     environment:
       SERVICE_HOST: edgex-proxy-auth
+    ports:
+      - "127.0.0.1:59842:59842"
     volumes:
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/security-proxy-auth:/tmp/edgex/secrets/security-proxy-auth:ro,z
