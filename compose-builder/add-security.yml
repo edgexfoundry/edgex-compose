@@ -49,7 +49,6 @@ services:
   database:
     entrypoint: ["/edgex-init/redis_wait_install.sh"]
     env_file:
-      - common.env
       - common-security.env
       - common-sec-stage-gate.env
     environment:
@@ -316,7 +315,7 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: ["/entrypoint.sh", "/core-common-config-bootstrapper", "-cp=consul.http://edgex-core-consul:8500", "-cf=configuration.yaml"]
+    command: ["/entrypoint.sh", "/core-common-config-bootstrapper", "-cp=consul.http://edgex-core-consul:8500"]
     volumes:
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/core-common-config-bootstrapper:/tmp/edgex/secrets/core-common-config-bootstrapper:ro,z

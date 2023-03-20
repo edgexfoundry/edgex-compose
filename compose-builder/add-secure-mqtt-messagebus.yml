@@ -26,36 +26,11 @@ services:
     volumes:
       - kuiper-sources:/tmp/kuiper
       - kuiper-connections:/tmp/kuiper-connections
-  
-  data:
-    environment:
-      MESSAGEBUS_AUTHMODE: usernamepassword
-      MESSAGEBUS_SECRETNAME: message-bus
 
-  metadata:
+  common-config:
     environment:
-      MESSAGEBUS_AUTHMODE: usernamepassword
-      MESSAGEBUS_SECRETNAME: message-bus
-
-  command:
-    environment:
-      MESSAGEBUS_AUTHMODE: usernamepassword
-      MESSAGEBUS_SECRETNAME: message-bus
-
-  notifications:
-    environment:
-      MESSAGEBUS_AUTHMODE: usernamepassword
-      MESSAGEBUS_SECRETNAME: message-bus
-
-  scheduler:
-    environment:
-      MESSAGEBUS_AUTHMODE: usernamepassword
-      MESSAGEBUS_SECRETNAME: message-bus
-
-  app-service-rules:
-    environment:
-      MESSAGEBUS_AUTHMODE: usernamepassword
-      MESSAGEBUS_SECRETNAME: message-bus
+      ALL_SERVICES_MESSAGEBUS_AUTHMODE: usernamepassword
+      ALL_SERVICES_MESSAGEBUS_SECRETNAME: message-bus
   
   rulesengine:
     entrypoint: [ "/edgex-init/kuiper_wait_install.sh" ]

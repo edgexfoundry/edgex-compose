@@ -23,8 +23,7 @@ services:
     container_name: edgex-app-metrics-influxdb
     hostname: edgex-app-metrics-influxdb
     env_file:
-      - common.env
-      - as-common.env
+      - common-non-security.env
     environment:
       SERVICE_HOST: edgex-app-metrics-influxdb
       EDGEX_PROFILE: metrics-influxdb

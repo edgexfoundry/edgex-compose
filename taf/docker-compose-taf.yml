@@ -44,17 +44,9 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: external-mqtt-trigger
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-app-external-mqtt-trigger
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -122,17 +114,9 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: app-functional-tests
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -194,17 +178,9 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-app-http-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -270,17 +246,9 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-app-mqtt-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -347,17 +315,9 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-app-rules-engine
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -423,15 +383,10 @@ services:
       API_GATEWAY_STATUS_PORT: "8100"
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
+      CLIENTS_SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       EDGEX_PROFILE: sample
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-app-sample
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -499,17 +454,9 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-core-command
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -560,7 +507,6 @@ services:
     - /entrypoint.sh
     - /core-common-config-bootstrapper
     - -cp=consul.http://edgex-core-consul:8500
-    - -cf=configuration.yaml
     container_name: edgex-core-common-config-bootstrapper
     depends_on:
       consul:
@@ -578,16 +524,9 @@ services:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -730,16 +669,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-core-data
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -797,17 +728,10 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       DATABASECONFIG_NAME: redis.conf
       DATABASECONFIG_PATH: /run/redis/conf
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -885,16 +809,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-device-modbus
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -966,16 +882,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-device-onvif-camera
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -1041,16 +949,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-device-rest
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -1117,16 +1017,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-device-virtual
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -1198,16 +1090,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-core-metadata
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -1398,16 +1282,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-support-notifications
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -1705,19 +1581,11 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
-      MESSAGEBUS_HOST: edgex-redis
       MESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-scalability-test-mqtt-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -1785,18 +1653,10 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
-      MESSAGEBUS_HOST: edgex-redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-support-scheduler
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -1966,15 +1826,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-security-spiffe-token-provider
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -2038,15 +1891,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -2112,15 +1958,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -2171,15 +2010,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"

@@ -24,7 +24,6 @@ services:
     volumes:
       - kuiper-sources:/tmp/kuiper
       - kuiper-connections:/tmp/kuiper-connections
-
     environment:
       SECUREMESSAGEBUS_TYPE: redis
 

@@ -34,16 +34,8 @@ services:
       data:
         condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_HOST: edgex-redis
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
@@ -70,16 +62,8 @@ services:
       metadata:
         condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
-      MESSAGEBUS_HOST: edgex-redis
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
     image: nexus3.edgexfoundry.org:10004/core-command:latest
@@ -106,15 +90,8 @@ services:
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
       ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
-      REGISTRY_HOST: edgex-core-consul
     hostname: edgex-core-common-config-bootstrapper
     image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper:latest
     networks:
@@ -166,15 +143,7 @@ services:
       metadata:
         condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_HOST: edgex-redis
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
     image: nexus3.edgexfoundry.org:10004/core-data:latest
@@ -193,15 +162,6 @@ services:
     user: 2002:2001
   database:
     container_name: edgex-redis
-    environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
-      EDGEX_SECURITY_SECRET_STORE: "false"
-      REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
     image: redis:7.0-alpine
     networks:
@@ -232,15 +192,7 @@ services:
       metadata:
         condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_HOST: edgex-redis
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
     image: nexus3.edgexfoundry.org:10004/device-rest:latest
@@ -267,15 +219,7 @@ services:
       metadata:
         condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_HOST: edgex-redis
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
     image: nexus3.edgexfoundry.org:10004/device-virtual:latest
@@ -300,15 +244,7 @@ services:
       database:
         condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_HOST: edgex-redis
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
     image: nexus3.edgexfoundry.org:10004/core-metadata:latest
@@ -333,15 +269,7 @@ services:
       database:
         condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_HOST: edgex-redis
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
     image: nexus3.edgexfoundry.org:10004/support-notifications:latest
@@ -415,17 +343,9 @@ services:
       database:
         condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
-      MESSAGEBUS_HOST: edgex-redis
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
     image: nexus3.edgexfoundry.org:10004/support-scheduler:latest

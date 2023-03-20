@@ -36,7 +36,6 @@ services:
     read_only: true
     restart: always
     env_file:
-      - common.env
       - common-security.env
       - common-sec-stage-gate.env
     tmpfs:
@@ -65,7 +64,6 @@ services:
     read_only: true
     restart: always
     env_file:
-      - common.env
       - common-security.env
       - common-sec-stage-gate.env
     tmpfs:
@@ -96,7 +94,6 @@ services:
     read_only: true
     restart: always
     env_file:
-      - common.env
       - common-security.env
       - common-sec-stage-gate.env
     tmpfs:
@@ -124,7 +121,6 @@ services:
     read_only: true
     restart: always
     env_file:
-      - common.env
       - common-security.env
       - common-sec-stage-gate.env
     environment:

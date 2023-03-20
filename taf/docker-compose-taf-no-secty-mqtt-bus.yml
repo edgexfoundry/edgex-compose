@@ -34,16 +34,8 @@ services:
       data:
         condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: external-mqtt-trigger
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_HOST: edgex-redis
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-external-mqtt-trigger
       TRIGGER_EXTERNALMQTT_URL: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_LOGLEVEL: INFO
@@ -72,16 +64,7 @@ services:
       data:
         condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: functional-tests
-      EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_HOST: edgex-redis
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: app-functional-tests
     hostname: app-functional-tests
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
@@ -103,23 +86,9 @@ services:
         condition: service_started
       data:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-http-export
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
@@ -145,23 +114,9 @@ services:
         condition: service_started
       data:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-mqtt-export
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
@@ -188,23 +143,9 @@ services:
         condition: service_started
       data:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
@@ -228,23 +169,12 @@ services:
         condition: service_started
       data:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
+      CLIENTS_SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       EDGEX_PROFILE: sample
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-app-sample
     hostname: edgex-app-sample
     image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
@@ -270,25 +200,9 @@ services:
         condition: service_started
       metadata:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      EXTERNALMQTT_CLIENTID: core-command-ex
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_OPTIONAL_CLIENTID: core-command
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
     image: nexus3.edgexfoundry.org:10004/core-command:latest
@@ -312,18 +226,15 @@ services:
         condition: service_started
     environment:
       ALL_SERVICES_DATABASE_HOST: edgex-redis
-      ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
+      ALL_SERVICES_MESSAGEBUS_AUTHMODE: none
+      ALL_SERVICES_MESSAGEBUS_HOST: edgex-mqtt-broker
+      ALL_SERVICES_MESSAGEBUS_PORT: "1883"
+      ALL_SERVICES_MESSAGEBUS_PROTOCOL: tcp
+      ALL_SERVICES_MESSAGEBUS_TYPE: mqtt
       ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
-      REGISTRY_HOST: edgex-core-consul
     hostname: edgex-core-common-config-bootstrapper
     image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper:latest
     networks:
@@ -374,23 +285,8 @@ services:
         condition: service_started
       metadata:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_OPTIONAL_CLIENTID: core-data
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
     image: nexus3.edgexfoundry.org:10004/core-data:latest
@@ -409,15 +305,6 @@ services:
     user: 2002:2001
   database:
     container_name: edgex-redis
-    environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
-      EDGEX_SECURITY_SECRET_STORE: "false"
-      REGISTRY_HOST: edgex-core-consul
     hostname: edgex-redis
     image: redis:7.0-alpine
     networks:
@@ -453,22 +340,8 @@ services:
         condition: service_started
       modbus-simulator:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-modbus
     hostname: edgex-device-modbus
     image: nexus3.edgexfoundry.org:10004/device-modbus:latest
@@ -501,22 +374,8 @@ services:
         condition: service_started
       metadata:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-onvif-camera
     hostname: edgex-device-onvif-camera
     image: nexus3.edgexfoundry.org:10004/device-onvif-camera:latest
@@ -542,22 +401,8 @@ services:
         condition: service_started
       metadata:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
     image: nexus3.edgexfoundry.org:10004/device-rest:latest
@@ -587,22 +432,8 @@ services:
         condition: service_started
       metadata:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
     image: nexus3.edgexfoundry.org:10004/device-virtual:latest
@@ -633,23 +464,8 @@ services:
         condition: service_started
       database:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_OPTIONAL_CLIENTID: core-metadata
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
     image: nexus3.edgexfoundry.org:10004/core-metadata:latest
@@ -733,23 +549,8 @@ services:
         condition: service_started
       database:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_OPTIONAL_CLIENTID: support-notifications
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
     image: nexus3.edgexfoundry.org:10004/support-notifications:latest
@@ -832,25 +633,10 @@ services:
         condition: service_started
       data:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_PROFILE: mqtt-export
-      EDGEX_SECURITY_SECRET_STORE: "false"
       EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
       MESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-scalability-test-mqtt-export
       WRITABLE_LOGLEVEL: DEBUG
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
@@ -876,25 +662,10 @@ services:
         condition: service_started
       database:
         condition: service_started
-      mqtt-broker:
-        condition: service_started
     environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-mqtt-broker
-      MESSAGEBUS_OPTIONAL_CLIENTID: support-scheduler
-      MESSAGEBUS_PORT: "1883"
-      MESSAGEBUS_PROTOCOL: tcp
-      MESSAGEBUS_TYPE: mqtt
-      REGISTRY_HOST: edgex-core-consul
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
     image: nexus3.edgexfoundry.org:10004/support-scheduler:latest

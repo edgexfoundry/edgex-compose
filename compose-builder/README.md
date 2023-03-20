@@ -97,10 +97,6 @@ This folder contains the following compose files:
 - **add-service-secure-template.yml**<br/>
     A template for a single service **extending** compose file from its base service for security mode,
     and the service is enabled with secret store by default.
-- **add-mqtt-messagebus-app-template.yml**<br/>
-    A template for a single App service **extending** compose file from its base service for using MQTT as the MessageBus.
-- **add-mqtt-messagebus-device-template.yml**<br/>
-    A template for a single Device service **extending** compose file from its base service for using MQTT as the MessageBus.
 - **add-modbus-simulator.yml**<br/>
     ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. Must be used in conjunction with  **add-device-modbus.yml**
 - **add-mqtt-broker.yml**<br/>
@@ -113,10 +109,6 @@ This folder contains the following compose files:
     MQTT MesssageBus **extending** compose file. Adds additional configuration of services so that the Secure `MQTT` implementation of the Edgex Message Bus is used. **Must be used in conjunction with add-secure-mqtt-broker.yml**
 - **add-nats-messagebus.yml**<br/>
     NATS MesssageBus **extending** compose file. Adds NATS Server and additional configuration of services so that the `NATS` implementation of the Edgex Message Bus is used. 
-- **add-nats-messagebus-app-template.yml**<br/>
-    A template for a single App service **extending** compose file from its base service for using NATS as the MessageBus.
-- **add-nats-messagebus-device-template.yml**<br/>
-    A template for a single Device service **extending** compose file from its base service for using NATS as the MessageBus.
 - **add-taf-app-services.yml**<br/>
     TAF App Services **extending** compose file. Adds additional App Service for the TAF testing compose files.
 - **add-taf-app-services-secure.yml**<br/>
@@ -131,31 +123,14 @@ This folder contains the following environment files:
 - **.env**
     This file contains the `version`, `repositories` and image `version` variables referenced in compose files. Docker compose implicitly uses the `.env` file, if it exists, so you will not see it referenced in the compose files. It is referenced in the Makefile so that it can also use these settings.
 
-- **common.env**
-    This file contains the common environment overrides used by all Edgex services.
+- **common-non-security.env**
+    This file contains the common non-security related environment overrides used by all Edgex services.
 
 - **common-security.env**
     This file contains the common security related environment overrides used by many Edgex services.
 
 - **common-sec-stage-gate.env**
     This file contains the common security-bootstrapper stage gate related environment overrides used by many Edgex services.
-
-- **asc-common.env**
-    This file contains the common environment overrides used by all Application Services
-
-- **asc-http-export.env**
-    This file contains the common environment overrides used by all App Service Configurable instances using the `http-export` profile
-
-- **asc-mqtt-export.env**
-    This file contains the common environment overrides used by all App Service Configurable instances using the `mqtt-export` profile
-
-- **mqtt-bus.env**
-    This file contains the common MQTT related environment overrides used by many Edgex services when using MQTT as the MessageBus.
-
-- **nats-bus.env**
-    This file contains the common NATS related environment overrides used by many Edgex services when using NATS as the MessageBus.
-
-    
 
 ### TUI (terminal UI)
 

@@ -36,58 +36,13 @@ services:
     volumes:
       - nats-data:/tmp/nats
 
-  data:
-    env_file:
-      - nats-bus.env
+  common-config:
     environment:
-      MESSAGEBUS_OPTIONAL_CLIENTID: core-data
-    depends_on:
-      - nats
-
-  metadata:
-    env_file:
-      - nats-bus.env
-    environment:
-      MESSAGEBUS_OPTIONAL_CLIENTID: core-metadata
-    depends_on:
-      - nats
-
-  command:
-    environment:
-      MESSAGEBUS_OPTIONAL_CLIENTID: core-command
-    depends_on:
-      - nats
-
-  notifications:
-    env_file:
-      - nats-bus.env
-    environment:
-      MESSAGEBUS_OPTIONAL_CLIENTID: support-notifications
-    depends_on:
-      - nats
-
-  scheduler:
-    env_file:
-      - nats-bus.env
-    environment:
-      MESSAGEBUS_OPTIONAL_CLIENTID: support-scheduler
-    depends_on:
-      - nats
-
-  app-service-rules:
-    environment:
-      EDGEX_PROFILE: rules-engine
-      MESSAGEBUS_TYPE: nats-jetstream
-      MESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
-      MESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-nats-server
-      MESSAGEBUS_SUBSCRIBEHOST_PORT: 4222
-      MESSAGEBUS_PUBLISHHOST_PROTOCOL: tcp
-      MESSAGEBUS_PUBLISHHOST_HOST: edgex-nats-server
-      MESSAGEBUS_PUBLISHHOST_PORT: 4222
-      MESSAGEBUS_PUBLISHHOST_PUBLISHTOPIC: edgex/rules-events
-      MESSAGEBUS_OPTIONAL_AUTHMODE: none
-    depends_on:
-      - nats
+      ALL_SERVICES_MESSAGEBUS_TYPE: nats-jetstream
+      ALL_SERVICES_MESSAGEBUS_PROTOCOL: tcp
+      ALL_SERVICES_MESSAGEBUS_HOST: edgex-nats-server
+      ALL_SERVICES_MESSAGEBUS_PORT: "4222"
+      ALL_SERVICES_MESSAGEBUS_AUTHMODE: none
 
   rulesengine:
     environment:
