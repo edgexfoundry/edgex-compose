@@ -237,7 +237,6 @@ services:
       - "-cp=consul.http://edgex-core-consul:8500"
       - "--registry"
     env_file:
-      - common.env
       - common-security.env
       - common-sec-stage-gate.env
     environment:

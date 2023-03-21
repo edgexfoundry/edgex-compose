@@ -1401,15 +1401,8 @@ services:
     environment:
       API_GATEWAY_HOST: edgex-kong
       API_GATEWAY_STATUS_PORT: "8100"
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      CLIENTS_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      REGISTRY_HOST: edgex-core-consul
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-proxy-auth
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper

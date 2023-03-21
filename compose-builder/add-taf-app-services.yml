@@ -22,6 +22,8 @@ services:
       - 59705:59705/tcp
     container_name: app-functional-tests
     hostname: app-functional-tests
+    env_file:
+      - common-non-security.env
     environment:
       EDGEX_PROFILE: functional-tests
       SERVICE_HOST: app-functional-tests
@@ -41,6 +43,8 @@ services:
       - "59710:59703" #Exposing as different port to avoid conflict with other MQTT export instance
     container_name: edgex-scalability-test-mqtt-export
     hostname: edgex-scalability-test-mqtt-export
+    env_file:
+      - common-non-security.env
     environment:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
