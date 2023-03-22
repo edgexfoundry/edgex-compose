@@ -27,8 +27,7 @@ services:
     networks:
       - edgex-network
     env_file:
-      - common.env
-      - device-common.env
+      - common-non-security.env
     environment:
       SERVICE_HOST: edgex-device-rfid-llrp
     depends_on:

@@ -23,8 +23,7 @@ services:
     container_name: app-functional-tests
     hostname: app-functional-tests
     env_file:
-      - common.env
-      - as-common.env
+      - common-non-security.env
     environment:
       EDGEX_PROFILE: functional-tests
       SERVICE_HOST: app-functional-tests
@@ -45,13 +44,15 @@ services:
     container_name: edgex-scalability-test-mqtt-export
     hostname: edgex-scalability-test-mqtt-export
     env_file:
-      - common.env
-      - as-common.env
-      - asc-mqtt-export.env
+      - common-non-security.env
     environment:
+      EDGEX_PROFILE: mqtt-export
       EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
       SERVICE_HOST: edgex-scalability-test-mqtt-export
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
+
       MESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
       WRITABLE_LOGLEVEL: DEBUG
     depends_on:

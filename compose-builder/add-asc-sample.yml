@@ -23,11 +23,13 @@ services:
     container_name: edgex-app-sample
     hostname: edgex-app-sample
     env_file:
-      - common.env
-      - as-common.env
+      - common-non-security.env
     environment:
       EDGEX_PROFILE: sample
       SERVICE_HOST: edgex-app-sample
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
     depends_on:
       - consul
       - data

@@ -60,8 +60,6 @@ services:
     restart: always
     networks:
       - edgex-network
-    env_file:
-      - common.env
     volumes:
       - db-data:/data
     security_opt: 
@@ -79,10 +77,9 @@ services:
     networks:
       - edgex-network
     env_file:
-      - common.env
+      - common-non-security.env
     environment:
       SERVICE_HOST: edgex-support-notifications
-      MESSAGEBUS_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -101,10 +98,9 @@ services:
     networks:
       - edgex-network
     env_file:
-      - common.env
+      - common-non-security.env
     environment:
       SERVICE_HOST: edgex-core-metadata
-      MESSAGEBUS_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -123,10 +119,9 @@ services:
     networks:
       - edgex-network
     env_file:
-      - common.env
+      - common-non-security.env
     environment:
       SERVICE_HOST: edgex-core-data
-      MESSAGEBUS_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -146,10 +141,9 @@ services:
     networks:
       - edgex-network
     env_file:
-      - common.env
+      - common-non-security.env
     environment:
       SERVICE_HOST: edgex-core-command
-      MESSAGEBUS_HOST: edgex-redis
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
     depends_on:
       - consul
@@ -167,7 +161,7 @@ services:
     networks:
       - edgex-network
     env_file:
-      - common.env
+      - common-non-security.env
     environment:
       ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
       ALL_SERVICES_DATABASE_HOST: edgex-redis
@@ -191,12 +185,11 @@ services:
     networks:
       - edgex-network
     env_file:
-      - common.env
+      - common-non-security.env
     environment:
       SERVICE_HOST: edgex-support-scheduler
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
-      MESSAGEBUS_HOST: edgex-redis
     depends_on:
       - consul
       - database
@@ -215,11 +208,10 @@ services:
     networks:
       - edgex-network
     env_file:
-      - common.env
+      - common-non-security.env
     environment:
       EDGEX_PROFILE: rules-engine
       SERVICE_HOST: edgex-app-rules-engine
-      MESSAGEBUS_HOST: edgex-redis
     depends_on:
       - consul
       - data
