@@ -199,7 +199,6 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     environment:
-      KONGURL_SERVER: edgex-kong
       ROUTES_CORE_CONSUL_HOST: edgex-core-consul
       ROUTES_CORE_DATA_HOST: edgex-core-data
       ROUTES_CORE_METADATA_HOST: edgex-core-metadata

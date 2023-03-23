@@ -42,8 +42,6 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -54,9 +52,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -108,8 +103,6 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
       CLIENTS_SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
@@ -123,9 +116,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -181,8 +171,6 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_SECURITY_SECRET_STORE: "true"
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -193,9 +181,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -250,8 +235,6 @@ services:
       ALL_SERVICES_DATABASE_HOST: edgex-redis
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
       ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -262,9 +245,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -311,8 +291,6 @@ services:
     - /edgex-init/consul_wait_install.sh
     environment:
       ADD_REGISTRY_ACL_ROLES: app-sample
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_GROUP: "2001"
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: "2002"
@@ -323,9 +301,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
       STAGEGATE_REGISTRY_ACL_MANAGEMENTTOKENPATH: /tmp/edgex/secrets/consul-acl-token/mgmt_token.json
@@ -396,8 +371,6 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
@@ -407,9 +380,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -455,8 +425,6 @@ services:
     entrypoint:
     - /edgex-init/redis_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       DATABASECONFIG_NAME: redis.conf
       DATABASECONFIG_PATH: /run/redis/conf
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -467,9 +435,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -533,8 +498,6 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
@@ -544,9 +507,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -600,8 +560,6 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
@@ -611,9 +569,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -667,8 +622,6 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
@@ -678,9 +631,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -730,17 +680,12 @@ services:
     - /bin/sh
     - /edgex-init/nginx_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -800,8 +745,6 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
@@ -811,9 +754,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -863,8 +803,6 @@ services:
     - /bin/sh
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
@@ -874,9 +812,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -922,10 +857,7 @@ services:
     - /edgex-init/proxy_setup_wait_install.sh
     environment:
       ADD_PROXY_ROUTE: ""
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_SECURITY_SECRET_STORE: "true"
-      KONGURL_SERVER: edgex-kong
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       ROUTES_CORE_COMMAND_HOST: edgex-core-command
       ROUTES_CORE_CONSUL_HOST: edgex-core-consul
@@ -942,9 +874,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -1002,8 +931,6 @@ services:
     entrypoint:
     - /edgex-init/kuiper_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       CONNECTION__EDGEX__REDISMSGBUS__PORT: "6379"
       CONNECTION__EDGEX__REDISMSGBUS__PROTOCOL: redis
       CONNECTION__EDGEX__REDISMSGBUS__SERVER: edgex-redis
@@ -1021,9 +948,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -1094,8 +1018,6 @@ services:
     entrypoint:
     - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_SECURITY_SECRET_STORE: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
@@ -1107,9 +1029,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -1155,8 +1074,6 @@ services:
     environment:
       ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],message-bus[device-rest],redisdb[device-virtual],message-bus[device-virtual],redisdb[app-sample],message-bus[app-sample]
       ADD_SECRETSTORE_TOKENS: app-sample
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_GROUP: "2001"
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: "2002"
@@ -1168,9 +1085,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -1217,8 +1131,6 @@ services:
   security-bootstrapper:
     container_name: edgex-security-bootstrapper
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       EDGEX_GROUP: "2001"
       EDGEX_USER: "2002"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1227,9 +1139,6 @@ services:
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"
@@ -1282,17 +1191,12 @@ services:
     entrypoint:
     - /edgex-init/vault_wait_install.sh
     environment:
-      API_GATEWAY_HOST: edgex-kong
-      API_GATEWAY_STATUS_PORT: "8100"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
       STAGEGATE_DATABASE_PORT: "6379"
       STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_KONGDB_HOST: edgex-kong-db
-      STAGEGATE_KONGDB_PORT: "5432"
-      STAGEGATE_KONGDB_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-consul
       STAGEGATE_REGISTRY_PORT: "8500"

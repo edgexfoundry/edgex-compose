@@ -325,25 +325,24 @@ Runs 'down' and removes all stopped containers, all volumes and all networks use
 
 ```
 get-token [options] 
-Generates a Kong access token as specified by:
+Generates a API gateway access token as specified by:
 Options:
-    arm64:  Generates a Kong access token using ARM64 image
-    dev:    Generates a Kong access token using local dev built docker image
+    arm64:  Generates a API gateway access token using ARM64 image
+    dev:    Generates a API gateway access token using local dev built docker image
             'make docker' creates local docker images tagged with '0.0.0-dev'    
 ```
 #### Upload-tls-cert
 
 ```
 upload-tls-cert [options] <environment_variables>
-Upload a bring-your-own (BYO) TLS certificate to the Kong proxy server as specified by:
+Upload a bring-your-own (BYO) TLS certificate to the API gateway as specified by:
 Options:
-    arm64:  Upload TLS certificate to the Kong server using ARM64 image
-    dev:    Upload TLS certificate to the Kong server using local dev built docker image
+    arm64:  Upload TLS certificate to the API gateway server using ARM64 image
+    dev:    Upload TLS certificate to the API gateway server using local dev built docker image
             'make docker' creates local docker images tagged with '0.0.0-dev'    
     Environment Variables: 
     CERT_INPUT_FILE=<full_path_to_cert_file>: the full file name path to your own certificate file, this is required
     KEY_INPUT_FILE=<full_path_to_key_file>: the full file name path to your own key file, this is required
-    EXTRA_SNIS="comma_separated_server_name_list_if_any": an extra server name indicator list in addition to localhost and kong, this is optional and can be omitted
 ```
 
 #### Get-consul-acl-token
