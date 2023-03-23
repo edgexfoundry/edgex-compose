@@ -122,7 +122,7 @@ services:
       - vault
 
   vault:
-    image: vault:${VAULT_VERSION}
+    image: hashicorp/vault:${VAULT_VERSION}
     user: "root:root" # Note that Vault is run under the 'vault' user, but entry point scripts need to first run as root
     container_name: edgex-vault
     hostname: edgex-vault

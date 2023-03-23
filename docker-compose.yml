@@ -1235,7 +1235,7 @@ services:
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
     hostname: edgex-vault
-    image: vault:1.11.5
+    image: hashicorp/vault:1.12
     networks:
       edgex-network: null
     ports:
