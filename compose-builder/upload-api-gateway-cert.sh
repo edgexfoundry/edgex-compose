@@ -17,9 +17,8 @@
 # usage function for uploading tls cert:
 usage()
 {
-  echo "Usage: uplaod-api-gateway-cert.sh CERT_INPUT_FILE=<full-path-for-cert-input-file> KEY_INPUT_FILE=<full-path-for-key-input-file> [EXTRA-SNIS=<comma-separated-list-for-server-name>]"
+  echo "Usage: CERT_INPUT_FILE=<full-path-for-cert-input-file> KEY_INPUT_FILE=<full-path-for-key-input-file> ./upload-api-gateway-cert.sh"
   echo "\tBoth CERT_INPUT_FILE and KEY_INPUT_FILE are required."
-  echo "\tEXTRA_SNIS is optional"
   exit 1
 }
 
@@ -29,7 +28,7 @@ usage()
 # versions are loaded from .env file
 . ./.env
 
-if [ $DEV = "-dev" ]; then
+if [ "x$DEV" = "x-dev" ]; then
   export CORE_EDGEX_REPOSITORY=edgexfoundry
   export CORE_EDGEX_VERSION=0.0.0-dev
 fi
@@ -55,17 +54,18 @@ cp ${KEY_INPUT_FILE} ${STAGING}
 CERT_FILE_NAME=$(basename ${CERT_INPUT_FILE})
 KEY_FILE_NAME=$(basename ${KEY_INPUT_FILE})
 
-echo "Uploading Kong TLS certificate with certificate file: ${CERT_FILE_NAME}, key file: ${KEY_FILE_NAME}, extra server name list: [${EXTRA_SNIS}]"
-docker run --rm -it -e KONGURL_SERVER=edgex-kong --network edgex_edgex-network --entrypoint "" -v ${PWD}/${STAGING}:/${STAGING} \
+echo "Uploading API Gateway TLS certificate with certificate file: ${CERT_FILE_NAME}, key file: ${KEY_FILE_NAME}"
+docker run --rm -it --network edgex_edgex-network --entrypoint "" -v ${PWD}/${STAGING}:/${STAGING} -v edgex_nginx-tls:/etc/ssl/nginx \
        ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION} \
-        /edgex/secrets-config proxy tls --incert /${STAGING}/${CERT_FILE_NAME} \
-        --inkey /${STAGING}/${KEY_FILE_NAME} \
-        --snis "${EXTRA_SNIS}"
+        /edgex/secrets-config proxy tls --inCert /${STAGING}/${CERT_FILE_NAME} \
+        --inKey /${STAGING}/${KEY_FILE_NAME}
+
+docker exec edgex-nginx nginx -s reload
 
 if [ $? = 0 ]; then
-  echo "Kong TLS certificate uploaded"
+  echo "API Gateway TLS certificate uploaded"
 else
-  echo "Failed to upload Kong TLS certificate"
+  echo "Failed to upload API Gateway TLS certificate"
 fi
 
 rm -rf ${STAGING}
