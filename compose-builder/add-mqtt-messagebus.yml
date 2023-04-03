@@ -16,7 +16,7 @@
 version: '3.7'
 
 services:
-  common-config:
+  core-common-config-bootstrapper:
     environment:
       ALL_SERVICES_MESSAGEBUS_TYPE: mqtt
       ALL_SERVICES_MESSAGEBUS_PROTOCOL: tcp
@@ -24,7 +24,7 @@ services:
       ALL_SERVICES_MESSAGEBUS_PORT: "1883"
       ALL_SERVICES_MESSAGEBUS_AUTHMODE: none
 
-  rulesengine:
+  rules-engine:
     environment:
       CONNECTION__EDGEX__MQTTMSGBUS__PORT: 1883
       CONNECTION__EDGEX__MQTTMSGBUS__PROTOCOL: tcp

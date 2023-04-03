@@ -16,7 +16,7 @@
 version: '3.7'
 
 services:
-  secretstore-setup:
+  security-secretstore-setup:
     environment:
       ADD_SECRETSTORE_TOKENS: ${TOKEN_LIST}
       ADD_KNOWN_SECRETS: ${KNOWN_SECRETS_LIST}
@@ -25,7 +25,7 @@ services:
     environment:
       ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
 
-  app-service-functional-tests:
+  app-functional-tests:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     env_file:
@@ -37,7 +37,7 @@ services:
     depends_on:
       - security-bootstrapper
 
-  scalability-test-mqtt-export:
+  app-scalability-test-mqtt-export:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     env_file:

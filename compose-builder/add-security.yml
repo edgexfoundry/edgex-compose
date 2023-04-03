@@ -62,9 +62,9 @@ services:
       - /tmp/edgex/secrets/security-bootstrapper-redis:/tmp/edgex/secrets/security-bootstrapper-redis:ro,z
     depends_on:
       - security-bootstrapper
-      - secretstore-setup
+      - security-secretstore-setup
 
-  secretstore-setup:
+  security-secretstore-setup:
     image: ${CORE_EDGEX_REPOSITORY}/security-secretstore-setup${ARCH}:${CORE_EDGEX_VERSION}
     user: "root:root" # must run as root
     container_name: edgex-security-secretstore-setup
@@ -177,7 +177,7 @@ services:
       - nginx-templates:/etc/nginx/templates
       - nginx-tls:/etc/ssl/nginx
     depends_on:
-      - secretstore-setup
+      - security-secretstore-setup
     security_opt: 
       - no-new-privileges:true
     tmpfs:
@@ -186,7 +186,7 @@ services:
       - /var/log/nginx
       - /var/run
 
-  proxy-setup:
+  security-proxy-setup:
     image: ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION}
     user: "root:root"
     container_name: edgex-security-proxy-setup
@@ -217,11 +217,11 @@ services:
       - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:ro
     depends_on:
       - security-bootstrapper
-      - secretstore-setup
+      - security-secretstore-setup
     security_opt:
       - no-new-privileges:true
 
-  proxy-auth:
+  security-proxy-auth:
     image: ${CORE_EDGEX_REPOSITORY}/security-proxy-auth${ARCH}:${CORE_EDGEX_VERSION}
     container_name: edgex-proxy-auth
     hostname: edgex-proxy-auth
@@ -246,13 +246,13 @@ services:
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/security-proxy-auth:/tmp/edgex/secrets/security-proxy-auth:ro,z
     depends_on:
-      - secretstore-setup
+      - security-secretstore-setup
     security_opt: 
       - no-new-privileges:true
 
 # end of containers for reverse proxy
 
-  notifications:
+  support-notifications:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
@@ -263,10 +263,10 @@ services:
       - /tmp/edgex/secrets/support-notifications:/tmp/edgex/secrets/support-notifications:ro,z
     depends_on:
       - security-bootstrapper
-      - secretstore-setup
+      - security-secretstore-setup
       - database
 
-  metadata:
+  core-metadata:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
@@ -277,10 +277,10 @@ services:
       - /tmp/edgex/secrets/core-metadata:/tmp/edgex/secrets/core-metadata:ro,z
     depends_on:
       - security-bootstrapper
-      - secretstore-setup
+      - security-secretstore-setup
       - database
 
-  data:
+  core-data:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
@@ -291,10 +291,10 @@ services:
       - /tmp/edgex/secrets/core-data:/tmp/edgex/secrets/core-data:ro,z
     depends_on:
       - security-bootstrapper
-      - secretstore-setup
+      - security-secretstore-setup
       - database
 
-  command:
+  core-command:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
@@ -305,10 +305,10 @@ services:
       - /tmp/edgex/secrets/core-command:/tmp/edgex/secrets/core-command:ro,z
     depends_on:
       - security-bootstrapper
-      - secretstore-setup
+      - security-secretstore-setup
       - database
 
-  common-config:
+  core-common-config-bootstrapper:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
@@ -319,9 +319,9 @@ services:
       - /tmp/edgex/secrets/core-common-config-bootstrapper:/tmp/edgex/secrets/core-common-config-bootstrapper:ro,z
     depends_on:
       - security-bootstrapper
-      - secretstore-setup
+      - security-secretstore-setup
 
-  scheduler:
+  support-scheduler:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
@@ -332,12 +332,12 @@ services:
       - /tmp/edgex/secrets/support-scheduler:/tmp/edgex/secrets/support-scheduler:ro,z
     depends_on:
       - security-bootstrapper
-      - secretstore-setup
+      - security-secretstore-setup
       - database
 
   # this is to make sure the service is started after security-bootstrapper process is done
   # because it needs to await Consul roles to be created
-  app-service-rules:
+  app-rules-engine:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     env_file:

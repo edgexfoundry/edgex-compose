@@ -16,7 +16,7 @@
 version: '3.7'
 
 services:
-  app-service-external-mqtt-trigger:
+  app-external-mqtt-trigger:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
     ports:
       - 127.0.0.1:59706:59706/tcp
@@ -33,7 +33,7 @@ services:
       WRITABLE_LOGLEVEL: INFO
     depends_on:
       - consul
-      - data
+      - core-data
     read_only: true
     restart: always
     networks:

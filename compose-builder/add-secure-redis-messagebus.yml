@@ -20,14 +20,14 @@ volumes:
   kuiper-connections:
 
 services:
-  secretstore-setup:
+  security-secretstore-setup:
     volumes:
       - kuiper-sources:/tmp/kuiper
       - kuiper-connections:/tmp/kuiper-connections
     environment:
       SECUREMESSAGEBUS_TYPE: redis
 
-  rulesengine:
+  rules-engine:
     entrypoint: [ "/edgex-init/kuiper_wait_install.sh" ]
     env_file:
       - common-sec-stage-gate.env
@@ -37,5 +37,5 @@ services:
       - edgex-init:/edgex-init:ro
     depends_on:
       - security-bootstrapper
-      - secretstore-setup
+      - security-secretstore-setup
       - database

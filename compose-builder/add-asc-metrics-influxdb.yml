@@ -29,7 +29,7 @@ services:
       EDGEX_PROFILE: metrics-influxdb
     depends_on:
       - consul
-      - data
+      - core-data
     read_only: true
     restart: always
     networks:

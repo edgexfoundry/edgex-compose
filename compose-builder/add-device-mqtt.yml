@@ -33,8 +33,8 @@ services:
       MQTTBROKERINFO_HOST: edgex-mqtt-broker
     depends_on:
       - consul
-      - data
-      - metadata
+      - core-data
+      - core-metadata
       - mqtt-broker
     security_opt: 
       - no-new-privileges:true

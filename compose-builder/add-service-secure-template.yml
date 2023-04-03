@@ -16,7 +16,7 @@
 version: '3.7'
 
 services:
-  secretstore-setup:
+  security-secretstore-setup:
     environment:
       ADD_SECRETSTORE_TOKENS: ${TOKEN_LIST}
       ADD_KNOWN_SECRETS: ${KNOWN_SECRETS_LIST}
@@ -25,7 +25,7 @@ services:
     environment:
       ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
 
-  proxy-setup:
+  security-proxy-setup:
     environment:
       ADD_PROXY_ROUTE: ${EXTRA_PROXY_ROUTE_LIST}
 
