@@ -35,6 +35,6 @@ services:
     - /tmp/edgex/secrets/security-bootstrapper-messagebus:/tmp/edgex/secrets/security-bootstrapper-messagebus:ro,z
     depends_on:
       - security-bootstrapper
-      - secretstore-setup 
+      - security-secretstore-setup 
     # root privilege required for bootstrapper's process
     user: root:root

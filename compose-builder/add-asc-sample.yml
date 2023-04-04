@@ -16,7 +16,7 @@
 version: '3.7'
 
 services:
-  app-service-sample:
+  app-sample:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
     ports:
       - 127.0.0.1:59700:59700/tcp
@@ -32,7 +32,7 @@ services:
       CLIENTS_SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
     depends_on:
       - consul
-      - data
+      - core-data
     read_only: true
     restart: always
     networks:

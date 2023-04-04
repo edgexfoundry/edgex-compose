@@ -65,7 +65,7 @@ services:
     security_opt: 
       - no-new-privileges:true
 
-  notifications:
+  support-notifications:
     image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
@@ -86,7 +86,7 @@ services:
     security_opt: 
       - no-new-privileges:true
 
-  metadata:
+  core-metadata:
     image: ${CORE_EDGEX_REPOSITORY}/core-metadata${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
@@ -107,7 +107,7 @@ services:
     security_opt:
       - no-new-privileges:true
 
-  data:
+  core-data:
     image: ${CORE_EDGEX_REPOSITORY}/core-data${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
@@ -125,11 +125,11 @@ services:
     depends_on:
       - consul
       - database
-      - metadata
+      - core-metadata
     security_opt: 
       - no-new-privileges:true
 
-  command:
+  core-command:
     image: ${CORE_EDGEX_REPOSITORY}/core-command${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
@@ -148,11 +148,11 @@ services:
     depends_on:
       - consul
       - database
-      - metadata
+      - core-metadata
     security_opt: 
       - no-new-privileges:true
 
-  common-config:
+  core-common-config-bootstrapper:
     image: ${CORE_EDGEX_REPOSITORY}/core-common-config-bootstrapper${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     container_name: edgex-core-common-config-bootstrapper
@@ -173,7 +173,7 @@ services:
     security_opt:
       - no-new-privileges:true
 
-  scheduler:
+  support-scheduler:
     image: ${CORE_EDGEX_REPOSITORY}/support-scheduler${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
@@ -196,7 +196,7 @@ services:
     security_opt: 
       - no-new-privileges:true
 
-  app-service-rules:
+  app-rules-engine:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
@@ -214,11 +214,11 @@ services:
       SERVICE_HOST: edgex-app-rules-engine
     depends_on:
       - consul
-      - data
+      - core-data
     security_opt: 
       - no-new-privileges:true
 
-  rulesengine:
+  rules-engine:
     image: lfedge/ekuiper:${KUIPER_VERSION}
     user: "kuiper:kuiper"
     ports:

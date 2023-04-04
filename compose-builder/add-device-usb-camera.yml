@@ -34,8 +34,8 @@ services:
       SERVICE_HOST: edgex-device-usb-camera
     depends_on:
       - consul
-      - data
-      - metadata
+      - core-data
+      - core-metadata
     security_opt:
       - no-new-privileges:true
     user: root:root

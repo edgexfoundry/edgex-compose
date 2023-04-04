@@ -16,7 +16,7 @@
 version: '3.7'
 
 services:
-  app-service-mqtt-export:
+  app-mqtt-export:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
     ports:
       - 127.0.0.1:59703:59703/tcp
@@ -32,7 +32,7 @@ services:
       WRITABLE_LOGLEVEL: INFO # allows scripts to find and change with sed
     depends_on:
       - consul
-      - data
+      - core-data
     read_only: true
     restart: always
     networks:

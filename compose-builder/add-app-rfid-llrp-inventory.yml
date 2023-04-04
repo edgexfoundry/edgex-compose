@@ -31,7 +31,7 @@ services:
       SERVICE_HOST: edgex-app-rfid-llrp-inventory
     depends_on:
       - consul
-      - data
+      - core-data
     read_only: true
     restart: always
     networks:

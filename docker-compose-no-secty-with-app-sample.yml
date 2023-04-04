@@ -26,12 +26,12 @@
 #
 name: edgex
 services:
-  app-service-rules:
+  app-rules-engine:
     container_name: edgex-app-rules-engine
     depends_on:
       consul:
         condition: service_started
-      data:
+      core-data:
         condition: service_started
     environment:
       EDGEX_PROFILE: rules-engine
@@ -52,12 +52,12 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
-  app-service-sample:
+  app-sample:
     container_name: edgex-app-sample
     depends_on:
       consul:
         condition: service_started
-      data:
+      core-data:
         condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
@@ -78,54 +78,6 @@ services:
       protocol: tcp
     read_only: true
     restart: always
-    security_opt:
-    - no-new-privileges:true
-    user: 2002:2001
-  command:
-    container_name: edgex-core-command
-    depends_on:
-      consul:
-        condition: service_started
-      database:
-        condition: service_started
-      metadata:
-        condition: service_started
-    environment:
-      EDGEX_SECURITY_SECRET_STORE: "false"
-      EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
-      SERVICE_HOST: edgex-core-command
-    hostname: edgex-core-command
-    image: nexus3.edgexfoundry.org:10004/core-command:latest
-    networks:
-      edgex-network: null
-    ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59882
-      published: "59882"
-      protocol: tcp
-    read_only: true
-    restart: always
-    security_opt:
-    - no-new-privileges:true
-    user: 2002:2001
-  common-config:
-    container_name: edgex-core-common-config-bootstrapper
-    depends_on:
-      consul:
-        condition: service_started
-    environment:
-      ALL_SERVICES_DATABASE_HOST: edgex-redis
-      ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
-      ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
-      APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
-      EDGEX_SECURITY_SECRET_STORE: "false"
-    hostname: edgex-core-common-config-bootstrapper
-    image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper:latest
-    networks:
-      edgex-network: null
-    read_only: true
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
@@ -162,14 +114,62 @@ services:
       source: consul-data
       target: /consul/data
       volume: {}
-  data:
+  core-command:
+    container_name: edgex-core-command
+    depends_on:
+      consul:
+        condition: service_started
+      core-metadata:
+        condition: service_started
+      database:
+        condition: service_started
+    environment:
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
+      SERVICE_HOST: edgex-core-command
+    hostname: edgex-core-command
+    image: nexus3.edgexfoundry.org:10004/core-command:latest
+    networks:
+      edgex-network: null
+    ports:
+    - mode: ingress
+      host_ip: 127.0.0.1
+      target: 59882
+      published: "59882"
+      protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  core-common-config-bootstrapper:
+    container_name: edgex-core-common-config-bootstrapper
+    depends_on:
+      consul:
+        condition: service_started
+    environment:
+      ALL_SERVICES_DATABASE_HOST: edgex-redis
+      ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
+      ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
+      APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      EDGEX_SECURITY_SECRET_STORE: "false"
+    hostname: edgex-core-common-config-bootstrapper
+    image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper:latest
+    networks:
+      edgex-network: null
+    read_only: true
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  core-data:
     container_name: edgex-core-data
     depends_on:
       consul:
         condition: service_started
-      database:
+      core-metadata:
         condition: service_started
-      metadata:
+      database:
         condition: service_started
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -183,6 +183,31 @@ services:
       host_ip: 127.0.0.1
       target: 59880
       published: "59880"
+      protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  core-metadata:
+    container_name: edgex-core-metadata
+    depends_on:
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+    environment:
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      SERVICE_HOST: edgex-core-metadata
+    hostname: edgex-core-metadata
+    image: nexus3.edgexfoundry.org:10004/core-metadata:latest
+    networks:
+      edgex-network: null
+    ports:
+    - mode: ingress
+      host_ip: 127.0.0.1
+      target: 59881
+      published: "59881"
       protocol: tcp
     read_only: true
     restart: always
@@ -216,9 +241,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      data:
+      core-data:
         condition: service_started
-      metadata:
+      core-metadata:
         condition: service_started
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -243,9 +268,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      data:
+      core-data:
         condition: service_started
-      metadata:
+      core-metadata:
         condition: service_started
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -265,57 +290,7 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
-  metadata:
-    container_name: edgex-core-metadata
-    depends_on:
-      consul:
-        condition: service_started
-      database:
-        condition: service_started
-    environment:
-      EDGEX_SECURITY_SECRET_STORE: "false"
-      SERVICE_HOST: edgex-core-metadata
-    hostname: edgex-core-metadata
-    image: nexus3.edgexfoundry.org:10004/core-metadata:latest
-    networks:
-      edgex-network: null
-    ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59881
-      published: "59881"
-      protocol: tcp
-    read_only: true
-    restart: always
-    security_opt:
-    - no-new-privileges:true
-    user: 2002:2001
-  notifications:
-    container_name: edgex-support-notifications
-    depends_on:
-      consul:
-        condition: service_started
-      database:
-        condition: service_started
-    environment:
-      EDGEX_SECURITY_SECRET_STORE: "false"
-      SERVICE_HOST: edgex-support-notifications
-    hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/support-notifications:latest
-    networks:
-      edgex-network: null
-    ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59860
-      published: "59860"
-      protocol: tcp
-    read_only: true
-    restart: always
-    security_opt:
-    - no-new-privileges:true
-    user: 2002:2001
-  rulesengine:
+  rules-engine:
     container_name: edgex-kuiper
     depends_on:
       database:
@@ -364,7 +339,32 @@ services:
       source: kuiper-plugins
       target: /kuiper/plugins
       volume: {}
-  scheduler:
+  support-notifications:
+    container_name: edgex-support-notifications
+    depends_on:
+      consul:
+        condition: service_started
+      database:
+        condition: service_started
+    environment:
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      SERVICE_HOST: edgex-support-notifications
+    hostname: edgex-support-notifications
+    image: nexus3.edgexfoundry.org:10004/support-notifications:latest
+    networks:
+      edgex-network: null
+    ports:
+    - mode: ingress
+      host_ip: 127.0.0.1
+      target: 59860
+      published: "59860"
+      protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+  support-scheduler:
     container_name: edgex-support-scheduler
     depends_on:
       consul:

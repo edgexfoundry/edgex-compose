@@ -32,8 +32,8 @@ services:
       SERVICE_HOST: edgex-device-rest
     depends_on:
       - consul
-      - data
-      - metadata
+      - core-data
+      - core-metadata
     security_opt: 
       - no-new-privileges:true
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
