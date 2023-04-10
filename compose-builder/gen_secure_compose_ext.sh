@@ -51,6 +51,15 @@ SERVICE_EXT_COMPOSE_PATH=./"$GEN_EXT_DIR"/add-"$service_name"-secure.yml
 sed 's/${SERVICE_NAME}:/'"$service_name"':/g' "$ADD_SERVICE_SECURE_FILE_TEMPLATE" > "$SERVICE_EXT_COMPOSE_PATH"
 sed -i 's/${SERVICE_KEY}/'"$service_key"'/g' "$SERVICE_EXT_COMPOSE_PATH"
 sed -i 's/${EXECUTABLE}/'"$executable"'/g' "$SERVICE_EXT_COMPOSE_PATH"
+case "${service_name}" in
+  device-bacnet | device-coap | device-gpio)
+    # These services don't have dumb-init in their containers, causing an issue for the wait script, use sh instead
+    sed -i 's/${SHELL_OVERRIDE}/"\/bin\/sh", /g' "$SERVICE_EXT_COMPOSE_PATH"
+    ;;
+  *)
+    sed -i 's/${SHELL_OVERRIDE}//g' "$SERVICE_EXT_COMPOSE_PATH"
+    ;;
+esac
 # optional with default value
 if [ "$num_of_args" -eq 4 ]; then
     sed -i 's/ ${DEFAULT_EDGEX_RUN_CMD_PARMS}/'"$params"'/g' "$SERVICE_EXT_COMPOSE_PATH"

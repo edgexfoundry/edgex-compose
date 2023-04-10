@@ -30,7 +30,7 @@ services:
       ADD_PROXY_ROUTE: ${EXTRA_PROXY_ROUTE_LIST}
 
   ${SERVICE_NAME}:
-    entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
+    entrypoint: [${SHELL_OVERRIDE} "/edgex-init/ready_to_run_wait_install.sh"]
     command: "/${EXECUTABLE} ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
     env_file:
       - common-security.env
