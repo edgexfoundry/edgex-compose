@@ -100,6 +100,13 @@ else
     export MQTT_VERBOSE=
 endif
 
+# When in delay-start mode, we have to make sure support serivces be delayed-start-compliant: i.e. the runtime-token configuration be added etc..
+ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+	ext_file_sup_notif:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh support-notifications)
+	ext_file_sup_sch:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh support-scheduler)
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file_sup_notif) -f $(ext_file_sup_sch)
+endif
+
 # Add Device Services
 ifeq (ds-onvif-camera, $(filter ds-onvif-camera,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-onvif-camera.yml
