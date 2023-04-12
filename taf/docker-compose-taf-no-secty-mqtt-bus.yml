@@ -52,7 +52,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-export
     hostname: edgex-app-external-mqtt-trigger
-    image: edgexfoundry/app-service-configurable:2.1.1
+    image: edgexfoundry/app-service-configurable:2.1.2
     networks:
       edgex-network: {}
     ports:
@@ -82,7 +82,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: app-functional-tests
-    image: edgexfoundry/app-service-configurable:2.1.1
+    image: edgexfoundry/app-service-configurable:2.1.2
     networks:
       edgex-network: {}
     ports:
@@ -120,7 +120,7 @@ services:
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
     hostname: edgex-app-http-export
-    image: edgexfoundry/app-service-configurable:2.1.1
+    image: edgexfoundry/app-service-configurable:2.1.2
     networks:
       edgex-network: {}
     ports:
@@ -160,7 +160,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: tcp://MQTT_BROKER_ADDRESS_PLACE_HOLDER:1883
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-mqtt-export
-    image: edgexfoundry/app-service-configurable:2.1.1
+    image: edgexfoundry/app-service-configurable:2.1.2
     networks:
       edgex-network: {}
     ports:
@@ -196,7 +196,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: tcp
       TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:2.1.1
+    image: edgexfoundry/app-service-configurable:2.1.2
     networks:
       edgex-network: {}
     ports:
@@ -580,7 +580,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: scalability-test-mqtt-export
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-scalability-test-mqtt-export
-    image: edgexfoundry/app-service-configurable:2.1.1
+    image: edgexfoundry/app-service-configurable:2.1.2
     networks:
       edgex-network: {}
     ports:
