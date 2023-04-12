@@ -76,7 +76,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:2.3.0
+    image: edgexfoundry/app-service-configurable:2.3.1
     networks:
       edgex-network: {}
     ports:
@@ -138,7 +138,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-sample
-    image: edgexfoundry/app-service-configurable:2.3.0
+    image: edgexfoundry/app-service-configurable:2.3.1
     networks:
       edgex-network: {}
     ports:

@@ -80,7 +80,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-mqtt-export
-    image: edgexfoundry/app-service-configurable:2.3.0
+    image: edgexfoundry/app-service-configurable:2.3.1
     networks:
       edgex-network: {}
     ports:
@@ -141,7 +141,7 @@ services:
       TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: edgex-redis
       TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: edgex-redis
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:2.3.0
+    image: edgexfoundry/app-service-configurable:2.3.1
     networks:
       edgex-network: {}
     ports:
