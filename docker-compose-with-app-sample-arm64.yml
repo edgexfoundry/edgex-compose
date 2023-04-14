@@ -168,7 +168,7 @@ services:
     entrypoint:
     - /edgex-init/consul_wait_install.sh
     environment:
-      ADD_REGISTRY_ACL_ROLES: app-sample
+      EDGEX_ADD_REGISTRY_ACL_ROLES: app-sample
       EDGEX_GROUP: "2001"
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: "2002"
@@ -978,8 +978,8 @@ services:
       vault:
         condition: service_started
     environment:
-      ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],message-bus[device-rest],redisdb[device-virtual],message-bus[device-virtual],redisdb[app-sample],message-bus[app-sample]
-      ADD_SECRETSTORE_TOKENS: app-sample
+      EDGEX_ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],message-bus[device-rest],redisdb[device-virtual],message-bus[device-virtual],redisdb[app-sample],message-bus[app-sample]
+      EDGEX_ADD_SECRETSTORE_TOKENS: app-sample
       EDGEX_GROUP: "2001"
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: "2002"

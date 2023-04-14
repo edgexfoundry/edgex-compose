@@ -75,10 +75,10 @@ services:
     environment:
       EDGEX_USER: ${EDGEX_USER}
       EDGEX_GROUP: ${EDGEX_GROUP}
-      # Uncomment and modify the following "ADD_SECRETSTORE_TOKENS" to add the additional secret store tokens on the fly
-      # the secret store token is required if you have added registry acl roles from env "ADD_REGISTRY_ACL_ROLES"
+      # Uncomment and modify the following "EDGEX_ADD_SECRETSTORE_TOKENS" to add the additional secret store tokens on the fly
+      # the secret store token is required if you have added registry acl roles from env "EDGEX_ADD_REGISTRY_ACL_ROLES"
       # in service "consul".
-      #ADD_SECRETSTORE_TOKENS: app-sample,app-rules-engine-redis, app-rules-engine-mqtt, app-push-to-core
+      #EDGEX_ADD_SECRETSTORE_TOKENS: app-sample,app-rules-engine-redis, app-rules-engine-mqtt, app-push-to-core
     read_only: true
     restart: always
     networks:

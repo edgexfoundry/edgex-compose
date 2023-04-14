@@ -18,12 +18,12 @@ version: '3.7'
 services:
   security-secretstore-setup:
     environment:
-      ADD_SECRETSTORE_TOKENS: ${TOKEN_LIST}
-      ADD_KNOWN_SECRETS: ${KNOWN_SECRETS_LIST}
+      EDGEX_ADD_SECRETSTORE_TOKENS: ${TOKEN_LIST}
+      EDGEX_ADD_KNOWN_SECRETS: ${KNOWN_SECRETS_LIST}
 
   consul:
     environment:
-      ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
+      EDGEX_ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
 
   security-proxy-setup:
     environment:
