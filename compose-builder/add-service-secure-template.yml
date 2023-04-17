@@ -27,7 +27,7 @@ services:
 
   security-proxy-setup:
     environment:
-      ADD_PROXY_ROUTE: ${EXTRA_PROXY_ROUTE_LIST}
+      EDGEX_ADD_PROXY_ROUTE: ${EXTRA_PROXY_ROUTE_LIST}
 
   ${SERVICE_NAME}:
     entrypoint: [${SHELL_OVERRIDE} "/edgex-init/ready_to_run_wait_install.sh"]
