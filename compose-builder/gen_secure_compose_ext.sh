@@ -50,7 +50,7 @@ ADD_SERVICE_SECURE_FILE_TEMPLATE="add-service-secure-template.yml"
 SERVICE_EXT_COMPOSE_PATH=./"$GEN_EXT_DIR"/add-"$service_name"-secure.yml
 sed 's/${SERVICE_NAME}:/'"$service_name"':/g' "$ADD_SERVICE_SECURE_FILE_TEMPLATE" > "$SERVICE_EXT_COMPOSE_PATH"
 sed -i 's/${SERVICE_KEY}/'"$service_key"'/g' "$SERVICE_EXT_COMPOSE_PATH"
-sed -i 's/${EXECUTABLE}/'"$executable"'/g' "$SERVICE_EXT_COMPOSE_PATH"
+sed -i 's,${EXECUTABLE},'"$executable"',g' "$SERVICE_EXT_COMPOSE_PATH"
 case "${service_name}" in
   device-bacnet | device-coap | device-gpio)
     # These services don't have dumb-init in their containers, causing an issue for the wait script, use sh instead
@@ -62,7 +62,7 @@ case "${service_name}" in
 esac
 # optional with default value
 if [ "$num_of_args" -eq 4 ]; then
-    sed -i 's/ ${DEFAULT_EDGEX_RUN_CMD_PARMS}/'"$params"'/g' "$SERVICE_EXT_COMPOSE_PATH"
+    sed -i 's, ${DEFAULT_EDGEX_RUN_CMD_PARMS},'"$params"',g' "$SERVICE_EXT_COMPOSE_PATH"
 fi
 
 # app-service-mqtt-export has non-empty env section
