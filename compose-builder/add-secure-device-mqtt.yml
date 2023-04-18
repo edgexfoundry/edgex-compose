@@ -19,4 +19,4 @@ services:
   device-mqtt:
     environment:
       MQTTBROKERINFO_AUTHMODE: usernamepassword
-      MQTTBROKERINFO_CREDENTIALSPATH: message-bus
+      MQTTBROKERINFO_CREDENTIALSNAME: message-bus
