@@ -1,5 +1,5 @@
 # /*******************************************************************************
-#  * Copyright 2022 Intel
+#  * Copyright 2023 Intel
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -143,11 +143,11 @@ ifeq (ds-usb-camera, $(filter ds-usb-camera,$(ARGS)))
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-usb-camera],message-bus[device-usb-camera]
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-usb-camera)
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-usb-camera device-usb-camera docker-entrypoint.sh)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 		# add runtime token config for delayed-start if specified
 		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
-			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-usb-camera)
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-usb-camera device-usb-camera docker-entrypoint.sh)
 			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
 		endif
 	endif
