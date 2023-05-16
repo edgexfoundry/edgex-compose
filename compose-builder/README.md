@@ -49,7 +49,7 @@ The `Extending using multiple Compose files` approach along with environment fil
 This folder contains the following compose files:
 
 - **docker-compose-base.yml**<br/>
-  Base non-secure mode compose file. Contains all the services that run in the non-secure configuration, including the UI.  
+    Base non-secure mode compose file. Contains all the services that run in the non-secure configuration, including the UI.  
 - **add-security.yml**<br/>
     Security **extending** compose file. Adds the additional security services and configuration of services so that all the services are running in the secure configuration.
 - **add-secure-redis-messagebus.yml**<br/>
@@ -61,7 +61,7 @@ This folder contains the following compose files:
 - **add-device-onvif-camera.yml**<br/>
     Device Service **extending** compose file, which adds the **Device ONVIF Camera**  service.
 - **add-device-usb-camera.yml**<br/>
-    Device Service **extending** compose file, which adds the **Device USB Camera**  service.
+    Device Service **extending** compose file, which adds the **Device USB Camera**  service. Can be used in conjunction with add-rtsp-server.yml to stream USB cameras over RTSP.
 - **add-device-modbus.yml**<br/>
     Device Service **extending** compose file, which adds the **Device Modbus**  service.
 - **add-device-mqtt.yml**<br/>
@@ -98,7 +98,9 @@ This folder contains the following compose files:
     A template for a single service **extending** compose file from its base service for security mode,
     and the service is enabled with secret store by default.
 - **add-modbus-simulator.yml**<br/>
-    ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. Must be used in conjunction with  **add-device-modbus.yml**
+    ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. **Must be used in conjunction with add-device-modbus.yml** 
+- **add-rtsp-server.yml**<br/>
+    RTSP Server **extending** compose file. Adds a RTSP server based on mediamtx/rtsp-simple-server. Can be used in conjunction with add-device-usb-camera.yml to stream USB cameras over RTSP.
 - **add-mqtt-broker.yml**<br/>
     MQTT Broker **extending** compose file. Adds the Eclipse Mosquitto MQTT Broker.
 - **add-secure-mqtt-broker.yml**<br/>
@@ -205,6 +207,7 @@ Options:
     ds-gpio:         Runs with device-gpio included
     ds-llrp:         Runs with device-rfid-llrp included
     modbus-sim:      Runs with ModBus simulator included
+    rtsp-server:     Runs with RTSP server included
     asc-http:        Runs with App Service HTTP Export included
     asc-mqtt:        Runs with App Service MQTT Export included
     asc-metrics:     Runs with App Service Metrics InfluxDb included
@@ -257,6 +260,7 @@ Options:
     ds-gpio:         Pull includes device-gpio
     ds-llrp:         Pull includes device-rfid-llrp
     modbus-sim:      Pull includes ModBus simulator
+    rtsp-server:     Pull includes RTSP server
     asc-http:        Pull includes App Service HTTP Export
     asc-mqtt:        Pull includes App Service MQTT Export
     asc-metrics:     Pull includes App Service Metrics InfluxDb included
@@ -301,6 +305,7 @@ Options:
     ds-gpio:         Generates compose file with device-gpio included
     ds-llrp:         Generates compose file with device-rfid-llrp included
     modbus-sim:      Generates compose file with ModBus simulator included
+    rtsp-server:     Generates compose file with RTSP server included
     asc-http:        Generates compose file with App Service HTTP Export included
     asc-mqtt:        Generates compose file with App Service MQTT Export included
     asc-metrics:     Generates compose file with App Service Metrics InfluxDb included
@@ -381,6 +386,7 @@ Options:
     ds-gpio:       Generates compose file with device-gpio included
     ds-llrp:       Generates compose file with device-rfid-llrp included
     modbus-sim:    Generates compose file with ModBus simulator included
+    rtsp-server:   Generates compose file with RTSP server included
     asc-http:      Generates compose file with App Service HTTP Export included
     asc-mqtt:      Generates compose file with App Service MQTT Export included
     asc-metrics:   Generates compose file with App Service Metrics InfluxDb included

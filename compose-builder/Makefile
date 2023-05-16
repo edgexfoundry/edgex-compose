@@ -41,9 +41,9 @@ define OPTIONS
  - arm64 no-secty dev app-dev device-dev ui-dev delayed-start -
  - nats-bus mqtt-bus mqtt-broker mqtt-verbose -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
- - ds-onvif-camera  ds-usb-camera ds-bacnet ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
+ - ds-onvif-camera ds-usb-camera ds-bacnet ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp asc-ex-mqtt -
- - modbus-sim -
+ - modbus-sim rtsp-server -
 endef
 export OPTIONS
 
@@ -555,6 +555,11 @@ else
 	endif
 endif
 
+# Add an RTSP Server
+ifeq (rtsp-server, $(filter rtsp-server,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-rtsp-server.yml
+endif
+
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,app-sample,device-modbus,app-external-mqtt-trigger,device-onvif-camera
@@ -693,6 +698,7 @@ define COMPOSE_DOWN
 		-f add-device-bacnet.yml \
 		-f add-device-onvif-camera.yml \
 		-f add-device-usb-camera.yml \
+		-f add-rtsp-server.yml \
 		-f add-device-modbus.yml \
 		-f add-device-mqtt.yml \
 		-f add-secure-device-mqtt.yml \

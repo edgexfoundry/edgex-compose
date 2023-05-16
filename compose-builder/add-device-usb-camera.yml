@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2022 Intel Corporation
+# Copyright (c) 2022-2023 Intel Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ services:
     image: ${DEVICE_SVC_REPOSITORY}/device-usb-camera${ARCH}:${DEVICE_USBCAM_VERSION}
     ports:
       - "127.0.0.1:59983:59983"
-      - "127.0.0.1:8554:8554/tcp"
     container_name: edgex-device-usb-camera
     hostname: edgex-device-usb-camera
     read_only: true
@@ -32,6 +31,7 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-device-usb-camera
+      DRIVER_RTSPSERVERHOSTNAME: edgex-rtsp-server
     depends_on:
       - consul
       - core-data
