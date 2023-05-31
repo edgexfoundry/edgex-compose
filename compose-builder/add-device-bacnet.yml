@@ -18,6 +18,7 @@ version: '3.7'
 services:
   device-bacnet:
     image: ${DEVICE_SVC_REPOSITORY}/device-bacnet${ARCH}:${DEVICE_BACNET_VERSION}
+    command: "-cp=consul://edgex-core-consul:8500 --registry"
     ports:
       - "127.0.0.1:59980:59980"
     container_name: edgex-device-bacnet
@@ -28,6 +29,10 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-device-bacnet
+      REGISTRY_HOST: edgex-core-consul
+      DATABASE_HOST: edgex-redis
+      MESSAGEBUS_HOST: edgex-redis
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
     depends_on:
       - consul
       - core-data
