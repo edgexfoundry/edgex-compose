@@ -30,6 +30,10 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-device-coap
+      REGISTRY_HOST: edgex-core-consul
+      DATABASE_HOST: edgex-redis
+      MESSAGEBUS_HOST: edgex-redis
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
     depends_on:
       - consul
       - core-data

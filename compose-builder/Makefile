@@ -165,7 +165,7 @@ ifeq (ds-bacnet, $(filter ds-bacnet,$(ARGS)))
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-bacnet],message-bus[device-bacnet]
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet device-bacnet device-bacnet-ip/device-bacnet-c " -cp=consul://edgex-core-consul:8500 --registry --confdir=/res")
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet device-bacnet device-bacnet-ip/device-bacnet-c " -cp=consul://edgex-core-consul:8500 --registry")
 
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 		# add runtime token config for delayed-start if specified
