@@ -1,40 +1,24 @@
-## Edgex Docker Compose Builder
+## Edgex Docker Compose Builder (Minnesota)
 
-This folder contains the `Compose Builder` which is made up of **source** compose, **environment** files and a **makefile** for building the single file docker composes files. The `master` branch builds the `pre-release`  compose files which are placed in the top level of this repository. 
+This folder contains the `Compose Builder` which is made up of **source** compose and environment files and **makefile** 
+for building the single file docker composes files configured for the **Minnesota** release.
 
-### **Note to Developers**: 
-> *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
->
-> Any options added or removed to/from the `make gen` and `make run` commands must to also be added/removed to/from the new` tui-generator.sh` script
->
+> **Note to Developers**: For **Minnesota** patch releases, once you have edited and tested your changes to the source compose 
+> files you **MUST** regenerate the committed **Minnesota** compose files using the `make build` command.
+> Once the PR is merged the v3.0 vanity tag must be moved to the latest commit on the `minnesota` branch.
+> 
+### Generating Custom Compose files
+
+If one of the standard committed `minnesota` compose files doesn't meet your needs, you can generate and run a custom `minnesota` 
+compose file using the `make gen <options>` command. See [Gen](https://github.com/edgexfoundry/edgex-compose/blob/minnesota/compose-builder/README.md#gen) 
+and [Run](https://github.com/edgexfoundry/edgex-compose/blob/minnesota/compose-builder/README.md#run) target details below. 
+`Run` simply runs the custom compose file after generating it.
 
 ### Compose CLI Command
 
 The Makefile in this folder expects the `docker compose` CLI command.
 The old stand-alone `docker-compose` tool is no longer supported.
 See https://docs.docker.com/compose/install/ for installation details for the latest `docker compose` CLI command.
-
-### Generate next release compose files
-
-Do the following to generate the compose files for next release such as `minnesota`
-
-1. Create the new `release` branch from this branch, i.e create the `minnesota` branch (**Now done by DevOps release processes**)
-2. Checkout a new working branch from the new `release` branch
-3. Update the `REPOSITORY`, `CORE_EDGEX_REPOSITORY` and `APP_SVC_REPOSITORY` (**Now done by DevOps release processes**)
-4. Update `versions` contained in the `.env` file appropriately for the new release
-5. Run `make build` 
-6. Update the two READMEs to be specific to the new `release`
-7. Commit changes, open PR and merge PR
-8. TAG the new release branch (**Now done by DevOps release processes**)
-9. Update EdgeX documentation to refer to the new release branch. (**Now done by DevOps release processes**)
-
-### Generate dot release compose files
-
-1. Checkout a new working branch from the target `release` branch for the dot release, i.e the `jakarta` branch
-2. Update the and `versions` contained in the `.env` file appropriately for the dot release
-3. Run `make build` 
-4. Commit changes, open PR and merge PR
-5. TAG the release branch for the dot release (**Now done by DevOps release processes**)
 
 ### Multiple Compose files approach
 
