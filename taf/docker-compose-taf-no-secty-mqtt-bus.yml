@@ -10,7 +10,7 @@
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
 #  *
-#  * EdgeX Foundry, Kamakura WIP release
+#  * EdgeX Foundry, Kamakura release
 #  *******************************************************************************/
 #
 #
@@ -42,7 +42,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-export
     hostname: edgex-app-external-mqtt-trigger
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    image: edgexfoundry/app-service-configurable:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -68,7 +68,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-functional-tests
     hostname: edgex-app-functional-tests
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    image: edgexfoundry/app-service-configurable:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -94,7 +94,7 @@ services:
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
     hostname: edgex-app-http-export
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    image: edgexfoundry/app-service-configurable:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -123,7 +123,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-mqtt-export
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    image: edgexfoundry/app-service-configurable:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -149,7 +149,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    image: edgexfoundry/app-service-configurable:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -178,7 +178,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-sample
     hostname: edgex-app-sample
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    image: edgexfoundry/app-service-configurable:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -210,7 +210,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: app-scalability-test-mqtt-export
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-scalability-test-mqtt-export
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    image: edgexfoundry/app-service-configurable:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -269,7 +269,7 @@ services:
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: nexus3.edgexfoundry.org:10004/core-command:latest
+    image: edgexfoundry/core-command:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -300,7 +300,7 @@ services:
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
     hostname: edgex-core-common-config-bootstrapper
-    image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper:latest
+    image: edgexfoundry/core-common-config-bootstrapper:3.0.0
     networks:
       edgex-network: null
     read_only: true
@@ -320,7 +320,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: nexus3.edgexfoundry.org:10004/core-data:latest
+    image: edgexfoundry/core-data:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -345,7 +345,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: nexus3.edgexfoundry.org:10004/core-metadata:latest
+    image: edgexfoundry/core-metadata:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -400,7 +400,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-modbus
     hostname: edgex-device-modbus
-    image: nexus3.edgexfoundry.org:10004/device-modbus:latest
+    image: edgexfoundry/device-modbus:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -434,7 +434,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-onvif-camera
     hostname: edgex-device-onvif-camera
-    image: nexus3.edgexfoundry.org:10004/device-onvif-camera:latest
+    image: edgexfoundry/device-onvif-camera:latest
     networks:
       edgex-network: null
     ports:
@@ -461,7 +461,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: nexus3.edgexfoundry.org:10004/device-rest:latest
+    image: edgexfoundry/device-rest:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -492,7 +492,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: nexus3.edgexfoundry.org:10004/device-virtual:latest
+    image: edgexfoundry/device-virtual:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -643,7 +643,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/support-notifications:latest
+    image: edgexfoundry/support-notifications:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -670,7 +670,7 @@ services:
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-scheduler:latest
+    image: edgexfoundry/support-scheduler:3.0.0
     networks:
       edgex-network: null
     ports:
@@ -690,7 +690,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-ui-go
     hostname: edgex-ui-go
-    image: nexus3.edgexfoundry.org:10004/edgex-ui:latest
+    image: edgexfoundry/edgex-ui:3.0.0
     networks:
       edgex-network: null
     ports:
