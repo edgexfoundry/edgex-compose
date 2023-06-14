@@ -99,10 +99,12 @@ This folder contains the following compose files:
     and the service is enabled with secret store by default.
 - **add-modbus-simulator.yml**<br/>
     ModBus Simulator **extending** compose file. Adds the MQTT ModBus Simulator service. Must be used in conjunction with  **add-device-modbus.yml**
-- **add-mqtt-broker.yml**<br/>
+- **add-mqtt-broker-mosquitto.yml**<br/>
     MQTT Broker **extending** compose file. Adds the Eclipse Mosquitto MQTT Broker.
+- **add-mqtt-broker-nanomq.yml**<br/>
+    MQTT Broker **extending** compose file. Adds the NanoMQ MQTT Broker. **## Experimental ##**
 - **add-secure-mqtt-broker.yml**<br/>
-    MQTT Broker **extending** compose file. Adds the Secure Eclipse Mosquitto MQTT Broker.
+    MQTT Broker **extending** compose file. Adds the Secure Eclipse Mosquitto MQTT Broker. 
 - **add-mqtt-messagebus.yml**<br/>
     MQTT MesssageBus **extending** compose file. Adds additional configuration of services so that the `MQTT` implementation of the Edgex Message Bus is used. **Must be used in conjunction with add-mqtt-broker.yml**
 - **add-secure-mqtt-messagebus.yml**<br/>
@@ -214,7 +216,10 @@ Options:
     mqtt-broker:     Runs with a MQTT Broker service included
     mqtt-bus:        Runs with services configure for MQTT Message Bus
                      The MQTT Broker service is also included.
-    mqtt-verbose     Enables MQTT Broker verbose logging.
+    mqtt-verbose:    Enables MQTT Broker verbose logging.
+    nanomq:          ** Experimental ** 
+                     Uses NonoMQ MQTT broker when mqtt-broker or mqtt-bus are specified
+                     Not valid in secure mode when uses with mqtt-bus
     nats-bus:        Runs with services configure for NATS Message Bus
                      The NATS Server service is also included.
 Services:
@@ -265,6 +270,9 @@ Options:
     asc-ex-mqtt:     Pull includes App Service External MQTT Trigger
     mqtt-broker:     Pull includes MQTT Broker service
     mqtt-bus:        Pull includes additional services for MQTT Message Bus
+    nanomq:          ** Experimental ** 
+                     Pull includes NonoMQ MQTT broker when mqtt-broker or mqtt-bus are specified
+                     Not valid in secure mode when uses with mqtt-bus                    
     nats-bus:        Pull includes additional services for NATS Message Bus
 
 Services:
@@ -311,6 +319,9 @@ Options:
     mqtt-bus:        Generates compose file with services configured for MQTT Message Bus
                      The MQTT Broker service is also included.
     mqtt-verbose     Enables MQTT Broker verbose logging.
+    nanomq:          ** Experimental ** 
+                     Generates compose file with NonoMQ MQTT broker when mqtt-broker or mqtt-bus are specified
+                     Not valid in secure mode when uses with mqtt-bus
     nats-bus:        Generates compose file with services configured for NAT Message Bus
                      The NATS Server service is also included.
 ```
@@ -352,6 +363,27 @@ get-consul-acl-token
 Retrieves the Consul ACL token
 ```
 
+#### Build Canned
+```
+build-canned
+
+Generates all the canned standard EdgeX compose files in the top level folder
+```
+
+#### Build Taf
+```
+build-taf
+
+Generates all the EdgeX TAF test compose files in the /taf folder
+```
+
+#### Build Taf NanoMq
+```
+build-taf-nanomq
+
+Generates the non-secure MQTT MessageBus EdgeX TAF testing compose files with NanoMQ for the MQTT Broker in the /taf folder
+```
+
 #### Compose
 
 ```
@@ -390,12 +422,15 @@ Options:
     mqtt-broker:   Generates compose file with a MQTT Broker service included
     mqtt-bus:      Generates compose file with services configure for MQTT Message Bus
                    The MQTT Broker service is also included.
+    nanomq:        ** Experimental ** 
+                   Generates compose file with NonoMQ MQTT broker when mqtt-broker or mqtt-bus are specified
+                   Not valid in secure mode when uses with mqtt-bus
     mqtt-verbose   Enables MQTT Broker verbose logging.
     nats-bus:      Generates compose file with services configure for NATS Message Bus
                    The NATS Server service is also included.
 ```
 
-#### Taf-compose
+#### TAF Compose
 
 ```
 taf-compose [options] 
@@ -407,7 +442,7 @@ Options:
     arm64:        Generates TAF compose file using ARM64 images
 ```
 
-#### Taf-perf-compose
+#### Taf Perf Compose
 
 ```
 taf-perf-compose [options] 

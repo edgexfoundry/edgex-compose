@@ -33,13 +33,17 @@ KNOWN_SECRETS_LIST=redisdb[app-rules-engine]
 EXTRA_PROXY_ROUTE_LIST=
 GEN_EXT_DIR=gen_ext_compose
 BUS=
+NANOMQ=
+
+BROKER_YAML=add-mqtt-broker-mosquitto.yml
+TAF_BROKER_YAML=add-taf-mqtt-broker-mosquitto.yml
 
 # Must have spaces around words for `filter-out` function to work properly.
 # Dashes at beginning & end of line ensure space before/after the first/last option on that line
 # and don't impact the option list
 define OPTIONS
  - arm64 no-secty dev app-dev device-dev ui-dev delayed-start -
- - nats-bus mqtt-bus mqtt-broker mqtt-verbose -
+ - nats-bus mqtt-bus mqtt-broker mqtt-verbose nanomq -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-onvif-camera  ds-usb-camera ds-bacnet ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp asc-ex-mqtt -
@@ -526,17 +530,29 @@ endif
 
 # Add a MQTT Broker
 ifeq (mqtt-broker, $(filter mqtt-broker,$(ARGS)))
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-broker.yml
+	ifeq (nanomq, $(filter nanomq,$(ARGS)))
+		# When just extra un-secured MQTT Broker, nanomq can be used in secure/non-secure modes
+		BROKER_YAML=add-mqtt-broker-nanomq.yml
+	endif
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f ${BROKER_YAML}
 endif
 
 # Add switch to use MQTT Message Bus
 ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
-	ifeq (no-secty, $(filter no-secty,$(ARGS)))
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-mqtt-broker.yml
-	else
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f add-mqtt-broker.yml -f add-secure-mqtt-broker.yml
-	endif
 	BUS:=-mqtt-bus
+	ifeq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq (nanomq, $(filter nanomq,$(ARGS)))
+			NANOMQ:=-nanomq
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-mqtt-broker-nanomq.yml
+		else
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-mqtt-broker-mosquitto.yml
+		endif
+	else
+		ifeq (nanomq, $(filter nanomq,$(ARGS)))
+			ERR:=$(error nanomq option is not valid as MessageBus broker in secure mode)
+		endif
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f add-mqtt-broker-mosquitto.yml -f add-secure-mqtt-broker.yml
+	endif
 endif
 
 # Add switch to use NATS Message Bus
@@ -578,10 +594,10 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-device-modbus.yml \
 		-f add-device-onvif-camera.yml \
 		-f add-taf-device-services-mods.yml \
-		-f add-mqtt-broker.yml \
+		-f add-mqtt-broker-mosquitto.yml \
 		-f add-modbus-simulator.yml \
 		-f add-delayed-start-services.yml \
-		-f add-taf-mqtt-broker.yml \
+		-f add-taf-mqtt-broker-mosquitto.yml \
 
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 		IS_SECURE_MODE:=1
@@ -613,8 +629,14 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext) -f $(asc_external_mqtt_trigger_ext) -f $(scalability_mqtt_export_ext) -f $(asc_sample_ext)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext) -f $(ds_camera_ext)
 else
+	ifeq (nanomq, $(filter nanomq,$(ARGS)))
+		BROKER_YAML=add-mqtt-broker-nanomq.yml
+		TAF_BROKER_YAML=add-taf-mqtt-broker-nanomq.yml
+	endif
+
 	# Build compose for TAF non-secure testing (ignore all other compose file options)
     ifeq (taf-no-secty, $(filter taf-no-secty,$(ARGS)))
+
 		COMPOSE_FILES:= \
 			-f docker-compose-base.yml \
 			-f add-taf-app-services.yml \
@@ -627,9 +649,9 @@ else
 			-f add-device-modbus.yml \
             -f add-device-onvif-camera.yml \
 			-f add-taf-device-services-mods.yml \
-			-f add-mqtt-broker.yml \
+			-f ${BROKER_YAML} \
 			-f add-modbus-simulator.yml \
-			-f add-taf-mqtt-broker.yml 
+			-f ${TAF_BROKER_YAML}
 
         NO_SECURITY:=-no-secty
 
@@ -653,8 +675,8 @@ else
     			-f add-asc-mqtt-export.yml \
     			-f add-device-virtual.yml \
     			-f add-device-rest.yml \
-    			-f add-mqtt-broker.yml \
-				-f add-taf-mqtt-broker.yml \
+    			-f add-mqtt-broker-mosquitto.yml \
+				-f add-taf-mqtt-broker-mosquitto.yml \
 			-f add-delayed-start-services.yml
 			asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)"  IS_MQTT_BUS="0" ./gen_secure_compose_ext.sh app-mqtt-export \
 				app-mqtt-export app-service-configurable)
@@ -669,8 +691,8 @@ else
 					-f add-asc-mqtt-export.yml \
 					-f add-device-virtual.yml \
 					-f add-device-rest.yml \
-					-f add-mqtt-broker.yml \
-					-f add-taf-mqtt-broker.yml 
+					-f ${BROKER_YAML} \
+					-f ${TAF_BROKER_YAML}
 
 				NO_SECURITY:=-no-secty
 			endif
@@ -709,7 +731,8 @@ define COMPOSE_DOWN
 		-f add-asc-metrics-influxdb.yml \
 		-f add-app-rfid-llrp-inventory.yml \
 		-f add-modbus-simulator.yml \
-		-f add-mqtt-broker.yml \
+		-f add-mqtt-broker-mosquitto.yml \
+		-f add-mqtt-broker-nanomq.yml \
 		-f add-secure-mqtt-broker.yml \
 		-f add-mqtt-messagebus.yml \
 		-f add-secure-mqtt-messagebus.yml \
@@ -759,14 +782,18 @@ build-taf:
 	make taf-compose-perf taf-perf arm64
 	make taf-compose-perf taf-perf-no-secty arm64
 
+build-taf-nanomq:
+	make taf-compose taf-no-secty mqtt-bus nanomq no-secty
+	make taf-compose-perf taf-perf-no-secty mqtt-bus nanomq no-secty
+
 compose: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(NO_SECURITY)$(APP_SAMPLE)$(BUS)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(NO_SECURITY)$(APP_SAMPLE)$(BUS)$(NANOMQ)$(ARCH).yml
 
 taf-compose: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml
 
 taf-compose-perf: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml
 
 run: gen
 	${DOCKER_COMPOSE}  -p edgex up -d $(SERVICES)
