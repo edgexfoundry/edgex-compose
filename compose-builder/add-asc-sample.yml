@@ -40,3 +40,6 @@ services:
     security_opt:
       - no-new-privileges:true
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro

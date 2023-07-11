@@ -85,6 +85,12 @@ services:
       read_only: true
       volume: {}
     - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
       source: /tmp/edgex/secrets/app-external-mqtt-trigger
       target: /tmp/edgex/secrets/app-external-mqtt-trigger
       read_only: true
@@ -143,6 +149,12 @@ services:
       target: /edgex-init
       read_only: true
       volume: {}
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: bind
       source: /tmp/edgex/secrets/app-functional-tests
       target: /tmp/edgex/secrets/app-functional-tests
@@ -206,6 +218,12 @@ services:
       target: /edgex-init
       read_only: true
       volume: {}
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: bind
       source: /tmp/edgex/secrets/app-http-export
       target: /tmp/edgex/secrets/app-http-export
@@ -271,6 +289,12 @@ services:
       read_only: true
       volume: {}
     - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
       source: /tmp/edgex/secrets/app-mqtt-export
       target: /tmp/edgex/secrets/app-mqtt-export
       read_only: true
@@ -331,6 +355,12 @@ services:
       target: /edgex-init
       read_only: true
       volume: {}
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: bind
       source: /tmp/edgex/secrets/app-rules-engine
       target: /tmp/edgex/secrets/app-rules-engine
@@ -395,6 +425,12 @@ services:
       target: /edgex-init
       read_only: true
       volume: {}
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: bind
       source: /tmp/edgex/secrets/app-sample
       target: /tmp/edgex/secrets/app-sample
@@ -462,6 +498,12 @@ services:
       target: /edgex-init
       read_only: true
       volume: {}
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: bind
       source: /tmp/edgex/secrets/app-scalability-test-mqtt-export
       target: /tmp/edgex/secrets/app-scalability-test-mqtt-export
@@ -606,6 +648,12 @@ services:
       read_only: true
       volume: {}
     - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
       source: /tmp/edgex/secrets/core-command
       target: /tmp/edgex/secrets/core-command
       read_only: true
@@ -667,6 +715,12 @@ services:
       target: /edgex-init
       read_only: true
       volume: {}
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: bind
       source: /tmp/edgex/secrets/core-common-config-bootstrapper
       target: /tmp/edgex/secrets/core-common-config-bootstrapper
@@ -732,6 +786,12 @@ services:
       read_only: true
       volume: {}
     - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
       source: /tmp/edgex/secrets/core-data
       target: /tmp/edgex/secrets/core-data
       read_only: true
@@ -793,6 +853,12 @@ services:
       target: /edgex-init
       read_only: true
       volume: {}
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: bind
       source: /tmp/edgex/secrets/core-metadata
       target: /tmp/edgex/secrets/core-metadata
@@ -924,6 +990,12 @@ services:
       read_only: true
       volume: {}
     - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
       source: /tmp/edgex/secrets/device-modbus
       target: /tmp/edgex/secrets/device-modbus
       read_only: true
@@ -992,6 +1064,12 @@ services:
       read_only: true
       volume: {}
     - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
       source: /tmp/edgex/secrets/device-onvif-camera
       target: /tmp/edgex/secrets/device-onvif-camera
       read_only: true
@@ -1053,6 +1131,12 @@ services:
       target: /edgex-init
       read_only: true
       volume: {}
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: bind
       source: /tmp/edgex/secrets/device-rest
       target: /tmp/edgex/secrets/device-rest
@@ -1117,6 +1201,12 @@ services:
       read_only: true
       volume: {}
     - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
       source: /tmp/edgex/secrets/device-virtual
       target: /tmp/edgex/secrets/device-virtual
       read_only: true
@@ -1146,6 +1236,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   mqtt-broker:
     command:
     - /usr/sbin/mosquitto
@@ -1360,6 +1457,12 @@ services:
       target: /edgex-init
       read_only: true
       volume: {}
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: volume
       source: kuiper-data
       target: /kuiper/data
@@ -1412,6 +1515,12 @@ services:
     - no-new-privileges:true
     user: root:root
     volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: volume
       source: edgex-init
       target: /edgex-init
@@ -1461,6 +1570,12 @@ services:
     security_opt:
     - no-new-privileges:true
     volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: volume
       source: edgex-init
       target: /edgex-init
@@ -1522,6 +1637,12 @@ services:
       target: /edgex-init
       read_only: true
       volume: {}
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: volume
       source: nginx-templates
       target: /etc/nginx/templates
@@ -1593,6 +1714,12 @@ services:
       read_only: true
       volume: {}
     - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
       source: /tmp/edgex/secrets
       target: /tmp/edgex/secrets
       bind:
@@ -1659,6 +1786,12 @@ services:
     - /run
     user: root:root
     volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: volume
       source: edgex-init
       target: /edgex-init
@@ -1714,6 +1847,12 @@ services:
     - /run
     user: root:root
     volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: volume
       source: edgex-init
       target: /edgex-init
@@ -1774,6 +1913,12 @@ services:
     - /run
     user: root:root
     volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: volume
       source: edgex-init
       target: /edgex-init
@@ -1828,6 +1973,12 @@ services:
     - /run
     user: root:root
     volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: volume
       source: edgex-init
       target: /edgex-init
@@ -1902,6 +2053,12 @@ services:
       read_only: true
       volume: {}
     - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
       source: /tmp/edgex/secrets/support-notifications
       target: /tmp/edgex/secrets/support-notifications
       read_only: true
@@ -1966,6 +2123,12 @@ services:
       read_only: true
       volume: {}
     - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
       source: /tmp/edgex/secrets/support-scheduler
       target: /tmp/edgex/secrets/support-scheduler
       read_only: true
@@ -1991,6 +2154,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   vault:
     cap_add:
     - IPC_LOCK

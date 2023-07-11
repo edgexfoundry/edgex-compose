@@ -46,7 +46,7 @@ services:
     volumes:
       - consul-config:/consul/config
       - consul-data:/consul/data
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
 
   database:
@@ -62,7 +62,7 @@ services:
       - edgex-network
     volumes:
       - db-data:/data
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
 
   support-notifications:
@@ -83,8 +83,11 @@ services:
     depends_on:
       - consul
       - database
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
 
   core-metadata:
     image: ${CORE_EDGEX_REPOSITORY}/core-metadata${ARCH}:${CORE_EDGEX_VERSION}
@@ -106,6 +109,9 @@ services:
       - database
     security_opt:
       - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
 
   core-data:
     image: ${CORE_EDGEX_REPOSITORY}/core-data${ARCH}:${CORE_EDGEX_VERSION}
@@ -126,8 +132,11 @@ services:
       - consul
       - database
       - core-metadata
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
 
   core-command:
     image: ${CORE_EDGEX_REPOSITORY}/core-command${ARCH}:${CORE_EDGEX_VERSION}
@@ -149,8 +158,11 @@ services:
       - consul
       - database
       - core-metadata
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
 
   core-common-config-bootstrapper:
     image: ${CORE_EDGEX_REPOSITORY}/core-common-config-bootstrapper${ARCH}:${CORE_EDGEX_VERSION}
@@ -172,6 +184,9 @@ services:
       - consul
     security_opt:
       - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
 
   support-scheduler:
     image: ${CORE_EDGEX_REPOSITORY}/support-scheduler${ARCH}:${CORE_EDGEX_VERSION}
@@ -193,8 +208,11 @@ services:
     depends_on:
       - consul
       - database
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
 
   app-rules-engine:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
@@ -215,8 +233,11 @@ services:
     depends_on:
       - consul
       - core-data
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
 
   rules-engine:
     image: lfedge/ekuiper:${KUIPER_VERSION}
@@ -230,6 +251,8 @@ services:
     networks:
       - edgex-network
     volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
       - kuiper-data:/kuiper/data
       - kuiper-etc:/kuiper/etc
       - kuiper-log:/kuiper/log
@@ -249,7 +272,7 @@ services:
       EDGEX__DEFAULT__TOPIC: edgex/rules-events
     depends_on:
       - database
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
 
   ui:
@@ -268,3 +291,6 @@ services:
     security_opt:
       - no-new-privileges:true
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro

@@ -42,5 +42,7 @@ services:
     device_cgroup_rules:
       - 'c 81:* rw' # c:character device 81:device major number(81=webcam) *:device minor number rw:read/write
     volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
       - /dev:/dev
       - /run/udev:/run/udev:ro
