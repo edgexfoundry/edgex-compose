@@ -42,6 +42,8 @@ services:
       EDGEX_USER: ${EDGEX_USER}
       EDGEX_GROUP: ${EDGEX_GROUP}
     volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
       - edgex-init:/edgex-init
     security_opt:
       - no-new-privileges:true
@@ -87,6 +89,8 @@ services:
       - /run
       - /vault
     volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
       - edgex-init:/edgex-init:ro
       - vault-config:/vault/config
       - /tmp/edgex/secrets:/tmp/edgex/secrets:z
@@ -178,7 +182,7 @@ services:
       - nginx-tls:/etc/ssl/nginx
     depends_on:
       - security-secretstore-setup
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
     tmpfs:
       - /etc/nginx/conf.d
@@ -209,6 +213,8 @@ services:
       ROUTES_RULES_ENGINE_HOST: edgex-kuiper
       ROUTES_DEVICE_VIRTUAL_HOST: device-virtual
     volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
       - edgex-init:/edgex-init:ro
       - vault-config:/vault/config
       - nginx-templates:/etc/nginx/templates
@@ -243,11 +249,13 @@ services:
     ports:
       - "127.0.0.1:59842:59842"
     volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/security-proxy-auth:/tmp/edgex/secrets/security-proxy-auth:ro,z
     depends_on:
       - security-secretstore-setup
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
 
 # end of containers for reverse proxy

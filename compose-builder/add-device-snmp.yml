@@ -32,8 +32,11 @@ services:
       - consul
       - core-data
       - core-metadata
-    security_opt: 
+    security_opt:
       - no-new-privileges:true
     read_only: true
     restart: always
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro

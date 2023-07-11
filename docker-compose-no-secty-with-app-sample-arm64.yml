@@ -52,6 +52,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   app-sample:
     container_name: edgex-app-sample
     depends_on:
@@ -81,6 +88,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   consul:
     command:
     - agent
@@ -142,6 +156,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   core-common-config-bootstrapper:
     container_name: edgex-core-common-config-bootstrapper
     depends_on:
@@ -162,6 +183,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   core-data:
     container_name: edgex-core-data
     depends_on:
@@ -189,6 +217,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   core-metadata:
     container_name: edgex-core-metadata
     depends_on:
@@ -214,6 +249,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   database:
     container_name: edgex-redis
     hostname: edgex-redis
@@ -263,6 +305,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   device-virtual:
     container_name: edgex-device-virtual
     depends_on:
@@ -290,6 +339,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   rules-engine:
     container_name: edgex-kuiper
     depends_on:
@@ -323,6 +379,12 @@ services:
     - no-new-privileges:true
     user: kuiper:kuiper
     volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: volume
       source: kuiper-data
       target: /kuiper/data
@@ -364,6 +426,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   support-scheduler:
     container_name: edgex-support-scheduler
     depends_on:
@@ -391,6 +460,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   ui:
     container_name: edgex-ui-go
     environment:
@@ -410,6 +486,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
 networks:
   edgex-network:
     name: edgex_edgex-network

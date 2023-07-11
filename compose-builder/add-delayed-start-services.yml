@@ -41,6 +41,8 @@ services:
     tmpfs:
       - /run
     volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
       - edgex-init:/edgex-init
       - spire-ca:/srv/spiffe/ca
       - spire-server:/srv/spiffe/server
@@ -69,6 +71,8 @@ services:
     tmpfs:
       - /run
     volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
       - edgex-init:/edgex-init
       - spire-ca:/srv/spiffe/ca
       - spire-agent:/srv/spiffe/agent
@@ -99,6 +103,8 @@ services:
     tmpfs:
       - /run
     volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
       - edgex-init:/edgex-init
       - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
     depends_on:
@@ -128,6 +134,8 @@ services:
     tmpfs:
       - /run
     volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
       - edgex-init:/edgex-init
       - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
       - /tmp/edgex/secrets/security-spiffe-token-provider:/tmp/edgex/secrets/security-spiffe-token-provider:z
