@@ -548,7 +548,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-consul
-    image: hashicorp/consul:1.15
+    image: hashicorp/consul:1.16
     networks:
       edgex-network: null
     ports:

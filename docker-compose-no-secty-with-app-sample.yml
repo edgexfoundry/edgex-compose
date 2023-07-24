@@ -105,7 +105,7 @@ services:
     - 0.0.0.0
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: hashicorp/consul:1.15
+    image: hashicorp/consul:1.16
     networks:
       edgex-network: null
     ports:
