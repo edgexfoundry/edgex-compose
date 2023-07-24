@@ -45,7 +45,7 @@ define OPTIONS
  - arm64 no-secty dev app-dev device-dev ui-dev delayed-start -
  - nats-bus mqtt-bus mqtt-broker mqtt-verbose nanomq -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
- - ds-onvif-camera  ds-usb-camera ds-bacnet ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
+ - ds-onvif-camera  ds-usb-camera ds-bacnet-ip ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp asc-ex-mqtt -
  - modbus-sim -
 endef
@@ -156,25 +156,25 @@ ifeq (ds-usb-camera, $(filter ds-usb-camera,$(ARGS)))
 		endif
 	endif
 endif
-ifeq (ds-bacnet, $(filter ds-bacnet,$(ARGS)))
+ifeq (ds-bacnet-ip, $(filter ds-bacnet-ip,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-bacnet.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
-			TOKEN_LIST:=device-bacnet
+			TOKEN_LIST:=device-bacnet-ip
 		else
-			TOKEN_LIST:=$(TOKEN_LIST),device-bacnet
+			TOKEN_LIST:=$(TOKEN_LIST),device-bacnet-ip
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-bacnet],message-bus[device-bacnet]
+			KNOWN_SECRETS_LIST:=redisdb[device-bacnet-ip],message-bus[device-bacnet-ip]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-bacnet],message-bus[device-bacnet]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-bacnet-ip],message-bus[device-bacnet-ip]
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet device-bacnet device-bacnet-ip/device-bacnet-c " -cp=consul://edgex-core-consul:8500 --registry")
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet device-bacnet-ip device-bacnet-ip/device-bacnet-c " -cp=consul://edgex-core-consul:8500 --registry")
 
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 		# add runtime token config for delayed-start if specified
 		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
-			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-bacnet)
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-bacnet-ip)
 			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
 		endif
 	endif
