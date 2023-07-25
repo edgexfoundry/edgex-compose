@@ -60,7 +60,8 @@ declare -A appServiceDesc=(
 
 ## Device Service Descriptions
 declare -A deviceServiceDesc=(
-    [ds-bacnet]="Include BACnet Device Service"
+    [ds-bacnet-ip]="Include BACnet-IP Device Service"
+    [ds-bacnet-mstp]="Include BACnet-MSTP Device Service"
     [ds-onvif-camera]="Include ONVIF Camera Device Service"
     [ds-usb-camera]="Include USB Camera Device Service"
     [ds-modbus]="Include ModBus Device Service"

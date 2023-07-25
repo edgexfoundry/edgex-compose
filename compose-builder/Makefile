@@ -45,7 +45,7 @@ define OPTIONS
  - arm64 no-secty dev app-dev device-dev ui-dev delayed-start -
  - nats-bus mqtt-bus mqtt-broker mqtt-verbose nanomq -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
- - ds-onvif-camera  ds-usb-camera ds-bacnet-ip ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
+ - ds-onvif-camera  ds-usb-camera ds-bacnet-ip ds-bacnet-mstp ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp ds-coap ds-gpio -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp asc-ex-mqtt -
  - modbus-sim -
 endef
@@ -157,7 +157,7 @@ ifeq (ds-usb-camera, $(filter ds-usb-camera,$(ARGS)))
 	endif
 endif
 ifeq (ds-bacnet-ip, $(filter ds-bacnet-ip,$(ARGS)))
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-bacnet.yml
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-bacnet-ip.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		ifeq ($(TOKEN_LIST),)
 			TOKEN_LIST:=device-bacnet-ip
@@ -169,7 +169,7 @@ ifeq (ds-bacnet-ip, $(filter ds-bacnet-ip,$(ARGS)))
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-bacnet-ip],message-bus[device-bacnet-ip]
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet device-bacnet-ip device-bacnet-ip/device-bacnet-c " -cp=consul://edgex-core-consul:8500 --registry")
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet-ip device-bacnet-ip device-bacnet-ip/device-bacnet-c " -cp=consul://edgex-core-consul:8500 --registry")
 
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 		# add runtime token config for delayed-start if specified
@@ -179,7 +179,29 @@ ifeq (ds-bacnet-ip, $(filter ds-bacnet-ip,$(ARGS)))
 		endif
 	endif
 endif
+ifeq (ds-bacnet-mstp, $(filter ds-bacnet-mstp,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-bacnet-mstp.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),)
+			TOKEN_LIST:=device-bacnet-mstp
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-bacnet-mstp
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),)
+			KNOWN_SECRETS_LIST:=redisdb[device-bacnet-mstp],message-bus[device-bacnet-mstp]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-bacnet-mstp],message-bus[device-bacnet-mstp]
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet-mstp device-bacnet-mstp device-bacnet-mstp/device-bacnet-c " -cp=consul://edgex-core-consul:8500 --registry")
 
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-bacnet-mstp)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
+	endif
+endif
 ifeq (ds-modbus, $(filter ds-modbus,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-modbus.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
@@ -712,7 +734,8 @@ export SPIFFE_ENDPOINTSOCKET
 define COMPOSE_DOWN
 	${DOCKER_COMPOSE} -p edgex \
 		-f docker-compose-base.yml \
-		-f add-device-bacnet.yml \
+		-f add-device-bacnet-ip.yml \
+		-f add-device-bacnet-mstp.yml \
 		-f add-device-onvif-camera.yml \
 		-f add-device-usb-camera.yml \
 		-f add-device-modbus.yml \
