@@ -1,0 +1,21 @@
+version: '3.7'
+
+volumes:
+  taf-nanomq-log:
+
+services:
+  mqtt-taf-broker:
+    image: emqx/nanomq:${NANOMQ_VERSION}
+    ports:
+      - "127.0.0.1:1884:1883"
+    container_name: edgex-taf-mqtt-broker
+    hostname: edgex-taf-mqtt-broker
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    volumes:
+      - taf-nanomq-log:/tmp
