@@ -41,7 +41,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-mqtt-export
-    image: edgexfoundry/app-service-configurable:3.0.0
+    image: edgexfoundry/app-service-configurable:3.0.1
     networks:
       edgex-network: null
     ports:
@@ -67,7 +67,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:3.0.0
+    image: edgexfoundry/app-service-configurable:3.0.1
     networks:
       edgex-network: null
     ports:

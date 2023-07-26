@@ -1,4 +1,4 @@
-#  * Copyright 2023 Intel Corporation.
+#  * Copyright 2022 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -10,7 +10,7 @@
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
 #  *
-#  * EdgeX Foundry, Minnesota (3.0.x) release
+#  * EdgeX Foundry, Kamakura WIP release
 #  *******************************************************************************/
 #
 #
@@ -26,6 +26,42 @@
 #
 name: edgex
 services:
+  app-mqtt-export:
+    container_name: edgex-app-mqtt-export
+    depends_on:
+      consul:
+        condition: service_started
+      core-data:
+        condition: service_started
+    environment:
+      EDGEX_PROFILE: mqtt-export
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      SERVICE_HOST: edgex-app-mqtt-export
+      WRITABLE_LOGLEVEL: INFO
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
+    hostname: edgex-app-mqtt-export
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    networks:
+      edgex-network: null
+    ports:
+    - mode: ingress
+      host_ip: 127.0.0.1
+      target: 59703
+      published: "59703"
+      protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   app-rules-engine:
     container_name: edgex-app-rules-engine
     depends_on:
@@ -38,7 +74,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:3.0.1
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
     networks:
       edgex-network: null
     ports:
@@ -52,35 +88,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
-  app-sample:
-    container_name: edgex-app-sample
-    depends_on:
-      consul:
-        condition: service_started
-      core-data:
-        condition: service_started
-    environment:
-      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
-      CLIENTS_CORE_DATA_HOST: edgex-core-data
-      CLIENTS_SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
-      EDGEX_PROFILE: sample
-      EDGEX_SECURITY_SECRET_STORE: "false"
-      SERVICE_HOST: edgex-app-sample
-    hostname: edgex-app-sample
-    image: edgexfoundry/app-service-configurable:3.0.1
-    networks:
-      edgex-network: null
-    ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59700
-      published: "59700"
-      protocol: tcp
-    read_only: true
-    restart: always
-    security_opt:
-    - no-new-privileges:true
-    user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   consul:
     command:
     - agent
@@ -91,7 +105,7 @@ services:
     - 0.0.0.0
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: hashicorp/consul:1.15.2
+    image: hashicorp/consul:1.16
     networks:
       edgex-network: null
     ports:
@@ -128,7 +142,7 @@ services:
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: edgexfoundry/core-command:3.0.0
+    image: nexus3.edgexfoundry.org:10004/core-command:latest
     networks:
       edgex-network: null
     ports:
@@ -142,6 +156,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   core-common-config-bootstrapper:
     container_name: edgex-core-common-config-bootstrapper
     depends_on:
@@ -155,13 +176,20 @@ services:
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
     hostname: edgex-core-common-config-bootstrapper
-    image: edgexfoundry/core-common-config-bootstrapper:3.0.0
+    image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper:latest
     networks:
       edgex-network: null
     read_only: true
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   core-data:
     container_name: edgex-core-data
     depends_on:
@@ -175,7 +203,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: edgexfoundry/core-data:3.0.0
+    image: nexus3.edgexfoundry.org:10004/core-data:latest
     networks:
       edgex-network: null
     ports:
@@ -189,6 +217,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   core-metadata:
     container_name: edgex-core-metadata
     depends_on:
@@ -200,7 +235,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: edgexfoundry/core-metadata:3.0.0
+    image: nexus3.edgexfoundry.org:10004/core-metadata:latest
     networks:
       edgex-network: null
     ports:
@@ -214,10 +249,17 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   database:
     container_name: edgex-redis
     hostname: edgex-redis
-    image: redis:7.0.11-alpine
+    image: redis:7.0-alpine
     networks:
       edgex-network: null
     ports:
@@ -249,7 +291,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: edgexfoundry/device-rest:3.0.0
+    image: nexus3.edgexfoundry.org:10004/device-rest:latest
     networks:
       edgex-network: null
     ports:
@@ -263,6 +305,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   device-virtual:
     container_name: edgex-device-virtual
     depends_on:
@@ -276,7 +325,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: edgexfoundry/device-virtual:3.0.0
+    image: nexus3.edgexfoundry.org:10004/device-virtual:latest
     networks:
       edgex-network: null
     ports:
@@ -290,6 +339,57 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
+  mqtt-broker:
+    container_name: edgex-mqtt-broker
+    hostname: edgex-mqtt-broker
+    image: emqx/nanomq:0.18.1
+    networks:
+      edgex-network: null
+    ports:
+    - mode: ingress
+      host_ip: 127.0.0.1
+      target: 1883
+      published: "1883"
+      protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - type: volume
+      source: nanomq-log
+      target: /tmp
+      volume: {}
+  mqtt-taf-broker:
+    container_name: edgex-taf-mqtt-broker
+    hostname: edgex-taf-mqtt-broker
+    image: emqx/nanomq:0.18.1
+    networks:
+      edgex-network: null
+    ports:
+    - mode: ingress
+      host_ip: 127.0.0.1
+      target: 1883
+      published: "1884"
+      protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+    - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+    - type: volume
+      source: taf-nanomq-log
+      target: /tmp
+      volume: {}
   rules-engine:
     container_name: edgex-kuiper
     depends_on:
@@ -308,7 +408,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: "59720"
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.9.2-alpine
+    image: lfedge/ekuiper:1.10-alpine
     networks:
       edgex-network: null
     ports:
@@ -323,6 +423,12 @@ services:
     - no-new-privileges:true
     user: kuiper:kuiper
     volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
     - type: volume
       source: kuiper-data
       target: /kuiper/data
@@ -350,7 +456,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: edgexfoundry/support-notifications:3.0.0
+    image: nexus3.edgexfoundry.org:10004/support-notifications:latest
     networks:
       edgex-network: null
     ports:
@@ -364,6 +470,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   support-scheduler:
     container_name: edgex-support-scheduler
     depends_on:
@@ -377,7 +490,7 @@ services:
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: edgexfoundry/support-scheduler:3.0.0
+    image: nexus3.edgexfoundry.org:10004/support-scheduler:latest
     networks:
       edgex-network: null
     ports:
@@ -391,13 +504,20 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
   ui:
     container_name: edgex-ui-go
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-ui-go
     hostname: edgex-ui-go
-    image: edgexfoundry/edgex-ui:3.0.0
+    image: nexus3.edgexfoundry.org:10004/edgex-ui:latest
     networks:
       edgex-network: null
     ports:
@@ -410,6 +530,13 @@ services:
     security_opt:
     - no-new-privileges:true
     user: 2002:2001
+    volumes:
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind:
+        create_host_path: true
 networks:
   edgex-network:
     name: edgex_edgex-network
@@ -429,3 +556,7 @@ volumes:
     name: edgex_kuiper-log
   kuiper-plugins:
     name: edgex_kuiper-plugins
+  nanomq-log:
+    name: edgex_nanomq-log
+  taf-nanomq-log:
+    name: edgex_taf-nanomq-log

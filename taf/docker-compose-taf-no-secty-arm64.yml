@@ -42,7 +42,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-export
     hostname: edgex-app-external-mqtt-trigger
-    image: edgexfoundry/app-service-configurable-arm64:3.0.0
+    image: edgexfoundry/app-service-configurable-arm64:3.0.1
     networks:
       edgex-network: null
     ports:
@@ -68,7 +68,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-functional-tests
     hostname: edgex-app-functional-tests
-    image: edgexfoundry/app-service-configurable-arm64:3.0.0
+    image: edgexfoundry/app-service-configurable-arm64:3.0.1
     networks:
       edgex-network: null
     ports:
@@ -94,7 +94,7 @@ services:
       WRITABLE_LOGLEVEL: INFO
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
     hostname: edgex-app-http-export
-    image: edgexfoundry/app-service-configurable-arm64:3.0.0
+    image: edgexfoundry/app-service-configurable-arm64:3.0.1
     networks:
       edgex-network: null
     ports:
@@ -123,7 +123,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-mqtt-export
-    image: edgexfoundry/app-service-configurable-arm64:3.0.0
+    image: edgexfoundry/app-service-configurable-arm64:3.0.1
     networks:
       edgex-network: null
     ports:
@@ -149,7 +149,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable-arm64:3.0.0
+    image: edgexfoundry/app-service-configurable-arm64:3.0.1
     networks:
       edgex-network: null
     ports:
@@ -178,7 +178,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-sample
     hostname: edgex-app-sample
-    image: edgexfoundry/app-service-configurable-arm64:3.0.0
+    image: edgexfoundry/app-service-configurable-arm64:3.0.1
     networks:
       edgex-network: null
     ports:
@@ -210,7 +210,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: app-scalability-test-mqtt-export
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-scalability-test-mqtt-export
-    image: edgexfoundry/app-service-configurable-arm64:3.0.0
+    image: edgexfoundry/app-service-configurable-arm64:3.0.1
     networks:
       edgex-network: null
     ports:

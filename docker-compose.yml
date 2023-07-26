@@ -60,7 +60,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:3.0.0
+    image: edgexfoundry/app-service-configurable:3.0.1
     networks:
       edgex-network: null
     ports:
