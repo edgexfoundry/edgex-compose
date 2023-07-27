@@ -40,8 +40,10 @@ This folder contains the following compose files:
     Secure Redis MessageBus **extending** compose file. Adds the additional security configuration for when Redis is used as MessageBus in secure mode so Kuiper can connect to the secure MessageBus.
 - **add-delayed-start-services.yml**<br/>
     Secure delayed start services **extending** compose file. Adds additional delayed start services based on spire/spiffe implementation to provide the secret store token on the runtime secure configuration.
-- **add-device-bacnet.yml**<br/>
-    Device Service **extending** compose file, which adds the **Device Bacnet**  service.
+- **add-device-bacnet-ip.yml**<br/>
+    Device Service **extending** compose file, which adds the **Device Bacnet(IP)**  service.
+- **add-device-bacnet-mstp.yml**<br/>
+  Device Service **extending** compose file, which adds the **Device Bacnet(MSTP)**  service.
 - **add-device-onvif-camera.yml**<br/>
     Device Service **extending** compose file, which adds the **Device ONVIF Camera**  service.
 - **add-device-usb-camera.yml**<br/>
@@ -178,7 +180,8 @@ Options:
     delayed-start:   Runs with delayed start services- 
                      spire related services and spiffe-token-provider service included
     ds-modbus:       Runs with device-modbus included
-    ds-bacnet:       Runs with device-bacnet included
+    ds-bacnet-ip:    Runs with device-bacnet-ip included
+    ds-bacnet-mstp:  Runs with device-bacnet-mstp included
     ds-onvif-camera: Runs with device-onvif-camera included
     ds-usb-camera:   Runs with device-usb-camera included
     ds-mqtt:         Runs with device-mqtt included
@@ -229,7 +232,8 @@ Options:
     arm64:           Pulls ARM64 version of images
     delayed-start:   Pull includes delayed start services- spire related services 
                      and spiffe-token-provider service
-    ds-bacnet:       Pull includes device-bacnet
+    ds-bacnet-ip:    Pull includes device-bacnet-ip
+    ds-bacnet-mstp:  Pull includes device-bacnet-mstp
     ds-onvif-camera: Pull includes device-onvif-camera included
     ds-usb-camera:   Pull includes device-usb-camera included
     ds-modbus:       Pull includes device-modbus
@@ -274,7 +278,8 @@ Options:
     delayed-start:   Generates compose file with delayed start services- spire 
                      related services and spiffe-token-provider service included
     ds-modbus:       Generates compose file with device-modbus included
-    ds-bacnet:       Generates compose file with device-bacnet included
+    ds-bacnet-ip:    Generates compose file with device-bacnet-ip included
+    ds-bacnet-mstp:  Generates compose file with device-bacnet-mstp included
     ds-onvif-camera: Generates compose file with device-onvif-camera included
     ds-usb-camera:   Generates compose file with device-usb-camera included
     ds-mqtt:         Generates compose file with device-mqtt included
@@ -343,40 +348,41 @@ compose [options]
 Generates the EdgeX compose file as specified by options and stores them in the configured release folder. Compose files are named appropriately for release and options used to generate them.
 
 Options:
-    no-secty:      Generates non-secure compose file, otherwise generates secure compose file
-    arm64:         Generates compose file using ARM64 images
-    dev:           Generates using local built images from edgex-go repo
-                   'make docker' creates local docker images tagged with '0.0.0-dev'
-    app-dev:       Generates using local built images from application service repos
-                   'make docker' creates local docker images tagged with '0.0.0-dev`
-    device-dev:    Generates using local built images from device service repos
-                   'make docker' creates local docker images tagged with '0.0.0-dev'
-    ui-dev:        Generates using local built images from edgex-ui-go repo
-                   'make docker' creates local docker image tagged with '0.0.0-dev'
-    delayed-start: Generates compose file with delayed start services- spire related services and
-                   spiffe-token-provider service included
-    ds-bacnet:     Generates compose file with device-bacnet included
-    ds-modbus:     Generates compose file with device-modbus included
-    ds-mqtt:       Generates compose file with device-mqtt included
-    ds-rest:       Generates compose file with device-rest included
-    ds-snmp:       Generates compose file with device-snmp included
-    ds-virtual:    Generates compose file with device-virtual included
-    ds-coap:       Generates compose file with device-coap included
-    ds-gpio:       Generates compose file with device-gpio included
-    ds-llrp:       Generates compose file with device-rfid-llrp included
-    modbus-sim:    Generates compose file with ModBus simulator included
-    asc-http:      Generates compose file with App Service HTTP Export included
-    asc-mqtt:      Generates compose file with App Service MQTT Export included
-    asc-metrics:   Generates compose file with App Service Metrics InfluxDb included
-    asc-sample:    Generates compose file with App Service Sample included
-    as-llrp:       Generates compose file with App RFID LLRP Inventory included
-    asc-ex-mqtt:   Generates compose file with App Service External MQTT Trigger included
-    mqtt-broker:   Generates compose file with a MQTT Broker service included
-    mqtt-bus:      Generates compose file with services configure for MQTT Message Bus
-                   The MQTT Broker service is also included.
-    mqtt-verbose   Enables MQTT Broker verbose logging.
-    nats-bus:      Generates compose file with services configure for NATS Message Bus
-                   The NATS Server service is also included.
+    no-secty:       Generates non-secure compose file, otherwise generates secure compose file
+    arm64:          Generates compose file using ARM64 images
+    dev:            Generates using local built images from edgex-go repo
+                    'make docker' creates local docker images tagged with '0.0.0-dev'
+    app-dev:        Generates using local built images from application service repos
+                    'make docker' creates local docker images tagged with '0.0.0-dev`
+    device-dev:     Generates using local built images from device service repos
+                    'make docker' creates local docker images tagged with '0.0.0-dev'
+    ui-dev:         Generates using local built images from edgex-ui-go repo
+                    'make docker' creates local docker image tagged with '0.0.0-dev'
+    delayed-start:  Generates compose file with delayed start services- spire related services and
+                    spiffe-token-provider service included
+    ds-bacnet-ip:   Generates compose file with device-bacnet-ip included
+    ds-bacnet-mstp: Generates compose file with device-bacnet-mstp included
+    ds-modbus:      Generates compose file with device-modbus included
+    ds-mqtt:        Generates compose file with device-mqtt included
+    ds-rest:        Generates compose file with device-rest included
+    ds-snmp:        Generates compose file with device-snmp included
+    ds-virtual:     Generates compose file with device-virtual included
+    ds-coap:        Generates compose file with device-coap included
+    ds-gpio:        Generates compose file with device-gpio included
+    ds-llrp:        Generates compose file with device-rfid-llrp included
+    modbus-sim:     Generates compose file with ModBus simulator included
+    asc-http:       Generates compose file with App Service HTTP Export included
+    asc-mqtt:       Generates compose file with App Service MQTT Export included
+    asc-metrics:    Generates compose file with App Service Metrics InfluxDb included
+    asc-sample:     Generates compose file with App Service Sample included
+    as-llrp:        Generates compose file with App RFID LLRP Inventory included
+    asc-ex-mqtt:    Generates compose file with App Service External MQTT Trigger included
+    mqtt-broker:    Generates compose file with a MQTT Broker service included
+    mqtt-bus:       Generates compose file with services configure for MQTT Message Bus
+                    The MQTT Broker service is also included.
+    mqtt-verbose    Enables MQTT Broker verbose logging.
+    nats-bus:       Generates compose file with services configure for NATS Message Bus
+                    The NATS Server service is also included.
 ```
 
 #### Taf-compose
