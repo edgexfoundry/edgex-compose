@@ -1,0 +1,49 @@
+# /*******************************************************************************
+#  * Copyright 2023 IOTech.
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  *******************************************************************************/
+
+version: '3.7'
+
+services:
+  device-bacnet-mstp:
+    image: ${DEVICE_SVC_REPOSITORY}/device-bacnet${ARCH}:${DEVICE_BACNET_VERSION}
+    command: "-cp=consul://edgex-core-consul:8500 --registry"
+    entrypoint:
+      - /device-bacnet-mstp/device-bacnet-c
+    ports:
+      - "127.0.0.1:59981:59980"
+    container_name: edgex-device-bacnet-mstp
+    hostname: edgex-device-bacnet-mstp
+    networks:
+      - edgex-network
+    env_file:
+      - common-non-security.env
+    environment:
+      SERVICE_HOST: edgex-device-bacnet-mstp
+      REGISTRY_HOST: edgex-core-consul
+      DATABASE_HOST: edgex-redis
+      MESSAGEBUS_HOST: edgex-redis
+      CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+    depends_on:
+      - consul
+      - core-data
+      - core-metadata
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    restart: always
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro

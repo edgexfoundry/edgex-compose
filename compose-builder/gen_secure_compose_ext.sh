@@ -52,7 +52,7 @@ sed 's/${SERVICE_NAME}:/'"$service_name"':/g' "$ADD_SERVICE_SECURE_FILE_TEMPLATE
 sed -i 's/${SERVICE_KEY}/'"$service_key"'/g' "$SERVICE_EXT_COMPOSE_PATH"
 sed -i 's,${EXECUTABLE},'"$executable"',g' "$SERVICE_EXT_COMPOSE_PATH"
 case "${service_name}" in
-  device-bacnet | device-coap | device-gpio)
+  device-bacnet-ip | device-bacnet-mstp | device-coap | device-gpio)
     # These services don't have dumb-init in their containers, causing an issue for the wait script, use sh instead
     sed -i 's/${SHELL_OVERRIDE}/"\/bin\/sh", /g' "$SERVICE_EXT_COMPOSE_PATH"
     ;;
