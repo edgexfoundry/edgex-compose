@@ -38,7 +38,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable-arm64:3.0.0
+    image: edgexfoundry/app-service-configurable-arm64:3.0.1
     networks:
       edgex-network: null
     ports:
@@ -67,7 +67,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-sample
     hostname: edgex-app-sample
-    image: edgexfoundry/app-service-configurable-arm64:3.0.0
+    image: edgexfoundry/app-service-configurable-arm64:3.0.1
     networks:
       edgex-network: null
     ports:
