@@ -973,7 +973,7 @@ services:
     entrypoint:
     - /edgex-init/proxy_setup_wait_install.sh
     environment:
-      EDGEX_ADD_PROXY_ROUTE: ""
+      EDGEX_ADD_PROXY_ROUTE: device-rest.http://edgex-device-rest:59986,app-sample.http://edgex-app-sample:59700
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       ROUTES_CORE_COMMAND_HOST: edgex-core-command
