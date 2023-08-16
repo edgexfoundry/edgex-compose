@@ -65,7 +65,9 @@ This folder contains the following compose files:
 - **add-device-coap.yml**<br/>
     Device Service **extending** compose file, which adds the **Device COAP** service.
 - **add-device-gpio.yml**<br/>
-    Device Service **extending** compose file, which adds the **Device GPIO**  service.
+  Device Service **extending** compose file, which adds the **Device GPIO**  service.
+- **add-device-uart.yml**<br/>
+  Device Service **extending** compose file, which adds the **Device UART**  service.
 - **add-device-rfid-llrp.yml**<br/>
     Device Service **extending** compose file, which adds the **Device RFID LLRP**  service.
 - **add-asc-http-export.yml**<br/>
@@ -190,6 +192,7 @@ Options:
     ds-virtual:      Runs with device-virtual included
     ds-coap:         Runs with device-coap included
     ds-gpio:         Runs with device-gpio included
+    ds-uart:         Runs with device-uart included
     ds-llrp:         Runs with device-rfid-llrp included
     modbus-sim:      Runs with ModBus simulator included
     asc-http:        Runs with App Service HTTP Export included
@@ -243,6 +246,7 @@ Options:
     ds-virtual:      Pull includes device-virtual
     ds-coap:         Pull includes device-coap
     ds-gpio:         Pull includes device-gpio
+    ds-uart:         Pull includes device-uart
     ds-llrp:         Pull includes device-rfid-llrp
     modbus-sim:      Pull includes ModBus simulator
     asc-http:        Pull includes App Service HTTP Export
@@ -288,6 +292,7 @@ Options:
     ds-virtual:      Generates compose file with device-virtual included
     ds-coap:         Generates compose file with device-coap included
     ds-gpio:         Generates compose file with device-gpio included
+    ds-uart:         Generates compose file with device-uart included
     ds-llrp:         Generates compose file with device-rfid-llrp included
     modbus-sim:      Generates compose file with ModBus simulator included
     asc-http:        Generates compose file with App Service HTTP Export included
@@ -369,6 +374,7 @@ Options:
     ds-virtual:     Generates compose file with device-virtual included
     ds-coap:        Generates compose file with device-coap included
     ds-gpio:        Generates compose file with device-gpio included
+    ds-uart:        Generates compose file with device-uart included
     ds-llrp:        Generates compose file with device-rfid-llrp included
     modbus-sim:     Generates compose file with ModBus simulator included
     asc-http:       Generates compose file with App Service HTTP Export included
