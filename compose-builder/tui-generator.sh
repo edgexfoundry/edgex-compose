@@ -71,6 +71,7 @@ declare -A deviceServiceDesc=(
     [ds-virtual]="Include Virtual Device Service"
     [ds-coap]="Include CoAP Device Service"
     [ds-gpio]="Include GPIO Device Service"
+    [ds-uart]="Include UART Device Service"
     [ds-llrp]="Include RFID LLRP Device Service"
 )
 
