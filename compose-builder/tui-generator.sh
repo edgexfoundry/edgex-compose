@@ -54,7 +54,8 @@ declare -A appServiceDesc=(
     [asc-mqtt]="Include MQTT Export App Service"
     [asc-metrics]="Include Metrics to InfluxDB App Service"
     [asc-sample]="Include Sample App Service"
-    [as-llrp]="Include RFID LLRP Inventory"
+    [as-llrp]="Include RFID LLRP Inventory App Service"
+    [as-record-replay]="Include Record & Replay App Service"
     [asc-ex-mqtt]="Include External MQTT Trigger App Service"
 )
 
