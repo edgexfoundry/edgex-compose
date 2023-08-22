@@ -919,6 +919,7 @@ define COMPOSE_DOWN
 		-f add-asc-sample.yml \
 		-f add-asc-metrics-influxdb.yml \
 		-f add-app-rfid-llrp-inventory.yml \
+		-f add-app-record-replay.yml \
 		-f add-modbus-simulator.yml \
 		-f add-mqtt-broker-mosquitto.yml \
 		-f add-mqtt-broker-nanomq.yml \
