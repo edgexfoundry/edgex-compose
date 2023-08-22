@@ -47,7 +47,7 @@ define OPTIONS
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-onvif-camera ds-usb-camera ds-bacnet-ip ds-bacnet-mstp ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp -
  - ds-coap ds-gpio ds-uart -
- - asc-http asc-mqtt asc-sample asc-metrics as-llrp asc-ex-mqtt -
+ - asc-http asc-mqtt asc-sample asc-metrics as-llrp as-record-replay asc-ex-mqtt -
  - modbus-sim -
 endef
 export OPTIONS
@@ -638,6 +638,37 @@ ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
 		endif
 	endif
 endif
+ifeq (as-record-replay, $(filter as-record-replay,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-app-record-replay.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),)
+			TOKEN_LIST:=app-record-replay
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),app-record-replay
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),)
+			KNOWN_SECRETS_LIST:=redisdb[app-record-replay],message-bus[app-record-replay]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-record-replay],message-bus[app-record-replay]
+		endif
+		PROXY_ROUTE:=app-record-replay.http://edgex-app-record-replay:59712
+		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
+			EXTRA_PROXY_ROUTE_LIST:=$(PROXY_ROUTE)
+		else
+			EXTRA_PROXY_ROUTE_LIST:=$(EXTRA_PROXY_ROUTE_LIST),$(PROXY_ROUTE)
+		endif
+		# when no security mode (no-secty) not explicitly specified,
+		# then we also need to add the secure version on top of base yml by default.
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-record-replay)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh app-record-replay)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
+	endif
+endif
+
 ifeq (asc-ex-mqtt, $(filter asc-ex-mqtt,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-asc-external-mqtt-trigger.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
