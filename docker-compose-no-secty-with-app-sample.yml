@@ -105,7 +105,7 @@ services:
     - 0.0.0.0
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: hashicorp/consul:1.16
+    image: hashicorp/consul:1.16.2
     networks:
       edgex-network: null
     ports:
@@ -259,7 +259,7 @@ services:
   database:
     container_name: edgex-redis
     hostname: edgex-redis
-    image: redis:7.0-alpine
+    image: redis:7.0.14-alpine
     networks:
       edgex-network: null
     ports:
@@ -364,7 +364,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: "59720"
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.11-alpine
+    image: lfedge/ekuiper:1.11.4-alpine
     networks:
       edgex-network: null
     ports:
