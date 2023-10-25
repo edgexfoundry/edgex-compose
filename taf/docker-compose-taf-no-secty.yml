@@ -435,7 +435,7 @@ services:
   database:
     container_name: edgex-redis
     hostname: edgex-redis
-    image: redis:7.0.14-alpine
+    image: redis:7.2.2-alpine
     networks:
       edgex-network: null
     ports:
