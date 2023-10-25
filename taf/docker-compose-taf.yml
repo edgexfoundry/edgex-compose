@@ -900,7 +900,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-redis
-    image: redis:7.0.14-alpine
+    image: redis:7.2.2-alpine
     networks:
       edgex-network: null
     ports:
@@ -1324,7 +1324,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-nginx
-    image: nginx:1.25.2-alpine-slim
+    image: nginx:1.25.3-alpine-slim
     networks:
       edgex-network:
         aliases:
@@ -2159,7 +2159,7 @@ services:
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
     hostname: edgex-vault
-    image: hashicorp/vault:1.13.3
+    image: hashicorp/vault:1.14.5
     networks:
       edgex-network: null
     ports:
