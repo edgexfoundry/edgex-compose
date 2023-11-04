@@ -81,6 +81,7 @@ services:
       # the secret store token is required if you have added registry acl roles from env "EDGEX_ADD_REGISTRY_ACL_ROLES"
       # in service "consul".
       #EDGEX_ADD_SECRETSTORE_TOKENS: app-sample,app-rules-engine-redis, app-rules-engine-mqtt, app-push-to-core
+      EDGEX_ADD_SECRETSTORE_TOKENS: edgex-ui-service
     read_only: true
     restart: always
     networks:
@@ -360,3 +361,9 @@ services:
   ui:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
+      SECRETSTORE_HOST: edgex-vault
+    volumes:
+      - /tmp/edgex/secrets/edgex-ui-service:/tmp/edgex/secrets/edgex-ui-service:ro,z
+    depends_on:
+      - security-bootstrapper
+      - security-secretstore-setup
