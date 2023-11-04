@@ -1066,7 +1066,7 @@ services:
         condition: service_started
     environment:
       EDGEX_ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],message-bus[device-rest],redisdb[device-virtual],message-bus[device-virtual],redisdb[app-sample],message-bus[app-sample]
-      EDGEX_ADD_SECRETSTORE_TOKENS: app-sample
+      EDGEX_ADD_SECRETSTORE_TOKENS: app-sample,edgex-ui-service
       EDGEX_GROUP: "2001"
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: "2002"
@@ -1293,6 +1293,13 @@ services:
       target: /etc/localtime
       read_only: true
       bind:
+        create_host_path: true
+    - type: bind
+      source: /tmp/edgex/secrets/edgex-ui-service
+      target: /tmp/edgex/secrets/edgex-ui-service
+      read_only: true
+      bind:
+        selinux: z
         create_host_path: true
   vault:
     cap_add:
