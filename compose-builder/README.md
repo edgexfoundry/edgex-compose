@@ -1,12 +1,16 @@
-## Edgex Docker Compose Builder
+## Edgex Docker Compose Builder (Napa)
 
-This folder contains the `Compose Builder` which is made up of **source** compose, **environment** files and a **makefile** for building the single file docker composes files. The `master` branch builds the `pre-release`  compose files which are placed in the top level of this repository. 
+This folder contains the `Compose Builder` which is made up of **source** compose, **environment** files and a **makefile** for building the single file docker compose file configured for the **Napa** release. 
 
 ### **Note to Developers**: 
-> *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
+> *For **Napa** patch releases, once you have edited and tested your changes to the source compose files, you **MUST** regenerate the committed **Napa** compose files using the `make build` command.*
 >
-> Any options added or removed to/from the `make gen` and `make run` commands must to also be added/removed to/from the new` tui-generator.sh` script
+> Once the PR is merged, the 3.1 vanity tag must be moved to the latest commit on the `napa` branch.
 >
+
+### Generating Custom Compose Files
+
+If one of the standard committed `napa` compose files doesn't meet your needs, you can generate and run a custom `napa` copmose file using the `make gen <options>` command. See [Gen](https://github.com/edgexfoundry/edgex-compose/blob/napa/compose-builder/README.md#gen) and [Run](https://github.com/edgexfoundry/edgex-compose/blob/napa/compose-builder/README.md#run) target details below. `Run` simply runs the custom compose file after generating it.
 
 ### Compose CLI Command
 
