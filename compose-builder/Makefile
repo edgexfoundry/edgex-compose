@@ -278,7 +278,12 @@ ifeq (ds-mqtt, $(filter ds-mqtt,$(ARGS)))
 		else
 			EXTRA_PROXY_ROUTE_LIST:=$(EXTRA_PROXY_ROUTE_LIST),$(PROXY_ROUTE)
 		endif
-		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-mqtt)
+		ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+			IS_MQTT_BUS:=1
+		else
+			IS_MQTT_BUS:=0
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_MQTT_BUS="$(IS_MQTT_BUS)" ./gen_secure_compose_ext.sh device-mqtt)
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 		# add runtime token config for delayed-start if specified
 		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
@@ -795,7 +800,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		IS_MQTT_BUS:=0
 	endif
 
-	asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh app-http-export \
+	asc_http_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)"  ./gen_secure_compose_ext.sh app-http-export \
 		app-http-export app-service-configurable)
 	asc_mqtt_export_ext:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_MQTT_BUS="$(IS_MQTT_BUS)" ./gen_secure_compose_ext.sh app-mqtt-export \
 		app-mqtt-export app-service-configurable)

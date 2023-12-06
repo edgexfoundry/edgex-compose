@@ -65,10 +65,14 @@ if [ "$num_of_args" -eq 4 ]; then
     sed -i 's, ${DEFAULT_EDGEX_RUN_CMD_PARMS},'"$params"',g' "$SERVICE_EXT_COMPOSE_PATH"
 fi
 
-# app-service-mqtt-export has non-empty env section
+
 if [ "$IS_MQTT_BUS" = "1" ]; then
   if [ "$service_name" = "app-service-mqtt-export" ] || [ "$service_name" = "app-scalability-test-mqtt-export" ]; then
     ENV_SECTION='environment:\r      WRITABLE_INSECURESECRETS_MQTT_SECRETS_USERNAME: USERNAME_PLACEH_OLDER\r      WRITABLE_INSECURESECRETS_MQTT_SECRETS_PASSWORD: PASSWORD_PLACE_HOLDER'
+    sed -i 's/##${ENVIRONMENT_SECTION}/'"$ENV_SECTION"'/g' "$SERVICE_EXT_COMPOSE_PATH"
+  fi
+  if [ "$service_name" = "device-mqtt" ]; then
+    ENV_SECTION='environment:\r      MQTTBROKERINFO_AUTHMODE: usernamepassword'
     sed -i 's/##${ENVIRONMENT_SECTION}/'"$ENV_SECTION"'/g' "$SERVICE_EXT_COMPOSE_PATH"
   fi
 fi
