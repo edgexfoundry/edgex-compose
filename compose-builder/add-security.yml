@@ -164,8 +164,6 @@ services:
     restart: always
     networks:
       edgex-network:
-        aliases:
-          - edgex-kong  # TODO remove after edgex-ui-go docker configuration.toml is updated
     ports:
       - "8443:8443"  # port 8000 (insecure) is not mapped externally)
     entrypoint: ["/bin/sh", "/edgex-init/nginx_wait_install.sh"]
