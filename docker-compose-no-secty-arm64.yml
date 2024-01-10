@@ -1,4 +1,4 @@
-#  * Copyright 2023 Intel Corporation.
+#  * Copyright 2024 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -31,7 +31,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-data:
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
         condition: service_started
     environment:
       EDGEX_PROFILE: rules-engine
@@ -97,6 +99,8 @@ services:
     depends_on:
       consul:
         condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
       core-metadata:
         condition: service_started
       database:
@@ -159,7 +163,7 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-metadata:
+      core-common-config-bootstrapper:
         condition: service_started
       database:
         condition: service_started
@@ -247,6 +251,8 @@ services:
     depends_on:
       consul:
         condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
       core-data:
         condition: service_started
       core-metadata:
@@ -280,6 +286,8 @@ services:
     container_name: edgex-device-virtual
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       core-data:
         condition: service_started
@@ -370,6 +378,8 @@ services:
     depends_on:
       consul:
         condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
       database:
         condition: service_started
     environment:
@@ -401,6 +411,8 @@ services:
     container_name: edgex-support-scheduler
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       database:
         condition: service_started

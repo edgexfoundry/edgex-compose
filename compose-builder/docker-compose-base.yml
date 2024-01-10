@@ -1,6 +1,6 @@
 # /*******************************************************************************
 #  * Copyright 2020 Redis Labs Inc.
-#  * Copyright 2022 Intel Corporation.
+#  * Copyright 2024 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -83,6 +83,7 @@ services:
     depends_on:
       - consul
       - database
+      - core-common-config-bootstrapper
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -131,7 +132,7 @@ services:
     depends_on:
       - consul
       - database
-      - core-metadata
+      - core-common-config-bootstrapper
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -158,6 +159,7 @@ services:
       - consul
       - database
       - core-metadata
+      - core-common-config-bootstrapper
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -208,6 +210,7 @@ services:
     depends_on:
       - consul
       - database
+      - core-common-config-bootstrapper
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -232,7 +235,8 @@ services:
       SERVICE_HOST: edgex-app-rules-engine
     depends_on:
       - consul
-      - core-data
+      - core-metadata
+      - core-common-config-bootstrapper
     security_opt:
       - no-new-privileges:true
     volumes:
