@@ -46,7 +46,7 @@ define OPTIONS
  - nats-bus mqtt-bus mqtt-broker mqtt-verbose nanomq -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-onvif-camera ds-usb-camera ds-bacnet-ip ds-bacnet-mstp ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp -
- - ds-coap ds-gpio ds-uart -
+ - ds-coap ds-gpio ds-uart ds-s7 -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp as-record-replay asc-ex-mqtt -
  - modbus-sim -
 endef
@@ -470,6 +470,34 @@ ifeq (ds-uart, $(filter ds-uart,$(ARGS)))
 		endif
 	endif
 endif
+ifeq (ds-s7, $(filter ds-s7,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-s7.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),)
+			TOKEN_LIST:=device-s7
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-s7
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),)
+			KNOWN_SECRETS_LIST:=redisdb[device-s7],message-bus[device-s7]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-s7],message-bus[device-s7]
+		endif
+		PROXY_ROUTE:=device-s7.http://edgex-device-s7:59994
+		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
+			EXTRA_PROXY_ROUTE_LIST:=$(PROXY_ROUTE)
+		else
+			EXTRA_PROXY_ROUTE_LIST:=$(EXTRA_PROXY_ROUTE_LIST),$(PROXY_ROUTE)
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-s7)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-s7)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
+	endif
+endif
 
 # Add ModBus Simulator
 ifeq (modbus-sim, $(filter modbus-sim,$(ARGS)))
@@ -785,6 +813,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-modbus-simulator.yml \
 		-f add-delayed-start-services.yml \
 		-f add-taf-mqtt-broker-mosquitto.yml \
+		-f add-device-s7.yml \
 
 	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 		IS_SECURE_MODE:=1
@@ -930,6 +959,7 @@ define COMPOSE_DOWN
 		-f add-security.yml \
 		-f add-secure-redis-messagebus.yml \
 		-f add-delayed-start-services.yml \
+		-f add-device-s7.yml \
 		down $1
 endef
 

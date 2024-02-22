@@ -86,6 +86,8 @@ This folder contains the following compose files:
     Device Service **extending** compose file, which adds the **Device UART**  service.
 - **add-device-rfid-llrp.yml**<br/>
     Device Service **extending** compose file, which adds the **Device RFID LLRP**  service.
+- **add-device-s7.yml**<br/>
+    Device Service **extending** compose file, which adds the **Device S7**  service.
 - **add-asc-http-export.yml**<br/>
     Application Service Configurable **extending** compose file, which adds the **App Service Http Export**  service. Additional configuration required. See [http-export profile](https://docs.edgexfoundry.org/2.2/microservices/application/AppServiceConfigurable/#http-export) for details
 - **add-asc-mqtt-export.yml**<br/>
@@ -214,6 +216,7 @@ Options:
     ds-gpio:          Runs with device-gpio included
     ds-uart:          Runs with device-uart included
     ds-llrp:          Runs with device-rfid-llrp included
+    ds-s7:            Runs with device-s7 included
     modbus-sim:       Runs with ModBus simulator included
     asc-http:         Runs with App Service HTTP Export included
     asc-mqtt:         Runs with App Service MQTT Export included
@@ -272,6 +275,7 @@ Options:
     ds-gpio:          Pull includes device-gpio
     ds-uart:          Pull includes device-uart
     ds-llrp:          Pull includes device-rfid-llrp
+    ds-s7:            Pull includes device-s7
     modbus-sim:       Pull includes ModBus simulator
     asc-http:         Pull includes App Service HTTP Export
     asc-mqtt:         Pull includes App Service MQTT Export
@@ -322,6 +326,7 @@ Options:
     ds-gpio:          Generates compose file with device-gpio included
     ds-uart:          Generates compose file with device-uart included
     ds-llrp:          Generates compose file with device-rfid-llrp included
+    ds-s7:            Generates compose file with device-s7 included
     modbus-sim:       Generates compose file with ModBus simulator included
     asc-http:         Generates compose file with App Service HTTP Export included
     asc-mqtt:         Generates compose file with App Service MQTT Export included
@@ -431,6 +436,7 @@ Options:
     ds-gpio:          Generates compose file with device-gpio included
     ds-uart:          Generates compose file with device-uart included
     ds-llrp:          Generates compose file with device-rfid-llrp included
+    ds-s7:            Generates compose file with device-s7 included
     modbus-sim:       Generates compose file with ModBus simulator included
     asc-http:         Generates compose file with App Service HTTP Export included
     asc-mqtt:         Generates compose file with App Service MQTT Export included
