@@ -17,7 +17,7 @@ version: '3.7'
 
 services:
   device-s7:
-    image: ${DEVICE_SVC_REPOSITORY}/device-s7${ARCH}:${DEVICE_MODBUS_VERSION}
+    image: ${DEVICE_SVC_REPOSITORY}/device-s7${ARCH}:${DEVICE_S7_VERSION}
     ports:
       - '127.0.0.1:59994:59994'
     container_name: edgex-device-s7
