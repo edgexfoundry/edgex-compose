@@ -1,4 +1,4 @@
-#  * Copyright 2022 Intel Corporation.
+#  * Copyright 2024 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -10,7 +10,7 @@
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
 #  *
-#  * EdgeX Foundry, Kamakura WIP release
+#  * EdgeX Foundry, Odessa WIP release
 #  *******************************************************************************/
 #
 #
@@ -35,7 +35,11 @@ services:
     depends_on:
       consul:
         condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
       core-data:
+        condition: service_started
+      core-metadata:
         condition: service_started
       security-bootstrapper:
         condition: service_started
@@ -107,7 +111,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-data:
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
         condition: service_started
       security-bootstrapper:
         condition: service_started
@@ -173,7 +179,11 @@ services:
     depends_on:
       consul:
         condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
       core-data:
+        condition: service_started
+      core-metadata:
         condition: service_started
       security-bootstrapper:
         condition: service_started
@@ -243,7 +253,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-data:
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
         condition: service_started
       security-bootstrapper:
         condition: service_started
@@ -314,7 +326,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-data:
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
         condition: service_started
       security-bootstrapper:
         condition: service_started
@@ -382,7 +396,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-data:
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
         condition: service_started
       security-bootstrapper:
         condition: service_started
@@ -453,7 +469,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-data:
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
         condition: service_started
       security-bootstrapper:
         condition: service_started
@@ -558,7 +576,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-consul
-    image: hashicorp/consul:1.16.2
+    image: hashicorp/consul:1.16
     networks:
       edgex-network: null
     ports:
@@ -605,6 +623,8 @@ services:
     container_name: edgex-core-command
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       core-metadata:
         condition: service_started
@@ -747,7 +767,7 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-metadata:
+      core-common-config-bootstrapper:
         condition: service_started
       database:
         condition: service_started
@@ -907,7 +927,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-redis
-    image: redis:7.0.14-alpine
+    image: redis:7.0-alpine
     networks:
       edgex-network: null
     ports:
@@ -953,6 +973,8 @@ services:
     container_name: edgex-device-modbus
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       core-data:
         condition: service_started
@@ -1031,6 +1053,8 @@ services:
     depends_on:
       consul:
         condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
       core-data:
         condition: service_started
       core-metadata:
@@ -1099,6 +1123,8 @@ services:
     container_name: edgex-device-rest
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       core-data:
         condition: service_started
@@ -1169,6 +1195,8 @@ services:
     container_name: edgex-device-virtual
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       core-data:
         condition: service_started
@@ -1295,7 +1323,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0.18
+    image: eclipse-mosquitto:2.0
     networks:
       edgex-network: null
     ports:
@@ -1333,7 +1361,7 @@ services:
     - /mosquitto-no-auth.conf
     container_name: edgex-taf-mqtt-broker
     hostname: edgex-taf-mqtt-broker
-    image: eclipse-mosquitto:2.0.18
+    image: eclipse-mosquitto:2.0
     networks:
       edgex-network: null
     ports:
@@ -1376,11 +1404,9 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-nginx
-    image: nginx:1.25.3-alpine-slim
+    image: nginx:1.25-alpine-slim
     networks:
-      edgex-network:
-        aliases:
-        - edgex-kong
+      edgex-network: null
     ports:
     - mode: ingress
       target: 8443
@@ -1457,7 +1483,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.11.4-alpine
+    image: lfedge/ekuiper:1.12-alpine
     networks:
       edgex-network: null
     ports:
@@ -1554,6 +1580,8 @@ services:
     - --registry
     container_name: edgex-proxy-auth
     depends_on:
+      core-common-config-bootstrapper:
+        condition: service_started
       security-secretstore-setup:
         condition: service_started
     entrypoint:
@@ -2034,6 +2062,8 @@ services:
     depends_on:
       consul:
         condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
       database:
         condition: service_started
       security-bootstrapper:
@@ -2102,6 +2132,8 @@ services:
     container_name: edgex-support-scheduler
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       database:
         condition: service_started
@@ -2221,7 +2253,7 @@ services:
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
     hostname: edgex-vault
-    image: hashicorp/vault:1.14.5
+    image: hashicorp/vault:1.14
     networks:
       edgex-network: null
     ports:

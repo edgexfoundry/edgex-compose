@@ -1,4 +1,4 @@
-#  * Copyright 2022 Intel Corporation.
+#  * Copyright 2024 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -10,7 +10,7 @@
 #  * or implied. See the License for the specific language governing permissions and limitations under
 #  * the License.
 #  *
-#  * EdgeX Foundry, Kamakura WIP release
+#  * EdgeX Foundry, Odessa WIP release
 #  *******************************************************************************/
 #
 #
@@ -31,7 +31,11 @@ services:
     depends_on:
       consul:
         condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
       core-data:
+        condition: service_started
+      core-metadata:
         condition: service_started
     environment:
       EDGEX_PROFILE: external-mqtt-trigger
@@ -68,7 +72,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-data:
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
         condition: service_started
     environment:
       EDGEX_PROFILE: functional-tests
@@ -99,7 +105,11 @@ services:
     depends_on:
       consul:
         condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
       core-data:
+        condition: service_started
+      core-metadata:
         condition: service_started
     environment:
       EDGEX_PROFILE: http-export
@@ -134,7 +144,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-data:
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
         condition: service_started
     environment:
       EDGEX_PROFILE: mqtt-export
@@ -170,7 +182,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-data:
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
         condition: service_started
     environment:
       EDGEX_PROFILE: rules-engine
@@ -203,7 +217,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-data:
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
         condition: service_started
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
@@ -239,7 +255,9 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-data:
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
         condition: service_started
     environment:
       EDGEX_PROFILE: mqtt-export
@@ -281,7 +299,7 @@ services:
     - 0.0.0.0
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: hashicorp/consul:1.16.2
+    image: hashicorp/consul:1.16
     networks:
       edgex-network: null
     ports:
@@ -308,6 +326,8 @@ services:
     container_name: edgex-core-command
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       core-metadata:
         condition: service_started
@@ -375,7 +395,7 @@ services:
     depends_on:
       consul:
         condition: service_started
-      core-metadata:
+      core-common-config-bootstrapper:
         condition: service_started
       database:
         condition: service_started
@@ -439,7 +459,7 @@ services:
   database:
     container_name: edgex-redis
     hostname: edgex-redis
-    image: redis:7.0.14-alpine
+    image: redis:7.0-alpine
     networks:
       edgex-network: null
     ports:
@@ -466,6 +486,8 @@ services:
     container_name: edgex-device-modbus
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       core-data:
         condition: service_started
@@ -509,6 +531,8 @@ services:
     depends_on:
       consul:
         condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
       core-data:
         condition: service_started
       core-metadata:
@@ -542,6 +566,8 @@ services:
     container_name: edgex-device-rest
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       core-data:
         condition: service_started
@@ -580,6 +606,8 @@ services:
     container_name: edgex-device-virtual
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       core-data:
         condition: service_started
@@ -648,7 +676,7 @@ services:
     - /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0.18
+    image: eclipse-mosquitto:2.0
     networks:
       edgex-network: null
     ports:
@@ -669,7 +697,7 @@ services:
     - /mosquitto-no-auth.conf
     container_name: edgex-taf-mqtt-broker
     hostname: edgex-taf-mqtt-broker
-    image: eclipse-mosquitto:2.0.18
+    image: eclipse-mosquitto:2.0
     networks:
       edgex-network: null
     ports:
@@ -711,7 +739,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: "59720"
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.11.4-alpine
+    image: lfedge/ekuiper:1.12-alpine
     networks:
       edgex-network: null
     ports:
@@ -753,6 +781,8 @@ services:
     depends_on:
       consul:
         condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
       database:
         condition: service_started
     environment:
@@ -784,6 +814,8 @@ services:
     container_name: edgex-support-scheduler
     depends_on:
       consul:
+        condition: service_started
+      core-common-config-bootstrapper:
         condition: service_started
       database:
         condition: service_started
