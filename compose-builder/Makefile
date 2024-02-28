@@ -46,7 +46,7 @@ define OPTIONS
  - nats-bus mqtt-bus mqtt-broker mqtt-verbose nanomq -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-onvif-camera ds-usb-camera ds-bacnet-ip ds-bacnet-mstp ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp -
- - ds-coap ds-gpio ds-uart -
+ - ds-coap ds-gpio ds-uart ds-s7 -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp as-record-replay asc-ex-mqtt -
  - modbus-sim -
 endef
@@ -88,6 +88,7 @@ ifeq (device-dev, $(filter device-dev,$(ARGS)))
 	export DEVICE_GPIO_VERSION=0.0.0-dev
 	export DEVICE_ONVIFCAM_VERSION=0.0.0-dev
 	export DEVICE_USBCAM_VERSION=0.0.0-dev
+	export DEVICE_S7_VERSION=0.0.0-dev
 endif
 ifeq (ui-dev, $(filter ui-dev,$(ARGS)))
 	export UI_REPOSITORY=edgexfoundry
@@ -475,7 +476,34 @@ ifeq (ds-uart, $(filter ds-uart,$(ARGS)))
 		endif
 	endif
 endif
-
+ifeq (ds-s7, $(filter ds-s7,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-s7.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),)
+			TOKEN_LIST:=device-s7
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-s7
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),)
+			KNOWN_SECRETS_LIST:=redisdb[device-s7],message-bus[device-s7]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-s7],message-bus[device-s7]
+		endif
+		PROXY_ROUTE:=device-s7.http://edgex-device-s7:59994
+		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
+			EXTRA_PROXY_ROUTE_LIST:=$(PROXY_ROUTE)
+		else
+			EXTRA_PROXY_ROUTE_LIST:=$(EXTRA_PROXY_ROUTE_LIST),$(PROXY_ROUTE)
+		endif
+		extension_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-s7)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-s7)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
+	endif
+endif
 # Add ModBus Simulator
 ifeq (modbus-sim, $(filter modbus-sim,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-modbus-simulator.yml
@@ -785,6 +813,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-device-rest.yml \
 		-f add-device-modbus.yml \
 		-f add-device-onvif-camera.yml \
+		-f add-device-s7.yml \
 		-f add-taf-device-services-mods.yml \
 		-f add-mqtt-broker-mosquitto.yml \
 		-f add-modbus-simulator.yml \
@@ -840,6 +869,7 @@ else
 			-f add-device-rest.yml \
 			-f add-device-modbus.yml \
             -f add-device-onvif-camera.yml \
+			-f add-device-s7.yml \
 			-f add-taf-device-services-mods.yml \
 			-f ${BROKER_YAML} \
 			-f add-modbus-simulator.yml \
@@ -867,6 +897,7 @@ else
     			-f add-asc-mqtt-export.yml \
     			-f add-device-virtual.yml \
     			-f add-device-rest.yml \
+				-f add-device-s7.yml \
     			-f add-mqtt-broker-mosquitto.yml \
 				-f add-taf-mqtt-broker-mosquitto.yml \
 			-f add-delayed-start-services.yml
@@ -883,6 +914,7 @@ else
 					-f add-asc-mqtt-export.yml \
 					-f add-device-virtual.yml \
 					-f add-device-rest.yml \
+					-f add-device-s7.yml \
 					-f ${BROKER_YAML} \
 					-f ${TAF_BROKER_YAML}
 
@@ -918,6 +950,7 @@ define COMPOSE_DOWN
 		-f add-device-uart.yml \
 		-f add-device-rfid-llrp.yml \
 		-f add-device-virtual.yml \
+		-f add-device-s7.yml \
 		-f add-asc-http-export.yml \
 		-f add-asc-mqtt-export.yml \
 		-f add-asc-external-mqtt-trigger.yml \
