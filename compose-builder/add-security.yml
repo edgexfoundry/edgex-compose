@@ -195,6 +195,7 @@ services:
     hostname: edgex-security-proxy-setup
     entrypoint: ["/edgex-init/proxy_setup_wait_install.sh"]
     read_only: true
+    restart: always
     networks:
       - edgex-network
     env_file:
