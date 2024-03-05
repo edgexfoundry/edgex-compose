@@ -684,9 +684,7 @@ services:
     hostname: edgex-nginx
     image: nginx:1.25.3-alpine-slim
     networks:
-      edgex-network:
-        aliases:
-        - edgex-kong
+      edgex-network: null
     ports:
     - mode: ingress
       target: 8443
