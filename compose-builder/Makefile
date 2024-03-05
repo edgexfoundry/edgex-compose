@@ -813,7 +813,6 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-device-rest.yml \
 		-f add-device-modbus.yml \
 		-f add-device-onvif-camera.yml \
-		-f add-device-s7.yml \
 		-f add-taf-device-services-mods.yml \
 		-f add-mqtt-broker-mosquitto.yml \
 		-f add-modbus-simulator.yml \
@@ -869,7 +868,6 @@ else
 			-f add-device-rest.yml \
 			-f add-device-modbus.yml \
             -f add-device-onvif-camera.yml \
-			-f add-device-s7.yml \
 			-f add-taf-device-services-mods.yml \
 			-f ${BROKER_YAML} \
 			-f add-modbus-simulator.yml \
@@ -897,7 +895,6 @@ else
     			-f add-asc-mqtt-export.yml \
     			-f add-device-virtual.yml \
     			-f add-device-rest.yml \
-				-f add-device-s7.yml \
     			-f add-mqtt-broker-mosquitto.yml \
 				-f add-taf-mqtt-broker-mosquitto.yml \
 			-f add-delayed-start-services.yml
@@ -914,7 +911,6 @@ else
 					-f add-asc-mqtt-export.yml \
 					-f add-device-virtual.yml \
 					-f add-device-rest.yml \
-					-f add-device-s7.yml \
 					-f ${BROKER_YAML} \
 					-f ${TAF_BROKER_YAML}
 
