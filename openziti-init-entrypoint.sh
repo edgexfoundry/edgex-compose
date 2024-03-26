@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-OPENZITI_PERSISTENCE_PATH=/edgex_openziti
-openziti_server_and_port="openziti:1280"
-openziti_user=admin
-openziti_pwd=admin
+# should be user settable through docker-compose/env/env vars
+openziti_server_and_port="${OPENZITI_ADVERTISED_ADDRESS}:${OPENZITI_ADVERTISED_PORT}"
+
+# expected to not change
 oidc_server="vault:8200"
 ext_signer_name="vault.clients"
 auth_policy_name="${ext_signer_name}.auth.policy"
@@ -12,7 +12,7 @@ aud="edgex"
 claim="name"
 
 while [[ "$(curl -w "%{http_code}" -m 1 -s -k -o /dev/null https://${openziti_server_and_port}/version)" != "200" ]]; do echo "waiting for https://${openziti_server_and_port}"; sleep 3; done; echo "controller online"
-ziti edge login ${openziti_server_and_port} -u $openziti_user -p $openziti_pwd -y
+ziti edge login ${openziti_server_and_port} -u $ZITI_USER -p $ZITI_PWD -y
 
 ext_jwt_id=$(ziti edge create ext-jwt-signer "${ext_signer_name}" $iss -u $jwks -a $aud -c $claim)
 
@@ -97,4 +97,3 @@ ziti edge create service-policy healthcheck-application-dial Dial --identity-rol
 ziti edge create service-policy ui-support-dial Dial --identity-roles "#edgex.ui.server" --service-roles "#support.svc"
 
 ziti edge enroll ${OPENZITI_PERSISTENCE_PATH}/healthcheck.jwt
-
