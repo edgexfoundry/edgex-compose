@@ -1011,6 +1011,7 @@ services:
       edgex-network: null
     ports:
     - mode: ingress
+      host_ip: 127.0.0.1
       target: 4000
       published: "4000"
       protocol: tcp
