@@ -20,49 +20,65 @@ edgex_auth_policy=$(ziti edge create auth-policy "${auth_policy_name}" \
   --primary-ext-jwt-allowed \
   --primary-ext-jwt-allowed-signers "${ext_jwt_id}")
 
-function deleteEdgexService {
+function makeEdgeXService {
   local svc="edgex.$1"
-  ziti edge delete config "${svc}-intercept"
-  ziti edge delete service "${svc}"
-  ziti edge delete erp "${svc}.erp"
-  ziti edge delete sp "${svc}.bind"
-  ziti edge delete sp "${svc}.dial"
+  local idAttr="$2.id"
+  local svcAttr="$2.svc"
+  local int="$1.edgex.ziti"
+  ziti edge create identity "${svc}" --external-id "${1}" -a "${idAttr},${svc}.server" -P "${edgex_auth_policy}"
+  ziti edge create config "${svc}.intercept" intercept.v1 '{"protocols":["tcp"],"addresses":["'"${int}"'"], "portRanges":[{"low":80, "high":80}]}'
+  ziti edge create service "${svc}" -a "${svcAttr},${svc}.server" --configs "${svc}.intercept"
+  ziti edge create service-policy "${svc}.bind" Bind --service-roles "#${svc}.server" --identity-roles "#${svc}.server"
 }
 
-function makeEdgexService {
-  local svc="edgex.$1"
-  local int="$1.edgex.ziti"
-  ziti edge create identity "${svc}" --external-id "${1}" -a "edgex,${svc}-servers" -P "${edgex_auth_policy}"
-  ziti edge create config "${svc}-intercept" intercept.v1 '{"protocols":["tcp"],"addresses":["'"${int}"'"], "portRanges":[{"low":80, "high":80}]}'
-  ziti edge create service "${svc}" -a "${svc}" --configs "${svc}-intercept"
-  ziti edge create edge-router-policy "${svc}.erp" --identity-roles "#${svc}" --edge-router-roles '#all'
-  ziti edge create service-policy "${svc}.bind" Bind --service-roles "#${svc}" --identity-roles "#${svc}-servers"
-  ziti edge create service-policy "${svc}.dial" Dial --service-roles "#${svc}" --identity-roles "#${svc}-clients"
+function makeCoreService {
+  makeEdgeXService $1 "core"
+}
+function makeSupportService {
+  makeEdgeXService $1 "support"
+}
+function makeDeviceService {
+  makeEdgeXService $1 "device"
+}
+function makeApplicationService {
+  makeEdgeXService $1 "application"
 }
 
 sleep 1
-makeEdgexService 'core-command'
-makeEdgexService 'core-data'
-makeEdgexService 'core-metadata'
-makeEdgexService 'device-virtual'
-makeEdgexService 'device-rest'
-makeEdgexService 'rules-engine'
-makeEdgexService 'support-notifications'
-makeEdgexService 'support-scheduler'
-makeEdgexService 'sys-mgmt-agent'
-makeEdgexService 'ui'
-makeEdgexService 'app-rules-engine'
 
+makeCoreService 'core-command'
+makeCoreService 'core-data'
+makeCoreService 'core-metadata'
+makeCoreService 'rules-engine'
+makeSupportService 'support-notifications'
+makeSupportService 'support-scheduler'
+makeCoreService 'ui'
 
-ziti edge create identity edgexuser -P "${edgex_auth_policy}" --external-id edgexuser -a edgex.device-virtual-servers,edgex.core-command-clients,edgex.core-data-clients,edgex.core-metadata-clients,edgex.device-virtual-clients,edgex.rules-engine-clients,edgex.support-notifications-clients,edgex.support-scheduler-clients,edgex.sys-mgmt-agent-clients
-ziti edge update identity edgex.rules-engine -a edgex.rules-engine-servers,edgex.core-command-clients
-ziti edge update identity edgex.device-virtual -a edgex.device-virtual-servers,edgex.core-command-clients,edgex.core-data-clients,edgex.core-metadata-clients,edgex.device-virtual-clients,edgex.rules-engine-clients,edgex.support-notifications-clients,edgex.support-scheduler-clients,edgex.sys-mgmt-agent-clients
-ziti edge update identity edgex.ui -a edgex.device-virtual-servers,edgex.core-command-clients,edgex.core-data-clients,edgex.core-metadata-clients,edgex.device-virtual-clients,edgex.rules-engine-clients,edgex.support-notifications-clients,edgex.support-scheduler-clients,edgex.sys-mgmt-agent-clients
-ziti edge update identity edgex.device-rest -a edgex.device-rest-servers,edgex.core-command-clients,edgex.core-data-clients,edgex.core-metadata-clients,edgex.device-virtual-clients,edgex.rules-engine-clients,edgex.support-notifications-clients,edgex.support-scheduler-clients,edgex.sys-mgmt-agent-clients
-ziti edge update identity edgex.core-command -a edgex,edgex.core-command-servers,edgex.core-metadata-clients,edgex.device-virtual-clients
+makeDeviceService 'device-bacnet-ip'
+makeDeviceService 'device-coap'
+makeDeviceService 'device-gpio'
+makeDeviceService 'device-modbus'
+makeDeviceService 'device-mqtt'
+makeDeviceService 'device-onvif-camera'
+makeDeviceService 'device-rest'
+makeDeviceService 'device-rfid-llrp'
+makeDeviceService 'device-snmp'
+makeDeviceService 'device-uart'
+makeDeviceService 'device-usb-camera'
+makeDeviceService 'device-virtual'
 
-echo "granting additional dial capabilities to app-rules-engine"
-ziti edge update identity edgex.app-rules-engine -a edgex,edgex.app-rules-engine-servers,edgex.core-metadata-clients
+makeApplicationService 'app-external-mqtt-trigger'
+makeApplicationService 'app-http-export'
+makeApplicationService 'app-metrics-influxdb'
+makeApplicationService 'app-mqtt-export'
+makeApplicationService 'app-rfid-llrp-inventory'
+makeApplicationService 'app-rules-engine'
+makeApplicationService 'app-sample'
+  
+ziti edge create service-policy app-core-dial Dial --identity-roles "#application.id" --service-roles "#core.svc"
+ziti edge create service-policy app-support-dial Dial --identity-roles "#application.id" --service-roles "#support.svc"
+ziti edge create service-policy ds-core-dial Dial --identity-roles "#device.id" --service-roles "@edgex.core-metadata"
+ziti edge create service-policy core-core-dial Dial --identity-roles "#core.id" --service-roles "#core.svc"
 
 echo " "
 echo "ext-jwt-id     : ${ext_jwt_id}"
@@ -72,9 +88,13 @@ echo " "
 echo "creating the healthcheck proxy identity"
 ziti edge create identity \
   healthcheck -o ${OPENZITI_PERSISTENCE_PATH}/healthcheck.jwt \
-  -a 'edgex.app-rules-engine-clients,edgex.device-rest-clients,edgex.core-command-clients,'\
-'edgex.core-data-clients,edgex.core-metadata-clients,edgex.device-virtual-clients,'\
-'edgex.rules-engine-clients,edgex.support-notifications-clients,edgex.support-scheduler-clients,'\
-'edgex.sys-mgmt-agent-clients'
+  -a 'healthchecker'
+ziti edge create service-policy healthcheck-core-dial Dial --identity-roles "#healthchecker" --service-roles "#core.svc"
+ziti edge create service-policy healthcheck-support-dial Dial --identity-roles "#healthchecker" --service-roles "#support.svc"
+ziti edge create service-policy healthcheck-device-dial Dial --identity-roles "#healthchecker" --service-roles "#device.svc"
+ziti edge create service-policy healthcheck-application-dial Dial --identity-roles "#healthchecker" --service-roles "#application.svc"
+
+ziti edge create service-policy ui-support-dial Dial --identity-roles "#edgex.ui.server" --service-roles "#support.svc"
 
 ziti edge enroll ${OPENZITI_PERSISTENCE_PATH}/healthcheck.jwt
+
