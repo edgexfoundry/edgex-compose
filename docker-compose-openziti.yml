@@ -83,14 +83,31 @@ services:
     networks:
       edgex-network:
         aliases:
+          - app-external-mqtt-trigger.edgex.ziti
+          - app-http-export.edgex.ziti
+          - app-metrics-influxdb.edgex.ziti
+          - app-mqtt-export.edgex.ziti
+          - app-rfid-llrp-inventory.edgex.ziti
           - app-rules-engine.edgex.ziti
+          - app-sample.edgex.ziti
           - core-command.edgex.ziti
           - core-data.edgex.ziti
           - core-metadata.edgex.ziti
-          - device-rest.edgex.ziti
-          - device-virtual.edgex.ziti
+          - rules-engine.edgex.ziti
           - support-notifications.edgex.ziti
           - support-scheduler.edgex.ziti
+          - device-bacnet-ip.edgex.ziti
+          - device-coap.edgex.ziti
+          - device-gpio.edgex.ziti
+          - device-modbus.edgex.ziti
+          - device-mqtt.edgex.ziti
+          - device-onvif-camera.edgex.ziti
+          - device-rest.edgex.ziti
+          - device-rfid-llrp.edgex.ziti
+          - device-snmp.edgex.ziti
+          - device-uart.edgex.ziti
+          - device-usb-camera.edgex.ziti
+          - device-virtual.edgex.ziti
 networks:
   edgex-network:
     name: edgex_edgex-network
