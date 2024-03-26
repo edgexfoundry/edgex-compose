@@ -958,7 +958,6 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       SERVICE_HOST: 0.0.0.0
-      _SERVICE_PORT: 4000
       SECRETSTORE_HOST: edgex-vault
       CLIENTS_CORE_COMMAND_SECURITYOPTIONS_MODE: "zerotrust"
       CLIENTS_CORE_COMMAND_HOST: "core-command.edgex.ziti"

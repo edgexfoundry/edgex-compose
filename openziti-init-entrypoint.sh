@@ -49,10 +49,11 @@ sleep 1
 makeCoreService 'core-command'
 makeCoreService 'core-data'
 makeCoreService 'core-metadata'
-makeCoreService 'rules-engine'
+makeCoreService 'ui'
+
+makeSupportService 'rules-engine'
 makeSupportService 'support-notifications'
 makeSupportService 'support-scheduler'
-makeCoreService 'ui'
 
 makeDeviceService 'device-bacnet-ip'
 makeDeviceService 'device-coap'
@@ -73,6 +74,7 @@ makeApplicationService 'app-metrics-influxdb'
 makeApplicationService 'app-mqtt-export'
 makeApplicationService 'app-rfid-llrp-inventory'
 makeApplicationService 'app-rules-engine'
+makeApplicationService 'app-record-replay'
 makeApplicationService 'app-sample'
   
 ziti edge create service-policy app-core-dial Dial --identity-roles "#application.id" --service-roles "#core.svc"

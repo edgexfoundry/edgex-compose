@@ -46,7 +46,6 @@ services:
       - edgex_openziti:/edgex_openziti
   openziti-configure:
     container_name: edgex-openziti-configure
-    #image: busybox
     build:
       dockerfile: openziti-init.Dockerfile
     user: root
