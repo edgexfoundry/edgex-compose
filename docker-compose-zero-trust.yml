@@ -210,6 +210,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       CLIENTS_CORE_METADATA_HOST: "core-metadata.edgex.ziti"
       CLIENTS_CORE_METADATA_PORT: 80
+      CLIENTS_CORE_METADATA_SECURITYOPTIONS_MODE: "zerotrust"
 
     hostname: edgex-core-command
     image: nexus3.edgexfoundry.org:10004/core-command:latest
@@ -258,7 +259,7 @@ services:
       ALL_SERVICES_DATABASE_HOST: edgex-redis
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
       ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
-      ALL_SERVICES_SERVICE_SECURITYOPTIONS_MODE: "zerotrust"      
+      ALL_SERVICES_SERVICE_SECURITYOPTIONS_MODE: "zerotrust"
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: core-metadata.edgex.ziti
       APP_SERVICES_CLIENTS_CORE_METADATA_PORT: 80
       APP_SERVICES_CLIENTS_CORE_METADATA_SECURITYOPTIONS_MODE: "zerotrust"
@@ -666,8 +667,12 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
+      EDGEX_CREDENTIAL_NAME: rules-engine
+      EDGEX_CREDENTIALS: /tmp/edgex/secrets/rules-engine/secrets-token.json
+      OPENZITI_CONTROLLER: openziti:1280          
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.12-alpine
+    #image: lfedge/ekuiper:1.12-alpine
+    image: lfedge/ekuiper:d5bbd747
     networks:
       edgex-network: null
     read_only: true
@@ -711,6 +716,12 @@ services:
       source: kuiper-plugins
       target: /kuiper/plugins
       volume: {}
+    - type: bind
+      source: /tmp/edgex/secrets
+      target: /tmp/edgex/secrets
+      bind:
+        selinux: z
+        create_host_path: true
   security-bootstrapper:
     container_name: edgex-security-bootstrapper
     environment:
