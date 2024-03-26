@@ -82,6 +82,7 @@ ziti edge create service-policy app-support-dial Dial --identity-roles "#applica
 ziti edge create service-policy ds-core-dial Dial --identity-roles "#device.id" --service-roles "@edgex.core-metadata"
 ziti edge create service-policy core-core-dial Dial --identity-roles "#core.id" --service-roles "#core.svc"
 ziti edge create service-policy corecmd-device-dial Dial --identity-roles "#edgex.core-command.server" --service-roles "#device.svc"
+ziti edge create service-policy support-core-dial Dial --identity-roles "#support.id" --service-roles "#core.svc"
 
 echo " "
 echo "ext-jwt-id     : ${ext_jwt_id}"
