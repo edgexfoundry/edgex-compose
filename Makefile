@@ -13,7 +13,7 @@
 #  *
 #  *******************************************************************************/
 
-.PHONY: help portainer portainer-down pull run pull-ui run-ui down-ui down clean get-token
+.PHONY: help portainer portainer-down pull run pull-ui run-ui down-ui down clean get-token openziti openziti-down zero-trust zero-trust-down
 .SILENT: help get-token
 
 help:
@@ -53,6 +53,18 @@ portainer:
 
 portainer-down:
 	${DOCKER_COMPOSE} -p portainer -f docker-compose-portainer.yml down
+
+openziti:
+	${DOCKER_COMPOSE} -p openziti -f docker-compose-openziti.yml up -d --build
+
+openziti-down:
+	${DOCKER_COMPOSE} -p openziti -f docker-compose-openziti.yml down
+
+zero-trust:
+	${DOCKER_COMPOSE} -p openziti -f docker-compose-zero-trust.yml up -d
+
+zero-trust-down:
+	${DOCKER_COMPOSE} -p openziti -f docker-compose-zero-trust.yml down
 
 pull:
 	${DOCKER_COMPOSE} -f docker-compose${NO_SECURITY}${ARM64}.yml pull ${SERVICES}

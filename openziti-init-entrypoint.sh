@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+if [ -e "${OPENZITI_PERSISTENCE_PATH}/healthcheck.json" ]; then
+    echo "${OPENZITI_PERSISTENCE_PATH}/healthcheck.json exists. already initialized."
+    exit 0
+fi
+ 
+
 # should be user settable through docker-compose/env/env vars
 openziti_server_and_port="${OPENZITI_ADVERTISED_ADDRESS}:${OPENZITI_ADVERTISED_PORT}"
 
@@ -101,3 +107,4 @@ ziti edge create service-policy healthcheck-application-dial Dial --identity-rol
 ziti edge create service-policy ui-support-dial Dial --identity-roles "#edgex.ui.server" --service-roles "#support.svc"
 
 ziti edge enroll ${OPENZITI_PERSISTENCE_PATH}/healthcheck.jwt
+

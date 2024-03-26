@@ -1,7 +1,7 @@
 services:
   openziti:
     container_name: edgex-openziti
-    image: openziti/ziti-cli:0.31.4
+    image: openziti/ziti-cli:0.34.1
     restart: unless-stopped
     networks:
       edgex-network:
@@ -19,9 +19,10 @@ services:
         " --router-address ${OPENZITI_ADVERTISED_ADDRESS:-openziti}"\
         " --router-port ${ZITI_ROUTER_PORT:-3022}"\
         " --username ${ZITI_USER:-admin}"\
-        " --password ${ZITI_PWD:-admin}"
+        " --password ${ZITI_PWD:-admin}"\
+        " --home /edgex_openziti"
         exec ziti "$${@}" $${ZITI_CMD}
-    command: -- edge quickstart --home /edgex_openziti
+    command: -- edge quickstart
     user: 2002:2001
     environment:
       HOME: /edgex_openziti
