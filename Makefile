@@ -60,11 +60,23 @@ openziti:
 openziti-down:
 	${DOCKER_COMPOSE} -p openziti -f docker-compose-openziti.yml down
 
+openziti-logs:
+	${DOCKER_COMPOSE} -p openziti -f docker-compose-openziti.yml logs -f
+
+openziti-clean:
+	${DOCKER_COMPOSE} -p openziti -f docker-compose-openziti.yml down -v
+
 zero-trust:
 	${DOCKER_COMPOSE} -p openziti -f docker-compose-zero-trust.yml up -d
 
 zero-trust-down:
 	${DOCKER_COMPOSE} -p openziti -f docker-compose-zero-trust.yml down
+
+zero-trust-logs:
+	${DOCKER_COMPOSE} -p openziti -f docker-compose-zero-trust.yml logs -f
+
+zero-trust-clean:
+	${DOCKER_COMPOSE} -p openziti -f docker-compose-zero-trust.yml down -v
 
 pull:
 	${DOCKER_COMPOSE} -f docker-compose${NO_SECURITY}${ARM64}.yml pull ${SERVICES}
