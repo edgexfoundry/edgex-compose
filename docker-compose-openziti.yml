@@ -1,0 +1,117 @@
+services:
+  openziti:
+    container_name: edgex-openziti
+    image: openziti/ziti-cli:0.34.1
+    restart: unless-stopped
+    networks:
+      edgex-network:
+        aliases:
+          - openziti
+          - ziti-controller
+          - ziti-edge-controller
+          - ziti-router
+    entrypoint:
+      - bash
+      - -euc
+      - |
+        ZITI_CMD+=" --ctrl-address ${OPENZITI_ADVERTISED_ADDRESS:-openziti}"\
+        " --ctrl-port ${OPENZITI_ADVERTISED_PORT:-1280}"\
+        " --router-address ${OPENZITI_ADVERTISED_ADDRESS:-openziti}"\
+        " --router-port ${ZITI_ROUTER_PORT:-3022}"\
+        " --username ${ZITI_USER:-admin}"\
+        " --password ${ZITI_PWD:-admin}"\
+        " --home /edgex_openziti"
+        exec ziti "$${@}" $${ZITI_CMD}
+    command: -- edge quickstart
+    user: 2002:2001
+    environment:
+      HOME: /edgex_openziti
+      PFXLOG_NO_JSON: "${PFXLOG_NO_JSON:-true}"
+    volumes:
+      - edgex_openziti:/edgex_openziti
+    ports:
+      - ${ZITI_INTERFACE:-0.0.0.0}:${OPENZITI_ADVERTISED_PORT:-1280}:${OPENZITI_ADVERTISED_PORT:-1280}
+      - ${ZITI_INTERFACE:-0.0.0.0}:${ZITI_ROUTER_PORT:-3022}:${ZITI_ROUTER_PORT:-3022}
+    depends_on:
+      openziti-initialize:
+        condition: service_completed_successfully
+  openziti-initialize:
+    container_name: edgex-openziti-initialize
+    image: busybox
+    command: chown -Rc 2002:2001 /edgex_openziti
+    user: root
+    environment:
+      HOME: /edgex_openziti
+      PFXLOG_NO_JSON: "true"
+    volumes:
+      - edgex_openziti:/edgex_openziti
+  openziti-configure:
+    container_name: edgex-openziti-configure
+    build:
+      dockerfile: openziti-init.Dockerfile
+    user: root
+    environment:
+      - ZITI_USER=${ZITI_USER:-admin}
+      - ZITI_PWD=${ZITI_PWD:-admin}
+      - OPENZITI_PERSISTENCE_PATH=${OPENZITI_PERSISTENCE_PATH:-/edgex_openziti}
+      - OPENZITI_ADVERTISED_ADDRESS=${OPENZITI_ADVERTISED_ADDRESS:-openziti}
+      - OPENZITI_ADVERTISED_PORT=${OPENZITI_ADVERTISED_PORT:-1280}
+    volumes:
+      - edgex_openziti:/edgex_openziti
+    networks:
+      edgex-network:
+  openziti-underlay-proxy:
+    container_name: edgex-underlay-proxy
+    image: ghcr.io/openziti-test-kitchen/healthcheck-proxy/healthcheck-proxy:latest
+    environment:
+      HOME: /edgex_openziti
+      OPENZITI_HEALTHCHECK_ALLOWED_PATH: '^.*/ping$'
+      OPENZITI_HEALTHCHECK_SEARCH_REGEX: '(.*).edgex.ziti'
+      OPENZITI_HEALTHCHECK_REPLACE_REGEX: 'edgex.$1'
+      OPENZITI_HEALTHCHECK_PROXY_PORT: 80
+      OPENZITI_HEALTHCHECK_IDENTITY: /edgex_openziti/healthcheck.json
+    volumes:
+      - edgex_openziti:/edgex_openziti
+    command: >
+      sh -c "
+      while [ ! -f /edgex_openziti/healthcheck.json ]; do
+        sleep 1
+        echo 'waiting for /edgex_openziti/healthcheck.json...'
+      done &&
+      /app/zerotrust-healthcheck"
+    restart: unless-stopped
+    networks:
+      edgex-network:
+        aliases:
+          - app-external-mqtt-trigger.edgex.ziti
+          - app-http-export.edgex.ziti
+          - app-metrics-influxdb.edgex.ziti
+          - app-mqtt-export.edgex.ziti
+          - app-rfid-llrp-inventory.edgex.ziti
+          - app-rules-engine.edgex.ziti
+          - app-sample.edgex.ziti
+          - core-command.edgex.ziti
+          - core-data.edgex.ziti
+          - core-metadata.edgex.ziti
+          - rules-engine.edgex.ziti
+          - support-notifications.edgex.ziti
+          - support-scheduler.edgex.ziti
+          - device-bacnet-ip.edgex.ziti
+          - device-coap.edgex.ziti
+          - device-gpio.edgex.ziti
+          - device-modbus.edgex.ziti
+          - device-mqtt.edgex.ziti
+          - device-onvif-camera.edgex.ziti
+          - device-rest.edgex.ziti
+          - device-rfid-llrp.edgex.ziti
+          - device-snmp.edgex.ziti
+          - device-uart.edgex.ziti
+          - device-usb-camera.edgex.ziti
+          - device-virtual.edgex.ziti
+networks:
+  edgex-network:
+    name: edgex_edgex-network
+    driver: bridge
+volumes:
+  edgex_openziti:
+    driver: local
