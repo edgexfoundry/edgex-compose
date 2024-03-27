@@ -789,6 +789,10 @@ else
 	ifeq ($(BUS),) # if BUS not set, then we are using secure redis messagebus by default
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
 	endif
+	# Add Security Ports
+	ifneq (zero-trust, $(filter zero-trust,$(ARGS)))
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security-proxy.yml
+	endif
 endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)

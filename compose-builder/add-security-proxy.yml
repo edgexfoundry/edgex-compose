@@ -1,0 +1,134 @@
+# /*******************************************************************************
+#  * Copyright 2024 Intel Corporation.
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  *******************************************************************************/
+
+version: '3.7'
+
+volumes:
+  edgex-init:
+  vault-config:
+  vault-file:
+  vault-logs:
+  consul-acl-token:
+  # non-shared volumes
+  nginx-templates:
+  nginx-tls:
+  redis-config:
+
+services:
+# containers for reverse proxy
+
+  nginx:
+    image: nginx:${NGINX_VERSION}
+    container_name: edgex-nginx
+    hostname: edgex-nginx
+    ports:
+      - "8443:8443"  # port 8000 (insecure) is not mapped externally)
+    read_only: true
+    restart: always
+    networks:
+      edgex-network:
+    entrypoint: ["/bin/sh", "/edgex-init/nginx_wait_install.sh"]
+    command:
+      - "/docker-entrypoint.sh"
+      - nginx
+      - "-g"
+      - "daemon off;"
+    env_file:
+      - common-sec-stage-gate.env
+    volumes:
+      - edgex-init:/edgex-init:ro
+      - nginx-templates:/etc/nginx/templates
+      - nginx-tls:/etc/ssl/nginx
+    depends_on:
+      - security-secretstore-setup
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /etc/nginx/conf.d
+      - /var/cache/nginx
+      - /var/log/nginx
+      - /var/run
+
+  security-proxy-setup:
+    image: ${CORE_EDGEX_REPOSITORY}/security-proxy-setup${ARCH}:${CORE_EDGEX_VERSION}
+    user: "root:root"
+    container_name: edgex-security-proxy-setup
+    hostname: edgex-security-proxy-setup
+    entrypoint: ["/edgex-init/proxy_setup_wait_install.sh"]
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common-security.env
+      - common-sec-stage-gate.env
+    environment:
+      ROUTES_CORE_CONSUL_HOST: edgex-core-consul
+      ROUTES_CORE_DATA_HOST: edgex-core-data
+      ROUTES_CORE_METADATA_HOST: edgex-core-metadata
+      ROUTES_CORE_COMMAND_HOST: edgex-core-command
+      ROUTES_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
+      ROUTES_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
+      ROUTES_SYS_MGMT_AGENT_HOST: edgex-sys-mgmt-agent
+      ROUTES_RULES_ENGINE_HOST: edgex-kuiper
+      ROUTES_DEVICE_VIRTUAL_HOST: device-virtual
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
+      - edgex-init:/edgex-init:ro
+      - vault-config:/vault/config
+      - nginx-templates:/etc/nginx/templates
+      - nginx-tls:/etc/ssl/nginx
+      - /tmp/edgex/secrets/security-proxy-setup:/tmp/edgex/secrets/security-proxy-setup:ro,z
+      - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:ro
+    depends_on:
+      - security-bootstrapper
+      - security-secretstore-setup
+    security_opt:
+      - no-new-privileges:true
+
+  security-proxy-auth:
+    image: ${CORE_EDGEX_REPOSITORY}/security-proxy-auth${ARCH}:${CORE_EDGEX_VERSION}
+    container_name: edgex-proxy-auth
+    hostname: edgex-proxy-auth
+    ports:
+      - "127.0.0.1:59842:59842"
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    entrypoint: ["/bin/sh", "/edgex-init/ready_to_run_wait_install.sh"]
+    command:
+      - "entrypoint.sh"
+      - "/security-proxy-auth"
+      - "-cp=consul.http://edgex-core-consul:8500"
+      - "--registry"
+    env_file:
+      - common-security.env
+      - common-sec-stage-gate.env
+    environment:
+      SERVICE_HOST: edgex-proxy-auth
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
+      - edgex-init:/edgex-init:ro
+      - /tmp/edgex/secrets/security-proxy-auth:/tmp/edgex/secrets/security-proxy-auth:ro,z
+    depends_on:
+      - security-secretstore-setup
+      - core-common-config-bootstrapper
+    security_opt:
+      - no-new-privileges:true
+
+# end of containers for reverse proxy
