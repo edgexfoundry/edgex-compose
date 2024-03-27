@@ -22,8 +22,6 @@ volumes:
   vault-logs:
   consul-acl-token:
   # non-shared volumes
-  nginx-templates:
-  nginx-tls:
   redis-config:
 
 services:
