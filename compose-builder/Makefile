@@ -807,6 +807,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	COMPOSE_FILES:= \
 		-f docker-compose-base.yml \
 		-f add-security.yml \
+		-f add-security-proxy.yml \
 		-f add-taf-app-services.yml \
 		-f add-taf-app-services-secure.yml \
 		-f add-asc-http-export.yml \
@@ -895,6 +896,7 @@ else
     		COMPOSE_FILES:= \
     			-f docker-compose-base.yml \
     			-f add-security.yml \
+    			-f add-security-proxy.yml \
     			-f add-secure-redis-messagebus.yml \
     			-f add-asc-mqtt-export.yml \
     			-f add-device-virtual.yml \
@@ -966,6 +968,7 @@ define COMPOSE_DOWN
 		-f add-secure-mqtt-messagebus.yml \
 		-f add-nats-messagebus.yml \
 		-f add-security.yml \
+		-f add-security-proxy.yml \
 		-f add-secure-redis-messagebus.yml \
 		-f add-delayed-start-services.yml \
 		down $1
