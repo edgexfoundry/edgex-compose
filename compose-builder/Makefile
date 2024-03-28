@@ -65,8 +65,10 @@ endif
 
 ifeq (zero-trust, $(filter zero-trust,$(ARGS)))
 	MAKE_ZERO_TRUST:=1
+	export ZERO_TRUST_COMPOSE=-zero-trust
 else
 	MAKE_ZERO_TRUST:=0
+	export ZERO_TRUST_COMPOSE=
 endif
 ifeq (no-cleanup, $(filter no-cleanup,$(ARGS)))
 	NO_CLEANUP:=1
@@ -1015,6 +1017,8 @@ build-canned:
 	make compose ds-rest ds-virtual no-secty arm64
 	make compose ds-rest ds-virtual asc-sample no-secty
 	make compose ds-rest ds-virtual asc-sample no-secty arm64
+	make compose ds-rest ds-virtual zero-trust
+	make compose ds-rest ds-virtual zero-trust arm64
 
 build-taf:
 	make taf-compose taf-secty
@@ -1035,7 +1039,7 @@ build-taf-nanomq:
 	make taf-compose-perf taf-perf-no-secty mqtt-bus nanomq no-secty
 
 compose: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(NO_SECURITY)$(APP_SAMPLE)$(BUS)$(NANOMQ)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(NO_SECURITY)$(APP_SAMPLE)$(BUS)$(NANOMQ)$(ZERO_TRUST_COMPOSE)$(ARCH).yml
 
 taf-compose: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml
@@ -1051,9 +1055,12 @@ pull: gen
 
 gen:
 	echo MQTT_VERBOSE=${MQTT_VERBOSE}
-	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} --output docker-compose.yml
+	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} --output docker-compose.yml.gen
 	if [ "$(NO_CLEANUP)" = "0" ]; then rm -rf ./$(GEN_EXT_DIR); fi
-
+	echo "# Generated with: $(docker_ver)" > docker-compose.yml
+	cat docker-compose.yml.gen >> docker-compose.yml
+	rm docker-compose.yml.gen
+	
 get-token:
 	sh ./get-api-gateway-token.sh
 

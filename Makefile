@@ -13,7 +13,7 @@
 #  *
 #  *******************************************************************************/
 
-.PHONY: help portainer portainer-down pull run pull-ui run-ui down-ui down clean get-token openziti openziti-down zero-trust zero-trust-down
+.PHONY: help portainer portainer-down pull run pull-ui run-ui down-ui down clean get-token openziti openziti-down zero-trust
 .SILENT: help get-token
 
 help:
@@ -22,7 +22,7 @@ help:
 ARGS:=$(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 $(eval $(ARGS):;@:)
 
-OPTIONS:=" arm64 no-secty app-sample " # Must have spaces around words for `filter-out` function to work properly
+OPTIONS:=" arm64 no-secty app-sample zero-trust " # Must have spaces around words for `filter-out` function to work properly
 
 # This tool now only supports compose V2, aka "docker compose" as it has replaced to old docker-compose tool.
 DOCKER_COMPOSE=docker compose
@@ -37,11 +37,14 @@ endif
 ifeq (app-sample, $(filter app-sample,$(ARGS)))
 	APP_SAMPLE:=-with-app-sample
 endif
+ifeq (zero-trust, $(filter zero-trust,$(ARGS)))
+	ZERO_TRUST_OPTION=-zero-trust
+endif
 
 SERVICES:=$(filter-out $(OPTIONS),$(ARGS))
 
 define COMPOSE_DOWN
-	${DOCKER_COMPOSE} -p edgex -f docker-compose.yml -f docker-compose-with-app-sample.yml down $1
+	${DOCKER_COMPOSE} -p edgex -f docker-compose-with-app-sample.yml down $1
 endef
 
 # Define additional phony targets for all options to enable support for tab-completion in shell
@@ -66,23 +69,11 @@ openziti-logs:
 openziti-clean:
 	${DOCKER_COMPOSE} -p edgex -f docker-compose-openziti.yml down -v
 
-zero-trust:
-	${DOCKER_COMPOSE} -p edgex -f docker-compose-zero-trust.yml up -d
-
-zero-trust-down:
-	${DOCKER_COMPOSE} -p edgex -f docker-compose-zero-trust.yml down
-
-zero-trust-logs:
-	${DOCKER_COMPOSE} -p edgex -f docker-compose-zero-trust.yml logs -f
-
-zero-trust-clean:
-	${DOCKER_COMPOSE} -p edgex -f docker-compose-zero-trust.yml down -v
-
 pull:
-	${DOCKER_COMPOSE} -f docker-compose${NO_SECURITY}${ARM64}.yml pull ${SERVICES}
+	${DOCKER_COMPOSE} -f docker-compose${NO_SECURITY}${ZERO_TRUST_OPTION}${ARM64}.yml pull ${SERVICES}
 
 run:
-	${DOCKER_COMPOSE} -p edgex -f docker-compose${NO_SECURITY}${APP_SAMPLE}${ARM64}.yml up -d ${SERVICES}
+	${DOCKER_COMPOSE} -p edgex -f docker-compose${NO_SECURITY}${APP_SAMPLE}${ZERO_TRUST_OPTION}${ARM64}.yml up -d ${SERVICES}
 
 down:
 	$(COMPOSE_DOWN)
