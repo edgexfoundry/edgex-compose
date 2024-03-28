@@ -1045,7 +1045,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       VAULT_ADDR: http://edgex-vault:8200
-      WRITABLE_LOGLEVEL: "INFO"
     hostname: edgex-ui-go
     image: nexus3.edgexfoundry.org:10004/edgex-ui:latest
     networks:
