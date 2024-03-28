@@ -55,6 +55,8 @@ services:
         condition: service_started
       security-bootstrapper:
         condition: service_started
+    env_file:
+      - common-sec-stage-gate.env
     environment:
       SERVICE_HOST: edgex-ui-go
       CLIENTS_CORE_COMMAND_SECURITYOPTIONS_MODE: "zerotrust"
