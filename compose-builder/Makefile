@@ -987,7 +987,7 @@ endef
 
 ifeq (zero-trust, $(filter zero-trust,$(ARGS)))
 	# overrides for zero trust from the base files
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f docker-compose-base-zero-trust.yml
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security-zero-trust.yml
 else
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-docker-compose-base-ports.yml
 endif
