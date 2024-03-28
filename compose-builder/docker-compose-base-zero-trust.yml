@@ -83,3 +83,16 @@ services:
       - /edgex-init/ready_to_run_wait_install.sh
     ports:
       - "4000:4000"
+    volumes:
+      - type: bind
+        source: /tmp/edgex/secrets/ui
+        target: /tmp/edgex/secrets/ui
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
