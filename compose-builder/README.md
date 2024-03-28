@@ -21,10 +21,6 @@ make gen ds-rest ds-virtual zero-trust
 ```
 (24.0.8 was tested and works, as does "24")
 
-DOCKER_COMPOSE="docker run --rm -v $(pwd):/compose-builder -w /compose-builder -it docker:20 docker compose" make gen 
-ds-rest ds-virtual
-DOCKER_COMPOSE="docker run -v $(pwd):/compose-builder -w /compose-builder -it docker:24 docker compose"
-
 The old stand-alone `docker-compose` tool is no longer supported.
 See https://docs.docker.com/compose/install/ for installation details for the latest `docker compose` CLI command.
 
