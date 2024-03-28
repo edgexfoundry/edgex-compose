@@ -11,15 +11,8 @@ This folder contains the `Compose Builder` which is made up of **source** compos
 ### Compose CLI Command
 
 The Makefile in this folder expects the `docker compose` CLI command to be on the path or it expects you to supply
-a valid `docker compose` command by setting `DOCKER_COMPOSE`. The version of `docker compose` must be greater than
-`Docker Compose version v2.24.4`. If you do not have this version, you may be able to run docker in docker by
-setting the `docker compose` to docker itself, such as: 
-```
-DOCKER_VERSION=24.0.8 \
-DOCKER_COMPOSE="docker run --rm -v $(pwd):/compose-builder -w /compose-builder -it docker:${DOCKER_VERSION} docker compose" \
-make gen ds-rest ds-virtual zero-trust
-```
-(24.0.8 was tested and works, as does "24")
+a valid `docker compose` command by setting `DOCKER_COMPOSE`. The version of `docker compose` must be equal or greater 
+than `Docker Compose version v2.24.4`. 
 
 The old stand-alone `docker-compose` tool is no longer supported.
 See https://docs.docker.com/compose/install/ for installation details for the latest `docker compose` CLI command.
