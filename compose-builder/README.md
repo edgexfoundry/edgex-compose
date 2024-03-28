@@ -16,7 +16,7 @@ a valid `docker compose` command by setting `DOCKER_COMPOSE`. The version of `do
 setting the `docker compose` to docker itself, such as: 
 ```
 DOCKER_VERSION=24.0.8 \
-DOCKER_COMPOSE="docker run -v $(pwd):/compose-builder -w /compose-builder -it docker:${DOCKER_VERSION} docker compose" \
+DOCKER_COMPOSE="docker run --rm -v $(pwd):/compose-builder -w /compose-builder -it docker:${DOCKER_VERSION} docker compose" \
 make gen ds-rest ds-virtual zero-trust
 ```
 (24.0.8 was tested and works, as does "24")
