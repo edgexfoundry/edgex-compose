@@ -449,6 +449,7 @@ services:
       DATABASECONFIG_NAME: redis.conf
       DATABASECONFIG_PATH: /run/redis/conf
       EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -992,6 +993,15 @@ services:
       - ./edgex-ui-server
       - --configDir=res/docker
     container_name: edgex-ui-go
+    depends_on:
+      consul:
+        condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
@@ -1031,15 +1041,6 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       VAULT_ADDR: http://edgex-vault:8200
       WRITABLE_LOGLEVEL: "INFO"
-    depends_on:
-      consul:
-        condition: service_started
-      core-common-config-bootstrapper:
-        condition: service_started
-      core-metadata:
-        condition: service_started
-      security-bootstrapper:
-        condition: service_started
     hostname: edgex-ui-go
     image: nexus3.edgexfoundry.org:10004/edgex-ui:latest
     networks:

@@ -77,3 +77,5 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_PORT: 80
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
+    ports:
+      - "4000:4000"
