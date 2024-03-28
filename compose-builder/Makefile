@@ -1052,8 +1052,7 @@ pull: gen
 
 gen:
 	echo MQTT_VERBOSE=${MQTT_VERBOSE}
-	echo "# Generated with: $(docker_ver)" > docker-compose.yml
-	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} >> docker-compose.yml
+	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} > docker-compose.yml
 	if [ "$(NO_CLEANUP)" = "0" ]; then rm -rf ./$(GEN_EXT_DIR); fi
 
 get-token:
