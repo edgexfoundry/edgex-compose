@@ -60,6 +60,7 @@ if [ "$ZERO_TRUST" = "1" ]; then
     environment:
       SERVICE_HOST: ${service_name}.edgex.ziti
       SERVICE_PORT: 80
+    ports: !reset null
 HERE
 fi
 case "${service_name}" in
