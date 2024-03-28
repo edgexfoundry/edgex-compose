@@ -1052,11 +1052,9 @@ pull: gen
 
 gen:
 	echo MQTT_VERBOSE=${MQTT_VERBOSE}
-	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} > docker-compose.yml.gen
-	if [ "$(NO_CLEANUP)" = "0" ]; then rm -rf ./$(GEN_EXT_DIR); fi
 	echo "# Generated with: $(docker_ver)" > docker-compose.yml
-	cat docker-compose.yml.gen >> docker-compose.yml
-	rm docker-compose.yml.gen
+	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} >> docker-compose.yml
+	if [ "$(NO_CLEANUP)" = "0" ]; then rm -rf ./$(GEN_EXT_DIR); fi
 
 get-token:
 	sh ./get-api-gateway-token.sh
