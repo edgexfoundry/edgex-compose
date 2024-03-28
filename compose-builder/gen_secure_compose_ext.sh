@@ -54,6 +54,9 @@ sed -i 's,${EXECUTABLE},'"$executable"',g' "$SERVICE_EXT_COMPOSE_PATH"
 if [ "$ZERO_TRUST" = "1" ]; then
   sed -i 's,${ZERO_TRUST},#,g' "$SERVICE_EXT_COMPOSE_PATH"
   cat >> "$SERVICE_EXT_COMPOSE_PATH" <<HERE
+    # env_file does not override environment and these values are set in the add-* templates
+    # use a heredoc and append it to the generated file accordingly so that docker compose will
+    # reduce it down and override as expected
     environment:
       SERVICE_HOST: ${service_name}.edgex.ziti
       SERVICE_PORT: 80
