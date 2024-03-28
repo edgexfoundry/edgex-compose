@@ -4,6 +4,7 @@ services:
     environment:
       SERVICE_HOST: app-rules-engine.edgex.ziti
       SERVICE_PORT: 80
+    ports: !reset null
   core-command:
     environment:
       SERVICE_HOST: core-command.edgex.ziti
@@ -11,6 +12,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: "core-metadata.edgex.ziti"
       CLIENTS_CORE_METADATA_PORT: 80
       CLIENTS_CORE_METADATA_SECURITYOPTIONS_MODE: "zerotrust"
+    ports: !reset null
   core-common-config-bootstrapper:
     environment:
       ALL_SERVICES_SERVICE_SECURITYOPTIONS_MODE: "zerotrust"
@@ -20,19 +22,23 @@ services:
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: core-metadata.edgex.ziti
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_PORT: 80
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_SECURITYOPTIONS_MODE: "zerotrust"
+    ports: !reset null
   core-data:
     environment:
       SERVICE_HOST: core-data.edgex.ziti
       SERVICE_PORT: 80
+    ports: !reset null
   core-metadata:
     environment:
       SERVICE_HOST: core-metadata.edgex.ziti
       SERVICE_PORT: "80"
+    ports: !reset null
   rules-engine:
     environment:
       EDGEX_CREDENTIAL_NAME: rules-engine
       EDGEX_CREDENTIALS: /tmp/edgex/secrets/rules-engine/secrets-token.json
       OPENZITI_CONTROLLER: openziti:1280
+    ports: !reset null
     volumes:
       - edgex-init:/edgex-init
       - /tmp/edgex/secrets/rules-engine:/tmp/edgex/secrets/rules-engine:ro,z
@@ -40,10 +46,12 @@ services:
     environment:
       SERVICE_HOST: support-notifications.edgex.ziti
       SERVICE_PORT: 80
+    ports: !reset null
   support-scheduler:
     environment:
       SERVICE_HOST: support-scheduler.edgex.ziti
       SERVICE_PORT: 80
+    ports: !reset null
   ui:
     command:
       - "./edgex-ui-server"
@@ -84,8 +92,6 @@ services:
       VAULT_ADDR: http://edgex-vault:8200
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
-    ports:
-      - "4000:4000"
     volumes:
       - edgex-init:/edgex-init
       - /tmp/edgex/secrets/ui:/tmp/edgex/secrets/ui:ro,z
