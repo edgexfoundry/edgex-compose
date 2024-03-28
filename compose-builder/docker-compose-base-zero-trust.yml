@@ -33,6 +33,9 @@ services:
       EDGEX_CREDENTIAL_NAME: rules-engine
       EDGEX_CREDENTIALS: /tmp/edgex/secrets/rules-engine/secrets-token.json
       OPENZITI_CONTROLLER: openziti:1280
+    volumes:
+      - edgex-init:/edgex-init
+      - /tmp/edgex/secrets/rules-engine:/tmp/edgex/secrets/rules-engine:ro,z
   support-notifications:
     environment:
       SERVICE_HOST: support-notifications.edgex.ziti
@@ -84,15 +87,5 @@ services:
     ports:
       - "4000:4000"
     volumes:
-      - type: bind
-        source: /tmp/edgex/secrets/ui
-        target: /tmp/edgex/secrets/ui
-        read_only: true
-        bind:
-          selinux: z
-          create_host_path: true
-      - type: volume
-        source: edgex-init
-        target: /edgex-init
-        read_only: true
-        volume: {}
+      - edgex-init:/edgex-init
+      - /tmp/edgex/secrets/ui:/tmp/edgex/secrets/ui:ro,z
