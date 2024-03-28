@@ -35,8 +35,6 @@ services:
     image: hashicorp/consul:${CONSUL_VERSION}
     command: "agent -ui -bootstrap -server -client 0.0.0.0"
     user: "root:root" # Note that Consul is run under the 'consul' user, but entry point scripts need to first run as root
-    ports:
-      - "127.0.0.1:8500:8500"
     container_name: edgex-core-consul
     hostname: edgex-core-consul
     read_only: true
@@ -52,8 +50,6 @@ services:
   database:
     image: redis:${REDIS_VERSION}
     user: "root:root" # Note that Redis is run under the 'redis' user, but entry point scripts need to first run as root
-    ports:
-      - "127.0.0.1:6379:6379"
     container_name: edgex-redis
     hostname: edgex-redis
     read_only: true
@@ -68,8 +64,6 @@ services:
   support-notifications:
     image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
-    ports:
-      - "127.0.0.1:59860:59860"
     container_name: edgex-support-notifications
     hostname: edgex-support-notifications
     read_only: true
@@ -93,8 +87,6 @@ services:
   core-metadata:
     image: ${CORE_EDGEX_REPOSITORY}/core-metadata${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
-    ports:
-      - "127.0.0.1:59881:59881"
     container_name: edgex-core-metadata
     hostname: edgex-core-metadata
     read_only: true
@@ -117,8 +109,6 @@ services:
   core-data:
     image: ${CORE_EDGEX_REPOSITORY}/core-data${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
-    ports:
-      - "127.0.0.1:59880:59880"
     container_name: edgex-core-data
     hostname: edgex-core-data
     read_only: true
@@ -142,8 +132,6 @@ services:
   core-command:
     image: ${CORE_EDGEX_REPOSITORY}/core-command${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
-    ports:
-      - "127.0.0.1:59882:59882"
     container_name: edgex-core-command
     hostname: edgex-core-command
     read_only: true
@@ -193,8 +181,6 @@ services:
   support-scheduler:
     image: ${CORE_EDGEX_REPOSITORY}/support-scheduler${ARCH}:${CORE_EDGEX_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
-    ports:
-      - "127.0.0.1:59861:59861"
     container_name: edgex-support-scheduler
     hostname: edgex-support-scheduler
     read_only: true
@@ -220,8 +206,6 @@ services:
   app-rules-engine:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
-    ports:
-      - "127.0.0.1:59701:59701"
     container_name: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
     read_only: true
@@ -246,8 +230,6 @@ services:
   rules-engine:
     image: lfedge/ekuiper:${KUIPER_VERSION}
     user: "kuiper:kuiper"
-    ports:
-      - "127.0.0.1:59720:59720"
     container_name: edgex-kuiper
     hostname: edgex-kuiper
     read_only: true
@@ -281,8 +263,6 @@ services:
 
   ui:
     image: ${UI_REPOSITORY}/edgex-ui${ARCH}:${EDGEX_UI_VERSION}
-    ports:
-      - "4000:4000"
     container_name: edgex-ui-go
     hostname: edgex-ui-go
     environment:

@@ -1,0 +1,79 @@
+name: edgex
+services:
+  app-rules-engine:
+    environment:
+      SERVICE_HOST: app-rules-engine.edgex.ziti
+      SERVICE_PORT: 80
+  core-command:
+    environment:
+      SERVICE_HOST: core-command.edgex.ziti
+      SERVICE_PORT: 80
+      CLIENTS_CORE_METADATA_HOST: "core-metadata.edgex.ziti"
+      CLIENTS_CORE_METADATA_PORT: 80
+      CLIENTS_CORE_METADATA_SECURITYOPTIONS_MODE: "zerotrust"
+  core-common-config-bootstrapper:
+    environment:
+      ALL_SERVICES_SERVICE_SECURITYOPTIONS_MODE: "zerotrust"
+      APP_SERVICES_CLIENTS_CORE_METADATA_HOST: core-metadata.edgex.ziti
+      APP_SERVICES_CLIENTS_CORE_METADATA_PORT: 80
+      APP_SERVICES_CLIENTS_CORE_METADATA_SECURITYOPTIONS_MODE: "zerotrust"
+      DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: core-metadata.edgex.ziti
+      DEVICE_SERVICES_CLIENTS_CORE_METADATA_PORT: 80
+      DEVICE_SERVICES_CLIENTS_CORE_METADATA_SECURITYOPTIONS_MODE: "zerotrust"
+  core-data:
+    environment:
+      SERVICE_HOST: core-data.edgex.ziti
+      SERVICE_PORT: 80
+  core-metadata:
+    environment:
+      SERVICE_HOST: core-metadata.edgex.ziti
+      SERVICE_PORT: "80"
+  rules-engine:
+    environment:
+      EDGEX_CREDENTIAL_NAME: rules-engine
+      EDGEX_CREDENTIALS: /tmp/edgex/secrets/rules-engine/secrets-token.json
+      OPENZITI_CONTROLLER: openziti:1280
+  support-notifications:
+    environment:
+      SERVICE_HOST: support-notifications.edgex.ziti
+      SERVICE_PORT: 80
+  support-scheduler:
+    environment:
+      SERVICE_HOST: support-scheduler.edgex.ziti
+      SERVICE_PORT: 80
+  ui:
+    command:
+      - "./edgex-ui-server"
+      - "--configDir=res/docker"
+    container_name: edgex-ui-go
+    depends_on:
+      consul:
+        condition: service_started
+      core-common-config-bootstrapper:
+        condition: service_started
+      core-metadata:
+        condition: service_started
+      security-bootstrapper:
+        condition: service_started
+    environment:
+      SERVICE_HOST: edgex-ui-go
+      CLIENTS_CORE_COMMAND_SECURITYOPTIONS_MODE: "zerotrust"
+      CLIENTS_CORE_COMMAND_HOST: "core-command.edgex.ziti"
+      CLIENTS_CORE_COMMAND_PORT: 80
+      CLIENTS_CORE_DATA_SECURITYOPTIONS_MODE: "zerotrust"
+      CLIENTS_CORE_DATA_HOST: "core-data.edgex.ziti"
+      CLIENTS_CORE_DATA_PORT: 80
+      CLIENTS_CORE_METADATA_SECURITYOPTIONS_MODE: "zerotrust"
+      CLIENTS_CORE_METADATA_HOST: "core-metadata.edgex.ziti"
+      CLIENTS_CORE_METADATA_PORT: 80
+      CLIENTS_RULES_ENGINE_SECURITYOPTIONS_MODE: "zerotrust"
+      CLIENTS_RULES_ENGINE_HOST: "rules-engine.edgex.ziti"
+      CLIENTS_RULES_ENGINE_PORT: 80
+      CLIENTS_SUPPORT_NOTIFICATIONS_SECURITYOPTIONS_MODE: "zerotrust"
+      CLIENTS_SUPPORT_NOTIFICATIONS_HOST: "support-notifications.edgex.ziti"
+      CLIENTS_SUPPORT_NOTIFICATIONS_PORT: 80
+      CLIENTS_SUPPORT_SCHEDULER_SECURITYOPTIONS_MODE: "zerotrust"
+      CLIENTS_SUPPORT_SCHEDULER_HOST: "support-scheduler.edgex.ziti"
+      CLIENTS_SUPPORT_SCHEDULER_PORT: 80
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh

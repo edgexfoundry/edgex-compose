@@ -1,0 +1,40 @@
+services:
+  consul:
+    ports:
+      - "127.0.0.1:8500:8500"
+
+  database:
+    ports:
+      - "127.0.0.1:6379:6379"
+
+  support-notifications:
+    ports:
+      - "127.0.0.1:59860:59860"
+
+  core-metadata:
+    ports:
+      - "127.0.0.1:59881:59881"
+
+  core-data:
+    ports:
+      - "127.0.0.1:59880:59880"
+
+  core-command:
+    ports:
+      - "127.0.0.1:59882:59882"
+
+  support-scheduler:
+    ports:
+      - "127.0.0.1:59861:59861"
+
+  app-rules-engine:
+    ports:
+      - "127.0.0.1:59701:59701"
+
+  rules-engine:
+    ports:
+      - "127.0.0.1:59720:59720"
+
+  ui:
+    ports:
+      - "4000:4000"
