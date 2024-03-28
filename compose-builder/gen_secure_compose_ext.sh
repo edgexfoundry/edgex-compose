@@ -47,10 +47,24 @@ mkdir -p "$GEN_EXT_DIR"
 
 ADD_SERVICE_SECURE_FILE_TEMPLATE="add-service-secure-template.yml"
 
-SERVICE_EXT_COMPOSE_PATH=./"$GEN_EXT_DIR"/add-"$service_name"-secure.yml
+SERVICE_EXT_COMPOSE_PATH="./${GEN_EXT_DIR}/add-${service_name}-secure.yml"
 sed 's/${SERVICE_NAME}:/'"$service_name"':/g' "$ADD_SERVICE_SECURE_FILE_TEMPLATE" > "$SERVICE_EXT_COMPOSE_PATH"
 sed -i 's/${SERVICE_KEY}/'"$service_key"'/g' "$SERVICE_EXT_COMPOSE_PATH"
 sed -i 's,${EXECUTABLE},'"$executable"',g' "$SERVICE_EXT_COMPOSE_PATH"
+if [ "$ZERO_TRUST" = "1" ]; then
+  sed -i 's,${ZERO_TRUST},#,g' "$SERVICE_EXT_COMPOSE_PATH"
+  cat >> "$SERVICE_EXT_COMPOSE_PATH" <<HERE
+    # env_file does not override environment and these values are set in the add-* templates
+    # use a heredoc and append it to the generated file accordingly so that docker compose will
+    # reduce it down and override as expected
+    environment:
+      SERVICE_HOST: ${service_name}.edgex.ziti
+      SERVICE_PORT: 80
+    ports: !reset null
+HERE
+else
+  sed -i 's,${ZERO_TRUST},,g' "$SERVICE_EXT_COMPOSE_PATH"
+fi
 case "${service_name}" in
   device-bacnet-ip | device-bacnet-mstp | device-coap | device-gpio)
     # These services don't have dumb-init in their containers, causing an issue for the wait script, use sh instead

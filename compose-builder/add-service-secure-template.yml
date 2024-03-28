@@ -25,9 +25,9 @@ services:
     environment:
       EDGEX_ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
 
-  security-proxy-setup:
-    environment:
-      EDGEX_ADD_PROXY_ROUTE: ${EXTRA_PROXY_ROUTE_LIST}
+  ${ZERO_TRUST}security-proxy-setup:
+  ${ZERO_TRUST}  environment:
+  ${ZERO_TRUST}    EDGEX_ADD_PROXY_ROUTE: ${EXTRA_PROXY_ROUTE_LIST}
 
   ${SERVICE_NAME}:
     entrypoint: [${SHELL_OVERRIDE} "/edgex-init/ready_to_run_wait_install.sh"]

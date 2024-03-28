@@ -96,6 +96,24 @@ This folder contains the following compose files:
   - Use `make run no-secty app-sample arm64` and `make down` to start and stop the services using this compose file.
   - Use `make pull no-secty app-sample <service(s)>` to pull all or some images for the services in this compose file.
 
+- **docker-compose-openziti.yml**
+  Contains the services needed to bring OpenZiti online, configure it, and enable consul to perform underlay-based health checking. Used in conjunction with `docker-compose-zero-trust.yml`. This compose file should be started before starting the `docker-compose-zero-trust.yml` compose file.
+
+  **Make Commands**
+
+    - Use `make openziti` and `make openziti-down` to start and stop the services using this compose file.
+    - Use `make openziti-clean` to remove all stopped containers, all volumes and all networks used by the EdgeX stack. Use this command when needing to do a fresh restart. **Note** You must _also_ run the corresponding `make zero-trust-clean` command to fully clean up.
+    - Use `make openziti-logs` to follow the logs
+ 
+- **docker-compose-zero-trust.yml**
+  Contains the services needed to run in zero-trust secure mode. Used in conjunction with `docker-compose-openziti.yml`. Start this compose file after starting OpenZiti. When operating in zero-trust mode, no ports are available other than the OpenZiti ports. Accessing services must be done using an OpenZiti tunneler or through using an OpenZiti SDK. The `go-mod-bootstrap` library has been upgraded to support zero-trust.
+
+  **Make Commands**
+
+  - Use `make zero-trust` and `make zero-trust-down` to start and stop the services using this compose file.
+  - Use `make zero-trust-clean` to remove all stopped containers, all volumes and all networks used by the EdgeX stack. Use this command when needing to do a fresh restart. **Note** You must _also_ run the corresponding `make openziti-clean` command to fully clean up. 
+  - Use `make openziti-logs` to follow the logs
+  
 ### TAF Compose files
 
 The compose files under the `taf` subfolder are used for the automated TAF tests. These compose files are also generated from `Compose Builder` when the `make build` command is used.
