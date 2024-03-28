@@ -17,7 +17,7 @@
 	build build-canned compose run pull gen \
 	build-taf taf-compose taf-compose-perf \
 	get-token upload-tls-cert get-consul-acl-token \
-    down clean err zero-trust
+    down clean err
 .SILENT: help get-token del-token upload-tls-cert get-consul-acl-token
 
 include .env
@@ -48,7 +48,7 @@ define OPTIONS
  - ds-onvif-camera ds-usb-camera ds-bacnet-ip ds-bacnet-mstp ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp -
  - ds-coap ds-gpio ds-uart ds-s7 -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp as-record-replay asc-ex-mqtt -
- - modbus-sim -
+ - modbus-sim zero-trust no-cleanup -
 endef
 export OPTIONS
 
@@ -67,6 +67,11 @@ ifeq (zero-trust, $(filter zero-trust,$(ARGS)))
 	MAKE_ZERO_TRUST:=1
 else
 	MAKE_ZERO_TRUST:=0
+endif
+ifeq (no-cleanup, $(filter no-cleanup,$(ARGS)))
+	NO_CLEANUP:=1
+else
+	NO_CLEANUP:=0
 endif
 
 ifeq (dev, $(filter dev,$(ARGS)))
@@ -1050,7 +1055,7 @@ pull: gen
 gen:
 	echo MQTT_VERBOSE=${MQTT_VERBOSE}
 	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} > docker-compose.yml.gen
-	rm -rf ./$(GEN_EXT_DIR)
+	if [ "$(NO_CLEANUP)" = "0" ]; then rm -rf ./$(GEN_EXT_DIR); fi
 	echo "# Generated with: $(docker_ver)" > docker-compose.yml
 	cat docker-compose.yml.gen >> docker-compose.yml
 	rm docker-compose.yml.gen
