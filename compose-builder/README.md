@@ -10,7 +10,21 @@ This folder contains the `Compose Builder` which is made up of **source** compos
 
 ### Compose CLI Command
 
-The Makefile in this folder expects the `docker compose` CLI command.
+The Makefile in this folder expects the `docker compose` CLI command to be on the path or it expects you to supply
+a valid `docker compose` command by setting `DOCKER_COMPOSE`. The version of `docker compose` must be greater than
+`Docker Compose version v2.24.4`. If you do not have this version, you may be able to run docker in docker by
+setting the `docker compose` to docker itself, such as: 
+```
+DOCKER_VERSION=24.0.8 \
+DOCKER_COMPOSE="docker run -v $(pwd):/compose-builder -w /compose-builder -it docker:${DOCKER_VERSION} docker compose" \
+make gen ds-rest ds-virtual zero-trust
+```
+(24.0.8 was tested and works, as does "24")
+
+DOCKER_COMPOSE="docker run --rm -v $(pwd):/compose-builder -w /compose-builder -it docker:20 docker compose" make gen 
+ds-rest ds-virtual
+DOCKER_COMPOSE="docker run -v $(pwd):/compose-builder -w /compose-builder -it docker:24 docker compose"
+
 The old stand-alone `docker-compose` tool is no longer supported.
 See https://docs.docker.com/compose/install/ for installation details for the latest `docker compose` CLI command.
 
@@ -191,6 +205,7 @@ Standard compose variations are:
 run [options] [services]
 Runs the EdgeX services as specified by:
 Options:
+    zero-trust:       Runs with OpenZiti support for zero-trust networking
     no-secty:         Runs in Non-Secure Mode, otherwise runs in Secure Mode
     arm64:            Runs using ARM64 images
     dev:              Runs using local built images from edgex-go repo
@@ -234,6 +249,7 @@ Options:
                       Not valid in secure mode when uses with mqtt-bus
     nats-bus:         Runs with services configure for NATS Message Bus
                       The NATS Server service is also included.
+    no-cleanup:       Leaves generated files behind for debugging purposes.
 Services:
     <names...>: Runs only services listed (and their dependent services) where 'name' matches a service name in one of the compose files used
 ```
@@ -257,6 +273,7 @@ Stops all EdgeX services no matter which configuration started them
 pull [options] [services]
 Pulls the EdgeX service images as specified by:
 Options:
+    zero-trust:       Pulls images for OpenZiti, supporting zero-trust networking
     no-secty:         Pulls images for Non-Secure Mode, otherwise pull images 
                       for Secure Mode
     arm64:            Pulls ARM64 version of images
@@ -290,6 +307,7 @@ Options:
                       Pull includes NonoMQ MQTT broker when mqtt-broker or mqtt-bus are specified
                       Not valid in secure mode when uses with mqtt-bus                    
     nats-bus:         Pull includes additional services for NATS Message Bus
+    no-cleanup:       Leaves generated files behind for debugging purposes.
 
 Services:
     <names...>: Pulls only images for the service(s) listed
@@ -300,6 +318,7 @@ Services:
 gen [options]
 Generates temporary single file compose file (`docker-compose.yml`) as specified by:
 Options:
+    zero-trust:       Generates with OpenZiti support for zero-trust networking included
     no-secty:         Generates non-secure compose,
                       otherwise generates secure compose file
     arm64:            Generates compose file using ARM64 images
@@ -344,6 +363,7 @@ Options:
                       Not valid in secure mode when uses with mqtt-bus
     nats-bus:         Generates compose file with services configured for NAT Message Bus
                       The NATS Server service is also included.
+    no-cleanup:       Leaves generated files behind for debugging purposes.
 ```
 #### Clean
 
@@ -411,6 +431,7 @@ compose [options]
 Generates the EdgeX compose file as specified by options and stores them in the configured release folder. Compose files are named appropriately for release and options used to generate them.
 
 Options:
+    zero-trust:       Generates compose file with OpenZiti support for zero-trust networking included
     no-secty:         Generates non-secure compose file, otherwise generates secure compose file
     arm64:            Generates compose file using ARM64 images
     dev:              Generates using local built images from edgex-go repo
@@ -454,6 +475,7 @@ Options:
     mqtt-verbose      Enables MQTT Broker verbose logging.
     nats-bus:         Generates compose file with services configure for NATS Message Bus
                       The NATS Server service is also included.
+    no-cleanup:       Leaves generated files behind for debugging purposes.
 ```
 
 #### TAF Compose

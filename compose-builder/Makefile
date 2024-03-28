@@ -24,7 +24,7 @@ include .env
 include common-security.env
 
 # This tool now only supports compose V2, aka "docker compose" as it has replaced to old docker-compose tool.
-DOCKER_COMPOSE=docker compose
+DOCKER_COMPOSE?=docker compose
 GEN_COMMAND=convert
 
 COMPOSE_FILES:=-f docker-compose-base.yml
@@ -973,7 +973,6 @@ define COMPOSE_DOWN
 		-f add-app-record-replay.yml \
 		-f add-modbus-simulator.yml \
 		-f add-mqtt-broker-mosquitto.yml \
-		-f add-mqtt-broker-nanomq.yml \
 		-f add-secure-mqtt-broker.yml \
 		-f add-mqtt-messagebus.yml \
 		-f add-secure-mqtt-messagebus.yml \
@@ -1052,7 +1051,7 @@ pull: gen
 
 gen:
 	echo MQTT_VERBOSE=${MQTT_VERBOSE}
-	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} > docker-compose.yml
+	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} --output docker-compose.yml
 	if [ "$(NO_CLEANUP)" = "0" ]; then rm -rf ./$(GEN_EXT_DIR); fi
 
 get-token:
