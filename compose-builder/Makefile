@@ -987,6 +987,8 @@ else
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-docker-compose-base-ports.yml
 endif
 
+docker_ver:= $(shell ${DOCKER_COMPOSE} version)
+
 # Define additional phony targets for all options to enable support for tab-completion in shell
 # Note: This must be defined after the options are parsed otherwise it will interfere with them
 .PHONY: $(OPTIONS)
@@ -1047,8 +1049,11 @@ pull: gen
 
 gen:
 	echo MQTT_VERBOSE=${MQTT_VERBOSE}
-	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} > docker-compose.yml
+	${DOCKER_COMPOSE}  -p edgex $(COMPOSE_FILES) ${GEN_COMMAND} > docker-compose.yml.gen
 	rm -rf ./$(GEN_EXT_DIR)
+	echo "# Generated with: $(docker_ver)" > docker-compose.yml
+	cat docker-compose.yml.gen >> docker-compose.yml
+	rm docker-compose.yml.gen
 
 get-token:
 	sh ./get-api-gateway-token.sh
