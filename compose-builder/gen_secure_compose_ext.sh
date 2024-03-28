@@ -62,6 +62,8 @@ if [ "$ZERO_TRUST" = "1" ]; then
       SERVICE_PORT: 80
     ports: !reset null
 HERE
+else
+  sed -i 's,${ZERO_TRUST},,g' "$SERVICE_EXT_COMPOSE_PATH"
 fi
 case "${service_name}" in
   device-bacnet-ip | device-bacnet-mstp | device-coap | device-gpio)
