@@ -37,6 +37,7 @@ services:
     environment:
       EDGEX_CREDENTIAL_NAME: rules-engine
       EDGEX_CREDENTIALS: /tmp/edgex/secrets/rules-engine/secrets-token.json
+      KUIPER__BASIC__ENABLEOPENZITI: true
       OPENZITI_CONTROLLER: openziti:1280
     ports: !reset null
     volumes:

@@ -69,7 +69,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-app-rules-engine
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -228,7 +228,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-command
-    image: nexus3.edgexfoundry.org:10004/core-command:latest
+    image: nexus3.edgexfoundry.org:10004/core-command-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -301,7 +301,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-common-config-bootstrapper
-    image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper:latest
+    image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -371,7 +371,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-data
-    image: nexus3.edgexfoundry.org:10004/core-data:latest
+    image: nexus3.edgexfoundry.org:10004/core-data-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -439,7 +439,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-metadata
-    image: nexus3.edgexfoundry.org:10004/core-metadata:latest
+    image: nexus3.edgexfoundry.org:10004/core-metadata-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -578,7 +578,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-rest
-    image: nexus3.edgexfoundry.org:10004/device-rest:latest
+    image: nexus3.edgexfoundry.org:10004/device-rest-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -649,7 +649,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-virtual
-    image: nexus3.edgexfoundry.org:10004/device-virtual:latest
+    image: nexus3.edgexfoundry.org:10004/device-virtual-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -791,7 +791,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-bootstrapper
-    image: nexus3.edgexfoundry.org:10004/security-bootstrapper:latest
+    image: nexus3.edgexfoundry.org:10004/security-bootstrapper-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -842,7 +842,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-secretstore-setup
-    image: nexus3.edgexfoundry.org:10004/security-secretstore-setup:latest
+    image: nexus3.edgexfoundry.org:10004/security-secretstore-setup-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -927,7 +927,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/support-notifications:latest
+    image: nexus3.edgexfoundry.org:10004/support-notifications-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -1000,7 +1000,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-scheduler:latest
+    image: nexus3.edgexfoundry.org:10004/support-scheduler-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -1085,7 +1085,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       VAULT_ADDR: http://edgex-vault:8200
     hostname: edgex-ui-go
-    image: nexus3.edgexfoundry.org:10004/edgex-ui:latest
+    image: nexus3.edgexfoundry.org:10004/edgex-ui-arm64:latest
     networks:
       edgex-network: null
     ports:
