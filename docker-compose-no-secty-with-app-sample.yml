@@ -38,7 +38,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:3.1.0
+    image: edgexfoundry/app-service-configurable:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -74,7 +74,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-sample
     hostname: edgex-app-sample
-    image: edgexfoundry/app-service-configurable:3.1.0
+    image: edgexfoundry/app-service-configurable:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -105,7 +105,7 @@ services:
     - 0.0.0.0
     container_name: edgex-core-consul
     hostname: edgex-core-consul
-    image: hashicorp/consul:1.16.2
+    image: hashicorp/consul:1.16.6
     networks:
       edgex-network: null
     ports:
@@ -142,7 +142,7 @@ services:
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: edgexfoundry/core-command:3.1.0
+    image: edgexfoundry/core-command:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -176,7 +176,7 @@ services:
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
     hostname: edgex-core-common-config-bootstrapper
-    image: edgexfoundry/core-common-config-bootstrapper:3.1.0
+    image: edgexfoundry/core-common-config-bootstrapper:3.1.1
     networks:
       edgex-network: null
     read_only: true
@@ -203,7 +203,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: edgexfoundry/core-data:3.1.0
+    image: edgexfoundry/core-data:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -235,7 +235,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: edgexfoundry/core-metadata:3.1.0
+    image: edgexfoundry/core-metadata:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -259,7 +259,7 @@ services:
   database:
     container_name: edgex-redis
     hostname: edgex-redis
-    image: redis:7.0.14-alpine
+    image: redis:7.0.15-alpine
     networks:
       edgex-network: null
     ports:
@@ -291,7 +291,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: edgexfoundry/device-rest:3.1.0
+    image: edgexfoundry/device-rest:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -325,7 +325,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: edgexfoundry/device-virtual:3.1.0
+    image: edgexfoundry/device-virtual:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -364,7 +364,7 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__RESTPORT: "59720"
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.11.4-alpine
+    image: lfedge/ekuiper:1.11.5-alpine
     networks:
       edgex-network: null
     ports:
@@ -412,7 +412,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: edgexfoundry/support-notifications:3.1.0
+    image: edgexfoundry/support-notifications:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -446,7 +446,7 @@ services:
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: edgexfoundry/support-scheduler:3.1.0
+    image: edgexfoundry/support-scheduler:3.1.1
     networks:
       edgex-network: null
     ports:

@@ -61,7 +61,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable-arm64:3.1.0
+    image: edgexfoundry/app-service-configurable-arm64:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -134,7 +134,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-consul
-    image: hashicorp/consul:1.16.2
+    image: hashicorp/consul:1.16.6
     networks:
       edgex-network: null
     ports:
@@ -212,7 +212,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-command
-    image: edgexfoundry/core-command-arm64:3.1.0
+    image: edgexfoundry/core-command-arm64:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -283,7 +283,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-common-config-bootstrapper
-    image: edgexfoundry/core-common-config-bootstrapper-arm64:3.1.0
+    image: edgexfoundry/core-common-config-bootstrapper-arm64:3.1.1
     networks:
       edgex-network: null
     read_only: true
@@ -347,7 +347,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-data
-    image: edgexfoundry/core-data-arm64:3.1.0
+    image: edgexfoundry/core-data-arm64:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -416,7 +416,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-metadata
-    image: edgexfoundry/core-metadata-arm64:3.1.0
+    image: edgexfoundry/core-metadata-arm64:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -478,7 +478,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-redis
-    image: redis:7.0.14-alpine
+    image: redis:7.0.15-alpine
     networks:
       edgex-network: null
     ports:
@@ -551,7 +551,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-rest
-    image: edgexfoundry/device-rest-arm64:3.1.0
+    image: edgexfoundry/device-rest-arm64:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -620,7 +620,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-virtual
-    image: edgexfoundry/device-virtual-arm64:3.1.0
+    image: edgexfoundry/device-virtual-arm64:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -682,7 +682,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-nginx
-    image: nginx:1.25.3-alpine-slim
+    image: nginx:1.25.5-alpine-slim
     networks:
       edgex-network: null
     ports:
@@ -751,7 +751,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.11.4-alpine
+    image: lfedge/ekuiper:1.11.5-alpine
     networks:
       edgex-network: null
     ports:
@@ -821,7 +821,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-bootstrapper
-    image: edgexfoundry/security-bootstrapper-arm64:3.1.0
+    image: edgexfoundry/security-bootstrapper-arm64:3.1.1
     networks:
       edgex-network: null
     read_only: true
@@ -872,7 +872,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-proxy-auth
-    image: edgexfoundry/security-proxy-auth-arm64:3.1.0
+    image: edgexfoundry/security-proxy-auth-arm64:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -941,7 +941,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-proxy-setup
-    image: edgexfoundry/security-proxy-setup-arm64:3.1.0
+    image: edgexfoundry/security-proxy-setup-arm64:3.1.1
     networks:
       edgex-network: null
     read_only: true
@@ -1015,7 +1015,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-secretstore-setup
-    image: edgexfoundry/security-secretstore-setup-arm64:3.1.0
+    image: edgexfoundry/security-secretstore-setup-arm64:3.1.1
     networks:
       edgex-network: null
     read_only: true
@@ -1092,7 +1092,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-notifications
-    image: edgexfoundry/support-notifications-arm64:3.1.0
+    image: edgexfoundry/support-notifications-arm64:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -1163,7 +1163,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-scheduler
-    image: edgexfoundry/support-scheduler-arm64:3.1.0
+    image: edgexfoundry/support-scheduler-arm64:3.1.1
     networks:
       edgex-network: null
     ports:
@@ -1252,7 +1252,7 @@ services:
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
     hostname: edgex-vault
-    image: hashicorp/vault:1.14.5
+    image: hashicorp/vault:1.14.10
     networks:
       edgex-network: null
     ports:
