@@ -28,6 +28,9 @@
 name: edgex
 services:
   app-rules-engine:
+    command:
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-app-rules-engine
     depends_on:
       consul:
@@ -66,6 +69,9 @@ services:
         bind:
           create_host_path: true
   app-sample:
+    command:
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-app-sample
     depends_on:
       consul:
@@ -140,6 +146,9 @@ services:
         target: /consul/data
         volume: {}
   core-command:
+    command:
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-command
     depends_on:
       consul:
@@ -181,6 +190,10 @@ services:
         bind:
           create_host_path: true
   core-common-config-bootstrapper:
+    command:
+      - /core-common-config-bootstrapper
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-common-config-bootstrapper
     depends_on:
       consul:
@@ -190,6 +203,8 @@ services:
       ALL_SERVICES_DATABASE_HOST: edgex-redis
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
       ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
+      ALL_SERVICES_REGISTRY_PORT: "8500"
+      ALL_SERVICES_REGISTRY_TYPE: consul
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -209,6 +224,9 @@ services:
         bind:
           create_host_path: true
   core-data:
+    command:
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-data
     depends_on:
       consul:
@@ -246,6 +264,9 @@ services:
         bind:
           create_host_path: true
   core-metadata:
+    command:
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-metadata
     depends_on:
       consul:
@@ -302,6 +323,9 @@ services:
         target: /data
         volume: {}
   device-rest:
+    command:
+      - -cp=consul.http://edgex-core-consul:8500
+      - --registry
     container_name: edgex-device-rest
     depends_on:
       consul:
@@ -342,6 +366,9 @@ services:
         bind:
           create_host_path: true
   device-virtual:
+    command:
+      - -cp=consul.http://edgex-core-consul:8500
+      - --registry
     container_name: edgex-device-virtual
     depends_on:
       consul:
@@ -439,6 +466,9 @@ services:
         target: /kuiper/plugins
         volume: {}
   support-notifications:
+    command:
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-support-notifications
     depends_on:
       consul:
@@ -476,6 +506,9 @@ services:
         bind:
           create_host_path: true
   support-scheduler:
+    command:
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-support-scheduler
     depends_on:
       consul:

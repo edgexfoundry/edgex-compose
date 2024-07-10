@@ -18,6 +18,7 @@ version: '3.7'
 services:
   device-snmp:
     image: ${DEVICE_SVC_REPOSITORY}/device-snmp${ARCH}:${DEVICE_SNMP_VERSION}
+    command: "${CP_FLAGS} --registry"
     ports:
       - "127.0.0.1:59993:59993"
     container_name: edgex-device-snmp
@@ -29,7 +30,7 @@ services:
     environment:
       SERVICE_HOST: edgex-device-snmp
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

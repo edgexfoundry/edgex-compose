@@ -1,5 +1,5 @@
 # /*******************************************************************************
-#  * Copyright 2024 Intel Corporation.
+#  * Copyright 2024 IOTech Ltd
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -16,30 +16,16 @@
 version: '3.7'
 
 services:
-  app-record-replay:
-    image: ${APP_SVC_REPOSITORY}/app-record-replay${ARCH}:${APP_RECORD_REPLAY_VERSION}
-    command: "--registry ${CP_FLAGS}"
-    ports:
-      - 127.0.0.1:59712:59712/tcp
-    container_name: edgex-app-record-replay
-    hostname: edgex-app-record-replay
+  keeper:
+    command: "/core-keeper"
     env_file:
-      - common-non-security.env
-    environment:
-      SERVICE_HOST: edgex-app-record-replay
-    depends_on:
-      - ${REGISTRY_TYPE}
-      - database
-      - core-metadata
-      - core-common-config-bootstrapper
-    read_only: true
-    restart: always
-    networks:
-      - edgex-network
-    security_opt:
-      - no-new-privileges:true
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+      - common-security.env
+      - common-sec-stage-gate.env
     volumes:
-      # use host timezone
-      - /etc/localtime:/etc/localtime:ro
+      - edgex-init:/edgex-init:ro
+      - /tmp/edgex/secrets/core-keeper:/tmp/edgex/secrets/core-keeper:ro,z
+    depends_on:
+      - security-bootstrapper
+      - security-secretstore-setup
+      - database
 

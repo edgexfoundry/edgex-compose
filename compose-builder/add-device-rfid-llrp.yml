@@ -18,6 +18,7 @@ version: '3.7'
 services:
   device-rfid-llrp:
     image: ${DEVICE_SVC_REPOSITORY}/device-rfid-llrp${ARCH}:${DEVICE_LLRP_VERSION}
+    command: "${CP_FLAGS} --registry"
     ports:
     - "127.0.0.1:59989:59989"
     container_name: edgex-device-rfid-llrp
@@ -31,7 +32,7 @@ services:
     environment:
       SERVICE_HOST: edgex-device-rfid-llrp
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

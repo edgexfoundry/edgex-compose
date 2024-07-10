@@ -59,14 +59,10 @@ services:
       - "--configDir=res/docker"
     container_name: edgex-ui-go
     depends_on:
-      consul:
-        condition: service_started
-      core-common-config-bootstrapper:
-        condition: service_started
-      core-metadata:
-        condition: service_started
-      security-bootstrapper:
-        condition: service_started
+      - ${REGISTRY_TYPE}
+      - core-common-config-bootstrapper
+      - core-metadata
+      - security-bootstrapper
     env_file:
       - common-security.env
       - common-sec-stage-gate.env

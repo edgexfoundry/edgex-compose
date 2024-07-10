@@ -27,20 +27,252 @@
 # Generated with: Docker Compose version v2.25.0
 name: edgex
 services:
-  app-mqtt-export:
+  app-external-mqtt-trigger:
     command:
       - /app-service-configurable
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
-    container_name: edgex-app-mqtt-export
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-app-external-mqtt-trigger
     depends_on:
-      consul:
+      core-common-config-bootstrapper:
         condition: service_started
         required: true
+      core-data:
+        condition: service_started
+        required: true
+      core-metadata:
+        condition: service_started
+        required: true
+      keeper:
+        condition: service_started
+        required: true
+      security-bootstrapper:
+        condition: service_started
+        required: true
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      EDGEX_PROFILE: external-mqtt-trigger
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SERVICE_HOST: edgex-app-external-mqtt-trigger
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: "6379"
+      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+      TRIGGER_EXTERNALMQTT_URL: MQTT_BROKER_ADDRESS_PLACE_HOLDER
+      WRITABLE_LOGLEVEL: INFO
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-export
+    hostname: edgex-app-external-mqtt-trigger
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59706
+        published: "59706"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/app-external-mqtt-trigger
+        target: /tmp/edgex/secrets/app-external-mqtt-trigger
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
+  app-functional-tests:
+    command:
+      - /app-service-configurable
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-app-functional-tests
+    depends_on:
       core-common-config-bootstrapper:
         condition: service_started
         required: true
       core-metadata:
+        condition: service_started
+        required: true
+      keeper:
+        condition: service_started
+        required: true
+      security-bootstrapper:
+        condition: service_started
+        required: true
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      EDGEX_PROFILE: functional-tests
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SERVICE_HOST: edgex-app-functional-tests
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: "6379"
+      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-app-functional-tests
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        target: 59705
+        published: "59705"
+        protocol: tcp
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/app-functional-tests
+        target: /tmp/edgex/secrets/app-functional-tests
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
+  app-http-export:
+    command:
+      - /app-service-configurable
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-app-http-export
+    depends_on:
+      core-common-config-bootstrapper:
+        condition: service_started
+        required: true
+      core-data:
+        condition: service_started
+        required: true
+      core-metadata:
+        condition: service_started
+        required: true
+      keeper:
+        condition: service_started
+        required: true
+      security-bootstrapper:
+        condition: service_started
+        required: true
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      EDGEX_PROFILE: http-export
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SERVICE_HOST: edgex-app-http-export
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: "6379"
+      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+      WRITABLE_LOGLEVEL: INFO
+      WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: http://EXPORT_HOST_PLACE_HOLDER:7770
+    hostname: edgex-app-http-export
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59704
+        published: "59704"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/app-http-export
+        target: /tmp/edgex/secrets/app-http-export
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
+  app-mqtt-export:
+    command:
+      - /app-service-configurable
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-app-mqtt-export
+    depends_on:
+      core-common-config-bootstrapper:
+        condition: service_started
+        required: true
+      core-metadata:
+        condition: service_started
+        required: true
+      keeper:
         condition: service_started
         required: true
       security-bootstrapper:
@@ -61,8 +293,8 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
@@ -71,7 +303,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-mqtt-export
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -108,16 +340,16 @@ services:
     command:
       - /app-service-configurable
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-app-rules-engine
     depends_on:
-      consul:
-        condition: service_started
-        required: true
       core-common-config-bootstrapper:
         condition: service_started
         required: true
       core-metadata:
+        condition: service_started
+        required: true
+      keeper:
         condition: service_started
         required: true
       security-bootstrapper:
@@ -138,14 +370,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-app-rules-engine
-    image: nexus3.edgexfoundry.org:10004/app-service-configurable:latest
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -178,31 +410,36 @@ services:
         bind:
           selinux: z
           create_host_path: true
-  consul:
+  app-sample:
     command:
-      - agent
-      - -ui
-      - -bootstrap
-      - -server
-      - -client
-      - 0.0.0.0
-    container_name: edgex-core-consul
+      - /app-service-configurable
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-app-sample
     depends_on:
+      core-common-config-bootstrapper:
+        condition: service_started
+        required: true
+      core-metadata:
+        condition: service_started
+        required: true
+      keeper:
+        condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
         required: true
-      vault:
-        condition: service_started
-        required: true
     entrypoint:
-      - /edgex-init/consul_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      EDGEX_ADD_REGISTRY_ACL_ROLES: app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export
-      EDGEX_GROUP: "2001"
+      CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+      CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
+      EDGEX_PROFILE: sample
       EDGEX_SECURITY_SECRET_STORE: "true"
-      EDGEX_USER: "2002"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
+      SERVICE_HOST: edgex-app-sample
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -210,65 +447,131 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
-      STAGEGATE_REGISTRY_ACL_MANAGEMENTTOKENPATH: /tmp/edgex/secrets/consul-acl-token/mgmt_token.json
-      STAGEGATE_REGISTRY_ACL_SENTINELFILEPATH: /consul/config/consul_acl_done
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-    hostname: edgex-core-consul
-    image: hashicorp/consul:1.16
+    hostname: edgex-app-sample
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
     networks:
       edgex-network: null
     ports:
       - mode: ingress
         host_ip: 127.0.0.1
-        target: 8500
-        published: "8500"
+        target: 59700
+        published: "59700"
         protocol: tcp
     read_only: true
     restart: always
     security_opt:
       - no-new-privileges:true
-    user: root:root
+    user: 2002:2001
     volumes:
-      - type: volume
-        source: consul-config
-        target: /consul/config
-        volume: {}
-      - type: volume
-        source: consul-data
-        target: /consul/data
-        volume: {}
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
       - type: volume
         source: edgex-init
         target: /edgex-init
         read_only: true
         volume: {}
       - type: bind
-        source: /tmp/edgex/secrets/edgex-consul
-        target: /tmp/edgex/secrets/edgex-consul
+        source: /tmp/edgex/secrets/app-sample
+        target: /tmp/edgex/secrets/app-sample
         read_only: true
         bind:
           selinux: z
           create_host_path: true
+  app-scalability-test-mqtt-export:
+    command:
+      - /app-service-configurable
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-app-scalability-test-mqtt-export
+    depends_on:
+      core-common-config-bootstrapper:
+        condition: service_started
+        required: true
+      core-metadata:
+        condition: service_started
+        required: true
+      keeper:
+        condition: service_started
+        required: true
+      security-bootstrapper:
+        condition: service_started
+        required: true
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      EDGEX_PROFILE: mqtt-export
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
+      MESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SERVICE_HOST: edgex-app-scalability-test-mqtt-export
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: "6379"
+      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+      WRITABLE_LOGLEVEL: DEBUG
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: app-scalability-test-mqtt-export
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
+    hostname: edgex-app-scalability-test-mqtt-export
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        target: 59703
+        published: "59710"
+        protocol: tcp
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
       - type: volume
-        source: consul-acl-token
-        target: /tmp/edgex/secrets/consul-acl-token
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
         volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/app-scalability-test-mqtt-export
+        target: /tmp/edgex/secrets/app-scalability-test-mqtt-export
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   core-command:
     command:
       - /core-command
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-command
     depends_on:
-      consul:
-        condition: service_started
-        required: true
       core-common-config-bootstrapper:
         condition: service_started
         required: true
@@ -276,6 +579,9 @@ services:
         condition: service_started
         required: true
       database:
+        condition: service_started
+        required: true
+      keeper:
         condition: service_started
         required: true
       security-bootstrapper:
@@ -299,14 +605,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-command
-    image: nexus3.edgexfoundry.org:10004/core-command:latest
+    image: nexus3.edgexfoundry.org:10004/core-command-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -344,10 +650,10 @@ services:
       - /entrypoint.sh
       - /core-common-config-bootstrapper
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-common-config-bootstrapper
     depends_on:
-      consul:
+      keeper:
         condition: service_started
         required: true
       security-bootstrapper:
@@ -361,9 +667,9 @@ services:
     environment:
       ALL_SERVICES_DATABASE_HOST: edgex-redis
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
-      ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
-      ALL_SERVICES_REGISTRY_PORT: "8500"
-      ALL_SERVICES_REGISTRY_TYPE: consul
+      ALL_SERVICES_REGISTRY_HOST: edgex-core-keeper
+      ALL_SERVICES_REGISTRY_PORT: "59890"
+      ALL_SERVICES_REGISTRY_TYPE: keeper
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -376,14 +682,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-common-config-bootstrapper
-    image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper:latest
+    image: nexus3.edgexfoundry.org:10004/core-common-config-bootstrapper-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -413,16 +719,16 @@ services:
     command:
       - /core-data
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-data
     depends_on:
-      consul:
-        condition: service_started
-        required: true
       core-common-config-bootstrapper:
         condition: service_started
         required: true
       database:
+        condition: service_started
+        required: true
+      keeper:
         condition: service_started
         required: true
       security-bootstrapper:
@@ -445,14 +751,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-data
-    image: nexus3.edgexfoundry.org:10004/core-data:latest
+    image: nexus3.edgexfoundry.org:10004/core-data-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -489,13 +795,13 @@ services:
     command:
       - /core-metadata
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-metadata
     depends_on:
-      consul:
+      database:
         condition: service_started
         required: true
-      database:
+      keeper:
         condition: service_started
         required: true
       security-bootstrapper:
@@ -518,14 +824,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-core-metadata
-    image: nexus3.edgexfoundry.org:10004/core-metadata:latest
+    image: nexus3.edgexfoundry.org:10004/core-metadata-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -582,8 +888,8 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
@@ -626,16 +932,14 @@ services:
         bind:
           selinux: z
           create_host_path: true
-  device-rest:
+  device-modbus:
     command:
-      - /device-rest
+      - /device-modbus
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
-    container_name: edgex-device-rest
+      - -cp=keeper.http://edgex-core-keeper:59890
+      - --configDir=CONFIG_DIR_PLACE_HOLDER
+    container_name: edgex-device-modbus
     depends_on:
-      consul:
-        condition: service_started
-        required: true
       core-common-config-bootstrapper:
         condition: service_started
         required: true
@@ -643,6 +947,170 @@ services:
         condition: service_started
         required: true
       core-metadata:
+        condition: service_started
+        required: true
+      keeper:
+        condition: service_started
+        required: true
+      modbus-simulator:
+        condition: service_started
+        required: true
+      security-bootstrapper:
+        condition: service_started
+        required: true
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SERVICE_HOST: edgex-device-modbus
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: "6379"
+      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-device-modbus
+    image: nexus3.edgexfoundry.org:10004/device-modbus-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59901
+        published: "59901"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /PROFILE_VOLUME_PLACE_HOLDER
+        target: CONFIG_DIR_PLACE_HOLDER
+        bind:
+          selinux: z
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/device-modbus
+        target: /tmp/edgex/secrets/device-modbus
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
+  device-onvif-camera:
+    command:
+      - /device-onvif-camera
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-device-onvif-camera
+    depends_on:
+      core-common-config-bootstrapper:
+        condition: service_started
+        required: true
+      core-data:
+        condition: service_started
+        required: true
+      core-metadata:
+        condition: service_started
+        required: true
+      keeper:
+        condition: service_started
+        required: true
+      security-bootstrapper:
+        condition: service_started
+        required: true
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SERVICE_HOST: edgex-device-onvif-camera
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: "6379"
+      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-device-onvif-camera
+    image: nexus3.edgexfoundry.org:10004/device-onvif-camera-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59984
+        published: "59984"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/device-onvif-camera
+        target: /tmp/edgex/secrets/device-onvif-camera
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
+  device-rest:
+    command:
+      - /device-rest
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-device-rest
+    depends_on:
+      core-common-config-bootstrapper:
+        condition: service_started
+        required: true
+      core-data:
+        condition: service_started
+        required: true
+      core-metadata:
+        condition: service_started
+        required: true
+      keeper:
         condition: service_started
         required: true
       security-bootstrapper:
@@ -662,14 +1130,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-rest
-    image: nexus3.edgexfoundry.org:10004/device-rest:latest
+    image: nexus3.edgexfoundry.org:10004/device-rest-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -706,12 +1174,10 @@ services:
     command:
       - /device-virtual
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
+      - --configDir=CONFIG_DIR_PLACE_HOLDER
     container_name: edgex-device-virtual
     depends_on:
-      consul:
-        condition: service_started
-        required: true
       core-common-config-bootstrapper:
         condition: service_started
         required: true
@@ -719,6 +1185,9 @@ services:
         condition: service_started
         required: true
       core-metadata:
+        condition: service_started
+        required: true
+      keeper:
         condition: service_started
         required: true
       security-bootstrapper:
@@ -738,14 +1207,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-device-virtual
-    image: nexus3.edgexfoundry.org:10004/device-virtual:latest
+    image: nexus3.edgexfoundry.org:10004/device-virtual-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -766,6 +1235,12 @@ services:
         read_only: true
         bind:
           create_host_path: true
+      - type: bind
+        source: /PROFILE_VOLUME_PLACE_HOLDER
+        target: CONFIG_DIR_PLACE_HOLDER
+        bind:
+          selinux: z
+          create_host_path: true
       - type: volume
         source: edgex-init
         target: /edgex-init
@@ -777,6 +1252,98 @@ services:
         read_only: true
         bind:
           selinux: z
+          create_host_path: true
+  keeper:
+    command:
+      - /core-keeper
+    container_name: edgex-core-keeper
+    depends_on:
+      database:
+        condition: service_started
+        required: true
+      security-bootstrapper:
+        condition: service_started
+        required: true
+      security-secretstore-setup:
+        condition: service_started
+        required: true
+    environment:
+      DATABASE_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEBUS_HOST: edgex-redis
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SERVICE_HOST: edgex-core-keeper
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: "6379"
+      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-core-keeper
+    image: nexus3.edgexfoundry.org:10004/core-keeper-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59890
+        published: "59890"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/core-keeper
+        target: /tmp/edgex/secrets/core-keeper
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
+  modbus-simulator:
+    container_name: edgex-modbus-simulator
+    hostname: edgex-modbus-simulator
+    image: nexus3.edgexfoundry.org:10003/edgex-devops/edgex-modbus-simulator-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 1502
+        published: "1502"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
           create_host_path: true
   mqtt-broker:
     command:
@@ -843,8 +1410,8 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
@@ -916,8 +1483,8 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
@@ -986,14 +1553,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-bootstrapper
-    image: nexus3.edgexfoundry.org:10004/security-bootstrapper:latest
+    image: nexus3.edgexfoundry.org:10004/security-bootstrapper-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -1017,7 +1584,7 @@ services:
       - entrypoint.sh
       - /security-proxy-auth
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-proxy-auth
     depends_on:
       core-common-config-bootstrapper:
@@ -1041,14 +1608,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-proxy-auth
-    image: nexus3.edgexfoundry.org:10004/security-proxy-auth:latest
+    image: nexus3.edgexfoundry.org:10004/security-proxy-auth-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -1112,14 +1679,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-proxy-setup
-    image: nexus3.edgexfoundry.org:10004/security-proxy-setup:latest
+    image: nexus3.edgexfoundry.org:10004/security-proxy-setup-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -1173,8 +1740,8 @@ services:
         condition: service_started
         required: true
     environment:
-      EDGEX_ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[device-rest],redisdb[device-virtual]
-      EDGEX_ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export
+      EDGEX_ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[app-sample],redisdb[device-modbus],redisdb[device-rest],redisdb[device-virtual],redisdb[device-onvif-camera],message-bus[app-rules-engine],message-bus[app-http-export],message-bus[app-mqtt-export],message-bus[app-external-mqtt-trigger],message-bus[app-scalability-test-mqtt-export],message-bus[app-sample],message-bus[device-modbus],message-bus[device-rest],message-bus[device-virtual],message-bus[device-onvif-camera]
+      EDGEX_ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,app-sample,device-modbus,app-external-mqtt-trigger,device-onvif-camera
       EDGEX_GROUP: "2001"
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: "2002"
@@ -1188,14 +1755,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-secretstore-setup
-    image: nexus3.edgexfoundry.org:10004/security-secretstore-setup:latest
+    image: nexus3.edgexfoundry.org:10004/security-secretstore-setup-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -1240,10 +1807,10 @@ services:
     command:
       - /security-spiffe-token-provider
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-security-spiffe-token-provider
     depends_on:
-      consul:
+      keeper:
         condition: service_started
         required: true
       security-bootstrapper:
@@ -1266,14 +1833,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-spiffe-token-provider
-    image: nexus3.edgexfoundry.org:10004/security-spiffe-token-provider:latest
+    image: nexus3.edgexfoundry.org:10004/security-spiffe-token-provider-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -1333,14 +1900,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-spire-agent
-    image: nexus3.edgexfoundry.org:10004/security-spire-agent:latest
+    image: nexus3.edgexfoundry.org:10004/security-spire-agent-arm64:latest
     networks:
       edgex-network: null
     pid: host
@@ -1403,14 +1970,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-spire-config
-    image: nexus3.edgexfoundry.org:10004/security-spire-config:latest
+    image: nexus3.edgexfoundry.org:10004/security-spire-config-arm64:latest
     networks:
       edgex-network: null
     read_only: true
@@ -1458,14 +2025,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-security-spire-server
-    image: nexus3.edgexfoundry.org:10004/security-spire-server:latest
+    image: nexus3.edgexfoundry.org:10004/security-spire-server-arm64:latest
     networks:
       edgex-network: null
     pid: host
@@ -1511,16 +2078,16 @@ services:
     command:
       - /support-notifications
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-support-notifications
     depends_on:
-      consul:
-        condition: service_started
-        required: true
       core-common-config-bootstrapper:
         condition: service_started
         required: true
       database:
+        condition: service_started
+        required: true
+      keeper:
         condition: service_started
         required: true
       security-bootstrapper:
@@ -1543,14 +2110,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/support-notifications:latest
+    image: nexus3.edgexfoundry.org:10004/support-notifications-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -1587,16 +2154,16 @@ services:
     command:
       - /support-scheduler
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-support-scheduler
     depends_on:
-      consul:
-        condition: service_started
-        required: true
       core-common-config-bootstrapper:
         condition: service_started
         required: true
       database:
+        condition: service_started
+        required: true
+      keeper:
         condition: service_started
         required: true
       security-bootstrapper:
@@ -1621,14 +2188,14 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-scheduler:latest
+    image: nexus3.edgexfoundry.org:10004/support-scheduler-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -1667,7 +2234,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "true"
       SERVICE_HOST: edgex-ui-go
     hostname: edgex-ui-go
-    image: nexus3.edgexfoundry.org:10004/edgex-ui:latest
+    image: nexus3.edgexfoundry.org:10004/edgex-ui-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -1708,8 +2275,8 @@ services:
       STAGEGATE_DATABASE_READYPORT: "6379"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
       STAGEGATE_REGISTRY_READYPORT: "54324"
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
@@ -1752,10 +2319,6 @@ networks:
 volumes:
   consul-acl-token:
     name: edgex_consul-acl-token
-  consul-config:
-    name: edgex_consul-config
-  consul-data:
-    name: edgex_consul-data
   db-data:
     name: edgex_db-data
   edgex-init:

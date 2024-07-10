@@ -128,6 +128,10 @@ This folder contains the following compose files:
     TAF App Services **extending** `add-taf-app-services` compose file, and services are enabled with secret store by default.
 - **add-taf-device-services-mods.yml**<br/>
     TAF Device Services **extending** compose file. Modifies setting of Device Virtual and Device Modbus for the TAF testing compose files. **Must be used in conjunction with add-device-modbus.yml and add-device-virtual.yml**
+- **add-keeper.yml**<br/>
+    Registry Service **extending** compose file. Adds the **Core Keeper** service.
+- **add-consul.yml**<br/>
+    Registry Service **extending** compose file. Adds the **Consul** service.
 
 ### Environment Files
 
@@ -182,11 +186,23 @@ Standard compose variations are:
    full secure general testing (docker-compose-taf.yml)
    full secure general testing for arm64 (docker-compose-taf-arm64.yml)
    non-secure general testing (docker-compose-taf-no-secty.yml)
-   nonsecure general testing for arm64 (docker-compose-taf-no-secty-arm64.yml)
+   non-secure general testing for arm64 (docker-compose-taf-no-secty-arm64.yml)
    full secure perf testing (docker-compose-taf-perf.yml)
    full secure perf testing for arm64 (docker-compose-taf-perf-arm64.yml)
    non-secure perf testing (docker-compose-taf-perf-no-secty.yml)
-   nonsecure perf testing for arm64 (docker-compose-taf-perf-no-secty-arm64.yml)
+   non-secure perf testing for arm64 (docker-compose-taf-perf-no-secty-arm64.yml)
+   full secure general testing with mqtt-bus (docker-compose-taf-mqtt-bus.yml)
+   full secure general testing with mqtt-bus for arm64 (docker-compose-taf-mqtt-bus-arm64.yml)
+   non-secure general testing with mqtt-bus (docker-compose-taf-no-secty-mqtt-bus.yml)
+   non-secure general testing with mqtt-bus for arm64 (docker-compose-taf-no-secty-mqtt-bus-arm64.yml)
+   full secure general testing with core-keeper (docker-compose-taf-keeper.yml)
+   full secure general testing with core-keeper for arm64 (docker-compose-taf-keeper-arm64.yml)
+   non-secure general testing with core-keeper (docker-compose-taf-no-secty-keeper.yml)
+   non-secure general testing with core-keeper for arm64 (docker-compose-taf-no-secty-keeper-arm64.yml)
+   full secure general testing with mqtt-bus with core-keeper (docker-compose-taf-mqtt-bus-keeper.yml)
+   full secure general testing with mqtt-bus with core-keeper for arm64 (docker-compose-taf-mqtt-bus-keeper-arm64.yml)
+   non-secure general testing with mqtt-bus with core-keeper (docker-compose-taf-no-secty-mqtt-bus-keeper.yml)
+   non-secure general testing with mqtt-bus with core-keeper for arm64 (docker-compose-taf-no-secty-mqtt-bus-keeper-arm64.yml)
 ```
 #### Run
 
@@ -239,6 +255,7 @@ Options:
     nats-bus:         Runs with services configure for NATS Message Bus
                       The NATS Server service is also included.
     no-cleanup:       Leaves generated files behind for debugging purposes.
+    keeper:           Runs to registry service to core-keeper
 Services:
     <names...>: Runs only services listed (and their dependent services) where 'name' matches a service name in one of the compose files used
 ```
@@ -296,7 +313,8 @@ Options:
                       Pull includes NonoMQ MQTT broker when mqtt-broker or mqtt-bus are specified
                       Not valid in secure mode when uses with mqtt-bus                    
     nats-bus:         Pull includes additional services for NATS Message Bus
-    no-cleanup:       Leaves generated files behind for debugging purposes.
+    no-cleanup:       Leaves generated files behind for debugging purposes
+    keeper:           Pull includes core-keeper
 
 Services:
     <names...>: Pulls only images for the service(s) listed
@@ -353,6 +371,8 @@ Options:
     nats-bus:         Generates compose file with services configured for NAT Message Bus
                       The NATS Server service is also included.
     no-cleanup:       Leaves generated files behind for debugging purposes.
+    keeper:           Generates compose file with services registry to core-keeper
+                      The core-keeper service is also included
 ```
 #### Clean
 
@@ -465,6 +485,7 @@ Options:
     nats-bus:         Generates compose file with services configure for NATS Message Bus
                       The NATS Server service is also included.
     no-cleanup:       Leaves generated files behind for debugging purposes.
+    keeper:           Generates compose file to registry service to core-keeper
 ```
 
 #### TAF Compose
@@ -477,6 +498,7 @@ Options:
     taf-secty:	  Generates general TAF testing compose file with security services
     taf-no-secty: Generates general TAF testing compose file without security services
     arm64:        Generates TAF compose file using ARM64 images
+    keeper:       Generates compose file to registry service to core-keeper
 ```
 
 #### Taf Perf Compose

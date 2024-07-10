@@ -34,6 +34,7 @@ EXTRA_PROXY_ROUTE_LIST=
 GEN_EXT_DIR=gen_ext_compose
 BUS=
 NANOMQ=
+REGISTRY=
 
 BROKER_YAML=add-mqtt-broker-mosquitto.yml
 TAF_BROKER_YAML=add-taf-mqtt-broker-mosquitto.yml
@@ -49,6 +50,7 @@ define OPTIONS
  - ds-coap ds-gpio ds-uart ds-s7 -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp as-record-replay asc-ex-mqtt -
  - modbus-sim zero-trust no-cleanup -
+ - consul keeper -
 endef
 export OPTIONS
 
@@ -117,6 +119,17 @@ ifeq (mqtt-verbose, $(filter mqtt-verbose,$(ARGS)))
 	export MQTT_VERBOSE=-v
 else
     export MQTT_VERBOSE=
+endif
+
+ifeq (keeper, $(filter keeper,$(ARGS)))
+	export CP_FLAGS='-cp=keeper.http://edgex-core-keeper:59890'
+	export REGISTRY_HOST=edgex-core-keeper
+	export REGISTRY_PORT=59890
+	export REGISTRY_TYPE=keeper
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		export STAGEGATE_REGISTRY_HOST=edgex-core-keeper
+		export STAGEGATE_REGISTRY_PORT=59890
+	endif
 endif
 
 # When in delay-start mode, we have to make sure support serivces be delayed-start-compliant: i.e. the runtime-token configuration be added etc..
@@ -202,7 +215,7 @@ ifeq (ds-bacnet-ip, $(filter ds-bacnet-ip,$(ARGS)))
 		else
 			EXTRA_PROXY_ROUTE_LIST:=$(EXTRA_PROXY_ROUTE_LIST),$(PROXY_ROUTE)
 		endif
-		extension_file:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet-ip device-bacnet-ip device-bacnet-ip/device-bacnet-c " -cp=consul://edgex-core-consul:8500 --registry")
+		extension_file:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet-ip device-bacnet-ip device-bacnet-ip/device-bacnet-c " --registry ${CP_FLAGS}")
 
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 		# add runtime token config for delayed-start if specified
@@ -231,7 +244,7 @@ ifeq (ds-bacnet-mstp, $(filter ds-bacnet-mstp,$(ARGS)))
 		else
 			EXTRA_PROXY_ROUTE_LIST:=$(EXTRA_PROXY_ROUTE_LIST),$(PROXY_ROUTE)
 		endif
-		extension_file:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet-mstp device-bacnet-mstp device-bacnet-mstp/device-bacnet-c " -cp=consul://edgex-core-consul:8500 --registry")
+		extension_file:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-bacnet-mstp device-bacnet-mstp device-bacnet-mstp/device-bacnet-c " --registry ${CP_FLAGS}")
 
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
 		# add runtime token config for delayed-start if specified
@@ -808,6 +821,20 @@ else
 	endif
 endif
 
+# Add switch to set registry
+ifeq (keeper, $(filter keeper,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml
+	REGISTRY:=-keeper
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+                COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-keeper.yml
+	endif
+else
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-consul.yml
+	endif
+endif
+
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,app-sample,device-modbus,app-external-mqtt-trigger,device-onvif-camera
@@ -846,6 +873,13 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		IS_MQTT_BUS:=0
 	endif
 
+	ifeq (keeper, $(filter keeper,$(ARGS)))
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml -f add-secure-keeper.yml
+		REGISTRY:=-keeper
+	else
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml -f add-secure-consul.yml
+	endif
+
 	asc_http_export_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)"  ./gen_secure_compose_ext.sh app-http-export \
 		app-http-export app-service-configurable)
 	asc_mqtt_export_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" IS_MQTT_BUS="$(IS_MQTT_BUS)" ./gen_secure_compose_ext.sh app-mqtt-export \
@@ -860,9 +894,9 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	# taf has its special place holder from taf-device-services-mods and thus we need to keep it
 	# and extend security related things on top of it
 	ds_virtual_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual \
-		device-virtual device-virtual ' -cp=consul.http:\/\/edgex-core-consul:8500 --registry --configDir=CONFIG_DIR_PLACE_HOLDER')
+		device-virtual device-virtual " ${CP_FLAGS} --configDir=CONFIG_DIR_PLACE_HOLDER")
 	ds_modbus_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-modbus \
-		device-modbus device-modbus ' -cp=consul.http:\/\/edgex-core-consul:8500 --registry --configDir=CONFIG_DIR_PLACE_HOLDER')
+		device-modbus device-modbus " ${CP_FLAGS} --configDir=CONFIG_DIR_PLACE_HOLDER")
 	ds_camera_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-onvif-camera)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(asc_http_export_ext) -f $(asc_mqtt_export_ext) -f $(asc_external_mqtt_trigger_ext) -f $(scalability_mqtt_export_ext) -f $(asc_sample_ext)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ds_virtual_ext) -f $(ds_rest_ext) -f $(ds_modbus_ext) -f $(ds_camera_ext)
@@ -897,6 +931,13 @@ else
             IS_SECURE_MODE:=0
             COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml
         endif
+
+		ifeq (keeper, $(filter keeper,$(ARGS)))
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml
+			REGISTRY:=-keeper
+		else
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml
+		endif
     else
     	# Build compose for TAF secure performance testing (ignore all other compose file options)
     	ifeq (taf-perf, $(filter taf-perf,$(ARGS)))
@@ -907,16 +948,24 @@ else
 			EXTRA_PROXY_ROUTE_LIST:=device-modbus.http://edgex-device-modbus:59901
 
     		COMPOSE_FILES:= \
-    			-f docker-compose-base.yml \
-    			-f add-security.yml \
-    			-f add-security-proxy.yml \
-    			-f add-secure-redis-messagebus.yml \
-    			-f add-asc-mqtt-export.yml \
-    			-f add-device-virtual.yml \
-    			-f add-device-rest.yml \
-    			-f add-mqtt-broker-mosquitto.yml \
+				-f docker-compose-base.yml \
+				-f add-security.yml \
+				-f add-security-proxy.yml \
+				-f add-secure-redis-messagebus.yml \
+				-f add-asc-mqtt-export.yml \
+				-f add-device-virtual.yml \
+				-f add-device-rest.yml \
+				-f add-mqtt-broker-mosquitto.yml \
 				-f add-taf-mqtt-broker-mosquitto.yml \
-			-f add-delayed-start-services.yml
+				-f add-delayed-start-services.yml
+
+			ifeq (keeper, $(filter keeper,$(ARGS)))
+				COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml -f add-secure-keeper.yml
+				REGISTRY:=-keeper
+			else
+				COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml -f add-secure-consul.yml
+			endif
+
 			asc_mqtt_export_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)"  IS_MQTT_BUS="0" ./gen_secure_compose_ext.sh app-mqtt-export \
 				app-mqtt-export app-service-configurable)
 			ds_virtual_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
@@ -933,6 +982,12 @@ else
 					-f ${BROKER_YAML} \
 					-f ${TAF_BROKER_YAML}
 
+				ifeq (keeper, $(filter keeper,$(ARGS)))
+					COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml
+					REGISTRY:=-keeper
+				else
+					COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml
+				endif
 				NO_SECURITY:=-no-secty
 			endif
 		endif
@@ -983,6 +1038,10 @@ define COMPOSE_DOWN
 		-f add-security-proxy.yml \
 		-f add-secure-redis-messagebus.yml \
 		-f add-delayed-start-services.yml \
+		-f add-consul.yml \
+		-f add-secure-consul.yml \
+		-f add-keeper.yml \
+		-f add-secure-keeper.yml \
 		down $1
 endef
 
@@ -1029,6 +1088,14 @@ build-taf:
 	make taf-compose taf-no-secty mqtt-bus mqtt-verbose
 	make taf-compose taf-secty mqtt-bus mqtt-verbose arm64
 	make taf-compose taf-no-secty mqtt-bus mqtt-verbose arm64
+	make taf-compose taf-secty keeper
+	make taf-compose taf-no-secty keeper
+	make taf-compose taf-secty keeper arm64
+	make taf-compose taf-no-secty keeper arm64
+	make taf-compose taf-secty keeper mqtt-bus mqtt-verbose
+	make taf-compose taf-no-secty keeper mqtt-bus mqtt-verbose
+	make taf-compose taf-secty keeper mqtt-bus mqtt-verbose arm64
+	make taf-compose taf-no-secty keeper mqtt-bus mqtt-verbose arm64
 	make taf-compose-perf taf-perf
 	make taf-compose-perf taf-perf-no-secty
 	make taf-compose-perf taf-perf arm64
@@ -1036,13 +1103,15 @@ build-taf:
 
 build-taf-nanomq:
 	make taf-compose taf-no-secty mqtt-bus nanomq no-secty
+	make taf-compose taf-no-secty keeper mqtt-bus nanomq no-secty
 	make taf-compose-perf taf-perf-no-secty mqtt-bus nanomq no-secty
+	make taf-compose-perf taf-perf-no-secty consul mqtt-bus nanomq no-secty
 
 compose: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(NO_SECURITY)$(APP_SAMPLE)$(BUS)$(NANOMQ)$(ZERO_TRUST_COMPOSE)$(ARCH).yml
 
 taf-compose: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(NANOMQ)$(REGISTRY)$(ARCH).yml
 
 taf-compose-perf: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml

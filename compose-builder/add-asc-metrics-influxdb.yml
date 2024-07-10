@@ -18,6 +18,7 @@ version: '3.7'
 services:
   app-metrics-influxdb:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
+    command: "--registry ${CP_FLAGS}"
     ports:
       - 127.0.0.1:59707:59707/tcp
     container_name: edgex-app-metrics-influxdb
@@ -28,7 +29,7 @@ services:
       SERVICE_HOST: edgex-app-metrics-influxdb
       EDGEX_PROFILE: metrics-influxdb
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-metadata
       - core-common-config-bootstrapper
     read_only: true

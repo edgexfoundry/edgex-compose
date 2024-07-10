@@ -116,7 +116,7 @@ services:
     image: ${CORE_EDGEX_REPOSITORY}/security-spiffe-token-provider${ARCH}:${CORE_EDGEX_VERSION}
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
-    command: /security-spiffe-token-provider -cp=consul.http://edgex-core-consul:8500
+    command: /security-spiffe-token-provider --registry ${CP_FLAGS}
     user: "root:root"
     container_name: edgex-security-spiffe-token-provider
     hostname: edgex-security-spiffe-token-provider
@@ -140,7 +140,7 @@ services:
       - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
       - /tmp/edgex/secrets/security-spiffe-token-provider:/tmp/edgex/secrets/security-spiffe-token-provider:z
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - security-spire-agent
       - security-bootstrapper
     security_opt:

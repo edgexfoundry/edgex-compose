@@ -18,6 +18,7 @@ version: '3.7'
 services:
   app-functional-tests:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
+    command: "--registry ${CP_FLAGS}"
     ports:
       - 59705:59705/tcp
     container_name: edgex-app-functional-tests
@@ -28,7 +29,7 @@ services:
       EDGEX_PROFILE: functional-tests
       SERVICE_HOST: edgex-app-functional-tests
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-metadata
       - core-common-config-bootstrapper
     read_only: true
@@ -43,6 +44,7 @@ services:
 
   app-scalability-test-mqtt-export:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
+    command: "--registry ${CP_FLAGS}"
     ports:
       - "59710:59703" #Exposing as different port to avoid conflict with other MQTT export instance
     container_name: edgex-app-scalability-test-mqtt-export
@@ -60,7 +62,7 @@ services:
       MESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
       WRITABLE_LOGLEVEL: DEBUG
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-metadata
       - core-common-config-bootstrapper
     read_only: true

@@ -21,17 +21,13 @@ services:
       EDGEX_ADD_SECRETSTORE_TOKENS: ${TOKEN_LIST}
       EDGEX_ADD_KNOWN_SECRETS: ${KNOWN_SECRETS_LIST}
 
-  consul:
-    environment:
-      EDGEX_ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
-
   ${ZERO_TRUST}security-proxy-setup:
   ${ZERO_TRUST}  environment:
   ${ZERO_TRUST}    EDGEX_ADD_PROXY_ROUTE: ${EXTRA_PROXY_ROUTE_LIST}
 
   ${SERVICE_NAME}:
     entrypoint: [${SHELL_OVERRIDE} "/edgex-init/ready_to_run_wait_install.sh"]
-    command: "/${EXECUTABLE} ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    command: "/${EXECUTABLE} --registry ${CP_FLAGS}"
     env_file:
       - common-security.env
       - common-sec-stage-gate.env

@@ -18,6 +18,7 @@ version: '3.7'
 services:
   device-modbus:
     image: ${DEVICE_SVC_REPOSITORY}/device-modbus${ARCH}:${DEVICE_MODBUS_VERSION}
+    command: "${CP_FLAGS} --registry"
     ports:
       - "127.0.0.1:59901:59901"
     container_name: edgex-device-modbus
@@ -29,7 +30,7 @@ services:
     environment:
       SERVICE_HOST: edgex-device-modbus
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

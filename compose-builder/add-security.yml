@@ -20,7 +20,6 @@ volumes:
   vault-config:
   vault-file:
   vault-logs:
-  consul-acl-token:
   # non-shared volumes
   redis-config:
 
@@ -98,31 +97,6 @@ services:
     security_opt:
       - no-new-privileges:true
 
-  consul:
-    entrypoint: ["/edgex-init/consul_wait_install.sh"]
-    env_file:
-      # needed for vault host/port
-      - common-security.env
-      - common-sec-stage-gate.env
-    environment:
-      EDGEX_USER: ${EDGEX_USER}
-      EDGEX_GROUP: ${EDGEX_GROUP}
-      # uncomment and modify the following "ADD_REGISTRY_ACL_ROLES" to add additional registry ACL roles on the fly
-      # the list is comma-separated service keys for these services
-      #ADD_REGISTRY_ACL_ROLES: app-sample,app-rules-engine-redis, app-rules-engine-mqtt, app-push-to-core
-      STAGEGATE_REGISTRY_ACL_SENTINELFILEPATH: /consul/config/consul_acl_done
-      STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
-      STAGEGATE_REGISTRY_ACL_MANAGEMENTTOKENPATH: /tmp/edgex/secrets/consul-acl-token/mgmt_token.json
-    volumes:
-      - edgex-init:/edgex-init:ro
-      - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
-      # using regular volume to avoid lose of token due to host system reboot
-      # and it is only shared between consul and proxy-setup
-      - consul-acl-token:/tmp/edgex/secrets/consul-acl-token
-    depends_on:
-      - security-bootstrapper
-      - vault
-
   vault:
     image: hashicorp/vault:${VAULT_VERSION}
     user: "root:root" # Note that Vault is run under the 'vault' user, but entry point scripts need to first run as root
@@ -157,7 +131,7 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: "/support-notifications ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    command: "/support-notifications --registry ${CP_FLAGS}"
     volumes:
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/support-notifications:/tmp/edgex/secrets/support-notifications:ro,z
@@ -171,7 +145,7 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: "/core-metadata ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    command: "/core-metadata --registry ${CP_FLAGS}"
     volumes:
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/core-metadata:/tmp/edgex/secrets/core-metadata:ro,z
@@ -185,7 +159,7 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: "/core-data ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    command: "/core-data --registry ${CP_FLAGS}"
     volumes:
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/core-data:/tmp/edgex/secrets/core-data:ro,z
@@ -199,7 +173,7 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: "/core-command ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    command: "/core-command --registry ${CP_FLAGS}"
     volumes:
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/core-command:/tmp/edgex/secrets/core-command:ro,z
@@ -213,7 +187,7 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: ["/entrypoint.sh", "/core-common-config-bootstrapper", "-cp=consul.http://edgex-core-consul:8500"]
+    command: /entrypoint.sh /core-common-config-bootstrapper --registry ${CP_FLAGS}
     volumes:
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/core-common-config-bootstrapper:/tmp/edgex/secrets/core-common-config-bootstrapper:ro,z
@@ -226,7 +200,7 @@ services:
       - common-security.env
       - common-sec-stage-gate.env
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: "/support-scheduler ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    command: "/support-scheduler --registry ${CP_FLAGS}"
     volumes:
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/support-scheduler:/tmp/edgex/secrets/support-scheduler:ro,z
@@ -239,7 +213,7 @@ services:
   # because it needs to await Consul roles to be created
   app-rules-engine:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: "/app-service-configurable ${DEFAULT_EDGEX_RUN_CMD_PARMS}"
+    command: "/app-service-configurable --registry ${CP_FLAGS}"
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
