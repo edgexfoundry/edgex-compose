@@ -19,6 +19,7 @@ version: '3.7'
 services:
   device-usb-camera:
     image: ${DEVICE_SVC_REPOSITORY}/device-usb-camera${ARCH}:${DEVICE_USBCAM_VERSION}
+    command: "${CP_FLAGS} --registry"
     ports:
       - "127.0.0.1:59983:59983"
       - "127.0.0.1:8554:8554/tcp"
@@ -33,7 +34,7 @@ services:
     environment:
       SERVICE_HOST: edgex-device-usb-camera
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

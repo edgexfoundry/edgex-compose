@@ -23,32 +23,12 @@ networks:
 
 volumes:
   db-data:
-  consul-config:
-  consul-data:
   kuiper-data:
   kuiper-etc:
   kuiper-log:
   kuiper-plugins:
 
 services:
-  consul:
-    image: hashicorp/consul:${CONSUL_VERSION}
-    command: "agent -ui -bootstrap -server -client 0.0.0.0"
-    user: "root:root" # Note that Consul is run under the 'consul' user, but entry point scripts need to first run as root
-    ports:
-      - "127.0.0.1:8500:8500"
-    container_name: edgex-core-consul
-    hostname: edgex-core-consul
-    read_only: true
-    restart: always
-    networks:
-      edgex-network:
-    volumes:
-      - consul-config:/consul/config
-      - consul-data:/consul/data
-    security_opt:
-      - no-new-privileges:true
-
   database:
     image: redis:${REDIS_VERSION}
     user: "root:root" # Note that Redis is run under the 'redis' user, but entry point scripts need to first run as root
@@ -67,6 +47,7 @@ services:
 
   support-notifications:
     image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}
+    command: --registry ${CP_FLAGS}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59860:59860"
@@ -81,7 +62,7 @@ services:
     environment:
       SERVICE_HOST: edgex-support-notifications
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - database
       - core-common-config-bootstrapper
     security_opt:
@@ -92,6 +73,7 @@ services:
 
   core-metadata:
     image: ${CORE_EDGEX_REPOSITORY}/core-metadata${ARCH}:${CORE_EDGEX_VERSION}
+    command: --registry ${CP_FLAGS}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59881:59881"
@@ -106,7 +88,7 @@ services:
     environment:
       SERVICE_HOST: edgex-core-metadata
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - database
     security_opt:
       - no-new-privileges:true
@@ -116,6 +98,7 @@ services:
 
   core-data:
     image: ${CORE_EDGEX_REPOSITORY}/core-data${ARCH}:${CORE_EDGEX_VERSION}
+    command: --registry ${CP_FLAGS}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59880:59880"
@@ -130,7 +113,7 @@ services:
     environment:
       SERVICE_HOST: edgex-core-data
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - database
       - core-common-config-bootstrapper
     security_opt:
@@ -141,6 +124,7 @@ services:
 
   core-command:
     image: ${CORE_EDGEX_REPOSITORY}/core-command${ARCH}:${CORE_EDGEX_VERSION}
+    command: --registry ${CP_FLAGS}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59882:59882"
@@ -156,7 +140,7 @@ services:
       SERVICE_HOST: edgex-core-command
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - database
       - core-metadata
       - core-common-config-bootstrapper
@@ -168,6 +152,7 @@ services:
 
   core-common-config-bootstrapper:
     image: ${CORE_EDGEX_REPOSITORY}/core-common-config-bootstrapper${ARCH}:${CORE_EDGEX_VERSION}
+    command: /core-common-config-bootstrapper --registry ${CP_FLAGS}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     container_name: edgex-core-common-config-bootstrapper
     hostname: edgex-core-common-config-bootstrapper
@@ -177,13 +162,15 @@ services:
     env_file:
       - common-non-security.env
     environment:
-      ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
+      ALL_SERVICES_REGISTRY_HOST: ${REGISTRY_HOST}
+      ALL_SERVICES_REGISTRY_PORT: ${REGISTRY_PORT}
+      ALL_SERVICES_REGISTRY_TYPE: ${REGISTRY_TYPE}
       ALL_SERVICES_DATABASE_HOST: edgex-redis
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -192,6 +179,7 @@ services:
 
   support-scheduler:
     image: ${CORE_EDGEX_REPOSITORY}/support-scheduler${ARCH}:${CORE_EDGEX_VERSION}
+    command: --registry ${CP_FLAGS}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59861:59861"
@@ -208,7 +196,7 @@ services:
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - database
       - core-common-config-bootstrapper
     security_opt:
@@ -219,6 +207,7 @@ services:
 
   app-rules-engine:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
+    command: --registry ${CP_FLAGS}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59701:59701"
@@ -234,7 +223,7 @@ services:
       EDGEX_PROFILE: rules-engine
       SERVICE_HOST: edgex-app-rules-engine
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-metadata
       - core-common-config-bootstrapper
     security_opt:

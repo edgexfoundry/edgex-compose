@@ -30,8 +30,8 @@ services:
   app-rules-engine:
     command:
       - /app-service-configurable
-      - -cp=consul.http://edgex-core-consul:8500
       - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-app-rules-engine
     depends_on:
       consul:
@@ -180,8 +180,8 @@ services:
   core-command:
     command:
       - /core-command
-      - -cp=consul.http://edgex-core-consul:8500
       - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-command
     depends_on:
       consul:
@@ -259,6 +259,7 @@ services:
     command:
       - /entrypoint.sh
       - /core-common-config-bootstrapper
+      - --registry
       - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-common-config-bootstrapper
     depends_on:
@@ -277,6 +278,8 @@ services:
       ALL_SERVICES_DATABASE_HOST: edgex-redis
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
       ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
+      ALL_SERVICES_REGISTRY_PORT: "8500"
+      ALL_SERVICES_REGISTRY_TYPE: consul
       ALL_SERVICES_SERVICE_SECURITYOPTIONS_MODE: zerotrust
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: core-metadata.edgex.ziti
       APP_SERVICES_CLIENTS_CORE_METADATA_PORT: "80"
@@ -330,8 +333,8 @@ services:
   core-data:
     command:
       - /core-data
-      - -cp=consul.http://edgex-core-consul:8500
       - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-data
     depends_on:
       consul:
@@ -401,8 +404,8 @@ services:
   core-metadata:
     command:
       - /core-metadata
-      - -cp=consul.http://edgex-core-consul:8500
       - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-metadata
     depends_on:
       consul:
@@ -537,8 +540,8 @@ services:
   device-rest:
     command:
       - /device-rest
-      - -cp=consul.http://edgex-core-consul:8500
       - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-device-rest
     depends_on:
       consul:
@@ -608,8 +611,8 @@ services:
   device-virtual:
     command:
       - /device-virtual
-      - -cp=consul.http://edgex-core-consul:8500
       - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-device-virtual
     depends_on:
       consul:
@@ -886,8 +889,8 @@ services:
   support-notifications:
     command:
       - /support-notifications
-      - -cp=consul.http://edgex-core-consul:8500
       - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-support-notifications
     depends_on:
       consul:
@@ -957,8 +960,8 @@ services:
   support-scheduler:
     command:
       - /support-scheduler
-      - -cp=consul.http://edgex-core-consul:8500
       - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-support-scheduler
     depends_on:
       consul:

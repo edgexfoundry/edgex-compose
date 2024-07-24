@@ -18,6 +18,7 @@ version: '3.7'
 services:
   app-external-mqtt-trigger:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
+    command: "--registry ${CP_FLAGS}"
     ports:
       - 127.0.0.1:59706:59706/tcp
     container_name: edgex-app-external-mqtt-trigger
@@ -32,7 +33,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-export
       WRITABLE_LOGLEVEL: INFO
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

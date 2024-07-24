@@ -18,6 +18,7 @@ version: '3.7'
 services:
   device-coap:
     image: ${DEVICE_SVC_REPOSITORY}/device-coap${ARCH}:${DEVICE_COAP_VERSION}
+    command: "${CP_FLAGS} --registry"
     ports:
     - "127.0.0.1:59988:59988"
     container_name: edgex-device-coap
@@ -30,12 +31,11 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-device-coap
-      REGISTRY_HOST: edgex-core-consul
       DATABASE_HOST: edgex-redis
       MESSAGEBUS_HOST: edgex-redis
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

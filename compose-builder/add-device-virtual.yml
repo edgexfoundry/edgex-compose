@@ -18,6 +18,7 @@ version: '3.7'
 services:
   device-virtual:
     image: ${DEVICE_SVC_REPOSITORY}/device-virtual${ARCH}:${DEVICE_VIRTUAL_VERSION}
+    command: "${CP_FLAGS} --registry"
     ports:
     - "127.0.0.1:59900:59900"
     container_name: edgex-device-virtual
@@ -31,7 +32,7 @@ services:
     environment:
       SERVICE_HOST: edgex-device-virtual
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

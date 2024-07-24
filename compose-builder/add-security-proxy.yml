@@ -16,6 +16,7 @@
 version: '3.7'
 
 volumes:
+  consul-acl-token:
   nginx-templates:
   nginx-tls:
 
@@ -103,11 +104,7 @@ services:
     networks:
       - edgex-network
     entrypoint: ["/bin/sh", "/edgex-init/ready_to_run_wait_install.sh"]
-    command:
-      - "entrypoint.sh"
-      - "/security-proxy-auth"
-      - "-cp=consul.http://edgex-core-consul:8500"
-      - "--registry"
+    command: entrypoint.sh /security-proxy-auth --registry ${CP_FLAGS}
     env_file:
       - common-security.env
       - common-sec-stage-gate.env

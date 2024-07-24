@@ -18,6 +18,7 @@ version: '3.7'
 services:
   app-http-export:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
+    command: "--registry ${CP_FLAGS}"
     ports:
       - 127.0.0.1:59704:59704/tcp
     container_name: edgex-app-http-export
@@ -30,7 +31,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_HTTPEXPORT_PARAMETERS_URL: "http://EXPORT_HOST_PLACE_HOLDER:7770"
       WRITABLE_LOGLEVEL: INFO  # allows scripts to find and change with sed
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

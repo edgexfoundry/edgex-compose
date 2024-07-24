@@ -18,6 +18,7 @@ version: '3.7'
 services:
   device-uart:
     image: ${DEVICE_SVC_REPOSITORY}/device-uart${ARCH}:${DEVICE_UART_VERSION}
+    command: "${CP_FLAGS} --registry"
     ports:
       - "127.0.0.1:59995:59995"
     container_name: edgex-device-uart
@@ -31,7 +32,7 @@ services:
     environment:
       SERVICE_HOST: edgex-device-uart
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

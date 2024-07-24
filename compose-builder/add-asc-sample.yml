@@ -18,6 +18,7 @@ version: '3.7'
 services:
   app-sample:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
+    command: "--registry ${CP_FLAGS}"
     ports:
       - 127.0.0.1:59700:59700/tcp
     container_name: edgex-app-sample
@@ -31,7 +32,7 @@ services:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-metadata
       - core-common-config-bootstrapper
     read_only: true

@@ -1,0 +1,46 @@
+# /*******************************************************************************
+#  * Copyright 2024 IOTech Ltd
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *
+#  *******************************************************************************/
+
+version: '3.7'
+
+volumes:
+  consul-acl-token:
+
+services:
+  consul:
+    entrypoint: ["/edgex-init/consul_wait_install.sh"]
+    env_file:
+      # needed for vault host/port
+      - common-security.env
+      - common-sec-stage-gate.env
+    environment:
+      EDGEX_ADD_REGISTRY_ACL_ROLES: ${TOKEN_LIST}
+      EDGEX_USER: ${EDGEX_USER}
+      EDGEX_GROUP: ${EDGEX_GROUP}
+      # uncomment and modify the following "ADD_REGISTRY_ACL_ROLES" to add additional registry ACL roles on the fly
+      # the list is comma-separated service keys for these services
+      #ADD_REGISTRY_ACL_ROLES: app-sample,app-rules-engine-redis, app-rules-engine-mqtt, app-push-to-core
+      STAGEGATE_REGISTRY_ACL_SENTINELFILEPATH: /consul/config/consul_acl_done
+      STAGEGATE_REGISTRY_ACL_BOOTSTRAPTOKENPATH: /tmp/edgex/secrets/consul-acl-token/bootstrap_token.json
+      STAGEGATE_REGISTRY_ACL_MANAGEMENTTOKENPATH: /tmp/edgex/secrets/consul-acl-token/mgmt_token.json
+    volumes:
+      - edgex-init:/edgex-init:ro
+      - /tmp/edgex/secrets/edgex-consul:/tmp/edgex/secrets/edgex-consul:ro,z
+      # using regular volume to avoid lose of token due to host system reboot
+      # and it is only shared between consul and proxy-setup
+      - consul-acl-token:/tmp/edgex/secrets/consul-acl-token
+    depends_on:
+      - security-bootstrapper
+      - vault

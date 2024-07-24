@@ -18,6 +18,7 @@ version: '3.7'
 services:
   device-gpio:
     image: ${DEVICE_SVC_REPOSITORY}/device-gpio${ARCH}:${DEVICE_GPIO_VERSION}
+    command: "${CP_FLAGS} --registry"
     ports:
     - "127.0.0.1:59910:59910"
     container_name: edgex-device-gpio
@@ -31,7 +32,7 @@ services:
     environment:
       SERVICE_HOST: edgex-device-gpio
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

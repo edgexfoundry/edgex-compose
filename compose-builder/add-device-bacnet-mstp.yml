@@ -19,7 +19,7 @@ version: '3.7'
 services:
   device-bacnet-mstp:
     image: ${DEVICE_SVC_REPOSITORY}/device-bacnet${ARCH}:${DEVICE_BACNET_VERSION}
-    command: "-cp=consul://edgex-core-consul:8500 --registry"
+    command: "${CP_FLAGS} --registry"
     entrypoint:
       - /device-bacnet-mstp/device-bacnet-c
     ports:
@@ -32,12 +32,11 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-device-bacnet-mstp
-      REGISTRY_HOST: edgex-core-consul
       DATABASE_HOST: edgex-redis
       MESSAGEBUS_HOST: edgex-redis
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

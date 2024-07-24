@@ -24,27 +24,33 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
+# Generated with: Docker Compose version v2.25.0
 name: edgex
 services:
   app-external-mqtt-trigger:
     command:
-    - /app-service-configurable
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /app-service-configurable
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-app-external-mqtt-trigger
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-data:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_PROFILE: external-mqtt-trigger
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -73,52 +79,56 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59706
-      published: "59706"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59706
+        published: "59706"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/app-external-mqtt-trigger
-      target: /tmp/edgex/secrets/app-external-mqtt-trigger
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/app-external-mqtt-trigger
+        target: /tmp/edgex/secrets/app-external-mqtt-trigger
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   app-functional-tests:
     command:
-    - /app-service-configurable
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /app-service-configurable
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-app-functional-tests
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -143,52 +153,57 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      target: 59705
-      published: "59705"
-      protocol: tcp
+      - mode: ingress
+        target: 59705
+        published: "59705"
+        protocol: tcp
     read_only: true
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/app-functional-tests
-      target: /tmp/edgex/secrets/app-functional-tests
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/app-functional-tests
+        target: /tmp/edgex/secrets/app-functional-tests
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   app-http-export:
     command:
-    - /app-service-configurable
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /app-service-configurable
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-app-http-export
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-data:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -215,52 +230,56 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59704
-      published: "59704"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59704
+        published: "59704"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/app-http-export
-      target: /tmp/edgex/secrets/app-http-export
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/app-http-export
+        target: /tmp/edgex/secrets/app-http-export
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   app-mqtt-export:
     command:
-    - /app-service-configurable
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /app-service-configurable
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-app-mqtt-export
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -288,52 +307,56 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59703
-      published: "59703"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59703
+        published: "59703"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/app-mqtt-export
-      target: /tmp/edgex/secrets/app-mqtt-export
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/app-mqtt-export
+        target: /tmp/edgex/secrets/app-mqtt-export
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   app-rules-engine:
     command:
-    - /app-service-configurable
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /app-service-configurable
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-app-rules-engine
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -358,52 +381,56 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59701
-      published: "59701"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59701
+        published: "59701"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/app-rules-engine
-      target: /tmp/edgex/secrets/app-rules-engine
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/app-rules-engine
+        target: /tmp/edgex/secrets/app-rules-engine
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   app-sample:
     command:
-    - /app-service-configurable
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /app-service-configurable
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-app-sample
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
@@ -431,52 +458,56 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59700
-      published: "59700"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59700
+        published: "59700"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/app-sample
-      target: /tmp/edgex/secrets/app-sample
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/app-sample
+        target: /tmp/edgex/secrets/app-sample
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   app-scalability-test-mqtt-export:
     command:
-    - /app-service-configurable
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /app-service-configurable
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-app-scalability-test-mqtt-export
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -509,49 +540,51 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      target: 59703
-      published: "59710"
-      protocol: tcp
+      - mode: ingress
+        target: 59703
+        published: "59710"
+        protocol: tcp
     read_only: true
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/app-scalability-test-mqtt-export
-      target: /tmp/edgex/secrets/app-scalability-test-mqtt-export
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/app-scalability-test-mqtt-export
+        target: /tmp/edgex/secrets/app-scalability-test-mqtt-export
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   consul:
     command:
-    - agent
-    - -ui
-    - -bootstrap
-    - -server
-    - -client
-    - 0.0.0.0
+      - agent
+      - -ui
+      - -bootstrap
+      - -server
+      - -client
+      - 0.0.0.0
     container_name: edgex-core-consul
     depends_on:
       security-bootstrapper:
         condition: service_started
+        required: true
       vault:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/consul_wait_install.sh
+      - /edgex-init/consul_wait_install.sh
     environment:
       EDGEX_ADD_REGISTRY_ACL_ROLES: app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,app-sample,device-modbus,app-external-mqtt-trigger,device-onvif-camera
       EDGEX_GROUP: "2001"
@@ -580,62 +613,68 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 8500
-      published: "8500"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8500
+        published: "8500"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: root:root
     volumes:
-    - type: volume
-      source: consul-config
-      target: /consul/config
-      volume: {}
-    - type: volume
-      source: consul-data
-      target: /consul/data
-      volume: {}
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: volume
-      source: consul-acl-token
-      target: /tmp/edgex/secrets/consul-acl-token
-      volume: {}
-    - type: bind
-      source: /tmp/edgex/secrets/edgex-consul
-      target: /tmp/edgex/secrets/edgex-consul
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: volume
+        source: consul-config
+        target: /consul/config
+        volume: {}
+      - type: volume
+        source: consul-data
+        target: /consul/data
+        volume: {}
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/edgex-consul
+        target: /tmp/edgex/secrets/edgex-consul
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
+      - type: volume
+        source: consul-acl-token
+        target: /tmp/edgex/secrets/consul-acl-token
+        volume: {}
   core-command:
     command:
-    - /core-command
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /core-command
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-command
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       database:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
@@ -660,50 +699,54 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59882
-      published: "59882"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59882
+        published: "59882"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/core-command
-      target: /tmp/edgex/secrets/core-command
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/core-command
+        target: /tmp/edgex/secrets/core-command
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   core-common-config-bootstrapper:
     command:
-    - /entrypoint.sh
-    - /core-common-config-bootstrapper
-    - -cp=consul.http://edgex-core-consul:8500
+      - /entrypoint.sh
+      - /core-common-config-bootstrapper
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-common-config-bootstrapper
     depends_on:
       consul:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       ALL_SERVICES_DATABASE_HOST: edgex-redis
       ALL_SERVICES_MESSAGEBUS_AUTHMODE: usernamepassword
@@ -713,6 +756,8 @@ services:
       ALL_SERVICES_MESSAGEBUS_SECRETNAME: message-bus
       ALL_SERVICES_MESSAGEBUS_TYPE: mqtt
       ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
+      ALL_SERVICES_REGISTRY_PORT: "8500"
+      ALL_SERVICES_REGISTRY_TYPE: consul
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -737,46 +782,51 @@ services:
       edgex-network: null
     read_only: true
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/core-common-config-bootstrapper
-      target: /tmp/edgex/secrets/core-common-config-bootstrapper
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/core-common-config-bootstrapper
+        target: /tmp/edgex/secrets/core-common-config-bootstrapper
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   core-data:
     command:
-    - /core-data
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /core-data
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-data
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       database:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -800,52 +850,56 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59880
-      published: "59880"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59880
+        published: "59880"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/core-data
-      target: /tmp/edgex/secrets/core-data
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/core-data
+        target: /tmp/edgex/secrets/core-data
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   core-metadata:
     command:
-    - /core-metadata
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /core-metadata
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-core-metadata
     depends_on:
       consul:
         condition: service_started
+        required: true
       database:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -869,44 +923,46 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59881
-      published: "59881"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59881
+        published: "59881"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/core-metadata
-      target: /tmp/edgex/secrets/core-metadata
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/core-metadata
+        target: /tmp/edgex/secrets/core-metadata
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   database:
     container_name: edgex-redis
     depends_on:
       security-bootstrapper:
         condition: service_started
+        required: true
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/redis_wait_install.sh
+      - /edgex-init/redis_wait_install.sh
     environment:
       DATABASECONFIG_NAME: redis.conf
       DATABASECONFIG_PATH: /run/redis/conf
@@ -931,61 +987,67 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 6379
-      published: "6379"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 6379
+        published: "6379"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     tmpfs:
-    - /run
+      - /run
     user: root:root
     volumes:
-    - type: volume
-      source: db-data
-      target: /data
-      volume: {}
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: volume
-      source: redis-config
-      target: /run/redis/conf
-      volume: {}
-    - type: bind
-      source: /tmp/edgex/secrets/security-bootstrapper-redis
-      target: /tmp/edgex/secrets/security-bootstrapper-redis
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: volume
+        source: db-data
+        target: /data
+        volume: {}
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: volume
+        source: redis-config
+        target: /run/redis/conf
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/security-bootstrapper-redis
+        target: /tmp/edgex/secrets/security-bootstrapper-redis
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   device-modbus:
     command:
-    - /device-modbus
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
-    - --configDir=CONFIG_DIR_PLACE_HOLDER
+      - /device-modbus
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
+      - --configDir=CONFIG_DIR_PLACE_HOLDER
     container_name: edgex-device-modbus
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-data:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       modbus-simulator:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1009,60 +1071,65 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59901
-      published: "59901"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59901
+        published: "59901"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/device-modbus
-      target: /tmp/edgex/secrets/device-modbus
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
-    - type: bind
-      source: /PROFILE_VOLUME_PLACE_HOLDER
-      target: CONFIG_DIR_PLACE_HOLDER
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /PROFILE_VOLUME_PLACE_HOLDER
+        target: CONFIG_DIR_PLACE_HOLDER
+        bind:
+          selinux: z
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/device-modbus
+        target: /tmp/edgex/secrets/device-modbus
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   device-onvif-camera:
     command:
-    - /device-onvif-camera
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /device-onvif-camera
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-device-onvif-camera
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-data:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1086,54 +1153,59 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59984
-      published: "59984"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59984
+        published: "59984"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/device-onvif-camera
-      target: /tmp/edgex/secrets/device-onvif-camera
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/device-onvif-camera
+        target: /tmp/edgex/secrets/device-onvif-camera
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   device-rest:
     command:
-    - /device-rest
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /device-rest
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-device-rest
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-data:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1157,55 +1229,60 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59986
-      published: "59986"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59986
+        published: "59986"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/device-rest
-      target: /tmp/edgex/secrets/device-rest
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/device-rest
+        target: /tmp/edgex/secrets/device-rest
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   device-virtual:
     command:
-    - /device-virtual
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
-    - --configDir=CONFIG_DIR_PLACE_HOLDER
+      - /device-virtual
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
+      - --configDir=CONFIG_DIR_PLACE_HOLDER
     container_name: edgex-device-virtual
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-data:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1229,41 +1306,41 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59900
-      published: "59900"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59900
+        published: "59900"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/device-virtual
-      target: /tmp/edgex/secrets/device-virtual
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
-    - type: bind
-      source: /PROFILE_VOLUME_PLACE_HOLDER
-      target: CONFIG_DIR_PLACE_HOLDER
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /PROFILE_VOLUME_PLACE_HOLDER
+        target: CONFIG_DIR_PLACE_HOLDER
+        bind:
+          selinux: z
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/device-virtual
+        target: /tmp/edgex/secrets/device-virtual
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   modbus-simulator:
     container_name: edgex-modbus-simulator
     hostname: edgex-modbus-simulator
@@ -1271,37 +1348,39 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 1502
-      published: "1502"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 1502
+        published: "1502"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   mqtt-broker:
     command:
-    - /usr/sbin/mosquitto
-    - -v
-    - -c
-    - /mosquitto/config/mosquitto.conf
+      - /usr/sbin/mosquitto
+      - -v
+      - -c
+      - /mosquitto/config/mosquitto.conf
     container_name: edgex-mqtt-broker
     depends_on:
       security-bootstrapper:
         condition: service_started
+        required: true
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/messagebus_wait_install.sh
+      - /edgex-init/messagebus_wait_install.sh
     environment:
       BROKER_TYPE: mosquitto
       CONF_DIR: /edgex-init/bootstrap-mosquitto/res
@@ -1327,67 +1406,68 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 1883
-      published: "1883"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 1883
+        published: "1883"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: root:root
     volumes:
-    - type: volume
-      source: mqtt
-      target: /mosquitto
-      volume: {}
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /tmp/edgex/secrets/security-bootstrapper-messagebus
-      target: /tmp/edgex/secrets/security-bootstrapper-messagebus
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: volume
+        source: mqtt
+        target: /mosquitto
+        volume: {}
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/security-bootstrapper-messagebus
+        target: /tmp/edgex/secrets/security-bootstrapper-messagebus
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   mqtt-taf-broker:
     command:
-    - /usr/sbin/mosquitto
-    - -c
-    - /mosquitto-no-auth.conf
+      - /usr/sbin/mosquitto
+      - -c
+      - /mosquitto-no-auth.conf
     container_name: edgex-taf-mqtt-broker
     hostname: edgex-taf-mqtt-broker
     image: eclipse-mosquitto:2.0
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 1883
-      published: "1884"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 1883
+        published: "1884"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
   nginx:
     command:
-    - /docker-entrypoint.sh
-    - nginx
-    - -g
-    - daemon off;
+      - /docker-entrypoint.sh
+      - nginx
+      - -g
+      - daemon off;
     container_name: edgex-nginx
     depends_on:
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /bin/sh
-    - /edgex-init/nginx_wait_install.sh
+      - /bin/sh
+      - /edgex-init/nginx_wait_install.sh
     environment:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -1408,46 +1488,50 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      target: 8443
-      published: "8443"
-      protocol: tcp
+      - mode: ingress
+        target: 8443
+        published: "8443"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     tmpfs:
-    - /etc/nginx/conf.d
-    - /var/cache/nginx
-    - /var/log/nginx
-    - /var/run
+      - /etc/nginx/conf.d
+      - /var/cache/nginx
+      - /var/log/nginx
+      - /var/run
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: volume
-      source: nginx-templates
-      target: /etc/nginx/templates
-      volume: {}
-    - type: volume
-      source: nginx-tls
-      target: /etc/ssl/nginx
-      volume: {}
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: volume
+        source: nginx-templates
+        target: /etc/nginx/templates
+        volume: {}
+      - type: volume
+        source: nginx-tls
+        target: /etc/ssl/nginx
+        volume: {}
   rules-engine:
     container_name: edgex-kuiper
     depends_on:
       database:
         condition: service_started
+        required: true
       mqtt-broker:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/kuiper_wait_install.sh
+      - /edgex-init/kuiper_wait_install.sh
     environment:
       CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__CLIENTID: kuiper-rules-engine
       CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__KEEPALIVE: "500"
@@ -1467,6 +1551,7 @@ services:
       EDGEX__DEFAULT__TOPIC: edgex/rules-events
       EDGEX__DEFAULT__TYPE: mqtt
       KUIPER__BASIC__CONSOLELOG: "true"
+      KUIPER__BASIC__ENABLEOPENZITI: "false"
       KUIPER__BASIC__RESTPORT: "59720"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -1483,56 +1568,56 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:1.12-alpine
+    image: lfedge/ekuiper:v1.14.0-alpha.2
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59720
-      published: "59720"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59720
+        published: "59720"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: kuiper:kuiper
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: volume
-      source: kuiper-data
-      target: /kuiper/data
-      volume: {}
-    - type: volume
-      source: kuiper-etc
-      target: /kuiper/etc
-      volume: {}
-    - type: volume
-      source: kuiper-connections
-      target: /kuiper/etc/connections
-      volume: {}
-    - type: volume
-      source: kuiper-sources
-      target: /kuiper/etc/sources
-      volume: {}
-    - type: volume
-      source: kuiper-log
-      target: /kuiper/log
-      volume: {}
-    - type: volume
-      source: kuiper-plugins
-      target: /kuiper/plugins
-      volume: {}
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: kuiper-data
+        target: /kuiper/data
+        volume: {}
+      - type: volume
+        source: kuiper-etc
+        target: /kuiper/etc
+        volume: {}
+      - type: volume
+        source: kuiper-log
+        target: /kuiper/log
+        volume: {}
+      - type: volume
+        source: kuiper-plugins
+        target: /kuiper/plugins
+        volume: {}
+      - type: volume
+        source: kuiper-sources
+        target: /kuiper/etc/sources
+        volume: {}
+      - type: volume
+        source: kuiper-connections
+        target: /kuiper/etc/connections
+        volume: {}
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
   security-bootstrapper:
     container_name: edgex-security-bootstrapper
     environment:
@@ -1559,34 +1644,36 @@ services:
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: root:root
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      volume: {}
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        volume: {}
   security-proxy-auth:
     command:
-    - entrypoint.sh
-    - /security-proxy-auth
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - entrypoint.sh
+      - /security-proxy-auth
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-proxy-auth
     depends_on:
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /bin/sh
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /bin/sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1610,43 +1697,45 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59842
-      published: "59842"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59842
+        published: "59842"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /tmp/edgex/secrets/security-proxy-auth
-      target: /tmp/edgex/secrets/security-proxy-auth
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/security-proxy-auth
+        target: /tmp/edgex/secrets/security-proxy-auth
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   security-proxy-setup:
     container_name: edgex-security-proxy-setup
     depends_on:
       security-bootstrapper:
         condition: service_started
+        required: true
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/proxy_setup_wait_install.sh
+      - /edgex-init/proxy_setup_wait_install.sh
     environment:
       EDGEX_ADD_PROXY_ROUTE: device-modbus.http://edgex-device-modbus:59901
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -1681,51 +1770,53 @@ services:
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: root:root
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: volume
-      source: nginx-templates
-      target: /etc/nginx/templates
-      volume: {}
-    - type: volume
-      source: nginx-tls
-      target: /etc/ssl/nginx
-      volume: {}
-    - type: volume
-      source: consul-acl-token
-      target: /tmp/edgex/secrets/consul-acl-token
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /tmp/edgex/secrets/security-proxy-setup
-      target: /tmp/edgex/secrets/security-proxy-setup
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
-    - type: volume
-      source: vault-config
-      target: /vault/config
-      volume: {}
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: volume
+        source: vault-config
+        target: /vault/config
+        volume: {}
+      - type: volume
+        source: nginx-templates
+        target: /etc/nginx/templates
+        volume: {}
+      - type: volume
+        source: nginx-tls
+        target: /etc/ssl/nginx
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/security-proxy-setup
+        target: /tmp/edgex/secrets/security-proxy-setup
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
+      - type: volume
+        source: consul-acl-token
+        target: /tmp/edgex/secrets/consul-acl-token
+        read_only: true
+        volume: {}
   security-secretstore-setup:
     container_name: edgex-security-secretstore-setup
     depends_on:
       security-bootstrapper:
         condition: service_started
+        required: true
       vault:
         condition: service_started
+        required: true
     environment:
       EDGEX_ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[app-sample],redisdb[device-modbus],redisdb[device-rest],redisdb[device-virtual],redisdb[device-onvif-camera],message-bus[app-rules-engine],message-bus[app-http-export],message-bus[app-mqtt-export],message-bus[app-external-mqtt-trigger],message-bus[app-scalability-test-mqtt-export],message-bus[app-sample],message-bus[device-modbus],message-bus[device-rest],message-bus[device-virtual],message-bus[device-onvif-camera]
       EDGEX_ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,app-sample,device-modbus,app-external-mqtt-trigger,device-onvif-camera
@@ -1755,55 +1846,59 @@ services:
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     tmpfs:
-    - /run
-    - /vault
+      - /run
+      - /vault
     user: root:root
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets
-      target: /tmp/edgex/secrets
-      bind:
-        selinux: z
-        create_host_path: true
-    - type: volume
-      source: kuiper-sources
-      target: /tmp/kuiper
-      volume: {}
-    - type: volume
-      source: kuiper-connections
-      target: /tmp/kuiper-connections
-      volume: {}
-    - type: volume
-      source: vault-config
-      target: /vault/config
-      volume: {}
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: volume
+        source: vault-config
+        target: /vault/config
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets
+        target: /tmp/edgex/secrets
+        bind:
+          selinux: z
+          create_host_path: true
+      - type: volume
+        source: kuiper-sources
+        target: /tmp/kuiper
+        volume: {}
+      - type: volume
+        source: kuiper-connections
+        target: /tmp/kuiper-connections
+        volume: {}
   security-spiffe-token-provider:
     command:
-    - /security-spiffe-token-provider
-    - -cp=consul.http://edgex-core-consul:8500
+      - /security-spiffe-token-provider
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-security-spiffe-token-provider
     depends_on:
       consul:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
       security-spire-agent:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1827,50 +1922,51 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59841
-      published: "59841"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59841
+        published: "59841"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     tmpfs:
-    - /run
+      - /run
     user: root:root
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      volume: {}
-    - type: bind
-      source: /tmp/edgex/secrets/spiffe
-      target: /tmp/edgex/secrets/spiffe
-      bind:
-        selinux: z
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/security-spiffe-token-provider
-      target: /tmp/edgex/secrets/security-spiffe-token-provider
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/spiffe
+        target: /tmp/edgex/secrets/spiffe
+        bind:
+          selinux: z
+          create_host_path: true
+      - type: bind
+        source: /tmp/edgex/secrets/security-spiffe-token-provider
+        target: /tmp/edgex/secrets/security-spiffe-token-provider
+        bind:
+          selinux: z
+          create_host_path: true
   security-spire-agent:
     command:
-    - docker-entrypoint.sh
+      - docker-entrypoint.sh
     container_name: edgex-security-spire-agent
     depends_on:
       security-spire-server:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1897,49 +1993,50 @@ services:
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     tmpfs:
-    - /run
+      - /run
     user: root:root
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      volume: {}
-    - type: volume
-      source: spire-ca
-      target: /srv/spiffe/ca
-      volume: {}
-    - type: volume
-      source: spire-agent
-      target: /srv/spiffe/agent
-      volume: {}
-    - type: bind
-      source: /tmp/edgex/secrets/spiffe
-      target: /tmp/edgex/secrets/spiffe
-      bind:
-        selinux: z
-        create_host_path: true
-    - type: bind
-      source: /var/run/docker.sock
-      target: /var/run/docker.sock
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        volume: {}
+      - type: volume
+        source: spire-ca
+        target: /srv/spiffe/ca
+        volume: {}
+      - type: volume
+        source: spire-agent
+        target: /srv/spiffe/agent
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/spiffe
+        target: /tmp/edgex/secrets/spiffe
+        bind:
+          selinux: z
+          create_host_path: true
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        bind:
+          create_host_path: true
   security-spire-config:
     command:
-    - docker-entrypoint.sh
+      - docker-entrypoint.sh
     container_name: edgex-security-spire-config
     depends_on:
       security-spire-agent:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1964,36 +2061,37 @@ services:
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     tmpfs:
-    - /run
+      - /run
     user: root:root
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      volume: {}
-    - type: bind
-      source: /tmp/edgex/secrets/spiffe
-      target: /tmp/edgex/secrets/spiffe
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/spiffe
+        target: /tmp/edgex/secrets/spiffe
+        bind:
+          selinux: z
+          create_host_path: true
   security-spire-server:
     command:
-    - docker-entrypoint.sh
+      - docker-entrypoint.sh
     container_name: edgex-security-spire-server
     depends_on:
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -2017,62 +2115,67 @@ services:
       edgex-network: null
     pid: host
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59840
-      published: "59840"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59840
+        published: "59840"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     tmpfs:
-    - /run
+      - /run
     user: root:root
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      volume: {}
-    - type: volume
-      source: spire-ca
-      target: /srv/spiffe/ca
-      volume: {}
-    - type: volume
-      source: spire-server
-      target: /srv/spiffe/server
-      volume: {}
-    - type: bind
-      source: /tmp/edgex/secrets/spiffe
-      target: /tmp/edgex/secrets/spiffe
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        volume: {}
+      - type: volume
+        source: spire-ca
+        target: /srv/spiffe/ca
+        volume: {}
+      - type: volume
+        source: spire-server
+        target: /srv/spiffe/server
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/spiffe
+        target: /tmp/edgex/secrets/spiffe
+        bind:
+          selinux: z
+          create_host_path: true
   support-notifications:
     command:
-    - /support-notifications
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /support-notifications
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-support-notifications
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       database:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -2096,54 +2199,59 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59860
-      published: "59860"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59860
+        published: "59860"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/support-notifications
-      target: /tmp/edgex/secrets/support-notifications
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/support-notifications
+        target: /tmp/edgex/secrets/support-notifications
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   support-scheduler:
     command:
-    - /support-scheduler
-    - -cp=consul.http://edgex-core-consul:8500
-    - --registry
+      - /support-scheduler
+      - --registry
+      - -cp=consul.http://edgex-core-consul:8500
     container_name: edgex-support-scheduler
     depends_on:
       consul:
         condition: service_started
+        required: true
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       database:
         condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
+        required: true
       security-secretstore-setup:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/ready_to_run_wait_install.sh
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
@@ -2169,35 +2277,35 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59861
-      published: "59861"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59861
+        published: "59861"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: bind
-      source: /tmp/edgex/secrets/support-scheduler
-      target: /tmp/edgex/secrets/support-scheduler
-      read_only: true
-      bind:
-        selinux: z
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/support-scheduler
+        target: /tmp/edgex/secrets/support-scheduler
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   ui:
     container_name: edgex-ui-go
     environment:
@@ -2208,33 +2316,34 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      target: 4000
-      published: "4000"
-      protocol: tcp
+      - mode: ingress
+        target: 4000
+        published: "4000"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   vault:
     cap_add:
-    - IPC_LOCK
+      - IPC_LOCK
     command:
-    - server
+      - server
     container_name: edgex-vault
     depends_on:
       security-bootstrapper:
         condition: service_started
+        required: true
     entrypoint:
-    - /edgex-init/vault_wait_install.sh
+      - /edgex-init/vault_wait_install.sh
     environment:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -2258,29 +2367,29 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 8200
-      published: "8200"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8200
+        published: "8200"
+        protocol: tcp
     restart: always
     tmpfs:
-    - /vault/config
+      - /vault/config
     user: root:root
     volumes:
-    - type: volume
-      source: edgex-init
-      target: /edgex-init
-      read_only: true
-      volume: {}
-    - type: volume
-      source: vault-file
-      target: /vault/file
-      volume: {}
-    - type: volume
-      source: vault-logs
-      target: /vault/logs
-      volume: {}
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: volume
+        source: vault-file
+        target: /vault/file
+        volume: {}
+      - type: volume
+        source: vault-logs
+        target: /vault/logs
+        volume: {}
 networks:
   edgex-network:
     name: edgex_edgex-network

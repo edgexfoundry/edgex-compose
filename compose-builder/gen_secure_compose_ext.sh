@@ -21,7 +21,7 @@ num_of_args=$#
 # we use the inherited pattern to reduce the input number of arguments from the caller
 # i.e. if only provided one input argument, then the 2nd and 3rd argument will be the same as the first argument
 
-service_name='' service_key='' executable='' params=' ${DEFAULT_EDGEX_RUN_CMD_PARMS}'
+service_name='' service_key='' executable='' params=' ${CP_FLAGS}'
 case "$num_of_args" in
 0)
   echo "ERROR: Invalid number of arguments, should be at least 1"
@@ -76,7 +76,7 @@ case "${service_name}" in
 esac
 # optional with default value
 if [ "$num_of_args" -eq 4 ]; then
-    sed -i 's, ${DEFAULT_EDGEX_RUN_CMD_PARMS},'"$params"',g' "$SERVICE_EXT_COMPOSE_PATH"
+    sed -i 's, ${CP_FLAGS},'"$params"',g' "$SERVICE_EXT_COMPOSE_PATH"
 fi
 
 

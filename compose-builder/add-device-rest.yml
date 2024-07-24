@@ -18,6 +18,7 @@ version: '3.7'
 services:
   device-rest:
     image: ${DEVICE_SVC_REPOSITORY}/device-rest${ARCH}:${DEVICE_REST_VERSION}
+    command: "${CP_FLAGS} --registry"
     ports:
       - "127.0.0.1:59986:59986"
     container_name: edgex-device-rest
@@ -31,7 +32,7 @@ services:
     environment:
       SERVICE_HOST: edgex-device-rest
     depends_on:
-      - consul
+      - ${REGISTRY_TYPE}
       - core-data
       - core-metadata
       - core-common-config-bootstrapper
