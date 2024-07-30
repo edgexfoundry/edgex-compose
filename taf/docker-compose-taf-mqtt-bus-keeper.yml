@@ -1727,15 +1727,6 @@ services:
       EDGEX_ADD_PROXY_ROUTE: device-modbus.http://edgex-device-modbus:59901
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      ROUTES_CORE_COMMAND_HOST: edgex-core-command
-      ROUTES_CORE_CONSUL_HOST: edgex-core-consul
-      ROUTES_CORE_DATA_HOST: edgex-core-data
-      ROUTES_CORE_METADATA_HOST: edgex-core-metadata
-      ROUTES_DEVICE_VIRTUAL_HOST: device-virtual
-      ROUTES_RULES_ENGINE_HOST: edgex-kuiper
-      ROUTES_SUPPORT_NOTIFICATIONS_HOST: edgex-support-notifications
-      ROUTES_SUPPORT_SCHEDULER_HOST: edgex-support-scheduler
-      ROUTES_SYS_MGMT_AGENT_HOST: edgex-sys-mgmt-agent
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"

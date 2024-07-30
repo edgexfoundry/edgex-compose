@@ -737,6 +737,35 @@ services:
         bind:
           selinux: z
           create_host_path: true
+  keeper:
+    container_name: edgex-core-keeper
+    environment:
+      DATABASE_HOST: edgex-redis
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_HOST: edgex-redis
+      SERVICE_HOST: edgex-core-keeper
+    hostname: edgex-core-keeper
+    image: nexus3.edgexfoundry.org:10004/core-keeper:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59890
+        published: "59890"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   modbus-simulator:
     container_name: edgex-modbus-simulator
     hostname: edgex-modbus-simulator

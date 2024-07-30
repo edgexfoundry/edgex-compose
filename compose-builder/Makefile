@@ -877,7 +877,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml -f add-secure-keeper.yml
 		REGISTRY:=-keeper
 	else
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml -f add-secure-consul.yml
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml -f add-secure-consul.yml -f add-keeper.yml -f add-secure-keeper.yml
 	endif
 
 	asc_http_export_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)"  ./gen_secure_compose_ext.sh app-http-export \
@@ -936,7 +936,7 @@ else
 			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml
 			REGISTRY:=-keeper
 		else
-			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml -f add-keeper.yml
 		endif
     else
     	# Build compose for TAF secure performance testing (ignore all other compose file options)
