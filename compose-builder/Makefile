@@ -37,7 +37,8 @@ NANOMQ=
 REGISTRY=
 
 # Resolve user ID for rootless docker port mapping
-export USERID=$(id -u)
+# Resolve user ID for rootless docker port mapping
+export USERID:=$(shell id -u)
 
 BROKER_YAML=add-mqtt-broker-mosquitto.yml
 TAF_BROKER_YAML=add-taf-mqtt-broker-mosquitto.yml
