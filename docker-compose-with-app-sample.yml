@@ -1370,63 +1370,48 @@ services:
         bind:
           create_host_path: true
   vault:
-    cap_add:
-      - IPC_LOCK
-    command:
-      - server
+    image: hashicorp/vault:${VAULT_VERSION}
+    user: "root:root" # Note that Vault is run under the 'vault' user, but entry point scripts need to first run as root
     container_name: edgex-vault
-    depends_on:
-      security-bootstrapper:
-        condition: service_started
-        required: true
-    entrypoint:
-      - /edgex-init/vault_wait_install.sh
+    hostname: edgex-vault
+    networks:
+      - edgex-network
+    ports:
+      - "127.0.0.1:8200:8200"
+    deploy:
+      resources:
+        limits:
+          memory: "1024m"
+    memswap_limit: "1024m"
+    tmpfs:
+      - /vault/config
+    entrypoint: [ "/edgex-init/vault_wait_install.sh" ]
+    env_file:
+      - common-sec-stage-gate.env
+    command: server
     environment:
-      PROXY_SETUP_HOST: edgex-security-proxy-setup
-      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
-      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_PROXYSETUP_READYPORT: "54325"
-      STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
-      STAGEGATE_REGISTRY_READYPORT: "54324"
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
-      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
-      STAGEGATE_WAITFOR_TIMEOUT: 60s
       VAULT_ADDR: http://edgex-vault:8200
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
-    hostname: edgex-vault
-    image: hashicorp/vault:1.14
-    networks:
-      edgex-network: null
-    ports:
-      - mode: ingress
-        host_ip: 127.0.0.1
-        target: 8200
-        published: "8200"
-        protocol: tcp
-    restart: always
-    tmpfs:
-      - /vault/config
-    user: root:root
+      VAULT_LOCAL_CONFIG: >
+        listener "tcp" { 
+            address = "edgex-vault:8200" 
+            tls_disable = "1" 
+            cluster_address = "edgex-vault:8201" 
+        }
+        backend "file" {
+            path = "/vault/file"
+        }
+        default_lease_ttl = "168h" 
+        max_lease_ttl = "720h"
+        disable_mlock = true
     volumes:
-      - type: volume
-        source: edgex-init
-        target: /edgex-init
-        read_only: true
-        volume: {}
-      - type: volume
-        source: vault-file
-        target: /vault/file
-        volume: {}
-      - type: volume
-        source: vault-logs
-        target: /vault/logs
-        volume: {}
+      - edgex-init:/edgex-init:ro
+      - vault-file:/vault/file
+      - vault-logs:/vault/logs
+    depends_on:
+      - security-bootstrapper
+    restart: always
 networks:
   edgex-network:
     name: edgex_edgex-network
