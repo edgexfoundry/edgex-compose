@@ -138,6 +138,12 @@ endif
 
 # When in delay-start mode, we have to make sure support serivces be delayed-start-compliant: i.e. the runtime-token configuration be added etc..
 ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+    # Make sure docker is running rootless as security-spire-agent runs only in docker rootless mode
+	@if [ ! -e /run/user/${USERID}/docker.sock ]; then \
+    	echo "Error: Docker socket not found at /run/user/${USERID}/docker.sock"; \
+    	echo "Please ensure Docker is running rootless."; \
+    	exit 1; \
+    fi
 	ext_file_sup_notif:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh support-notifications)
 	ext_file_sup_sch:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh support-scheduler)
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file_sup_notif) -f $(ext_file_sup_sch)
@@ -1064,6 +1070,11 @@ help:
 	echo "See README.md in this folder"
 
 portainer:
+	@if [ ! -e /run/user/${USERID}/docker.sock ]; then \
+    	echo "Error: Docker socket not found at /run/user/${USERID}/docker.sock"; \
+    	echo "Please ensure Docker is running rootless."; \
+    	exit 1; \
+    fi
 	make -C ${RELEASE_FOLDER} portainer
 
 portainer-down:

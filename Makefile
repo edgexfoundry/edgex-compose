@@ -57,7 +57,11 @@ endef
 .PHONY: $(OPTIONS)
 
 portainer:
-	echo "user ID: ${USERID}"
+	@if [ ! -e /run/user/${USERID}/docker.sock ]; then \
+    	echo "Error: Docker socket not found at /run/user/${USERID}/docker.sock"; \
+    	echo "Please ensure Docker is running rootless."; \
+    	exit 1; \
+    fi
 	${DOCKER_COMPOSE} -p portainer -f docker-compose-portainer.yml up -d
 
 portainer-down:
