@@ -125,7 +125,7 @@ The compose files under the `taf` subfolder are used for the automated TAF tests
 
 - **docker-compose-portainer.yml**
     Stand-alone compose file for running Portainer which is a  Docker container management tool. Visit here https://www.portainer.io/ for more details on Portianer.
-    Use `make portainer`and `make portainer-down` to start and stop Portainer.
+    Use `make portainer`and `make portainer-down` to start and stop Portainer. This feature has been configured to run only in a rootless docker environment.
 
 ### Use PostgreSQL as the persistence layer in EdgeX
 - **docker-compose-postgres-no-secty.yml** Contains just the services needed to run in non-secure configuration. Includes Postgres, Redis, Device Virtual and MQTT Broker services using a mix of Postgres and Redis as the databases and MQTT as the message bus.
