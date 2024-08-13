@@ -28,8 +28,6 @@ OPTIONS:=" arm64 no-secty app-sample zero-trust " # Must have spaces around word
 DOCKER_COMPOSE=docker compose
 
 # Resolve user ID for rootless docker port mapping
-
-# Resolve user ID for rootless docker port mapping
 export USERID:=$(shell id -u)
 
 ifeq (arm64, $(filter arm64,$(ARGS)))
