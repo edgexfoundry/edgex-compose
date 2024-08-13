@@ -39,6 +39,9 @@ REGISTRY=
 # Resolve user ID for rootless docker port mapping
 export USERID:=$(shell id -u)
 
+# Set default rootful docker socket path
+export DOCKER_SOCKET_PATH=/var/run/docker.sock
+
 BROKER_YAML=add-mqtt-broker-mosquitto.yml
 TAF_BROKER_YAML=add-taf-mqtt-broker-mosquitto.yml
 
@@ -138,10 +141,8 @@ endif
 # When in delay-start mode, we have to make sure support serivces be delayed-start-compliant: i.e. the runtime-token configuration be added etc..
 ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
     # Make sure docker is running rootless as security-spire-agent runs only in docker rootless mode
-	@if [ ! -e /run/user/${USERID}/docker.sock ]; then \
-    	echo "Error: Docker socket not found at /run/user/${USERID}/docker.sock"; \
-    	echo "Please ensure Docker is running rootless."; \
-    	exit 1; \
+	@if [ -e /run/user/${USERID}/docker.sock ]; then \
+		export DOCKER_SOCKET_PATH=/run/user/${USERID}/docker.sock; \
     fi
 	ext_file_sup_notif:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh support-notifications)
 	ext_file_sup_sch:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh support-scheduler)

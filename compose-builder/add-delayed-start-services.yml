@@ -75,7 +75,7 @@ services:
       - spire-ca:/srv/spiffe/ca
       - spire-agent:/srv/spiffe/agent
       - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
-      - /run/user/${USERID}/docker.sock:/var/run/docker.sock
+      - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
     depends_on:
       - security-spire-server
     pid: host

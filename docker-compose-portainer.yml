@@ -27,6 +27,6 @@ services:
     restart: always
     command: -H unix:///var/run/docker.sock
     volumes:
-      - /run/user/${USERID}/docker.sock:/var/run/docker.sock
+      - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
       - portainer_data:/data
 

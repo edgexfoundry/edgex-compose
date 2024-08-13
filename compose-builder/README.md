@@ -163,7 +163,7 @@ Usage: make <target> where target is:
 #### Portainer
 
 ```
-portainer       Runs Portainer independent of the EdgeX services and requires a rootless docker environment.
+portainer       Runs Portainer independent of the EdgeX services.
 portainer-down	Stops Portainer independent of the EdgeX services
 ```
 #### Build
