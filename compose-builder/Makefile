@@ -42,6 +42,9 @@ export USERID:=$(shell id -u)
 # Set default rootful docker socket path
 export DOCKER_SOCKET_PATH=/var/run/docker.sock
 
+# Get total system memory in megabytes for vault config
+export TOTAL_SYSTEM_MEMORY:=$(shell grep MemTotal /proc/meminfo | awk '{print $$2}')m
+
 BROKER_YAML=add-mqtt-broker-mosquitto.yml
 TAF_BROKER_YAML=add-taf-mqtt-broker-mosquitto.yml
 
@@ -1132,6 +1135,7 @@ taf-compose-perf: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml
 
 run: gen
+	echo mem = ${TOTAL_SYSTEM_MEMORY}
 	${DOCKER_COMPOSE}  -p edgex up -d $(SERVICES)
 
 pull: gen
