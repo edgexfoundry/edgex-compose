@@ -2250,8 +2250,6 @@ services:
         bind:
           create_host_path: true
   vault:
-    cap_add:
-      - IPC_LOCK
     command:
       - server
     container_name: edgex-vault
@@ -2259,6 +2257,10 @@ services:
       security-bootstrapper:
         condition: service_started
         required: true
+    deploy:
+      resources:
+        limits:
+          memory: "34032712679424"
     entrypoint:
       - /edgex-init/vault_wait_install.sh
     environment:
@@ -2278,9 +2280,12 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       VAULT_ADDR: http://edgex-vault:8200
       VAULT_CONFIG_DIR: /vault/config
+      VAULT_LOCAL_CONFIG: |
+        disable_mlock = true
       VAULT_UI: "true"
     hostname: edgex-vault
     image: hashicorp/vault:1.14
+    memswap_limit: "34032712679424"
     networks:
       edgex-network: null
     ports:
