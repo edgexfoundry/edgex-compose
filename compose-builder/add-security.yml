@@ -120,6 +120,9 @@ services:
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
       VAULT_LOCAL_CONFIG: >
+        backend "file" {
+            path = "/vault/file"
+        }
         disable_mlock = true
     volumes:
       - edgex-init:/edgex-init:ro
