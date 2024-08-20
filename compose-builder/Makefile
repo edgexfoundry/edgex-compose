@@ -1135,7 +1135,6 @@ taf-compose-perf: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml
 
 run: gen
-	echo mem = ${TOTAL_SYSTEM_MEMORY}
 	${DOCKER_COMPOSE}  -p edgex up -d $(SERVICES)
 
 pull: gen
