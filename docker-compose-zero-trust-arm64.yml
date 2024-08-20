@@ -1134,7 +1134,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "34032712679424"
+          memory: "34032716873728"
     entrypoint:
       - /edgex-init/vault_wait_install.sh
     environment:
@@ -1155,11 +1155,13 @@ services:
       VAULT_ADDR: http://edgex-vault:8200
       VAULT_CONFIG_DIR: /vault/config
       VAULT_LOCAL_CONFIG: |
-        disable_mlock = true
+        backend "file" {
+            path = "/vault/file"
+        } disable_mlock = true
       VAULT_UI: "true"
     hostname: edgex-vault
     image: hashicorp/vault:1.14
-    memswap_limit: "34032712679424"
+    memswap_limit: "34032716873728"
     networks:
       edgex-network: null
     ports:
