@@ -141,15 +141,21 @@ ifeq (keeper, $(filter keeper,$(ARGS)))
 	endif
 endif
 
-# When in delay-start mode, we have to make sure support serivces be delayed-start-compliant: i.e. the runtime-token configuration be added etc..
-ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
-    # Make sure docker is running rootless as security-spire-agent runs only in docker rootless mode
-	@if [ -e /run/user/${USERID}/docker.sock ]; then \
-		export DOCKER_SOCKET_PATH=/run/user/${USERID}/docker.sock; \
-    fi
-	ext_file_sup_notif:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh support-notifications)
-	ext_file_sup_sch:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh support-scheduler)
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file_sup_notif) -f $(ext_file_sup_sch)
+# When in delay-start mode, ensure support services are delay-start-compliant by adding runtime-token configuration
+ifeq (delayed-start,$(filter delayed-start,$(ARGS)))
+    # Ensure Docker is running rootless, as security-spire-agent runs only in Docker rootless mode
+    ifneq (,$(wildcard /run/user/$(USERID)/docker.sock))
+        export DOCKER_SOCKET_PATH := /run/user/$(USERID)/docker.sock
+    endif
+
+    # Generate runtime token config for support services
+    ext_file_sup_notif := $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" \
+        ./gen_runtime_token_config_compose_ext.sh support-notifications)
+    ext_file_sup_sch := $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" \
+        ./gen_runtime_token_config_compose_ext.sh support-scheduler)
+
+    # Add generated config files to COMPOSE_FILES
+    COMPOSE_FILES += -f $(ext_file_sup_notif) -f $(ext_file_sup_sch)
 endif
 
 # Add Device Services
