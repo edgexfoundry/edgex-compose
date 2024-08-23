@@ -149,10 +149,8 @@ ifeq (delayed-start,$(filter delayed-start,$(ARGS)))
     endif
 
     # Generate runtime token config for support services
-    ext_file_sup_notif := $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" \
-        ./gen_runtime_token_config_compose_ext.sh support-notifications)
-    ext_file_sup_sch := $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" \
-        ./gen_runtime_token_config_compose_ext.sh support-scheduler)
+    ext_file_sup_notif := $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh support-notifications)
+    ext_file_sup_sch := $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)"  ./gen_runtime_token_config_compose_ext.sh support-scheduler)
 
     # Add generated config files to COMPOSE_FILES
     COMPOSE_FILES += -f $(ext_file_sup_notif) -f $(ext_file_sup_sch)
