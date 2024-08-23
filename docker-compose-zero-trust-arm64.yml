@@ -1139,6 +1139,7 @@ services:
       - /edgex-init/vault_wait_install.sh
     environment:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SKIP_SETCAP: "true"
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1157,7 +1158,8 @@ services:
       VAULT_LOCAL_CONFIG: |
         backend "file" {
             path = "/vault/file"
-        } disable_mlock = true
+        }
+        disable_mlock = true
       VAULT_UI: "true"
     hostname: edgex-vault
     image: hashicorp/vault:1.14

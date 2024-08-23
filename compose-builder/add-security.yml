@@ -119,7 +119,8 @@ services:
       VAULT_ADDR: http://edgex-vault:8200
       VAULT_CONFIG_DIR: /vault/config
       VAULT_UI: "true"
-      VAULT_LOCAL_CONFIG: >
+      SKIP_SETCAP: "true"
+      VAULT_LOCAL_CONFIG: |
         backend "file" {
             path = "/vault/file"
         }
