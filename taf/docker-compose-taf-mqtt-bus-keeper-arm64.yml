@@ -2346,11 +2346,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       VAULT_ADDR: http://edgex-vault:8200
       VAULT_CONFIG_DIR: /vault/config
-      VAULT_LOCAL_CONFIG: |
-        backend "file" {
-            path = "/vault/file"
-        }
-        disable_mlock = true
+      VAULT_LOCAL_CONFIG: "listener \"tcp\" { \n  address = \"edgex-vault:8200\" \n  tls_disable = \"1\" \n  cluster_address = \"edgex-vault:8201\" \n} \nbackend \"file\" {\n  path = \"/vault/file\"\n}\ndefault_lease_ttl = \"168h\" \nmax_lease_ttl = \"720h\"\ndisable_mlock = true\n"
       VAULT_UI: "true"
     hostname: edgex-vault
     image: hashicorp/vault:1.14
