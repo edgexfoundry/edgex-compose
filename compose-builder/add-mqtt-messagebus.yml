@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   core-common-config-bootstrapper:
     environment:

@@ -14,8 +14,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   device-bacnet-mstp:
     image: ${DEVICE_SVC_REPOSITORY}/device-bacnet${ARCH}:${DEVICE_BACNET_VERSION}

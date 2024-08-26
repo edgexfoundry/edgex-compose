@@ -15,8 +15,6 @@
 
 # NOTE:  this Docker Compose file does not contain the security services required to run in secure mode
 
-version: '3.7'
-
 networks:
   edgex-network:
     driver: "bridge"
@@ -61,6 +59,7 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-support-notifications
+      DATABASE_HOST: edgex-redis
     depends_on:
       - ${REGISTRY_TYPE}
       - database
@@ -87,6 +86,7 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-core-metadata
+      DATABASE_HOST: edgex-redis
     depends_on:
       - ${REGISTRY_TYPE}
       - database
@@ -112,6 +112,7 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-core-data
+      DATABASE_HOST: edgex-redis
     depends_on:
       - ${REGISTRY_TYPE}
       - database
@@ -193,6 +194,7 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-support-scheduler
+      DATABASE_HOST: edgex-redis
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
     depends_on:

@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   app-sample:
     image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}

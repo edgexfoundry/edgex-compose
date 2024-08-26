@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   device-mqtt:
     image: ${DEVICE_SVC_REPOSITORY}/device-mqtt${ARCH}:${DEVICE_MQTT_VERSION}

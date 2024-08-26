@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   device-modbus:
     image: ${DEVICE_SVC_REPOSITORY}/device-modbus${ARCH}:${DEVICE_MODBUS_VERSION}

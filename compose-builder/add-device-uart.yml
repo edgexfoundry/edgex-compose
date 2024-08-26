@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   device-uart:
     image: ${DEVICE_SVC_REPOSITORY}/device-uart${ARCH}:${DEVICE_UART_VERSION}

@@ -14,8 +14,6 @@
 # limitations under the License.
 #
 
-version: '3.7'
-
 services:
   device-onvif-camera:
     image: ${DEVICE_SVC_REPOSITORY}/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
