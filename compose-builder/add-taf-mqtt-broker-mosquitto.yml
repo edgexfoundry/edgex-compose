@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   mqtt-taf-broker:
     image: eclipse-mosquitto:${MOSQUITTO_VERSION}

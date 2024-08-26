@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   device-s7:
     image: ${DEVICE_SVC_REPOSITORY}/device-s7${ARCH}:${DEVICE_S7_VERSION}

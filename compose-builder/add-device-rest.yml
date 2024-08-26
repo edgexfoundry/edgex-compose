@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   device-rest:
     image: ${DEVICE_SVC_REPOSITORY}/device-rest${ARCH}:${DEVICE_REST_VERSION}

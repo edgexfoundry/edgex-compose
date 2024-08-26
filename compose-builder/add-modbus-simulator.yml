@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   modbus-simulator:
     image: nexus3.edgexfoundry.org:10003/edgex-devops/edgex-modbus-simulator${ARCH}:latest

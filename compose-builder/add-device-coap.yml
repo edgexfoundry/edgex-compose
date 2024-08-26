@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   device-coap:
     image: ${DEVICE_SVC_REPOSITORY}/device-coap${ARCH}:${DEVICE_COAP_VERSION}

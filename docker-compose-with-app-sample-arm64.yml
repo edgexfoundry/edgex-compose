@@ -24,7 +24,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.25.0
+# Generated with: Docker Compose version v2.29.1
 name: edgex
 services:
   app-rules-engine:
@@ -434,6 +434,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
@@ -507,6 +508,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
@@ -1210,6 +1212,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
@@ -1286,6 +1289,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data

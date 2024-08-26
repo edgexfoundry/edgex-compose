@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   app-record-replay:
     image: ${APP_SVC_REPOSITORY}/app-record-replay${ARCH}:${APP_RECORD_REPLAY_VERSION}

@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-version: '3.7'
-
 services:
   device-snmp:
     image: ${DEVICE_SVC_REPOSITORY}/device-snmp${ARCH}:${DEVICE_SNMP_VERSION}

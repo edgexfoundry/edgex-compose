@@ -14,8 +14,6 @@
 # limitations under the License.
 #
 
-version: '3.7'
-
 services:
   device-usb-camera:
     image: ${DEVICE_SVC_REPOSITORY}/device-usb-camera${ARCH}:${DEVICE_USBCAM_VERSION}
