@@ -27,6 +27,12 @@ OPTIONS:=" arm64 no-secty app-sample zero-trust " # Must have spaces around word
 # This tool now only supports compose V2, aka "docker compose" as it has replaced to old docker-compose tool.
 DOCKER_COMPOSE=docker compose
 
+# Resolve user ID for rootless docker port mapping
+export USERID:=$(shell id -u)
+
+# Set default rootful docker socket path
+export DOCKER_SOCKET_PATH=/var/run/docker.sock
+
 ifeq (arm64, $(filter arm64,$(ARGS)))
 	ARM64=-arm64
 	ARM64_OPTION=arm64
@@ -52,6 +58,9 @@ endef
 .PHONY: $(OPTIONS)
 
 portainer:
+	@if [ -e /run/user/${USERID}/docker.sock ]; then \
+    	export DOCKER_SOCKET_PATH=/run/user/${USERID}/docker.sock; \
+    fi
 	${DOCKER_COMPOSE} -p portainer -f docker-compose-portainer.yml up -d
 
 portainer-down:
