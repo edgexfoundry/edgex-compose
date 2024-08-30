@@ -144,6 +144,7 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-metadata
+      DATABASE_HOST: edgex-redis
     hostname: edgex-core-metadata
     image: nexus3.edgexfoundry.org:10004/core-metadata-arm64:latest
     networks:
