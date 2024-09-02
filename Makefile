@@ -30,8 +30,11 @@ DOCKER_COMPOSE=docker compose
 # Resolve user ID for rootless docker port mapping
 export USERID:=$(shell id -u)
 
-# Set default rootful docker socket path
+# Set default rootful docker socket path otherwise detect rootless path
 export DOCKER_SOCKET_PATH=/var/run/docker.sock
+ifneq (,$(wildcard /run/user/$(USERID)/docker.sock))
+    export DOCKER_SOCKET_PATH := /run/user/$(USERID)/docker.sock
+endif
 
 ifeq (arm64, $(filter arm64,$(ARGS)))
 	ARM64=-arm64
@@ -58,9 +61,6 @@ endef
 .PHONY: $(OPTIONS)
 
 portainer:
-	@if [ -e /run/user/${USERID}/docker.sock ]; then \
-    	export DOCKER_SOCKET_PATH=/run/user/${USERID}/docker.sock; \
-    fi
 	${DOCKER_COMPOSE} -p portainer -f docker-compose-portainer.yml up -d
 
 portainer-down:

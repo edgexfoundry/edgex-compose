@@ -143,7 +143,7 @@ endif
 
 # When in delay-start mode, ensure support services are delay-start-compliant by adding runtime-token configuration
 ifeq (delayed-start,$(filter delayed-start,$(ARGS)))
-    # Ensure Docker is running rootless, as security-spire-agent runs only in Docker rootless mode
+    # Resolve docker rootless environment
     ifneq (,$(wildcard /run/user/$(USERID)/docker.sock))
         export DOCKER_SOCKET_PATH := /run/user/$(USERID)/docker.sock
     endif
