@@ -234,11 +234,24 @@ services:
           create_host_path: true
   keeper:
     container_name: edgex-core-keeper
+    depends_on:
+      edgex-postgres:
+        condition: service_started
+        required: true
     environment:
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_HOST: edgex-redis
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_PORT: "1883"
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       SERVICE_HOST: edgex-core-keeper
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
+      DATABASE_HOST: edgex-postgres
+      DATABASE_TYPE: postgres
+      DATABASE_PORT: "5432"
     hostname: edgex-core-keeper
     image: nexus3.edgexfoundry.org:10004/core-keeper:latest
     networks:
