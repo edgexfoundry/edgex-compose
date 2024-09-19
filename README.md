@@ -134,6 +134,7 @@ The compose files under the `taf` subfolder are used for the automated TAF tests
 > **Note:** Only the services as listed below support Postgres as the database in EdgeX. More EdgeX services will support Postgres once the development work is done.
 > - **Core Data**
 > - **Core Keeper**
+> - The Store and Forward capability of **app-mqtt-export** App Service
 
   **Start the EdgeX Services using Postgres and Redis as the databases**
 
