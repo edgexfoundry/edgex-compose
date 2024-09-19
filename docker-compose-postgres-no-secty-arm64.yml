@@ -56,7 +56,9 @@ services:
         condition: service_started
         required: true
     environment:
-      ALL_SERVICES_DATABASE_HOST: edgex-redis
+      ALL_SERVICES_DATABASE_HOST: edgex-postgres
+      ALL_SERVICES_DATABASE_PORT: "5432"
+      ALL_SERVICES_DATABASE_TYPE: postgres
       ALL_SERVICES_MESSAGEBUS_AUTHMODE: none
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-mqtt-broker
       ALL_SERVICES_MESSAGEBUS_PORT: "1883"
@@ -65,6 +67,9 @@ services:
       ALL_SERVICES_REGISTRY_HOST: edgex-core-keeper
       ALL_SERVICES_REGISTRY_PORT: "59890"
       ALL_SERVICES_REGISTRY_TYPE: keeper
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -234,11 +239,24 @@ services:
           create_host_path: true
   keeper:
     container_name: edgex-core-keeper
+    depends_on:
+      edgex-postgres:
+        condition: service_started
+        required: true
     environment:
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      MESSAGEBUS_HOST: edgex-redis
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_PORT: "1883"
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_TYPE: mqtt
       SERVICE_HOST: edgex-core-keeper
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
+      DATABASE_HOST: edgex-postgres
+      DATABASE_TYPE: postgres
+      DATABASE_PORT: "5432"
     hostname: edgex-core-keeper
     image: nexus3.edgexfoundry.org:10004/core-keeper-arm64:latest
     networks:
@@ -341,6 +359,52 @@ services:
         host_ip: 127.0.0.1
         target: 59863
         published: "59863"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+  app-mqtt-export:
+    command:
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-app-mqtt-export
+    depends_on:
+      core-common-config-bootstrapper:
+        condition: service_started
+        required: true
+      core-metadata:
+        condition: service_started
+        required: true
+      keeper:
+        condition: service_started
+        required: true
+    environment:
+      EDGEX_PROFILE: mqtt-export
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      SERVICE_HOST: edgex-app-mqtt-export
+      WRITABLE_LOGLEVEL: INFO
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_PERSISTONERROR: true
+      WRITABLE_STOREANDFORWARD_ENABLED: true
+    hostname: edgex-app-mqtt-export
+    image: nexus3.edgexfoundry.org:10004/app-service-configurable-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59703
+        published: "59703"
         protocol: tcp
     read_only: true
     restart: always

@@ -131,10 +131,13 @@ The compose files under the `taf` subfolder are used for the automated TAF tests
 - **docker-compose-postgres-no-secty.yml** Contains just the services needed to run in non-secure configuration. Includes Postgres, Redis, Device Virtual and MQTT Broker services using a mix of Postgres and Redis as the databases and MQTT as the message bus.
 - **docker-compose-postgres-no-secty-arm64.yml** Contains just the services needed to run in non-secure configuration on `ARM64` system. Includes Postgres, Redis, Device Virtual and MQTT Broker services using a mix of Postgres and Redis as the databases and MQTT as the message bus.
 
-> **Note:** Only **Core Data** supports Postgres as the database in EdgeX. More EdgeX services will support Postgres once the development work is done.
+> **Note:** Only the services as listed below support Postgres as the database in EdgeX. More EdgeX services will support Postgres once the development work is done.
+> - **Core Data**
+> - **Core Keeper**
+> - The Store and Forward capability of **app-mqtt-export** App Service
 
-  **Start the EdgeX Services using Postgres and Redis as the databases** 
+  **Start the EdgeX Services using Postgres and Redis as the databases**
 
-    - Use `docker compose -f docker-compose-postgres-no-secty.yml up -d` to start the services using this compose file.
-    - Use `docker compose -f docker-compose-postgres-no-secty.yml down` to stop the services.
-    - Replace **docker-compose-postgres-no-secty.yml** with **docker-compose-postgres-no-secty-arm64.yml** in the above commands on `ARM64` system.
+  - Use `docker compose -f docker-compose-postgres-no-secty.yml up -d` to start the services using this compose file.
+  - Use `docker compose -f docker-compose-postgres-no-secty.yml down` to stop the services.
+  - Replace **docker-compose-postgres-no-secty.yml** with **docker-compose-postgres-no-secty-arm64.yml** in the above commands on `ARM64` system.
