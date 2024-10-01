@@ -1,5 +1,6 @@
 # /*******************************************************************************
 #  * Copyright 2024 Intel Corporation.
+#  * Copyright 2024 IOTech Ltd
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -38,7 +39,7 @@ services:
       - "-g"
       - "daemon off;"
     env_file:
-      - common-sec-stage-gate.env
+      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
     volumes:
       - edgex-init:/edgex-init:ro
       - nginx-templates:/etc/nginx/templates
@@ -65,7 +66,7 @@ services:
       - edgex-network
     env_file:
       - common-security.env
-      - common-sec-stage-gate.env
+      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
     volumes:
       # use host timezone
       - /etc/localtime:/etc/localtime:ro
@@ -95,7 +96,7 @@ services:
     command: entrypoint.sh /security-proxy-auth --registry ${CP_FLAGS}
     env_file:
       - common-security.env
-      - common-sec-stage-gate.env
+      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
     environment:
       SERVICE_HOST: edgex-proxy-auth
     volumes:

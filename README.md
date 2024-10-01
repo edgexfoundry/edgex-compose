@@ -128,16 +128,16 @@ The compose files under the `taf` subfolder are used for the automated TAF tests
     Use `make portainer`and `make portainer-down` to start and stop Portainer.
 
 ### Use PostgreSQL as the persistence layer in EdgeX
-- **docker-compose-postgres-no-secty.yml** Contains just the services needed to run in non-secure configuration. Includes Postgres, Redis, Device Virtual and MQTT Broker services using a mix of Postgres and Redis as the databases and MQTT as the message bus.
-- **docker-compose-postgres-no-secty-arm64.yml** Contains just the services needed to run in non-secure configuration on `ARM64` system. Includes Postgres, Redis, Device Virtual and MQTT Broker services using a mix of Postgres and Redis as the databases and MQTT as the message bus.
+EdgeX services can be configured to use PostgreSQL as the persistence layer. The compose builder now supports generating compose files that use PostgreSQL.
 
-> **Note:** Only the services as listed below support Postgres as the database in EdgeX. More EdgeX services will support Postgres once the development work is done.
-> - **Core Data**
-> - **Core Keeper**
-> - The Store and Forward capability of **app-mqtt-export** App Service
+**To use PostgreSQL as the persistence layer, follow these steps**
 
-  **Start the EdgeX Services using Postgres and Redis as the databases**
+- Go to `/compose-builder` folder
+- `make run no-secty keeper mqtt-bus postgres`
 
-  - Use `docker compose -f docker-compose-postgres-no-secty.yml up -d` to start the services using this compose file.
-  - Use `docker compose -f docker-compose-postgres-no-secty.yml down` to stop the services.
-  - Replace **docker-compose-postgres-no-secty.yml** with **docker-compose-postgres-no-secty-arm64.yml** in the above commands on `ARM64` system.
+    Runs the services with PostgreSQL as the persistence layer in non-secure mode.
+- `make run keeper mqtt-bus postgres`
+
+    Runs the services with PostgreSQL as the persistence layer in secure mode.
+
+> **Note:** `keeper` and `mqtt-bus` are required services for EdgeX to run with PostgreSQL as the persistence layer.

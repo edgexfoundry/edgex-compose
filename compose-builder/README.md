@@ -52,7 +52,9 @@ The `Extending using multiple Compose files` approach along with environment fil
 This folder contains the following compose files:
 
 - **docker-compose-base.yml**<br/>
-  Base non-secure mode compose file. Contains all the services that run in the non-secure configuration, including the UI.  
+  Base non-secure mode compose file. Contains all the services that run in the non-secure configuration, including the UI.
+- **docker-compose-base-postgres.yml**<br/>
+  Base non-secure mode compose file with PostgreSQL as database. Contains all the services that run in the non-secure configuration, including the UI.
 - **add-security.yml**<br/>
     Security **extending** compose file. Adds the additional security services and configuration of services so that all the services are running in the secure configuration.
 - **add-secure-redis-messagebus.yml**<br/>
@@ -256,6 +258,7 @@ Options:
                       The NATS Server service is also included.
     no-cleanup:       Leaves generated files behind for debugging purposes.
     keeper:           Runs to registry service to core-keeper
+    postgres:         Runs with PostgreSQL as database, 'mqtt-bus' is required when using this option
 Services:
     <names...>: Runs only services listed (and their dependent services) where 'name' matches a service name in one of the compose files used
 ```
@@ -315,6 +318,7 @@ Options:
     nats-bus:         Pull includes additional services for NATS Message Bus
     no-cleanup:       Leaves generated files behind for debugging purposes
     keeper:           Pull includes core-keeper
+    postgres:         Pull includes PostgreSQL
 
 Services:
     <names...>: Pulls only images for the service(s) listed
@@ -373,6 +377,7 @@ Options:
     no-cleanup:       Leaves generated files behind for debugging purposes.
     keeper:           Generates compose file with services registry to core-keeper
                       The core-keeper service is also included
+    postgres:         Generates compose file with PostgreSQL as database, 'mqtt-bus' is required when using this option
 ```
 #### Clean
 
@@ -486,6 +491,7 @@ Options:
                       The NATS Server service is also included.
     no-cleanup:       Leaves generated files behind for debugging purposes.
     keeper:           Generates compose file to registry service to core-keeper
+    postgres:         Generates compose file with PostgreSQL as database, 'mqtt-bus' is required when using this option
 ```
 
 #### TAF Compose

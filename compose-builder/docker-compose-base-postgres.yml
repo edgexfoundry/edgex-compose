@@ -1,0 +1,291 @@
+# /*******************************************************************************
+#  * Copyright 2024 IOTech Ltd
+#  *
+#  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+#  * in compliance with the License. You may obtain a copy of the License at
+#  *
+#  * http://www.apache.org/licenses/LICENSE-2.0
+#  *
+#  * Unless required by applicable law or agreed to in writing, software distributed under the License
+#  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+#  * or implied. See the License for the specific language governing permissions and limitations under
+#  * the License.
+#  *******************************************************************************/
+
+# NOTE: this Docker Compose file does not contain the security services required to run in secure mode
+# TODO: Move the content of this Docker Compose file to docker-comose-base.yml when the redis database support is removed
+
+networks:
+  edgex-network:
+    driver: "bridge"
+
+volumes:
+  db-data:
+  kuiper-data:
+  kuiper-etc:
+  kuiper-log:
+  kuiper-plugins:
+
+services:
+  database:
+    image: postgres:${POSTGRES_VERSION}
+    ports:
+      - "127.0.0.1:5432:5432"
+    container_name: edgex-postgres
+    hostname: edgex-postgres
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: edgex_db
+    volumes:
+      - db-data:/data
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /run
+
+  core-metadata:
+    image: ${CORE_EDGEX_REPOSITORY}/core-metadata${ARCH}:${CORE_EDGEX_VERSION}
+    command: --registry ${CP_FLAGS}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    ports:
+      - "127.0.0.1:59881:59881"
+    container_name: edgex-core-metadata
+    hostname: edgex-core-metadata
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common-non-security.env
+    environment:
+      SERVICE_HOST: edgex-core-metadata
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETNAME}
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME}
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD}
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: 5432
+      DATABASE_TYPE: postgres
+    depends_on:
+      - ${REGISTRY_TYPE}
+      - database
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
+
+  core-data:
+    image: ${CORE_EDGEX_REPOSITORY}/core-data${ARCH}:${CORE_EDGEX_VERSION}
+    command: --registry ${CP_FLAGS}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    ports:
+      - "127.0.0.1:59880:59880"
+    container_name: edgex-core-data
+    hostname: edgex-core-data
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common-non-security.env
+    environment:
+      SERVICE_HOST: edgex-core-data
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME:  ${WRITABLE_INSECURESECRETS_DB_SECRETNAME}
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME}
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD}
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: 5432
+      DATABASE_TYPE: postgres
+    depends_on:
+      - ${REGISTRY_TYPE}
+      - database
+      - core-common-config-bootstrapper
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
+
+  core-command:
+    image: ${CORE_EDGEX_REPOSITORY}/core-command${ARCH}:${CORE_EDGEX_VERSION}
+    command: --registry ${CP_FLAGS}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    ports:
+      - "127.0.0.1:59882:59882"
+    container_name: edgex-core-command
+    hostname: edgex-core-command
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common-non-security.env
+    environment:
+      SERVICE_HOST: edgex-core-command
+      EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
+    depends_on:
+      - ${REGISTRY_TYPE}
+      - database
+      - core-metadata
+      - core-common-config-bootstrapper
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
+
+  core-common-config-bootstrapper:
+    image: ${CORE_EDGEX_REPOSITORY}/core-common-config-bootstrapper${ARCH}:${CORE_EDGEX_VERSION}
+    command: /core-common-config-bootstrapper --registry ${CP_FLAGS}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    container_name: edgex-core-common-config-bootstrapper
+    hostname: edgex-core-common-config-bootstrapper
+    read_only: true
+    networks:
+      - edgex-network
+    env_file:
+      - common-non-security.env
+    environment:
+      ALL_SERVICES_REGISTRY_HOST: ${REGISTRY_HOST}
+      ALL_SERVICES_REGISTRY_PORT: ${REGISTRY_PORT}
+      ALL_SERVICES_REGISTRY_TYPE: ${REGISTRY_TYPE}
+      ALL_SERVICES_DATABASE_HOST: edgex-postgres
+      ALL_SERVICES_DATABASE_PORT: "5432"
+      ALL_SERVICES_DATABASE_TYPE: postgres
+      ALL_SERVICES_MESSAGEBUS_AUTHMODE: none
+      ALL_SERVICES_MESSAGEBUS_HOST: edgex-mqtt-broker
+      ALL_SERVICES_MESSAGEBUS_PORT: "1883"
+      ALL_SERVICES_MESSAGEBUS_PROTOCOL: tcp
+      ALL_SERVICES_MESSAGEBUS_TYPE: mqtt
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETNAME}
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME}
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD}
+      APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+    depends_on:
+      - ${REGISTRY_TYPE}
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
+
+  support-notifications:
+    image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}
+    command: --registry ${CP_FLAGS}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    ports:
+      - "127.0.0.1:59860:59860"
+    container_name: edgex-support-notifications
+    hostname: edgex-support-notifications
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common-non-security.env
+    environment:
+      SERVICE_HOST: edgex-support-notifications
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETNAME}
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME}
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD}
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: 5432
+      DATABASE_TYPE: postgres
+    depends_on:
+      - ${REGISTRY_TYPE}
+      - database
+      - core-common-config-bootstrapper
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
+
+  app-rules-engine:
+    image: ${APP_SVC_REPOSITORY}/app-service-configurable${ARCH}:${APP_SERVICE_CONFIG_VERSION}
+    command: --registry ${CP_FLAGS}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    ports:
+      - "127.0.0.1:59701:59701"
+    container_name: edgex-app-rules-engine
+    hostname: edgex-app-rules-engine
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common-non-security.env
+    environment:
+      EDGEX_PROFILE: rules-engine
+      SERVICE_HOST: edgex-app-rules-engine
+    depends_on:
+      - ${REGISTRY_TYPE}
+      - core-metadata
+      - core-common-config-bootstrapper
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
+
+  rules-engine:
+    image: lfedge/ekuiper:${KUIPER_VERSION}
+    user: "kuiper:kuiper"
+    ports:
+      - "127.0.0.1:59720:59720"
+    container_name: edgex-kuiper
+    hostname: edgex-kuiper
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
+      - kuiper-data:/kuiper/data
+      - kuiper-etc:/kuiper/etc
+      - kuiper-log:/kuiper/log
+      - kuiper-plugins:/kuiper/plugins
+    environment:
+#      KUIPER__BASIC__DEBUG: "true"
+      KUIPER__BASIC__CONSOLELOG: "true"
+      KUIPER__BASIC__ENABLEOPENZITI: false
+      KUIPER__BASIC__RESTPORT: 59720
+      CONNECTION__EDGEX__MQTTMSGBUS__PORT: 1883
+      CONNECTION__EDGEX__MQTTMSGBUS__PROTOCOL: tcp
+      CONNECTION__EDGEX__MQTTMSGBUS__SERVER: edgex-mqtt-broker
+      CONNECTION__EDGEX__MQTTMSGBUS__TYPE: mqtt
+      EDGEX__DEFAULT__PORT: "1883"
+      EDGEX__DEFAULT__PROTOCOL: tcp
+      EDGEX__DEFAULT__SERVER: edgex-mqtt-broker
+      EDGEX__DEFAULT__TYPE: mqtt
+      EDGEX__DEFAULT__TOPIC: edgex/rules-events
+    depends_on:
+      - database
+    security_opt:
+      - no-new-privileges:true
+
+  ui:
+    image: ${UI_REPOSITORY}/edgex-ui${ARCH}:${EDGEX_UI_VERSION}
+    ports:
+      - "4000:4000"
+    container_name: edgex-ui-go
+    hostname: edgex-ui-go
+    environment:
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      SERVICE_HOST: edgex-ui-go
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
