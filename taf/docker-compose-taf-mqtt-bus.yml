@@ -24,7 +24,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.29.1
+# Generated with: Docker Compose version v2.29.2
 name: edgex
 services:
   app-external-mqtt-trigger:
@@ -1359,8 +1359,15 @@ services:
         required: true
     environment:
       DATABASE_HOST: edgex-redis
+      DATABASE_PORT: "6379"
+      DATABASE_TYPE: redisdb
       EDGEX_SECURITY_SECRET_STORE: "true"
+      MESSAGEBUS_AUTHMODE: none
       MESSAGEBUS_HOST: edgex-redis
+      MESSAGEBUS_PORT: "6379"
+      MESSAGEBUS_PROTOCOL: redis
+      MESSAGEBUS_SECRETNAME: redisdb
+      MESSAGEBUS_TYPE: redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-core-keeper
@@ -1377,6 +1384,9 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ""
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ""
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: redisdb
     hostname: edgex-core-keeper
     image: nexus3.edgexfoundry.org:10004/core-keeper:latest
     networks:
@@ -2406,7 +2416,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "34032716873728"
+          memory: "343254323167232"
     entrypoint:
       - /edgex-init/vault_wait_install.sh
     environment:
@@ -2431,7 +2441,7 @@ services:
       VAULT_UI: "true"
     hostname: edgex-vault
     image: hashicorp/vault:1.14
-    memswap_limit: "34032716873728"
+    memswap_limit: "343254323167232"
     networks:
       edgex-network: null
     ports:

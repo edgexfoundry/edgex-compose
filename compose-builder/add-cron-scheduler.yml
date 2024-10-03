@@ -13,14 +13,17 @@
 #  *
 #  *******************************************************************************/
 
+# This file is used to add the support-cron-scheduler service to the base docker-compose.yml file.
+# TODO: Remove this file and add this service into docker-compose-base.yml while deprecating the support-scheduler service.
 services:
-  keeper:
-    image: ${CORE_EDGEX_REPOSITORY}/core-keeper${ARCH}:${CORE_EDGEX_VERSION}
+  support-cron-scheduler:
+    image: ${CORE_EDGEX_REPOSITORY}/support-cron-scheduler${ARCH}:${CORE_EDGEX_VERSION}
+    command: --registry ${CP_FLAGS}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
-      - "127.0.0.1:59890:59890"
-    container_name: edgex-core-keeper
-    hostname: edgex-core-keeper
+      - "127.0.0.1:59863:59863"
+    container_name: edgex-support-cron-scheduler
+    hostname: edgex-support-cron-scheduler
     read_only: true
     restart: always
     networks:
@@ -28,19 +31,12 @@ services:
     env_file:
       - common-non-security.env
     environment:
-      DATABASE_HOST: ${DATABASE_HOST}
-      DATABASE_TYPE: ${DATABASE_TYPE}
-      DATABASE_PORT: ${DATABASE_PORT}
-      MESSAGEBUS_HOST: ${MESSAGEBUS_HOST}
-      MESSAGEBUS_AUTHMODE: ${MESSAGEBUS_AUTHMODE}
-      MESSAGEBUS_SECRETNAME: ${MESSAGEBUS_SECRETNAME}
-      MESSAGEBUS_PORT: ${MESSAGEBUS_PORT}
-      MESSAGEBUS_PROTOCOL: ${MESSAGEBUS_PROTOCOL}
-      MESSAGEBUS_TYPE: ${MESSAGEBUS_TYPE}
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETNAME}
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME}
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD}
-      SERVICE_HOST: edgex-core-keeper
+      SERVICE_HOST: edgex-support-cron-scheduler
+      DATABASE_HOST: edgex-postgres
+    depends_on:
+      - ${REGISTRY_TYPE}
+      - database
+      - core-common-config-bootstrapper
     security_opt:
       - no-new-privileges:true
     volumes:

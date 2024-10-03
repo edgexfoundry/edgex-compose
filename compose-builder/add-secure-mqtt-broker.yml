@@ -1,5 +1,6 @@
 # /*******************************************************************************
 #  * Copyright 2022 Intel Corporation.
+#  * Copyright 2024 IOTech Ltd
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -22,7 +23,7 @@ services:
     entrypoint: ["/edgex-init/messagebus_wait_install.sh"]
     env_file:
       - common-security.env
-      - common-sec-stage-gate.env
+      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
     environment:
       BROKER_TYPE: mosquitto
       CONF_DIR: /edgex-init/bootstrap-mosquitto/res

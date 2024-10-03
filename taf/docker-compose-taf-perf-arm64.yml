@@ -24,7 +24,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.29.1
+# Generated with: Docker Compose version v2.29.2
 name: edgex
 services:
   app-mqtt-export:
@@ -1693,7 +1693,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "34032716873728"
+          memory: "343254323167232"
     entrypoint:
       - /edgex-init/vault_wait_install.sh
     environment:
@@ -1718,7 +1718,7 @@ services:
       VAULT_UI: "true"
     hostname: edgex-vault
     image: hashicorp/vault:1.14
-    memswap_limit: "34032716873728"
+    memswap_limit: "343254323167232"
     networks:
       edgex-network: null
     ports:

@@ -1,5 +1,6 @@
 # /*******************************************************************************
 #  * Copyright 2023 Intel
+#  * Copyright 2024 IOTech Ltd
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -43,7 +44,8 @@ export USERID:=$(shell id -u)
 export DOCKER_SOCKET_PATH=/var/run/docker.sock
 
 # Get total system memory in megabytes for vault config
-export TOTAL_SYSTEM_MEMORY:=$(shell grep MemTotal /proc/meminfo | awk '{print $$2}')m
+#export TOTAL_SYSTEM_MEMORY:=$(shell grep MemTotal /proc/meminfo | awk '{print $$2}')m
+export TOTAL_SYSTEM_MEMORY:=327352832m
 
 BROKER_YAML=add-mqtt-broker-mosquitto.yml
 TAF_BROKER_YAML=add-taf-mqtt-broker-mosquitto.yml
@@ -60,6 +62,7 @@ define OPTIONS
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp as-record-replay asc-ex-mqtt -
  - modbus-sim zero-trust no-cleanup -
  - consul keeper -
+ - postgres -
 endef
 export OPTIONS
 
@@ -138,6 +141,35 @@ ifeq (keeper, $(filter keeper,$(ARGS)))
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		export STAGEGATE_REGISTRY_HOST=edgex-core-keeper
 		export STAGEGATE_REGISTRY_PORT=59890
+	endif
+
+	ifeq (postgres, $(filter postgres,$(ARGS)))
+		export DATABASE_HOST=edgex-postgres
+		export DATABASE_TYPE=postgres
+		export DATABASE_PORT=5432
+		export MESSAGEBUS_HOST=edgex-mqtt-broker
+		export MESSAGEBUS_PORT=1883
+		export MESSAGEBUS_PROTOCOL=tcp
+		export MESSAGEBUS_AUTHMODE=usernamepassword
+		export MESSAGEBUS_SECRETNAME=message-bus
+		export MESSAGEBUS_TYPE=mqtt
+		export WRITABLE_INSECURESECRETS_DB_SECRETNAME=
+		ifeq (no-secty, $(filter no-secty,$(ARGS)))
+			export MESSAGEBUS_AUTHMODE=none
+            export MESSAGEBUS_SECRETNAME=
+			export WRITABLE_INSECURESECRETS_DB_SECRETNAME=postgres
+			export WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME=postgres
+			export WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD=postgres
+		endif
+	endif
+endif
+
+ifeq (postgres, $(filter postgres,$(ARGS)))
+	# When using postgres, change the default compose file to use docker-compose-base-postgres.yml
+	COMPOSE_FILES:= -f docker-compose-base-postgres.yml
+	COMPOSE_FILES += -f add-cron-scheduler.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		export COMMON_SEC_STAGE_GATE_FILE_NAME=common-sec-stage-gate-postgres.env
 	endif
 endif
 
@@ -828,7 +860,12 @@ endif
 ifeq (no-secty, $(filter no-secty,$(ARGS)))
 	NO_SECURITY:=-no-secty
 else
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml
+	ifeq (postgres, $(filter postgres,$(ARGS)))
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-postgres.yml
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security-postgres.yml
+	else
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml
+	endif
 	ifeq ($(BUS),) # if BUS not set, then we are using secure redis messagebus by default
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
 	endif
@@ -1059,6 +1096,8 @@ define COMPOSE_DOWN
 		-f add-secure-consul.yml \
 		-f add-keeper.yml \
 		-f add-secure-keeper.yml \
+		-f add-secure-postgres.yml \
+		-f add-cron-scheduler.yml \
 		down $1
 endef
 
