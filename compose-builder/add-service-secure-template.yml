@@ -28,7 +28,7 @@ services:
     command: "/${EXECUTABLE} --registry ${CP_FLAGS}"
     env_file:
       - common-security.env
-      - common-sec-stage-gate.env
+      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
     ##${ENVIRONMENT_SECTION}
     volumes:
       - edgex-init:/edgex-init:ro

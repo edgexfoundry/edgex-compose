@@ -59,9 +59,9 @@ services:
       SERVICE_HOST: edgex-app-external-mqtt-trigger
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -137,9 +137,9 @@ services:
       SERVICE_HOST: edgex-app-functional-tests
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -212,9 +212,9 @@ services:
       SERVICE_HOST: edgex-app-http-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -288,9 +288,9 @@ services:
       SERVICE_HOST: edgex-app-mqtt-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -365,9 +365,9 @@ services:
       SERVICE_HOST: edgex-app-rules-engine
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -442,9 +442,9 @@ services:
       SERVICE_HOST: edgex-app-sample
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -518,9 +518,9 @@ services:
       SERVICE_HOST: edgex-app-scalability-test-mqtt-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -529,6 +529,8 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
+      WRITABLE_INSECURESECRETS_MQTT_SECRETS_PASSWORD: PASSWORD_PLACE_HOLDER
+      WRITABLE_INSECURESECRETS_MQTT_SECRETS_USERNAME: USERNAME_PLACEH_OLDER
       WRITABLE_LOGLEVEL: DEBUG
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_CLIENTID: app-scalability-test-mqtt-export
@@ -600,9 +602,9 @@ services:
       SERVICE_HOST: edgex-core-command
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -665,11 +667,21 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      ALL_SERVICES_DATABASE_HOST: edgex-redis
-      ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
+      ALL_SERVICES_DATABASE_HOST: edgex-postgres
+      ALL_SERVICES_DATABASE_PORT: "5432"
+      ALL_SERVICES_DATABASE_TYPE: postgres
+      ALL_SERVICES_MESSAGEBUS_AUTHMODE: usernamepassword
+      ALL_SERVICES_MESSAGEBUS_HOST: edgex-mqtt-broker
+      ALL_SERVICES_MESSAGEBUS_PORT: "1883"
+      ALL_SERVICES_MESSAGEBUS_PROTOCOL: tcp
+      ALL_SERVICES_MESSAGEBUS_SECRETNAME: message-bus
+      ALL_SERVICES_MESSAGEBUS_TYPE: mqtt
       ALL_SERVICES_REGISTRY_HOST: edgex-core-keeper
       ALL_SERVICES_REGISTRY_PORT: "59890"
       ALL_SERVICES_REGISTRY_TYPE: keeper
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ""
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ""
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETNAME: ""
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -677,9 +689,9 @@ services:
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -740,16 +752,18 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      DATABASE_HOST: edgex-redis
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-core-data
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -758,6 +772,9 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ""
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ""
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ""
     hostname: edgex-core-data
     image: nexus3.edgexfoundry.org:10004/core-data:latest
     networks:
@@ -814,16 +831,18 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      DATABASE_HOST: edgex-redis
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-core-metadata
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -832,6 +851,9 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ""
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ""
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ""
     hostname: edgex-core-metadata
     image: nexus3.edgexfoundry.org:10004/core-metadata:latest
     networks:
@@ -867,7 +889,7 @@ services:
           selinux: z
           create_host_path: true
   database:
-    container_name: edgex-redis
+    container_name: edgex-postgres
     depends_on:
       security-bootstrapper:
         condition: service_started
@@ -876,18 +898,20 @@ services:
         condition: service_started
         required: true
     entrypoint:
-      - /edgex-init/redis_wait_install.sh
+      - /edgex-init/postgres_wait_install.sh
     environment:
-      DATABASECONFIG_NAME: redis.conf
-      DATABASECONFIG_PATH: /run/redis/conf
+      DATABASECONFIG_NAME: create-users.sh
+      DATABASECONFIG_PATH: /tmp/postgres-init-scripts
       EDGEX_SECURITY_SECRET_STORE: "true"
+      POSTGRES_DB: edgex_db
+      POSTGRES_PASSWORD: postgres
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -896,15 +920,15 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-    hostname: edgex-redis
-    image: redis:7.0-alpine
+    hostname: edgex-postgres
+    image: postgres:16.3-alpine3.20
     networks:
       edgex-network: null
     ports:
       - mode: ingress
         host_ip: 127.0.0.1
-        target: 6379
-        published: "6379"
+        target: 5432
+        published: "5432"
         protocol: tcp
     read_only: true
     restart: always
@@ -912,7 +936,7 @@ services:
       - no-new-privileges:true
     tmpfs:
       - /run
-    user: root:root
+      - /tmp
     volumes:
       - type: volume
         source: db-data
@@ -924,12 +948,12 @@ services:
         read_only: true
         volume: {}
       - type: volume
-        source: redis-config
-        target: /run/redis/conf
+        source: postgres-data
+        target: /var/lib/postgresql/data
         volume: {}
       - type: bind
-        source: /tmp/edgex/secrets/security-bootstrapper-redis
-        target: /tmp/edgex/secrets/security-bootstrapper-redis
+        source: /tmp/edgex/secrets/security-bootstrapper-postgres
+        target: /tmp/edgex/secrets/security-bootstrapper-postgres
         read_only: true
         bind:
           selinux: z
@@ -969,9 +993,9 @@ services:
       SERVICE_HOST: edgex-device-modbus
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1051,9 +1075,9 @@ services:
       SERVICE_HOST: edgex-device-onvif-camera
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1127,9 +1151,9 @@ services:
       SERVICE_HOST: edgex-device-rest
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1204,9 +1228,9 @@ services:
       SERVICE_HOST: edgex-device-virtual
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1270,24 +1294,24 @@ services:
         condition: service_started
         required: true
     environment:
-      DATABASE_HOST: edgex-redis
-      DATABASE_PORT: "6379"
-      DATABASE_TYPE: redisdb
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-redis
-      MESSAGEBUS_PORT: "6379"
-      MESSAGEBUS_PROTOCOL: redis
-      MESSAGEBUS_SECRETNAME: redisdb
-      MESSAGEBUS_TYPE: redis
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: "1883"
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-core-keeper
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1298,7 +1322,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
       WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ""
       WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ""
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: redisdb
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ""
     hostname: edgex-core-keeper
     image: nexus3.edgexfoundry.org:10004/core-keeper:latest
     networks:
@@ -1360,9 +1384,39 @@ services:
   mqtt-broker:
     command:
       - /usr/sbin/mosquitto
+      - -v
       - -c
-      - /mosquitto-no-auth.conf
+      - /mosquitto/config/mosquitto.conf
     container_name: edgex-mqtt-broker
+    depends_on:
+      security-bootstrapper:
+        condition: service_started
+        required: true
+      security-secretstore-setup:
+        condition: service_started
+        required: true
+    entrypoint:
+      - /edgex-init/messagebus_wait_install.sh
+    environment:
+      BROKER_TYPE: mosquitto
+      CONF_DIR: /edgex-init/bootstrap-mosquitto/res
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      ENTRYPOINT: /docker-entrypoint.sh /usr/sbin/mosquitto -v -c  /mosquitto/config/mosquitto.conf
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-mqtt-broker
     image: eclipse-mosquitto:2.0
     networks:
@@ -1377,7 +1431,24 @@ services:
     restart: always
     security_opt:
       - no-new-privileges:true
-    user: 2002:2001
+    user: root:root
+    volumes:
+      - type: volume
+        source: mqtt
+        target: /mosquitto
+        volume: {}
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/security-bootstrapper-messagebus
+        target: /tmp/edgex/secrets/security-bootstrapper-messagebus
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   mqtt-taf-broker:
     command:
       - /usr/sbin/mosquitto
@@ -1417,9 +1488,9 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1466,6 +1537,9 @@ services:
       database:
         condition: service_started
         required: true
+      mqtt-broker:
+        condition: service_started
+        required: true
       security-bootstrapper:
         condition: service_started
         required: true
@@ -1475,24 +1549,28 @@ services:
     entrypoint:
       - /edgex-init/kuiper_wait_install.sh
     environment:
-      CONNECTION__EDGEX__REDISMSGBUS__PORT: "6379"
-      CONNECTION__EDGEX__REDISMSGBUS__PROTOCOL: redis
-      CONNECTION__EDGEX__REDISMSGBUS__SERVER: edgex-redis
-      CONNECTION__EDGEX__REDISMSGBUS__TYPE: redis
-      EDGEX__DEFAULT__PORT: "6379"
-      EDGEX__DEFAULT__PROTOCOL: redis
-      EDGEX__DEFAULT__SERVER: edgex-redis
+      CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__CLIENTID: kuiper-rules-engine
+      CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__KEEPALIVE: "500"
+      CONNECTION__EDGEX__MQTTMSGBUS__PORT: "1883"
+      CONNECTION__EDGEX__MQTTMSGBUS__PROTOCOL: tcp
+      CONNECTION__EDGEX__MQTTMSGBUS__SERVER: edgex-mqtt-broker
+      CONNECTION__EDGEX__MQTTMSGBUS__TYPE: mqtt
+      EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
+      EDGEX__DEFAULT__OPTIONAL__KEEPALIVE: "500"
+      EDGEX__DEFAULT__PORT: "1883"
+      EDGEX__DEFAULT__PROTOCOL: tcp
+      EDGEX__DEFAULT__SERVER: edgex-mqtt-broker
       EDGEX__DEFAULT__TOPIC: edgex/rules-events
-      EDGEX__DEFAULT__TYPE: redis
+      EDGEX__DEFAULT__TYPE: mqtt
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__ENABLEOPENZITI: "false"
       KUIPER__BASIC__RESTPORT: "59720"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1555,14 +1633,18 @@ services:
   security-bootstrapper:
     container_name: edgex-security-bootstrapper
     environment:
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: "5432"
       EDGEX_GROUP: "2001"
       EDGEX_USER: "2002"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
+      REGISTRY_HOST: edgex-core-keeper
+      REGISTRY_PORT: "59890"
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1615,9 +1697,9 @@ services:
       SERVICE_HOST: edgex-proxy-auth
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1677,9 +1759,9 @@ services:
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1743,6 +1825,9 @@ services:
         condition: service_started
         required: true
     environment:
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_TYPE: postgres
       EDGEX_ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[app-sample],redisdb[device-modbus],redisdb[device-rest],redisdb[device-virtual],redisdb[device-onvif-camera],message-bus[app-rules-engine],message-bus[app-http-export],message-bus[app-mqtt-export],message-bus[app-external-mqtt-trigger],message-bus[app-scalability-test-mqtt-export],message-bus[app-sample],message-bus[device-modbus],message-bus[device-rest],message-bus[device-virtual],message-bus[device-onvif-camera]
       EDGEX_ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,app-sample,device-modbus,app-external-mqtt-trigger,device-onvif-camera
       EDGEX_GROUP: "2001"
@@ -1750,12 +1835,12 @@ services:
       EDGEX_USER: "2002"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
-      SECUREMESSAGEBUS_TYPE: redis
+      SECUREMESSAGEBUS_TYPE: mqtt
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1831,9 +1916,9 @@ services:
       SERVICE_HOST: edgex-security-spiffe-token-provider
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1898,9 +1983,9 @@ services:
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -1968,9 +2053,9 @@ services:
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -2023,9 +2108,9 @@ services:
       SECRETSTORE_HOST: edgex-vault
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -2077,6 +2162,83 @@ services:
         bind:
           selinux: z
           create_host_path: true
+  support-cron-scheduler:
+    command:
+      - /support-cron-scheduler
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-support-cron-scheduler
+    depends_on:
+      core-common-config-bootstrapper:
+        condition: service_started
+        required: true
+      database:
+        condition: service_started
+        required: true
+      keeper:
+        condition: service_started
+        required: true
+      security-bootstrapper:
+        condition: service_started
+        required: true
+      security-secretstore-setup:
+        condition: service_started
+        required: true
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      DATABASE_HOST: edgex-postgres
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-vault
+      SERVICE_HOST: edgex-support-cron-scheduler
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-support-cron-scheduler
+    image: nexus3.edgexfoundry.org:10004/support-cron-scheduler:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59863
+        published: "59863"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/support-cron-scheduler
+        target: /tmp/edgex/secrets/support-cron-scheduler
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   support-notifications:
     command:
       - /support-notifications
@@ -2102,16 +2264,18 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      DATABASE_HOST: edgex-redis
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-support-notifications
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -2120,6 +2284,9 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ""
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ""
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ""
     hostname: edgex-support-notifications
     image: nexus3.edgexfoundry.org:10004/support-notifications:latest
     networks:
@@ -2150,85 +2317,6 @@ services:
       - type: bind
         source: /tmp/edgex/secrets/support-notifications
         target: /tmp/edgex/secrets/support-notifications
-        read_only: true
-        bind:
-          selinux: z
-          create_host_path: true
-  support-scheduler:
-    command:
-      - /support-scheduler
-      - --registry
-      - -cp=keeper.http://edgex-core-keeper:59890
-    container_name: edgex-support-scheduler
-    depends_on:
-      core-common-config-bootstrapper:
-        condition: service_started
-        required: true
-      database:
-        condition: service_started
-        required: true
-      keeper:
-        condition: service_started
-        required: true
-      security-bootstrapper:
-        condition: service_started
-        required: true
-      security-secretstore-setup:
-        condition: service_started
-        required: true
-    entrypoint:
-      - /edgex-init/ready_to_run_wait_install.sh
-    environment:
-      DATABASE_HOST: edgex-redis
-      EDGEX_SECURITY_SECRET_STORE: "true"
-      INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
-      INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
-      PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
-      SERVICE_HOST: edgex-support-scheduler
-      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
-      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_PROXYSETUP_READYPORT: "54325"
-      STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
-      STAGEGATE_REGISTRY_PORT: "59890"
-      STAGEGATE_REGISTRY_READYPORT: "54324"
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
-      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
-      STAGEGATE_WAITFOR_TIMEOUT: 60s
-    hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-scheduler:latest
-    networks:
-      edgex-network: null
-    ports:
-      - mode: ingress
-        host_ip: 127.0.0.1
-        target: 59861
-        published: "59861"
-        protocol: tcp
-    read_only: true
-    restart: always
-    security_opt:
-      - no-new-privileges:true
-    user: 2002:2001
-    volumes:
-      - type: bind
-        source: /etc/localtime
-        target: /etc/localtime
-        read_only: true
-        bind:
-          create_host_path: true
-      - type: volume
-        source: edgex-init
-        target: /edgex-init
-        read_only: true
-        volume: {}
-      - type: bind
-        source: /tmp/edgex/secrets/support-scheduler
-        target: /tmp/edgex/secrets/support-scheduler
         read_only: true
         bind:
           selinux: z
@@ -2278,9 +2366,9 @@ services:
       SKIP_SETCAP: "true"
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
       STAGEGATE_PROXYSETUP_READYPORT: "54325"
       STAGEGATE_READY_TORUNPORT: "54329"
       STAGEGATE_REGISTRY_HOST: edgex-core-keeper
@@ -2345,12 +2433,14 @@ volumes:
     name: edgex_kuiper-plugins
   kuiper-sources:
     name: edgex_kuiper-sources
+  mqtt:
+    name: edgex_mqtt
   nginx-templates:
     name: edgex_nginx-templates
   nginx-tls:
     name: edgex_nginx-tls
-  redis-config:
-    name: edgex_redis-config
+  postgres-data:
+    name: edgex_postgres-data
   spire-agent:
     name: edgex_spire-agent
   spire-ca:

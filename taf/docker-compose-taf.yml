@@ -2351,7 +2351,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "343254323167232"
+          memory: "4190239719424"
     entrypoint:
       - /edgex-init/vault_wait_install.sh
     environment:
@@ -2376,7 +2376,7 @@ services:
       VAULT_UI: "true"
     hostname: edgex-vault
     image: hashicorp/vault:1.14
-    memswap_limit: "343254323167232"
+    memswap_limit: "4190239719424"
     networks:
       edgex-network: null
     ports:
