@@ -389,7 +389,9 @@ services:
         condition: service_started
         required: true
     environment:
-      ALL_SERVICES_DATABASE_HOST: edgex-redis
+      ALL_SERVICES_DATABASE_HOST: edgex-postgres
+      ALL_SERVICES_DATABASE_PORT: "5432"
+      ALL_SERVICES_DATABASE_TYPE: postgres
       ALL_SERVICES_MESSAGEBUS_AUTHMODE: none
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-mqtt-broker
       ALL_SERVICES_MESSAGEBUS_PORT: "1883"
@@ -398,6 +400,9 @@ services:
       ALL_SERVICES_REGISTRY_HOST: edgex-core-keeper
       ALL_SERVICES_REGISTRY_PORT: "59890"
       ALL_SERVICES_REGISTRY_TYPE: keeper
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
+      ALL_SERVICES_WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -432,9 +437,14 @@ services:
         condition: service_started
         required: true
     environment:
-      DATABASE_HOST: edgex-redis
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-data
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
     hostname: edgex-core-data
     image: nexus3.edgexfoundry.org:10004/core-data-arm64:latest
     networks:
@@ -470,9 +480,14 @@ services:
         condition: service_started
         required: true
     environment:
-      DATABASE_HOST: edgex-redis
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-metadata
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
     hostname: edgex-core-metadata
     image: nexus3.edgexfoundry.org:10004/core-metadata-arm64:latest
     networks:
@@ -496,22 +511,26 @@ services:
         bind:
           create_host_path: true
   database:
-    container_name: edgex-redis
-    hostname: edgex-redis
-    image: redis:7.0-alpine
+    container_name: edgex-postgres
+    environment:
+      POSTGRES_DB: edgex_db
+      POSTGRES_PASSWORD: postgres
+    hostname: edgex-postgres
+    image: postgres:16.3-alpine3.20
     networks:
       edgex-network: null
     ports:
       - mode: ingress
         host_ip: 127.0.0.1
-        target: 6379
-        published: "6379"
+        target: 5432
+        published: "5432"
         protocol: tcp
     read_only: true
     restart: always
     security_opt:
       - no-new-privileges:true
-    user: root:root
+    tmpfs:
+      - /run
     volumes:
       - type: volume
         source: db-data
@@ -709,9 +728,9 @@ services:
   keeper:
     container_name: edgex-core-keeper
     environment:
-      DATABASE_HOST: edgex-redis
-      DATABASE_PORT: "6379"
-      DATABASE_TYPE: redisdb
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEBUS_AUTHMODE: none
       MESSAGEBUS_HOST: edgex-mqtt-broker
@@ -720,9 +739,9 @@ services:
       MESSAGEBUS_SECRETNAME: ""
       MESSAGEBUS_TYPE: mqtt
       SERVICE_HOST: edgex-core-keeper
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ""
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ""
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: redisdb
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
     hostname: edgex-core-keeper
     image: nexus3.edgexfoundry.org:10004/core-keeper-arm64:latest
     networks:
@@ -828,10 +847,6 @@ services:
       CONNECTION__EDGEX__MQTTMSGBUS__PROTOCOL: tcp
       CONNECTION__EDGEX__MQTTMSGBUS__SERVER: edgex-mqtt-broker
       CONNECTION__EDGEX__MQTTMSGBUS__TYPE: mqtt
-      CONNECTION__EDGEX__REDISMSGBUS__PORT: "6379"
-      CONNECTION__EDGEX__REDISMSGBUS__PROTOCOL: redis
-      CONNECTION__EDGEX__REDISMSGBUS__SERVER: edgex-redis
-      CONNECTION__EDGEX__REDISMSGBUS__TYPE: redis
       EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
       EDGEX__DEFAULT__OPTIONAL__KEEPALIVE: "500"
       EDGEX__DEFAULT__PORT: "1883"
@@ -880,6 +895,47 @@ services:
         source: kuiper-plugins
         target: /kuiper/plugins
         volume: {}
+  support-cron-scheduler:
+    command:
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-support-cron-scheduler
+    depends_on:
+      core-common-config-bootstrapper:
+        condition: service_started
+        required: true
+      database:
+        condition: service_started
+        required: true
+      keeper:
+        condition: service_started
+        required: true
+    environment:
+      DATABASE_HOST: edgex-postgres
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      SERVICE_HOST: edgex-support-cron-scheduler
+    hostname: edgex-support-cron-scheduler
+    image: nexus3.edgexfoundry.org:10004/support-cron-scheduler-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59863
+        published: "59863"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   support-notifications:
     command:
       - --registry
@@ -896,9 +952,14 @@ services:
         condition: service_started
         required: true
     environment:
-      DATABASE_HOST: edgex-redis
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-support-notifications
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
     hostname: edgex-support-notifications
     image: nexus3.edgexfoundry.org:10004/support-notifications-arm64:latest
     networks:
@@ -908,49 +969,6 @@ services:
         host_ip: 127.0.0.1
         target: 59860
         published: "59860"
-        protocol: tcp
-    read_only: true
-    restart: always
-    security_opt:
-      - no-new-privileges:true
-    user: 2002:2001
-    volumes:
-      - type: bind
-        source: /etc/localtime
-        target: /etc/localtime
-        read_only: true
-        bind:
-          create_host_path: true
-  support-scheduler:
-    command:
-      - --registry
-      - -cp=keeper.http://edgex-core-keeper:59890
-    container_name: edgex-support-scheduler
-    depends_on:
-      core-common-config-bootstrapper:
-        condition: service_started
-        required: true
-      database:
-        condition: service_started
-        required: true
-      keeper:
-        condition: service_started
-        required: true
-    environment:
-      DATABASE_HOST: edgex-redis
-      EDGEX_SECURITY_SECRET_STORE: "false"
-      INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
-      INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
-      SERVICE_HOST: edgex-support-scheduler
-    hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-scheduler-arm64:latest
-    networks:
-      edgex-network: null
-    ports:
-      - mode: ingress
-        host_ip: 127.0.0.1
-        target: 59861
-        published: "59861"
         protocol: tcp
     read_only: true
     restart: always

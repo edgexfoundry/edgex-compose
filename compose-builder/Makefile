@@ -44,8 +44,7 @@ export USERID:=$(shell id -u)
 export DOCKER_SOCKET_PATH=/var/run/docker.sock
 
 # Get total system memory in megabytes for vault config
-#export TOTAL_SYSTEM_MEMORY:=$(shell grep MemTotal /proc/meminfo | awk '{print $$2}')m
-export TOTAL_SYSTEM_MEMORY:=327352832m
+export TOTAL_SYSTEM_MEMORY:=$(shell grep MemTotal /proc/meminfo | awk '{print $$2}')m
 
 BROKER_YAML=add-mqtt-broker-mosquitto.yml
 TAF_BROKER_YAML=add-taf-mqtt-broker-mosquitto.yml
@@ -156,7 +155,7 @@ ifeq (keeper, $(filter keeper,$(ARGS)))
 		export WRITABLE_INSECURESECRETS_DB_SECRETNAME=
 		ifeq (no-secty, $(filter no-secty,$(ARGS)))
 			export MESSAGEBUS_AUTHMODE=none
-            export MESSAGEBUS_SECRETNAME=
+			export MESSAGEBUS_SECRETNAME=
 			export WRITABLE_INSECURESECRETS_DB_SECRETNAME=postgres
 			export WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME=postgres
 			export WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD=postgres
@@ -891,6 +890,16 @@ endif
 
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
+
+	ifeq (postgres, $(filter postgres,$(ARGS)))
+		export COMMON_SEC_STAGE_GATE_FILE_NAME=common-sec-stage-gate-postgres.env
+		DATABASE:=-postgres
+		COMPOSE_FILES:=-f docker-compose-base-postgres.yml -f add-cron-scheduler.yml \
+				-f add-security-postgres.yml -f add-secure-postgres.yml
+	else
+		COMPOSE_FILES:=-f docker-compose-base.yml -f add-security.yml
+	endif
+
 	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,app-sample,device-modbus,app-external-mqtt-trigger,device-onvif-camera
 	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 	# have to list them individually.
@@ -898,9 +907,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[app-rules-engine],message-bus[app-http-export],message-bus[app-mqtt-export],message-bus[app-external-mqtt-trigger],message-bus[app-scalability-test-mqtt-export],message-bus[app-sample],message-bus[device-modbus],message-bus[device-rest],message-bus[device-virtual],message-bus[device-onvif-camera]
 	EXTRA_PROXY_ROUTE_LIST:=device-modbus.http://edgex-device-modbus:59901
 
-	COMPOSE_FILES:= \
-		-f docker-compose-base.yml \
-		-f add-security.yml \
+	COMPOSE_FILES:= $(COMPOSE_FILES) \
 		-f add-security-proxy.yml \
 		-f add-taf-app-services.yml \
 		-f add-taf-app-services-secure.yml \
@@ -922,6 +929,14 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		IS_SECURE_MODE:=1
 		IS_MQTT_BUS:=1
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f add-secure-mqtt-broker.yml
+		ifeq (keeper, $(filter keeper,$(ARGS)))
+			export MESSAGEBUS_AUTHMODE=usernamepassword
+			export MESSAGEBUS_SECRETNAME=message-bus
+			export MESSAGEBUS_HOST=edgex-mqtt-broker
+			export MESSAGEBUS_PORT=1883
+			export MESSAGEBUS_PROTOCOL=tcp
+			export MESSAGEBUS_TYPE=mqtt
+		endif
 	else
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
 		IS_MQTT_BUS:=0
@@ -964,7 +979,6 @@ else
     ifeq (taf-no-secty, $(filter taf-no-secty,$(ARGS)))
 
 		COMPOSE_FILES:= \
-			-f docker-compose-base.yml \
 			-f add-taf-app-services.yml \
 			-f add-asc-http-export.yml \
 			-f add-asc-mqtt-export.yml \
@@ -973,18 +987,39 @@ else
 			-f add-device-virtual.yml \
 			-f add-device-rest.yml \
 			-f add-device-modbus.yml \
-            -f add-device-onvif-camera.yml \
+			-f add-device-onvif-camera.yml \
 			-f add-taf-device-services-mods.yml \
 			-f ${BROKER_YAML} \
 			-f add-modbus-simulator.yml \
 			-f ${TAF_BROKER_YAML}
 
-        NO_SECURITY:=-no-secty
+		NO_SECURITY:=-no-secty
 
-        ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
-            IS_SECURE_MODE:=0
-            COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml
-        endif
+		ifeq (postgres, $(filter postgres,$(ARGS)))
+			export MESSAGEBUS_AUTHMODE=none
+			export MESSAGEBUS_SECRETNAME=
+			export WRITABLE_INSECURESECRETS_DB_SECRETNAME=postgres
+			export WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME=postgres
+			export WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD=postgres
+			DATABASE:=-postgres
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f docker-compose-base-postgres.yml -f add-cron-scheduler.yml
+		else
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f docker-compose-base.yml
+		endif
+
+		ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+			IS_SECURE_MODE:=0
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml
+
+			ifeq (keeper, $(filter keeper,$(ARGS)))
+				export MESSAGEBUS_AUTHMODE=none
+				export MESSAGEBUS_HOST=edgex-mqtt-broker
+				export MESSAGEBUS_PORT=1883
+				export MESSAGEBUS_PROTOCOL=tcp
+				export MESSAGEBUS_SECRETNAME=
+				export MESSAGEBUS_TYPE=mqtt
+			endif
+		endif
 
 		ifeq (keeper, $(filter keeper,$(ARGS)))
 			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml
@@ -992,6 +1027,7 @@ else
 		else
 			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml -f add-keeper.yml
 		endif
+
     else
     	# Build compose for TAF secure performance testing (ignore all other compose file options)
     	ifeq (taf-perf, $(filter taf-perf,$(ARGS)))
@@ -1157,6 +1193,10 @@ build-taf:
 	make taf-compose taf-no-secty keeper mqtt-bus mqtt-verbose
 	make taf-compose taf-secty keeper mqtt-bus mqtt-verbose arm64
 	make taf-compose taf-no-secty keeper mqtt-bus mqtt-verbose arm64
+	make taf-compose taf-secty keeper mqtt-bus mqtt-verbose postgres
+	make taf-compose taf-no-secty keeper mqtt-bus mqtt-verbose postgres
+	make taf-compose taf-secty keeper mqtt-bus mqtt-verbose postgres arm64
+	make taf-compose taf-no-secty keeper mqtt-bus mqtt-verbose postgres arm64
 	make taf-compose-perf taf-perf
 	make taf-compose-perf taf-perf-no-secty
 	make taf-compose-perf taf-perf arm64
@@ -1172,7 +1212,7 @@ compose: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(NO_SECURITY)$(APP_SAMPLE)$(BUS)$(NANOMQ)$(ZERO_TRUST_COMPOSE)$(ARCH).yml
 
 taf-compose: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(NANOMQ)$(REGISTRY)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(NANOMQ)$(REGISTRY)$(DATABASE)$(ARCH).yml
 
 taf-compose-perf: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml

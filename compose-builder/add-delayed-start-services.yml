@@ -35,7 +35,7 @@ services:
     restart: always
     env_file:
       - common-security.env
-      - common-sec-stage-gate.env
+      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
     tmpfs:
       - /run
     volumes:
@@ -65,7 +65,7 @@ services:
     restart: always
     env_file:
       - common-security.env
-      - common-sec-stage-gate.env
+      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
     tmpfs:
       - /run
     volumes:
@@ -97,7 +97,7 @@ services:
     restart: always
     env_file:
       - common-security.env
-      - common-sec-stage-gate.env
+      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
     tmpfs:
       - /run
     volumes:
@@ -126,7 +126,7 @@ services:
     restart: always
     env_file:
       - common-security.env
-      - common-sec-stage-gate.env
+      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
     environment:
       SERVICE_HOST: edgex-security-spiffe-token-provider
     tmpfs:

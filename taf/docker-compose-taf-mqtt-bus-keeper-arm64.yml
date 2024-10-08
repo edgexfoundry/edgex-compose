@@ -1281,12 +1281,12 @@ services:
       DATABASE_PORT: "6379"
       DATABASE_TYPE: redisdb
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_AUTHMODE: none
-      MESSAGEBUS_HOST: edgex-redis
-      MESSAGEBUS_PORT: "6379"
-      MESSAGEBUS_PROTOCOL: redis
-      MESSAGEBUS_SECRETNAME: redisdb
-      MESSAGEBUS_TYPE: redis
+      MESSAGEBUS_AUTHMODE: usernamepassword
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: "1883"
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: message-bus
+      MESSAGEBUS_TYPE: mqtt
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-vault
       SERVICE_HOST: edgex-core-keeper
@@ -2335,7 +2335,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "343254323167232"
+          memory: "4190239719424"
     entrypoint:
       - /edgex-init/vault_wait_install.sh
     environment:
@@ -2360,7 +2360,7 @@ services:
       VAULT_UI: "true"
     hostname: edgex-vault
     image: hashicorp/vault:1.14
-    memswap_limit: "343254323167232"
+    memswap_limit: "4190239719424"
     networks:
       edgex-network: null
     ports:
