@@ -841,11 +841,29 @@ ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
 		else
 			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-mqtt-broker-mosquitto.yml
 		endif
+
+		ifeq (keeper, $(filter keeper,$(ARGS)))
+			export MESSAGEBUS_AUTHMODE=none
+			export MESSAGEBUS_HOST=edgex-mqtt-broker
+			export MESSAGEBUS_PORT=1883
+			export MESSAGEBUS_PROTOCOL=tcp
+			export MESSAGEBUS_SECRETNAME=
+			export MESSAGEBUS_TYPE=mqtt
+		endif
 	else
 		ifeq (nanomq, $(filter nanomq,$(ARGS)))
 			ERR:=$(error nanomq option is not valid as MessageBus broker in secure mode)
 		endif
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f add-mqtt-broker-mosquitto.yml -f add-secure-mqtt-broker.yml
+
+		ifeq (keeper, $(filter keeper,$(ARGS)))
+			export MESSAGEBUS_AUTHMODE=usernamepassword
+			export MESSAGEBUS_SECRETNAME=message-bus
+			export MESSAGEBUS_HOST=edgex-mqtt-broker
+			export MESSAGEBUS_PORT=1883
+			export MESSAGEBUS_PROTOCOL=tcp
+			export MESSAGEBUS_TYPE=mqtt
+		endif
 	endif
 endif
 
