@@ -1274,7 +1274,7 @@ services:
       DATABASE_PORT: "6379"
       DATABASE_TYPE: redisdb
       EDGEX_SECURITY_SECRET_STORE: "true"
-      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_AUTHMODE: usernamepassword
       MESSAGEBUS_HOST: edgex-redis
       MESSAGEBUS_PORT: "6379"
       MESSAGEBUS_PROTOCOL: redis

@@ -897,7 +897,8 @@ ifeq (keeper, $(filter keeper,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml
 	REGISTRY:=-keeper
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-                COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-keeper.yml
+		export MESSAGEBUS_AUTHMODE=usernamepassword
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-keeper.yml
 	endif
 else
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml
@@ -961,6 +962,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	endif
 
 	ifeq (keeper, $(filter keeper,$(ARGS)))
+		export MESSAGEBUS_AUTHMODE=usernamepassword
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml -f add-secure-keeper.yml
 		REGISTRY:=-keeper
 	else
