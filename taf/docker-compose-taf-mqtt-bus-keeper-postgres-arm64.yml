@@ -772,9 +772,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ""
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ""
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ""
     hostname: edgex-core-data
     image: nexus3.edgexfoundry.org:10004/core-data-arm64:latest
     networks:
@@ -851,9 +848,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ""
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ""
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ""
     hostname: edgex-core-metadata
     image: nexus3.edgexfoundry.org:10004/core-metadata-arm64:latest
     networks:
@@ -939,17 +933,13 @@ services:
       - /tmp
     volumes:
       - type: volume
-        source: db-data
-        target: /data
+        source: postgres-data
+        target: /var/lib/postgresql/data
         volume: {}
       - type: volume
         source: edgex-init
         target: /edgex-init
         read_only: true
-        volume: {}
-      - type: volume
-        source: postgres-data
-        target: /var/lib/postgresql/data
         volume: {}
       - type: bind
         source: /tmp/edgex/secrets/security-bootstrapper-postgres
@@ -2284,9 +2274,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ""
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ""
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ""
     hostname: edgex-support-notifications
     image: nexus3.edgexfoundry.org:10004/support-notifications-arm64:latest
     networks:
@@ -2417,8 +2404,6 @@ networks:
 volumes:
   consul-acl-token:
     name: edgex_consul-acl-token
-  db-data:
-    name: edgex_db-data
   edgex-init:
     name: edgex_edgex-init
   kuiper-connections:

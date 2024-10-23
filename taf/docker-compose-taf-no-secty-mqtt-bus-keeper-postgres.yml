@@ -442,9 +442,6 @@ services:
       DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-data
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
     hostname: edgex-core-data
     image: nexus3.edgexfoundry.org:10004/core-data:latest
     networks:
@@ -485,9 +482,6 @@ services:
       DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-metadata
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
     hostname: edgex-core-metadata
     image: nexus3.edgexfoundry.org:10004/core-metadata:latest
     networks:
@@ -534,7 +528,7 @@ services:
     volumes:
       - type: volume
         source: db-data
-        target: /data
+        target: /var/lib/postgresql/data
         volume: {}
   device-modbus:
     command:
@@ -957,9 +951,6 @@ services:
       DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-support-notifications
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
     hostname: edgex-support-notifications
     image: nexus3.edgexfoundry.org:10004/support-notifications:latest
     networks:
