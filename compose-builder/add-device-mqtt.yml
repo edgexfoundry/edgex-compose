@@ -31,7 +31,7 @@ services:
       SERVICE_HOST: edgex-device-mqtt
       MQTTBROKERINFO_HOST: edgex-mqtt-broker
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - core-data
       - core-metadata
       - mqtt-broker

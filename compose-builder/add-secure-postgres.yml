@@ -23,7 +23,7 @@ services:
     entrypoint: ["/edgex-init/postgres_wait_install.sh"]
     env_file:
       - common-security.env
-      - common-sec-stage-gate-postgres.env
+      - common-sec-stage-gate.env
     environment:
       DATABASECONFIG_PATH: /tmp/postgres-init-scripts
       DATABASECONFIG_NAME: create-users.sh

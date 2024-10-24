@@ -1,5 +1,5 @@
 # /*******************************************************************************
-#  * Copyright 2024 IOTech Ltd
+#  * Copyright 2022 Intel Corporation.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -14,15 +14,23 @@
 #  *******************************************************************************/
 
 services:
-  keeper:
-    command: "/core-keeper"
-    env_file:
-      - common-security.env
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
-    volumes:
-      - edgex-init:/edgex-init:ro
-      - /tmp/edgex/secrets/core-keeper:/tmp/edgex/secrets/core-keeper:ro,z
+  core-common-config-bootstrapper:
+    environment:
+      ALL_SERVICES_MESSAGEBUS_TYPE: redis
+      ALL_SERVICES_MESSAGEBUS_PROTOCOL: redisdb
+      ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
+      ALL_SERVICES_MESSAGEBUS_PORT: 6379
+      ALL_SERVICES_MESSAGEBUS_AUTHMODE: none
+
+  rules-engine:
+    environment:
+      CONNECTION__EDGEX__REDISMSGBUS__PORT: 6379
+      CONNECTION__EDGEX__REDISMSGBUS__PROTOCOL: redis
+      CONNECTION__EDGEX__REDISMSGBUS__SERVER: edgex-redis
+      CONNECTION__EDGEX__REDISMSGBUS__TYPE: redis
+      EDGEX__DEFAULT__PORT: 6379
+      EDGEX__DEFAULT__PROTOCOL: redis
+      EDGEX__DEFAULT__SERVER: edgex-redis
+      EDGEX__DEFAULT__TYPE: redis
     depends_on:
-      - security-bootstrapper
-      - security-secretstore-setup
       - database

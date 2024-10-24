@@ -27,7 +27,7 @@ services:
       SERVICE_HOST: edgex-app-metrics-influxdb
       EDGEX_PROFILE: metrics-influxdb
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - core-metadata
       - core-common-config-bootstrapper
     read_only: true

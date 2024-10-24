@@ -1,6 +1,7 @@
 # /*******************************************************************************
 #  * Copyright 2020 Redis Labs Inc.
 #  * Copyright 2024 Intel Corporation.
+#  * Copyright 2024 IOTech Ltd.
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -27,21 +28,38 @@ volumes:
   kuiper-plugins:
 
 services:
-  database:
-    image: redis:${REDIS_VERSION}
-    user: "root:root" # Note that Redis is run under the 'redis' user, but entry point scripts need to first run as root
+  core-keeper:
+    image: ${CORE_EDGEX_REPOSITORY}/core-keeper${ARCH}:${CORE_EDGEX_VERSION}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
-      - "127.0.0.1:6379:6379"
-    container_name: edgex-redis
-    hostname: edgex-redis
+      - "127.0.0.1:59890:59890"
+    container_name: edgex-core-keeper
+    hostname: edgex-core-keeper
     read_only: true
     restart: always
     networks:
       - edgex-network
-    volumes:
-      - db-data:/data
+    env_file:
+      - common-non-security.env
+    environment:
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_TYPE: ${DATABASE_TYPE}
+      DATABASE_PORT: ${DATABASE_PORT}
+      MESSAGEBUS_HOST: ${MESSAGEBUS_HOST}
+      MESSAGEBUS_AUTHMODE: ${MESSAGEBUS_AUTHMODE}
+      MESSAGEBUS_SECRETNAME: ${MESSAGEBUS_SECRETNAME}
+      MESSAGEBUS_PORT: ${MESSAGEBUS_PORT}
+      MESSAGEBUS_PROTOCOL: ${MESSAGEBUS_PROTOCOL}
+      MESSAGEBUS_TYPE: ${MESSAGEBUS_TYPE}
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETNAME}
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME}
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD}
+      SERVICE_HOST: edgex-core-keeper
     security_opt:
       - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
 
   support-notifications:
     image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}
@@ -59,9 +77,34 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-support-notifications
-      DATABASE_HOST: edgex-redis
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
+      - database
+      - core-common-config-bootstrapper
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
+
+  support-cron-scheduler:
+    image: ${CORE_EDGEX_REPOSITORY}/support-cron-scheduler${ARCH}:${CORE_EDGEX_VERSION}
+    command: --registry ${CP_FLAGS}
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    ports:
+      - "127.0.0.1:59863:59863"
+    container_name: edgex-support-cron-scheduler
+    hostname: edgex-support-cron-scheduler
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common-non-security.env
+    environment:
+      SERVICE_HOST: edgex-support-cron-scheduler
+    depends_on:
+      - core-keeper
       - database
       - core-common-config-bootstrapper
     security_opt:
@@ -86,9 +129,8 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-core-metadata
-      DATABASE_HOST: edgex-redis
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - database
     security_opt:
       - no-new-privileges:true
@@ -112,9 +154,8 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-core-data
-      DATABASE_HOST: edgex-redis
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - database
       - core-common-config-bootstrapper
     security_opt:
@@ -141,7 +182,7 @@ services:
       SERVICE_HOST: edgex-core-command
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - database
       - core-metadata
       - core-common-config-bootstrapper
@@ -163,44 +204,13 @@ services:
     env_file:
       - common-non-security.env
     environment:
-      ALL_SERVICES_REGISTRY_HOST: ${REGISTRY_HOST}
-      ALL_SERVICES_REGISTRY_PORT: ${REGISTRY_PORT}
-      ALL_SERVICES_REGISTRY_TYPE: ${REGISTRY_TYPE}
-      ALL_SERVICES_DATABASE_HOST: edgex-redis
-      ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
+      ALL_SERVICES_REGISTRY_HOST: edgex-core-keeper
+      ALL_SERVICES_DATABASE_HOST: edgex-postgres
+      ALL_SERVICES_MESSAGEBUS_HOST: ${MESSAGEBUS_HOST}
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
     depends_on:
-      - ${REGISTRY_TYPE}
-    security_opt:
-      - no-new-privileges:true
-    volumes:
-      # use host timezone
-      - /etc/localtime:/etc/localtime:ro
-
-  support-scheduler:
-    image: ${CORE_EDGEX_REPOSITORY}/support-scheduler${ARCH}:${CORE_EDGEX_VERSION}
-    command: --registry ${CP_FLAGS}
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
-    ports:
-      - "127.0.0.1:59861:59861"
-    container_name: edgex-support-scheduler
-    hostname: edgex-support-scheduler
-    read_only: true
-    restart: always
-    networks:
-      - edgex-network
-    env_file:
-      - common-non-security.env
-    environment:
-      SERVICE_HOST: edgex-support-scheduler
-      DATABASE_HOST: edgex-redis
-      INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
-      INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
-    depends_on:
-      - ${REGISTRY_TYPE}
-      - database
-      - core-common-config-bootstrapper
+      - core-keeper
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -225,7 +235,7 @@ services:
       EDGEX_PROFILE: rules-engine
       SERVICE_HOST: edgex-app-rules-engine
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - core-metadata
       - core-common-config-bootstrapper
     security_opt:
@@ -257,14 +267,6 @@ services:
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__ENABLEOPENZITI: false
       KUIPER__BASIC__RESTPORT: 59720
-      CONNECTION__EDGEX__REDISMSGBUS__PORT: 6379
-      CONNECTION__EDGEX__REDISMSGBUS__PROTOCOL: redis
-      CONNECTION__EDGEX__REDISMSGBUS__SERVER: edgex-redis
-      CONNECTION__EDGEX__REDISMSGBUS__TYPE: redis
-      EDGEX__DEFAULT__PORT: 6379
-      EDGEX__DEFAULT__PROTOCOL: redis
-      EDGEX__DEFAULT__SERVER: edgex-redis
-      EDGEX__DEFAULT__TYPE: redis
       EDGEX__DEFAULT__TOPIC: edgex/rules-events
     depends_on:
       - database

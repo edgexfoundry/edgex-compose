@@ -14,14 +14,6 @@
 #  *******************************************************************************/
 
 services:
-  core-common-config-bootstrapper:
-    environment:
-      ALL_SERVICES_MESSAGEBUS_TYPE: mqtt
-      ALL_SERVICES_MESSAGEBUS_PROTOCOL: tcp
-      ALL_SERVICES_MESSAGEBUS_HOST: edgex-mqtt-broker
-      ALL_SERVICES_MESSAGEBUS_PORT: "1883"
-      ALL_SERVICES_MESSAGEBUS_AUTHMODE: none
-
   rules-engine:
     environment:
       CONNECTION__EDGEX__MQTTMSGBUS__PORT: 1883

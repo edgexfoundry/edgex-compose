@@ -26,7 +26,7 @@ services:
     environment:
       SERVICE_HOST: edgex-app-record-replay
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - database
       - core-metadata
       - core-common-config-bootstrapper

@@ -18,8 +18,6 @@ volumes:
   secret-store-config:
   secret-store-file:
   secret-store-logs:
-  # non-shared volumes
-  redis-config:
 
 services:
   security-bootstrapper:
@@ -42,24 +40,6 @@ services:
       - edgex-init:/edgex-init
     security_opt:
       - no-new-privileges:true
-
-  database:
-    entrypoint: ["/edgex-init/redis_wait_install.sh"]
-    env_file:
-      - common-security.env
-      - common-sec-stage-gate.env
-    environment:
-      DATABASECONFIG_PATH: /run/redis/conf
-      DATABASECONFIG_NAME: redis.conf
-    tmpfs:
-      - /run
-    volumes:
-      - edgex-init:/edgex-init:ro
-      - redis-config:/run/redis/conf
-      - /tmp/edgex/secrets/security-bootstrapper-redis:/tmp/edgex/secrets/security-bootstrapper-redis:ro,z
-    depends_on:
-      - security-bootstrapper
-      - security-secretstore-setup
 
   security-secretstore-setup:
     image: ${CORE_EDGEX_REPOSITORY}/security-secretstore-setup${ARCH}:${CORE_EDGEX_VERSION}
@@ -139,6 +119,19 @@ services:
       - security-bootstrapper
     restart: always
 
+  core-keeper:
+    command: "/core-keeper"
+    env_file:
+      - common-security.env
+      - common-sec-stage-gate.env
+    volumes:
+      - edgex-init:/edgex-init:ro
+      - /tmp/edgex/secrets/core-keeper:/tmp/edgex/secrets/core-keeper:ro,z
+    depends_on:
+      - security-bootstrapper
+      - security-secretstore-setup
+      - database
+
   support-notifications:
     env_file:
       - common-security.env
@@ -151,7 +144,19 @@ services:
     depends_on:
       - security-bootstrapper
       - security-secretstore-setup
-      - database
+
+  support-cron-scheduler:
+    env_file:
+      - common-security.env
+      - common-sec-stage-gate.env
+    entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
+    command: "/support-cron-scheduler --registry ${CP_FLAGS}"
+    volumes:
+      - edgex-init:/edgex-init:ro
+      - /tmp/edgex/secrets/support-cron-scheduler:/tmp/edgex/secrets/support-cron-scheduler:ro,z
+    depends_on:
+      - security-bootstrapper
+      - security-secretstore-setup
 
   core-metadata:
     env_file:
@@ -165,7 +170,6 @@ services:
     depends_on:
       - security-bootstrapper
       - security-secretstore-setup
-      - database
 
   core-data:
     env_file:
@@ -179,7 +183,6 @@ services:
     depends_on:
       - security-bootstrapper
       - security-secretstore-setup
-      - database
 
   core-command:
     env_file:
@@ -193,7 +196,6 @@ services:
     depends_on:
       - security-bootstrapper
       - security-secretstore-setup
-      - database
 
   core-common-config-bootstrapper:
     env_file:
@@ -207,20 +209,6 @@ services:
     depends_on:
       - security-bootstrapper
       - security-secretstore-setup
-
-  support-scheduler:
-    env_file:
-      - common-security.env
-      - common-sec-stage-gate.env
-    entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: "/support-scheduler --registry ${CP_FLAGS}"
-    volumes:
-      - edgex-init:/edgex-init:ro
-      - /tmp/edgex/secrets/support-scheduler:/tmp/edgex/secrets/support-scheduler:ro,z
-    depends_on:
-      - security-bootstrapper
-      - security-secretstore-setup
-      - database
 
   # this is to make sure the service is started after security-bootstrapper process is done
   # because it needs to await Consul roles to be created

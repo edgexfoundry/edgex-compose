@@ -17,9 +17,9 @@
 .PHONY: help portainer portainer-down \
 	build build-canned compose run pull gen \
 	build-taf taf-compose taf-compose-perf \
-	get-token upload-tls-cert get-consul-acl-token \
+	get-token upload-tls-cert \
     down clean err
-.SILENT: help get-token del-token upload-tls-cert get-consul-acl-token
+.SILENT: help get-token del-token upload-tls-cert
 
 include .env
 include common-security.env
@@ -54,14 +54,13 @@ TAF_BROKER_YAML=add-taf-mqtt-broker-mosquitto.yml
 # and don't impact the option list
 define OPTIONS
  - arm64 no-secty dev app-dev device-dev ui-dev delayed-start -
- - nats-bus mqtt-bus mqtt-broker mqtt-verbose nanomq -
+ - nats-bus redis-bus mqtt-broker mqtt-verbose nanomq -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-onvif-camera ds-usb-camera ds-bacnet-ip ds-bacnet-mstp ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp -
  - ds-coap ds-gpio ds-uart ds-s7 -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp as-record-replay asc-ex-mqtt -
  - modbus-sim zero-trust no-cleanup -
- - consul keeper -
- - postgres -
+ - redis -
 endef
 export OPTIONS
 
@@ -132,43 +131,20 @@ else
     export MQTT_VERBOSE=
 endif
 
-ifeq (keeper, $(filter keeper,$(ARGS)))
-	export CP_FLAGS='-cp=keeper.http://edgex-core-keeper:59890'
-	export REGISTRY_HOST=edgex-core-keeper
-	export REGISTRY_PORT=59890
-	export REGISTRY_TYPE=keeper
+ifeq (redis, $(filter redis,$(ARGS)))
+	export DATABASE_HOST=edgex-redis
+	export DATABASE_TYPE=redisdb
+	export DATABASE_PORT=6379
+	export WRITABLE_INSECURESECRETS_DB_SECRETNAME=
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-redis.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		export STAGEGATE_REGISTRY_HOST=edgex-core-keeper
-		export STAGEGATE_REGISTRY_PORT=59890
+		export WRITABLE_INSECURESECRETS_DB_SECRETNAME=redisdb
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-db.yml
 	endif
-
-	ifeq (postgres, $(filter postgres,$(ARGS)))
-		export DATABASE_HOST=edgex-postgres
-		export DATABASE_TYPE=postgres
-		export DATABASE_PORT=5432
-		export MESSAGEBUS_HOST=edgex-mqtt-broker
-		export MESSAGEBUS_PORT=1883
-		export MESSAGEBUS_PROTOCOL=tcp
-		export MESSAGEBUS_AUTHMODE=usernamepassword
-		export MESSAGEBUS_SECRETNAME=message-bus
-		export MESSAGEBUS_TYPE=mqtt
-		export WRITABLE_INSECURESECRETS_DB_SECRETNAME=
-		ifeq (no-secty, $(filter no-secty,$(ARGS)))
-			export MESSAGEBUS_AUTHMODE=none
-			export MESSAGEBUS_SECRETNAME=
-			export WRITABLE_INSECURESECRETS_DB_SECRETNAME=postgres
-			export WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME=postgres
-			export WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD=postgres
-		endif
-	endif
-endif
-
-ifeq (postgres, $(filter postgres,$(ARGS)))
-	# When using postgres, change the default compose file to use docker-compose-base-postgres.yml
-	COMPOSE_FILES:= -f docker-compose-base-postgres.yml
-	COMPOSE_FILES += -f add-cron-scheduler.yml
+else
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-postgres.yml
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		export COMMON_SEC_STAGE_GATE_FILE_NAME=common-sec-stage-gate-postgres.env
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-postgres.yml
 	endif
 endif
 
@@ -181,7 +157,6 @@ ifeq (delayed-start,$(filter delayed-start,$(ARGS)))
 
     # Generate runtime token config for support services
     ext_file_sup_notif := $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh support-notifications)
-    ext_file_sup_sch := $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)"  ./gen_runtime_token_config_compose_ext.sh support-scheduler)
 
     # Add generated config files to COMPOSE_FILES
     COMPOSE_FILES += -f $(ext_file_sup_notif) -f $(ext_file_sup_sch)
@@ -353,7 +328,7 @@ ifeq (ds-mqtt, $(filter ds-mqtt,$(ARGS)))
 		else
 			EXTRA_PROXY_ROUTE_LIST:=$(EXTRA_PROXY_ROUTE_LIST),$(PROXY_ROUTE)
 		endif
-		ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+		ifeq ($(BUS),)
 			IS_MQTT_BUS:=1
 		else
 			IS_MQTT_BUS:=0
@@ -628,7 +603,7 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-mqtt-export],message-bus[app-mqtt-export]
 		endif
-		ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+		ifeq ($(BUS),)
 			IS_MQTT_BUS:=1
 		else
 			IS_MQTT_BUS:=0
@@ -789,7 +764,7 @@ ifeq (asc-ex-mqtt, $(filter asc-ex-mqtt,$(ARGS)))
 		else
 			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[app-external-mqtt-trigger]
 		endif
-		ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
+		ifeq ($(BUS),)
 			IS_MQTT_BUS:=1
 		else
 			IS_MQTT_BUS:=0
@@ -831,39 +806,12 @@ ifeq (mqtt-broker, $(filter mqtt-broker,$(ARGS)))
 	COMPOSE_FILES:=$(COMPOSE_FILES) -f ${BROKER_YAML}
 endif
 
-# Add switch to use MQTT Message Bus
-ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
-	BUS:=-mqtt-bus
-	ifeq (no-secty, $(filter no-secty,$(ARGS)))
-		ifeq (nanomq, $(filter nanomq,$(ARGS)))
-			NANOMQ:=-nanomq
-			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-mqtt-broker-nanomq.yml
-		else
-			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-mqtt-broker-mosquitto.yml
-		endif
-
-		ifeq (keeper, $(filter keeper,$(ARGS)))
-			export MESSAGEBUS_AUTHMODE=none
-			export MESSAGEBUS_HOST=edgex-mqtt-broker
-			export MESSAGEBUS_PORT=1883
-			export MESSAGEBUS_PROTOCOL=tcp
-			export MESSAGEBUS_SECRETNAME=
-			export MESSAGEBUS_TYPE=mqtt
-		endif
-	else
-		ifeq (nanomq, $(filter nanomq,$(ARGS)))
-			ERR:=$(error nanomq option is not valid as MessageBus broker in secure mode)
-		endif
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f add-mqtt-broker-mosquitto.yml -f add-secure-mqtt-broker.yml
-
-		ifeq (keeper, $(filter keeper,$(ARGS)))
-			export MESSAGEBUS_AUTHMODE=usernamepassword
-			export MESSAGEBUS_SECRETNAME=message-bus
-			export MESSAGEBUS_HOST=edgex-mqtt-broker
-			export MESSAGEBUS_PORT=1883
-			export MESSAGEBUS_PROTOCOL=tcp
-			export MESSAGEBUS_TYPE=mqtt
-		endif
+# Add switch to use REDIS Message Bus
+ifeq (redis-bus, $(filter redis-bus,$(ARGS)))
+	BUS:=-redis-bus
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-redis-messagebus.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
 	endif
 endif
 
@@ -875,16 +823,24 @@ endif
 
 # Add Security services and settings
 ifeq (no-secty, $(filter no-secty,$(ARGS)))
+	export MESSAGEBUS_SECRETNAME=
+	export MESSAGEBUS_AUTHMODE=none
 	NO_SECURITY:=-no-secty
-else
-	ifeq (postgres, $(filter postgres,$(ARGS)))
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-postgres.yml
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security-postgres.yml
-	else
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml
+	ifeq ($(BUS),) # if BUS not set, then we are using secure mqtt messagebus by default
+		IS_MQTT_BUS:=1
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f ${BROKER_YAML}
 	endif
-	ifeq ($(BUS),) # if BUS not set, then we are using secure redis messagebus by default
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
+else
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml
+	ifeq (redis, $(filter redis,$(ARGS)))
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-db.yml
+		BUS:=-redis-bus
+	else
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-postgres.yml
+	endif
+	ifeq ($(BUS),) # if BUS not set, then we are using secure mqtt messagebus by default
+		IS_MQTT_BUS:=1
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f ${BROKER_YAML}
 	endif
 	# Add Security Proxy when not using zero-trust
 	ifneq (zero-trust, $(filter zero-trust,$(ARGS)))
@@ -892,33 +848,8 @@ else
 	endif
 endif
 
-# Add switch to set registry
-ifeq (keeper, $(filter keeper,$(ARGS)))
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml
-	REGISTRY:=-keeper
-	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		export MESSAGEBUS_AUTHMODE=usernamepassword
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-keeper.yml
-	endif
-else
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml
-	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-consul.yml
-	endif
-endif
-
 # Build compose for TAF secure testing (ignore all other compose file options)
 ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
-
-	ifeq (postgres, $(filter postgres,$(ARGS)))
-		export COMMON_SEC_STAGE_GATE_FILE_NAME=common-sec-stage-gate-postgres.env
-		DATABASE:=-postgres
-		COMPOSE_FILES:=-f docker-compose-base-postgres.yml -f add-cron-scheduler.yml \
-				-f add-security-postgres.yml -f add-secure-postgres.yml
-	else
-		COMPOSE_FILES:=-f docker-compose-base.yml -f add-security.yml
-	endif
-
 	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,app-sample,device-modbus,app-external-mqtt-trigger,device-onvif-camera
 	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 	# have to list them individually.
@@ -926,7 +857,9 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[app-rules-engine],message-bus[app-http-export],message-bus[app-mqtt-export],message-bus[app-external-mqtt-trigger],message-bus[app-scalability-test-mqtt-export],message-bus[app-sample],message-bus[device-modbus],message-bus[device-rest],message-bus[device-virtual],message-bus[device-onvif-camera]
 	EXTRA_PROXY_ROUTE_LIST:=device-modbus.http://edgex-device-modbus:59901
 
-	COMPOSE_FILES:= $(COMPOSE_FILES) \
+	COMPOSE_FILES:= \
+		-f docker-compose-base.yml \
+		-f add-security.yml \
 		-f add-security-proxy.yml \
 		-f add-taf-app-services.yml \
 		-f add-taf-app-services-secure.yml \
@@ -943,31 +876,11 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-modbus-simulator.yml \
 		-f add-delayed-start-services.yml \
 		-f add-taf-mqtt-broker-mosquitto.yml \
-
-	ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
-		IS_SECURE_MODE:=1
-		IS_MQTT_BUS:=1
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f add-secure-mqtt-broker.yml
-		ifeq (keeper, $(filter keeper,$(ARGS)))
-			export MESSAGEBUS_AUTHMODE=usernamepassword
-			export MESSAGEBUS_SECRETNAME=message-bus
-			export MESSAGEBUS_HOST=edgex-mqtt-broker
-			export MESSAGEBUS_PORT=1883
-			export MESSAGEBUS_PROTOCOL=tcp
-			export MESSAGEBUS_TYPE=mqtt
-		endif
-	else
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
-		IS_MQTT_BUS:=0
-	endif
-
-	ifeq (keeper, $(filter keeper,$(ARGS)))
-		export MESSAGEBUS_AUTHMODE=usernamepassword
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml -f add-secure-keeper.yml
-		REGISTRY:=-keeper
-	else
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml -f add-secure-consul.yml -f add-keeper.yml -f add-secure-keeper.yml
-	endif
+		-f add-mqtt-messagebus.yml \
+		-f add-secure-mqtt-messagebus.yml \
+		-f add-secure-mqtt-broker.yml \
+		-f add-postgres.yml \
+		-f add-secure-postgres.yml
 
 	asc_http_export_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)"  ./gen_secure_compose_ext.sh app-http-export \
 		app-http-export app-service-configurable)
@@ -997,8 +910,13 @@ else
 
 	# Build compose for TAF non-secure testing (ignore all other compose file options)
     ifeq (taf-no-secty, $(filter taf-no-secty,$(ARGS)))
+		export MESSAGEBUS_SECRETNAME=
+		export MESSAGEBUS_AUTHMODE=none
 
 		COMPOSE_FILES:= \
+			-f docker-compose-base.yml \
+			-f add-mqtt-messagebus.yml \
+			-f add-postgres.yml \
 			-f add-taf-app-services.yml \
 			-f add-asc-http-export.yml \
 			-f add-asc-mqtt-export.yml \
@@ -1014,40 +932,6 @@ else
 			-f ${TAF_BROKER_YAML}
 
 		NO_SECURITY:=-no-secty
-
-		ifeq (postgres, $(filter postgres,$(ARGS)))
-			export MESSAGEBUS_AUTHMODE=none
-			export MESSAGEBUS_SECRETNAME=
-			export WRITABLE_INSECURESECRETS_DB_SECRETNAME=postgres
-			export WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME=postgres
-			export WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD=postgres
-			DATABASE:=-postgres
-			COMPOSE_FILES:=$(COMPOSE_FILES) -f docker-compose-base-postgres.yml -f add-cron-scheduler.yml
-		else
-			COMPOSE_FILES:=$(COMPOSE_FILES) -f docker-compose-base.yml
-		endif
-
-		ifeq (mqtt-bus, $(filter mqtt-bus,$(ARGS)))
-			IS_SECURE_MODE:=0
-			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml
-
-			ifeq (keeper, $(filter keeper,$(ARGS)))
-				export MESSAGEBUS_AUTHMODE=none
-				export MESSAGEBUS_HOST=edgex-mqtt-broker
-				export MESSAGEBUS_PORT=1883
-				export MESSAGEBUS_PROTOCOL=tcp
-				export MESSAGEBUS_SECRETNAME=
-				export MESSAGEBUS_TYPE=mqtt
-			endif
-		endif
-
-		ifeq (keeper, $(filter keeper,$(ARGS)))
-			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml
-			REGISTRY:=-keeper
-		else
-			COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml -f add-keeper.yml
-		endif
-
     else
     	# Build compose for TAF secure performance testing (ignore all other compose file options)
     	ifeq (taf-perf, $(filter taf-perf,$(ARGS)))
@@ -1061,20 +945,16 @@ else
 				-f docker-compose-base.yml \
 				-f add-security.yml \
 				-f add-security-proxy.yml \
-				-f add-secure-redis-messagebus.yml \
+				-f add-mqtt-messagebus.yml \
+				-f add-secure-mqtt-messagebus.yml \
 				-f add-asc-mqtt-export.yml \
 				-f add-device-virtual.yml \
 				-f add-device-rest.yml \
 				-f add-mqtt-broker-mosquitto.yml \
 				-f add-taf-mqtt-broker-mosquitto.yml \
-				-f add-delayed-start-services.yml
-
-			ifeq (keeper, $(filter keeper,$(ARGS)))
-				COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml -f add-secure-keeper.yml
-				REGISTRY:=-keeper
-			else
-				COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml -f add-secure-consul.yml
-			endif
+				-f add-delayed-start-services.yml \
+				-f add-postgres.yml \
+				-f add-secure-postgres.yml
 
 			asc_mqtt_export_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)"  IS_MQTT_BUS="0" ./gen_secure_compose_ext.sh app-mqtt-export \
 				app-mqtt-export app-service-configurable)
@@ -1084,20 +964,18 @@ else
     	else
 			# Build compose for TAF non-secure performance testing (ignore all other compose file options)
 			ifeq (taf-perf-no-secty, $(filter taf-perf-no-secty,$(ARGS)))
+				export MESSAGEBUS_AUTHMODE=none
+				export MESSAGEBUS_SECRETNAME=
 				COMPOSE_FILES:= \
 					-f docker-compose-base.yml \
 					-f add-asc-mqtt-export.yml \
 					-f add-device-virtual.yml \
 					-f add-device-rest.yml \
 					-f ${BROKER_YAML} \
-					-f ${TAF_BROKER_YAML}
+					-f ${TAF_BROKER_YAML} \
+					-f add-postgres.yml \
+					-f add-mqtt-messagebus.yml
 
-				ifeq (keeper, $(filter keeper,$(ARGS)))
-					COMPOSE_FILES:=$(COMPOSE_FILES) -f add-keeper.yml
-					REGISTRY:=-keeper
-				else
-					COMPOSE_FILES:=$(COMPOSE_FILES) -f add-consul.yml
-				endif
 				NO_SECURITY:=-no-secty
 			endif
 		endif
@@ -1148,12 +1026,11 @@ define COMPOSE_DOWN
 		-f add-security-proxy.yml \
 		-f add-secure-redis-messagebus.yml \
 		-f add-delayed-start-services.yml \
-		-f add-consul.yml \
-		-f add-secure-consul.yml \
-		-f add-keeper.yml \
-		-f add-secure-keeper.yml \
+		-f add-postgres.yml \
 		-f add-secure-postgres.yml \
-		-f add-cron-scheduler.yml \
+		-f add-redis.yml \
+		-f add-secure-redis-db.yml \
+		-f add-redis-messagebus.yml
 		down $1
 endef
 
@@ -1197,36 +1074,19 @@ build-canned:
 	make compose ds-rest ds-virtual zero-trust arm64
 
 build-taf:
-	make taf-compose taf-secty
-	make taf-compose taf-no-secty
-	make taf-compose taf-secty arm64
-	make taf-compose taf-no-secty arm64
-	make taf-compose taf-secty mqtt-bus mqtt-verbose
-	make taf-compose taf-no-secty mqtt-bus mqtt-verbose
-	make taf-compose taf-secty mqtt-bus mqtt-verbose arm64
-	make taf-compose taf-no-secty mqtt-bus mqtt-verbose arm64
-	make taf-compose taf-secty keeper
-	make taf-compose taf-no-secty keeper
-	make taf-compose taf-secty keeper arm64
-	make taf-compose taf-no-secty keeper arm64
-	make taf-compose taf-secty keeper mqtt-bus mqtt-verbose
-	make taf-compose taf-no-secty keeper mqtt-bus mqtt-verbose
-	make taf-compose taf-secty keeper mqtt-bus mqtt-verbose arm64
-	make taf-compose taf-no-secty keeper mqtt-bus mqtt-verbose arm64
-	make taf-compose taf-secty keeper mqtt-bus mqtt-verbose postgres
-	make taf-compose taf-no-secty keeper mqtt-bus mqtt-verbose postgres
-	make taf-compose taf-secty keeper mqtt-bus mqtt-verbose postgres arm64
-	make taf-compose taf-no-secty keeper mqtt-bus mqtt-verbose postgres arm64
+	make taf-compose taf-secty mqtt-verbose
+	make taf-compose taf-no-secty mqtt-verbose
+	make taf-compose taf-secty mqtt-verbose arm64
+	make taf-compose taf-no-secty mqtt-verbose arm64
 	make taf-compose-perf taf-perf
 	make taf-compose-perf taf-perf-no-secty
 	make taf-compose-perf taf-perf arm64
 	make taf-compose-perf taf-perf-no-secty arm64
 
 build-taf-nanomq:
-	make taf-compose taf-no-secty mqtt-bus nanomq no-secty
-	make taf-compose taf-no-secty keeper mqtt-bus nanomq no-secty
-	make taf-compose-perf taf-perf-no-secty mqtt-bus nanomq no-secty
-	make taf-compose-perf taf-perf-no-secty consul mqtt-bus nanomq no-secty
+	make taf-compose taf-no-secty nanomq no-secty
+	make taf-compose taf-no-secty nanomq no-secty
+	make taf-compose-perf taf-perf-no-secty nanomq no-secty
 
 compose: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/docker-compose$(NO_SECURITY)$(APP_SAMPLE)$(BUS)$(NANOMQ)$(ZERO_TRUST_COMPOSE)$(ARCH).yml
@@ -1256,9 +1116,6 @@ get-token:
 
 upload-tls-cert:
 	sh ./upload-api-gateway-cert.sh
-
-get-consul-acl-token:
-	sh ./get-consul-acl-token.sh
 
 up:
 	${DOCKER_COMPOSE}  -p edgex -f docker-compose.yml up -d

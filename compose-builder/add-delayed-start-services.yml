@@ -35,7 +35,7 @@ services:
     restart: always
     env_file:
       - common-security.env
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     tmpfs:
       - /run
     volumes:
@@ -65,7 +65,7 @@ services:
     restart: always
     env_file:
       - common-security.env
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     tmpfs:
       - /run
     volumes:
@@ -97,7 +97,7 @@ services:
     restart: always
     env_file:
       - common-security.env
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     tmpfs:
       - /run
     volumes:
@@ -126,7 +126,7 @@ services:
     restart: always
     env_file:
       - common-security.env
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     environment:
       SERVICE_HOST: edgex-security-spiffe-token-provider
     tmpfs:
@@ -138,7 +138,7 @@ services:
       - /tmp/edgex/secrets/spiffe:/tmp/edgex/secrets/spiffe:z
       - /tmp/edgex/secrets/security-spiffe-token-provider:/tmp/edgex/secrets/security-spiffe-token-provider:z
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - security-spire-agent
       - security-bootstrapper
     security_opt:

@@ -27,7 +27,7 @@ services:
       EDGEX_PROFILE: functional-tests
       SERVICE_HOST: edgex-app-functional-tests
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - core-metadata
       - core-common-config-bootstrapper
     read_only: true
@@ -60,7 +60,7 @@ services:
       MESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
       WRITABLE_LOGLEVEL: DEBUG
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - core-metadata
       - core-common-config-bootstrapper
     read_only: true

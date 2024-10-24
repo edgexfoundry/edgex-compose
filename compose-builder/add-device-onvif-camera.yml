@@ -31,7 +31,7 @@ services:
     environment:
       SERVICE_HOST: edgex-device-onvif-camera
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

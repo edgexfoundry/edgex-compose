@@ -23,7 +23,7 @@ services:
     entrypoint: ["/edgex-init/messagebus_wait_install.sh"]
     env_file:
       - common-security.env
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     environment:
       BROKER_TYPE: mosquitto
       CONF_DIR: /edgex-init/bootstrap-mosquitto/res
