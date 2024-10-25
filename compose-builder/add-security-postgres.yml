@@ -18,9 +18,9 @@
 
 volumes:
   edgex-init:
-  vault-config:
-  vault-file:
-  vault-logs:
+  secret-store-config:
+  secret-store-file:
+  secret-store-logs:
 
 services:
   security-bootstrapper:
@@ -72,24 +72,24 @@ services:
       - edgex-network
     tmpfs:
       - /run
-      - /vault
+      - /openbao
     volumes:
       # use host timezone
       - /etc/localtime:/etc/localtime:ro
       - edgex-init:/edgex-init:ro
-      - vault-config:/vault/config
+      - secret-store-config:/openbao/config
       - /tmp/edgex/secrets:/tmp/edgex/secrets:z
     depends_on:
       - security-bootstrapper
-      - vault
+      - secret-store
     security_opt:
       - no-new-privileges:true
 
-  vault:
-    image: hashicorp/vault:${VAULT_VERSION}
-    user: "root:root" # Note that Vault is run under the 'vault' user, but entry point scripts need to first run as root
-    container_name: edgex-vault
-    hostname: edgex-vault
+  secret-store:
+    image: openbao/openbao:${BAO_VERSION}
+    user: "root:root" # Note that OpenBao is run under the 'openbao' user, but entry point scripts need to first run as root
+    container_name: edgex-secret-store
+    hostname: edgex-secret-store
     networks:
       - edgex-network
     ports:
@@ -100,32 +100,31 @@ services:
           memory: "${TOTAL_SYSTEM_MEMORY}"
     memswap_limit: "${TOTAL_SYSTEM_MEMORY}"
     tmpfs:
-      - /vault/config
-    entrypoint: [ "/edgex-init/vault_wait_install.sh" ]
+      - /openbao/config
+    entrypoint: [ "/edgex-init/secretstore_wait_install.sh" ]
     env_file:
       - common-sec-stage-gate-postgres.env
     command: server
     environment:
-      VAULT_ADDR: http://edgex-vault:8200
-      VAULT_CONFIG_DIR: /vault/config
-      VAULT_UI: "true"
+      BAO_ADDR: http://edgex-secret-store:8200
+      BAO_CONFIG_DIR: /openbao/config
       SKIP_SETCAP: "true"
-      VAULT_LOCAL_CONFIG: |
+      BAO_LOCAL_CONFIG: |
         listener "tcp" { 
-          address = "edgex-vault:8200" 
+          address = "edgex-secret-store:8200" 
           tls_disable = "1" 
-          cluster_address = "edgex-vault:8201" 
+          cluster_address = "edgex-secret-store:8201" 
         } 
         backend "file" {
-          path = "/vault/file"
+          path = "/openbao/file"
         }
         default_lease_ttl = "168h" 
         max_lease_ttl = "720h"
         disable_mlock = true
     volumes:
       - edgex-init:/edgex-init:ro
-      - vault-file:/vault/file
-      - vault-logs:/vault/logs
+      - secret-store-file:/openbao/file
+      - secret-store-logs:/openbao/logs
     depends_on:
       - security-bootstrapper
     restart: always

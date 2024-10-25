@@ -24,7 +24,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.29.2
+# Generated with: Docker Compose version v2.29.7
 name: edgex
 services:
   app-external-mqtt-trigger:
@@ -55,7 +55,7 @@ services:
       EDGEX_PROFILE: external-mqtt-trigger
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-app-external-mqtt-trigger
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -133,7 +133,7 @@ services:
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-app-functional-tests
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -208,7 +208,7 @@ services:
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-app-http-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -284,7 +284,7 @@ services:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-app-mqtt-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -361,7 +361,7 @@ services:
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-app-rules-engine
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -438,7 +438,7 @@ services:
       EDGEX_PROFILE: sample
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-app-sample
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -514,7 +514,7 @@ services:
       EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
       MESSAGEBUS_OPTIONAL_CLIENTID: app-scalability-test-mqtt-export
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-app-scalability-test-mqtt-export
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -575,10 +575,10 @@ services:
       - 0.0.0.0
     container_name: edgex-core-consul
     depends_on:
-      security-bootstrapper:
+      secret-store:
         condition: service_started
         required: true
-      vault:
+      security-bootstrapper:
         condition: service_started
         required: true
     entrypoint:
@@ -589,7 +589,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: "2002"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -677,7 +677,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "true"
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-core-command
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -755,7 +755,7 @@ services:
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -824,7 +824,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-core-data
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -898,7 +898,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-core-metadata
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -963,7 +963,7 @@ services:
       DATABASECONFIG_PATH: /run/redis/conf
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1046,7 +1046,7 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-device-modbus
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -1128,7 +1128,7 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-device-onvif-camera
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -1204,7 +1204,7 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-device-rest
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -1281,7 +1281,7 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-device-virtual
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -1362,7 +1362,7 @@ services:
       MESSAGEBUS_SECRETNAME: redisdb
       MESSAGEBUS_TYPE: redis
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-core-keeper
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -1633,6 +1633,68 @@ services:
         target: /edgex-init
         read_only: true
         volume: {}
+  secret-store:
+    command:
+      - server
+    container_name: edgex-secret-store
+    depends_on:
+      security-bootstrapper:
+        condition: service_started
+        required: true
+    deploy:
+      resources:
+        limits:
+          memory: "5705444622336"
+    entrypoint:
+      - /edgex-init/secretstore_wait_install.sh
+    environment:
+      BAO_ADDR: http://edgex-secret-store:8200
+      BAO_CONFIG_DIR: /openbao/config
+      BAO_LOCAL_CONFIG: "listener \"tcp\" { \n  address = \"edgex-secret-store:8200\" \n  tls_disable = \"1\" \n  cluster_address = \"edgex-secret-store:8201\" \n} \nbackend \"file\" {\n  path = \"/openbao/file\"\n}\ndefault_lease_ttl = \"168h\" \nmax_lease_ttl = \"720h\"\ndisable_mlock = true\n"
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SKIP_SETCAP: "true"
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-redis
+      STAGEGATE_DATABASE_PORT: "6379"
+      STAGEGATE_DATABASE_READYPORT: "6379"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-consul
+      STAGEGATE_REGISTRY_PORT: "8500"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-secret-store
+    image: openbao/openbao:2.0
+    memswap_limit: "5705444622336"
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8200
+        published: "8200"
+        protocol: tcp
+    restart: always
+    tmpfs:
+      - /openbao/config
+    user: root:root
+    volumes:
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: volume
+        source: secret-store-file
+        target: /openbao/file
+        volume: {}
+      - type: volume
+        source: secret-store-logs
+        target: /openbao/logs
+        volume: {}
   security-bootstrapper:
     container_name: edgex-security-bootstrapper
     environment:
@@ -1692,7 +1754,7 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-proxy-auth
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -1755,7 +1817,7 @@ services:
       EDGEX_ADD_PROXY_ROUTE: device-modbus.http://edgex-device-modbus:59901
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -1791,8 +1853,8 @@ services:
         read_only: true
         volume: {}
       - type: volume
-        source: vault-config
-        target: /vault/config
+        source: secret-store-config
+        target: /openbao/config
         volume: {}
       - type: volume
         source: nginx-templates
@@ -1817,10 +1879,10 @@ services:
   security-secretstore-setup:
     container_name: edgex-security-secretstore-setup
     depends_on:
-      security-bootstrapper:
+      secret-store:
         condition: service_started
         required: true
-      vault:
+      security-bootstrapper:
         condition: service_started
         required: true
     environment:
@@ -1830,7 +1892,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: "2002"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SECUREMESSAGEBUS_TYPE: redis
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -1855,7 +1917,7 @@ services:
       - no-new-privileges:true
     tmpfs:
       - /run
-      - /vault
+      - /openbao
     user: root:root
     volumes:
       - type: bind
@@ -1870,8 +1932,8 @@ services:
         read_only: true
         volume: {}
       - type: volume
-        source: vault-config
-        target: /vault/config
+        source: secret-store-config
+        target: /openbao/config
         volume: {}
       - type: bind
         source: /tmp/edgex/secrets
@@ -1908,7 +1970,7 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-security-spiffe-token-provider
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -1976,7 +2038,7 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -2046,7 +2108,7 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -2101,7 +2163,7 @@ services:
     environment:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-redis
@@ -2186,7 +2248,7 @@ services:
       DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-support-notifications
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -2265,7 +2327,7 @@ services:
       INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
       INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
       PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-vault
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-support-scheduler
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
@@ -2340,69 +2402,6 @@ services:
         read_only: true
         bind:
           create_host_path: true
-  vault:
-    command:
-      - server
-    container_name: edgex-vault
-    depends_on:
-      security-bootstrapper:
-        condition: service_started
-        required: true
-    deploy:
-      resources:
-        limits:
-          memory: "4190239719424"
-    entrypoint:
-      - /edgex-init/vault_wait_install.sh
-    environment:
-      PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SKIP_SETCAP: "true"
-      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
-      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-redis
-      STAGEGATE_DATABASE_PORT: "6379"
-      STAGEGATE_DATABASE_READYPORT: "6379"
-      STAGEGATE_PROXYSETUP_READYPORT: "54325"
-      STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-consul
-      STAGEGATE_REGISTRY_PORT: "8500"
-      STAGEGATE_REGISTRY_READYPORT: "54324"
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
-      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
-      STAGEGATE_WAITFOR_TIMEOUT: 60s
-      VAULT_ADDR: http://edgex-vault:8200
-      VAULT_CONFIG_DIR: /vault/config
-      VAULT_LOCAL_CONFIG: "listener \"tcp\" { \n  address = \"edgex-vault:8200\" \n  tls_disable = \"1\" \n  cluster_address = \"edgex-vault:8201\" \n} \nbackend \"file\" {\n  path = \"/vault/file\"\n}\ndefault_lease_ttl = \"168h\" \nmax_lease_ttl = \"720h\"\ndisable_mlock = true\n"
-      VAULT_UI: "true"
-    hostname: edgex-vault
-    image: hashicorp/vault:1.14
-    memswap_limit: "4190239719424"
-    networks:
-      edgex-network: null
-    ports:
-      - mode: ingress
-        host_ip: 127.0.0.1
-        target: 8200
-        published: "8200"
-        protocol: tcp
-    restart: always
-    tmpfs:
-      - /vault/config
-    user: root:root
-    volumes:
-      - type: volume
-        source: edgex-init
-        target: /edgex-init
-        read_only: true
-        volume: {}
-      - type: volume
-        source: vault-file
-        target: /vault/file
-        volume: {}
-      - type: volume
-        source: vault-logs
-        target: /vault/logs
-        volume: {}
 networks:
   edgex-network:
     name: edgex_edgex-network
@@ -2436,15 +2435,15 @@ volumes:
     name: edgex_nginx-tls
   redis-config:
     name: edgex_redis-config
+  secret-store-config:
+    name: edgex_secret-store-config
+  secret-store-file:
+    name: edgex_secret-store-file
+  secret-store-logs:
+    name: edgex_secret-store-logs
   spire-agent:
     name: edgex_spire-agent
   spire-ca:
     name: edgex_spire-ca
   spire-server:
     name: edgex_spire-server
-  vault-config:
-    name: edgex_vault-config
-  vault-file:
-    name: edgex_vault-file
-  vault-logs:
-    name: edgex_vault-logs

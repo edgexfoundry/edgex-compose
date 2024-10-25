@@ -24,7 +24,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.29.2
+# Generated with: Docker Compose version v2.29.7
 name: edgex
 services:
   app-rules-engine:

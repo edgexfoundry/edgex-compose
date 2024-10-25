@@ -71,7 +71,7 @@ services:
       # use host timezone
       - /etc/localtime:/etc/localtime:ro
       - edgex-init:/edgex-init:ro
-      - vault-config:/vault/config
+      - secret-store-config:/openbao/config
       - nginx-templates:/etc/nginx/templates
       - nginx-tls:/etc/ssl/nginx
       - /tmp/edgex/secrets/security-proxy-setup:/tmp/edgex/secrets/security-proxy-setup:ro,z
