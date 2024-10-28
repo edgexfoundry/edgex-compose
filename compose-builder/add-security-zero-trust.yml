@@ -86,7 +86,7 @@ services:
       CLIENTS_SUPPORT_SCHEDULER_SECURITYOPTIONS_MODE: "zerotrust"
       CLIENTS_SUPPORT_SCHEDULER_HOST: "support-scheduler.edgex.ziti"
       CLIENTS_SUPPORT_SCHEDULER_PORT: 80
-      VAULT_ADDR: http://edgex-vault:8200
+      BAO_ADDR: http://edgex-secret-store:8200
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     volumes:

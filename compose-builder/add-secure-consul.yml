@@ -41,4 +41,4 @@ services:
       - consul-acl-token:/tmp/edgex/secrets/consul-acl-token
     depends_on:
       - security-bootstrapper
-      - vault
+      - secret-store

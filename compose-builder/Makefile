@@ -43,7 +43,7 @@ export USERID:=$(shell id -u)
 # Set default rootful docker socket path
 export DOCKER_SOCKET_PATH=/var/run/docker.sock
 
-# Get total system memory in megabytes for vault config
+# Get total system memory in megabytes for secret store config
 export TOTAL_SYSTEM_MEMORY:=$(shell grep MemTotal /proc/meminfo | awk '{print $$2}')m
 
 BROKER_YAML=add-mqtt-broker-mosquitto.yml
