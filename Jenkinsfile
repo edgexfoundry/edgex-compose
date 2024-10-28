@@ -9,7 +9,7 @@ pipeline {
         timeout(360)
     }
     parameters {
-        booleanParam defaultValue: false, description: 'Archive 3rd Party Images', name: 'ARCHIVE'
+        booleanParam defaultValue: true, description: 'Archive 3rd Party Images', name: 'ARCHIVE'
     }
     triggers {
         issueCommentTrigger('.*^recheck$.*')
