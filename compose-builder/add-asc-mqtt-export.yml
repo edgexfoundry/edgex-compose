@@ -30,7 +30,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
       WRITABLE_LOGLEVEL: INFO # allows scripts to find and change with sed
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - core-metadata
       - core-common-config-bootstrapper
     read_only: true

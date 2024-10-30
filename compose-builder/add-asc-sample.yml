@@ -30,7 +30,7 @@ services:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - core-metadata
       - core-common-config-bootstrapper
     read_only: true

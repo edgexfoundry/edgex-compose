@@ -59,7 +59,6 @@ makeCoreService 'ui'
 
 makeSupportService 'rules-engine'
 makeSupportService 'support-notifications'
-makeSupportService 'support-scheduler'
 
 makeDeviceService 'device-bacnet-ip'
 makeDeviceService 'device-coap'

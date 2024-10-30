@@ -48,24 +48,19 @@ services:
       SERVICE_HOST: support-notifications.edgex.ziti
       SERVICE_PORT: 80
     ports: !reset null
-  support-scheduler:
-    environment:
-      SERVICE_HOST: support-scheduler.edgex.ziti
-      SERVICE_PORT: 80
-    ports: !reset null
   ui:
     command:
       - "./edgex-ui-server"
       - "--configDir=res/docker"
     container_name: edgex-ui-go
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - core-common-config-bootstrapper
       - core-metadata
       - security-bootstrapper
     env_file:
       - common-security.env
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     environment:
       SERVICE_HOST: edgex-ui-go
       CLIENTS_CORE_COMMAND_SECURITYOPTIONS_MODE: "zerotrust"
@@ -83,9 +78,6 @@ services:
       CLIENTS_SUPPORT_NOTIFICATIONS_SECURITYOPTIONS_MODE: "zerotrust"
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: "support-notifications.edgex.ziti"
       CLIENTS_SUPPORT_NOTIFICATIONS_PORT: 80
-      CLIENTS_SUPPORT_SCHEDULER_SECURITYOPTIONS_MODE: "zerotrust"
-      CLIENTS_SUPPORT_SCHEDULER_HOST: "support-scheduler.edgex.ziti"
-      CLIENTS_SUPPORT_SCHEDULER_PORT: 80
       BAO_ADDR: http://edgex-secret-store:8200
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh

@@ -15,7 +15,6 @@
 #  *******************************************************************************/
 
 volumes:
-  consul-acl-token:
   nginx-templates:
   nginx-tls:
 
@@ -39,7 +38,7 @@ services:
       - "-g"
       - "daemon off;"
     env_file:
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     volumes:
       - edgex-init:/edgex-init:ro
       - nginx-templates:/etc/nginx/templates
@@ -66,7 +65,7 @@ services:
       - edgex-network
     env_file:
       - common-security.env
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     volumes:
       # use host timezone
       - /etc/localtime:/etc/localtime:ro
@@ -75,7 +74,6 @@ services:
       - nginx-templates:/etc/nginx/templates
       - nginx-tls:/etc/ssl/nginx
       - /tmp/edgex/secrets/security-proxy-setup:/tmp/edgex/secrets/security-proxy-setup:ro,z
-      - consul-acl-token:/tmp/edgex/secrets/consul-acl-token:ro
     depends_on:
       - security-bootstrapper
       - security-secretstore-setup
@@ -96,7 +94,7 @@ services:
     command: entrypoint.sh /security-proxy-auth --registry ${CP_FLAGS}
     env_file:
       - common-security.env
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     environment:
       SERVICE_HOST: edgex-proxy-auth
     volumes:

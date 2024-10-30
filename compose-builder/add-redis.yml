@@ -14,24 +14,21 @@
 #  *******************************************************************************/
 
 volumes:
-  consul-config:
-  consul-data:
+  db-data:
 
 services:
-  consul:
-    image: hashicorp/consul:${CONSUL_VERSION}
-    command: "agent -ui -bootstrap -server -client 0.0.0.0"
-    user: "root:root" # Note that Consul is run under the 'consul' user, but entry point scripts need to first run as root
+  database:
+    image: redis:${REDIS_VERSION}
+    user: "root:root" # Note that Redis is run under the 'redis' user, but entry point scripts need to first run as root
     ports:
-      - "127.0.0.1:8500:8500"
-    container_name: edgex-core-consul
-    hostname: edgex-core-consul
+      - "127.0.0.1:6379:6379"
+    container_name: edgex-redis
+    hostname: edgex-redis
     read_only: true
     restart: always
     networks:
-      edgex-network:
+      - edgex-network
     volumes:
-      - consul-config:/consul/config
-      - consul-data:/consul/data
+      - db-data:/data
     security_opt:
       - no-new-privileges:true

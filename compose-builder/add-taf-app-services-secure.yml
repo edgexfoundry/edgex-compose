@@ -24,7 +24,7 @@ services:
     command: "/app-service-configurable --registry ${CP_FLAGS}"
     env_file:
       - common-security.env
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     volumes:
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/app-functional-tests:/tmp/edgex/secrets/app-functional-tests:ro,z
@@ -38,7 +38,7 @@ services:
     command: "/app-service-configurable --registry ${CP_FLAGS}"
     env_file:
       - common-security.env
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     volumes:
       - edgex-init:/edgex-init:ro
       - /tmp/edgex/secrets/app-scalability-test-mqtt-export:/tmp/edgex/secrets/app-scalability-test-mqtt-export:ro,z

@@ -28,11 +28,11 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-device-bacnet-ip
-      DATABASE_HOST: edgex-redis
-      MESSAGEBUS_HOST: edgex-redis
+      DATABASE_HOST: ${DATABASE_HOST}
+      MESSAGEBUS_HOST: ${MESSAGEBUS_HOST}
       CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
     depends_on:
-      - ${REGISTRY_TYPE}
+      - core-keeper
       - core-data
       - core-metadata
       - core-common-config-bootstrapper

@@ -24,19 +24,19 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.29.7
+# Generated with: Docker Compose version v2.29.2
 name: edgex
 services:
   app-rules-engine:
     command:
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-app-rules-engine
     depends_on:
-      consul:
+      core-common-config-bootstrapper:
         condition: service_started
         required: true
-      core-common-config-bootstrapper:
+      core-keeper:
         condition: service_started
         required: true
       core-metadata:
@@ -71,13 +71,13 @@ services:
   app-sample:
     command:
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-app-sample
     depends_on:
-      consul:
+      core-common-config-bootstrapper:
         condition: service_started
         required: true
-      core-common-config-bootstrapper:
+      core-keeper:
         condition: service_started
         required: true
       core-metadata:
@@ -112,49 +112,16 @@ services:
         read_only: true
         bind:
           create_host_path: true
-  consul:
-    command:
-      - agent
-      - -ui
-      - -bootstrap
-      - -server
-      - -client
-      - 0.0.0.0
-    container_name: edgex-core-consul
-    hostname: edgex-core-consul
-    image: hashicorp/consul:1.16
-    networks:
-      edgex-network: null
-    ports:
-      - mode: ingress
-        host_ip: 127.0.0.1
-        target: 8500
-        published: "8500"
-        protocol: tcp
-    read_only: true
-    restart: always
-    security_opt:
-      - no-new-privileges:true
-    user: root:root
-    volumes:
-      - type: volume
-        source: consul-config
-        target: /consul/config
-        volume: {}
-      - type: volume
-        source: consul-data
-        target: /consul/data
-        volume: {}
   core-command:
     command:
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-command
     depends_on:
-      consul:
+      core-common-config-bootstrapper:
         condition: service_started
         required: true
-      core-common-config-bootstrapper:
+      core-keeper:
         condition: service_started
         required: true
       core-metadata:
@@ -193,18 +160,16 @@ services:
     command:
       - /core-common-config-bootstrapper
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-common-config-bootstrapper
     depends_on:
-      consul:
+      core-keeper:
         condition: service_started
         required: true
     environment:
-      ALL_SERVICES_DATABASE_HOST: edgex-redis
-      ALL_SERVICES_MESSAGEBUS_HOST: edgex-redis
-      ALL_SERVICES_REGISTRY_HOST: edgex-core-consul
-      ALL_SERVICES_REGISTRY_PORT: "8500"
-      ALL_SERVICES_REGISTRY_TYPE: consul
+      ALL_SERVICES_DATABASE_HOST: edgex-postgres
+      ALL_SERVICES_MESSAGEBUS_HOST: edgex-mqtt-broker
+      ALL_SERVICES_REGISTRY_HOST: edgex-core-keeper
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -226,20 +191,19 @@ services:
   core-data:
     command:
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-data
     depends_on:
-      consul:
+      core-common-config-bootstrapper:
         condition: service_started
         required: true
-      core-common-config-bootstrapper:
+      core-keeper:
         condition: service_started
         required: true
       database:
         condition: service_started
         required: true
     environment:
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
@@ -264,20 +228,58 @@ services:
         read_only: true
         bind:
           create_host_path: true
+  core-keeper:
+    container_name: edgex-core-keeper
+    environment:
+      DATABASE_HOST: edgex-postgres
+      DATABASE_PORT: "5432"
+      DATABASE_TYPE: postgres
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_AUTHMODE: none
+      MESSAGEBUS_HOST: edgex-mqtt-broker
+      MESSAGEBUS_PORT: "1883"
+      MESSAGEBUS_PROTOCOL: tcp
+      MESSAGEBUS_SECRETNAME: ""
+      MESSAGEBUS_TYPE: mqtt
+      SERVICE_HOST: edgex-core-keeper
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
+      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
+    hostname: edgex-core-keeper
+    image: nexus3.edgexfoundry.org:10004/core-keeper-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59890
+        published: "59890"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   core-metadata:
     command:
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-metadata
     depends_on:
-      consul:
+      core-keeper:
         condition: service_started
         required: true
       database:
         condition: service_started
         required: true
     environment:
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
@@ -303,40 +305,44 @@ services:
         bind:
           create_host_path: true
   database:
-    container_name: edgex-redis
-    hostname: edgex-redis
-    image: redis:7.0-alpine
+    container_name: edgex-postgres
+    environment:
+      POSTGRES_DB: edgex_db
+      POSTGRES_PASSWORD: postgres
+    hostname: edgex-postgres
+    image: postgres:16.3-alpine3.20
     networks:
       edgex-network: null
     ports:
       - mode: ingress
         host_ip: 127.0.0.1
-        target: 6379
-        published: "6379"
+        target: 5432
+        published: "5432"
         protocol: tcp
     read_only: true
     restart: always
     security_opt:
       - no-new-privileges:true
-    user: root:root
+    tmpfs:
+      - /run
     volumes:
       - type: volume
         source: db-data
-        target: /data
+        target: /var/lib/postgresql/data
         volume: {}
   device-rest:
     command:
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
       - --registry
     container_name: edgex-device-rest
     depends_on:
-      consul:
-        condition: service_started
-        required: true
       core-common-config-bootstrapper:
         condition: service_started
         required: true
       core-data:
+        condition: service_started
+        required: true
+      core-keeper:
         condition: service_started
         required: true
       core-metadata:
@@ -369,17 +375,17 @@ services:
           create_host_path: true
   device-virtual:
     command:
-      - -cp=consul.http://edgex-core-consul:8500
+      - -cp=keeper.http://edgex-core-keeper:59890
       - --registry
     container_name: edgex-device-virtual
     depends_on:
-      consul:
-        condition: service_started
-        required: true
       core-common-config-bootstrapper:
         condition: service_started
         required: true
       core-data:
+        condition: service_started
+        required: true
+      core-keeper:
         condition: service_started
         required: true
       core-metadata:
@@ -410,22 +416,50 @@ services:
         read_only: true
         bind:
           create_host_path: true
+  mqtt-broker:
+    command:
+      - /usr/sbin/mosquitto
+      - -c
+      - /mosquitto-no-auth.conf
+    container_name: edgex-mqtt-broker
+    hostname: edgex-mqtt-broker
+    image: eclipse-mosquitto:2.0
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 1883
+        published: "1883"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
   rules-engine:
     container_name: edgex-kuiper
     depends_on:
       database:
         condition: service_started
         required: true
+      mqtt-broker:
+        condition: service_started
+        required: true
     environment:
-      CONNECTION__EDGEX__REDISMSGBUS__PORT: "6379"
-      CONNECTION__EDGEX__REDISMSGBUS__PROTOCOL: redis
-      CONNECTION__EDGEX__REDISMSGBUS__SERVER: edgex-redis
-      CONNECTION__EDGEX__REDISMSGBUS__TYPE: redis
-      EDGEX__DEFAULT__PORT: "6379"
-      EDGEX__DEFAULT__PROTOCOL: redis
-      EDGEX__DEFAULT__SERVER: edgex-redis
+      CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__CLIENTID: kuiper-rules-engine
+      CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__KEEPALIVE: "500"
+      CONNECTION__EDGEX__MQTTMSGBUS__PORT: "1883"
+      CONNECTION__EDGEX__MQTTMSGBUS__PROTOCOL: tcp
+      CONNECTION__EDGEX__MQTTMSGBUS__SERVER: edgex-mqtt-broker
+      CONNECTION__EDGEX__MQTTMSGBUS__TYPE: mqtt
+      EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
+      EDGEX__DEFAULT__OPTIONAL__KEEPALIVE: "500"
+      EDGEX__DEFAULT__PORT: "1883"
+      EDGEX__DEFAULT__PROTOCOL: tcp
+      EDGEX__DEFAULT__SERVER: edgex-mqtt-broker
       EDGEX__DEFAULT__TOPIC: edgex/rules-events
-      EDGEX__DEFAULT__TYPE: redis
+      EDGEX__DEFAULT__TYPE: mqtt
       KUIPER__BASIC__CONSOLELOG: "true"
       KUIPER__BASIC__ENABLEOPENZITI: "false"
       KUIPER__BASIC__RESTPORT: "59720"
@@ -467,34 +501,33 @@ services:
         source: kuiper-plugins
         target: /kuiper/plugins
         volume: {}
-  support-notifications:
+  support-cron-scheduler:
     command:
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
-    container_name: edgex-support-notifications
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-support-cron-scheduler
     depends_on:
-      consul:
+      core-common-config-bootstrapper:
         condition: service_started
         required: true
-      core-common-config-bootstrapper:
+      core-keeper:
         condition: service_started
         required: true
       database:
         condition: service_started
         required: true
     environment:
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      SERVICE_HOST: edgex-support-notifications
-    hostname: edgex-support-notifications
-    image: nexus3.edgexfoundry.org:10004/support-notifications-arm64:latest
+      SERVICE_HOST: edgex-support-cron-scheduler
+    hostname: edgex-support-cron-scheduler
+    image: nexus3.edgexfoundry.org:10004/support-cron-scheduler-arm64:latest
     networks:
       edgex-network: null
     ports:
       - mode: ingress
         host_ip: 127.0.0.1
-        target: 59860
-        published: "59860"
+        target: 59863
+        published: "59863"
         protocol: tcp
     read_only: true
     restart: always
@@ -508,36 +541,33 @@ services:
         read_only: true
         bind:
           create_host_path: true
-  support-scheduler:
+  support-notifications:
     command:
       - --registry
-      - -cp=consul.http://edgex-core-consul:8500
-    container_name: edgex-support-scheduler
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-support-notifications
     depends_on:
-      consul:
+      core-common-config-bootstrapper:
         condition: service_started
         required: true
-      core-common-config-bootstrapper:
+      core-keeper:
         condition: service_started
         required: true
       database:
         condition: service_started
         required: true
     environment:
-      DATABASE_HOST: edgex-redis
       EDGEX_SECURITY_SECRET_STORE: "false"
-      INTERVALACTIONS_SCRUBAGED_HOST: edgex-core-data
-      INTERVALACTIONS_SCRUBPUSHED_HOST: edgex-core-data
-      SERVICE_HOST: edgex-support-scheduler
-    hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-scheduler-arm64:latest
+      SERVICE_HOST: edgex-support-notifications
+    hostname: edgex-support-notifications
+    image: nexus3.edgexfoundry.org:10004/support-notifications-arm64:latest
     networks:
       edgex-network: null
     ports:
       - mode: ingress
         host_ip: 127.0.0.1
-        target: 59861
-        published: "59861"
+        target: 59860
+        published: "59860"
         protocol: tcp
     read_only: true
     restart: always
@@ -582,10 +612,6 @@ networks:
     name: edgex_edgex-network
     driver: bridge
 volumes:
-  consul-config:
-    name: edgex_consul-config
-  consul-data:
-    name: edgex_consul-data
   db-data:
     name: edgex_db-data
   kuiper-data:

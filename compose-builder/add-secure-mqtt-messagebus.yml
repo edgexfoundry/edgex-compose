@@ -34,7 +34,7 @@ services:
   rules-engine:
     entrypoint: [ "/edgex-init/kuiper_wait_install.sh" ]
     env_file:
-      - ${COMMON_SEC_STAGE_GATE_FILE_NAME}
+      - common-sec-stage-gate.env
     volumes:
       - kuiper-sources:/kuiper/etc/sources
       - kuiper-connections:/kuiper/etc/connections
