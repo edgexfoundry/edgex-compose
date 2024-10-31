@@ -420,8 +420,6 @@ services:
         required: true
     environment:
       DATABASE_HOST: edgex-postgres
-      DATABASE_PORT: "5432"
-      DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
       MESSAGEBUS_HOST: edgex-mqtt-broker
@@ -445,9 +443,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
     hostname: edgex-core-keeper
     image: nexus3.edgexfoundry.org:10004/core-keeper:latest
     networks:
@@ -986,7 +981,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "4190239719424"
+          memory: "4190235525120"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -1010,7 +1005,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.0
-    memswap_limit: "4190239719424"
+    memswap_limit: "4190235525120"
     networks:
       edgex-network: null
     ports:
@@ -1156,7 +1151,7 @@ services:
     entrypoint:
       - /edgex-init/proxy_setup_wait_install.sh
     environment:
-      EDGEX_ADD_PROXY_ROUTE: device-modbus.http://edgex-device-modbus:59901
+      EDGEX_ADD_PROXY_ROUTE: device-modbus.http://edgex-device-modbus:59901,device-rest.http://edgex-device-rest:59986
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -1223,8 +1218,8 @@ services:
         condition: service_started
         required: true
     environment:
-      EDGEX_ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[device-rest],redisdb[device-virtual]
-      EDGEX_ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export
+      EDGEX_ADD_KNOWN_SECRETS: postgres[app-rules-engine],postgres[app-mqtt-export],message-bus[app-rules-engine],message-bus[app-mqtt-export],message-bus[device-rest],message-bus[device-virtual]
+      EDGEX_ADD_SECRETSTORE_TOKENS: app-rules-engine,app-mqtt-export
       EDGEX_GROUP: "2001"
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_USER: "2002"

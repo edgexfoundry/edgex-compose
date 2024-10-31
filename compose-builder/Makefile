@@ -30,7 +30,7 @@ GEN_COMMAND=convert
 
 COMPOSE_FILES:=-f docker-compose-base.yml
 TOKEN_LIST=
-KNOWN_SECRETS_LIST=redisdb[app-rules-engine]
+KNOWN_SECRETS_LIST=postgres[app-rules-engine],message-bus[app-rules-engine]
 EXTRA_PROXY_ROUTE_LIST=
 GEN_EXT_DIR=gen_ext_compose
 BUS=
@@ -54,13 +54,12 @@ TAF_BROKER_YAML=add-taf-mqtt-broker-mosquitto.yml
 # and don't impact the option list
 define OPTIONS
  - arm64 no-secty dev app-dev device-dev ui-dev delayed-start -
- - nats-bus redis-bus mqtt-broker mqtt-verbose nanomq -
+ - nats-bus mqtt-broker mqtt-verbose nanomq -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-onvif-camera ds-usb-camera ds-bacnet-ip ds-bacnet-mstp ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp -
  - ds-coap ds-gpio ds-uart ds-s7 -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp as-record-replay asc-ex-mqtt -
  - modbus-sim zero-trust no-cleanup -
- - redis -
 endef
 export OPTIONS
 
@@ -131,23 +130,6 @@ else
     export MQTT_VERBOSE=
 endif
 
-ifeq (redis, $(filter redis,$(ARGS)))
-	export DATABASE_HOST=edgex-redis
-	export DATABASE_TYPE=redisdb
-	export DATABASE_PORT=6379
-	export WRITABLE_INSECURESECRETS_DB_SECRETNAME=
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-redis.yml
-	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		export WRITABLE_INSECURESECRETS_DB_SECRETNAME=redisdb
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-db.yml
-	endif
-else
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-postgres.yml
-	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-postgres.yml
-	endif
-endif
-
 # When in delay-start mode, ensure support services are delay-start-compliant by adding runtime-token configuration
 ifeq (delayed-start,$(filter delayed-start,$(ARGS)))
     # Resolve docker rootless environment
@@ -172,9 +154,9 @@ ifeq (ds-onvif-camera, $(filter ds-onvif-camera,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-onvif-camera
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-onvif-camera],message-bus[device-onvif-camera]
+			KNOWN_SECRETS_LIST:=message-bus[device-onvif-camera]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-onvif-camera],message-bus[device-onvif-camera]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-onvif-camera]
 		endif
 		PROXY_ROUTE:=device-onvif-camera.http://edgex-device-onvif-camera:59984
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -200,9 +182,9 @@ ifeq (ds-usb-camera, $(filter ds-usb-camera,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-usb-camera
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-usb-camera],message-bus[device-usb-camera]
+			KNOWN_SECRETS_LIST:=message-bus[device-usb-camera]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-usb-camera],message-bus[device-usb-camera]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-usb-camera]
 		endif
 		PROXY_ROUTE:=device-usb-camera.http://edgex-device-usb-camera:59983
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -228,9 +210,9 @@ ifeq (ds-bacnet-ip, $(filter ds-bacnet-ip,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-bacnet-ip
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-bacnet-ip],message-bus[device-bacnet-ip]
+			KNOWN_SECRETS_LIST:=message-bus[device-bacnet-ip]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-bacnet-ip],message-bus[device-bacnet-ip]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-bacnet-ip]
 		endif
 		PROXY_ROUTE:=device-bacnet-ip.http://edgex-device-bacnet-ip:59980
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -257,9 +239,9 @@ ifeq (ds-bacnet-mstp, $(filter ds-bacnet-mstp,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-bacnet-mstp
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-bacnet-mstp],message-bus[device-bacnet-mstp]
+			KNOWN_SECRETS_LIST:=message-bus[device-bacnet-mstp]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-bacnet-mstp],message-bus[device-bacnet-mstp]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-bacnet-mstp]
 		endif
 		PROXY_ROUTE:=device-bacnet-mstp.http://edgex-device-bacnet-mstp:59980
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -286,9 +268,9 @@ ifeq (ds-modbus, $(filter ds-modbus,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-modbus
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-modbus],message-bus[device-modbus]
+			KNOWN_SECRETS_LIST:=message-bus[device-modbus]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-modbus],message-bus[device-modbus]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-modbus]
 		endif
 		PROXY_ROUTE:=device-modbus.http://edgex-device-modbus:59901
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -318,9 +300,9 @@ ifeq (ds-mqtt, $(filter ds-mqtt,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-mqtt
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-mqtt],message-bus[device-mqtt]
+			KNOWN_SECRETS_LIST:=message-bus[device-mqtt]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-mqtt],message-bus[device-mqtt]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-mqtt]
 		endif
 		PROXY_ROUTE:=device-mqtt.http://edgex-device-mqtt:59982
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -347,9 +329,9 @@ ifeq (ds-rest, $(filter ds-rest,$(ARGS)))
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		# Device-rest's token is created by default, so not setting TOKEN_LIST
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-rest],message-bus[device-rest]
+			KNOWN_SECRETS_LIST:=message-bus[device-rest]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-rest],message-bus[device-rest]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-rest]
 		endif
 		PROXY_ROUTE:=device-rest.http://edgex-device-rest:59986
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -375,9 +357,9 @@ ifeq (ds-snmp, $(filter ds-snmp,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-snmp
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-snmp],message-bus[device-snmp]
+			KNOWN_SECRETS_LIST:=message-bus[device-snmp]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-snmp],message-bus[device-snmp]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-snmp]
 		endif
 		PROXY_ROUTE:=device-snmp.http://edgex-device-snmp:59993
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -399,9 +381,9 @@ ifeq (ds-virtual, $(filter ds-virtual,$(ARGS)))
 	ifneq (no-secty, $(filter no-secty,$(ARGS)))
 		# Device-virtual's token is created by default, so not setting TOKEN_LIST
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-virtual],message-bus[device-virtual]
+			KNOWN_SECRETS_LIST:=message-bus[device-virtual]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-virtual],message-bus[device-virtual]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-virtual]
 		endif
 		# Device-virtual's proxy is created by default, so not setting EXTRA_PROXY_ROUTE_LIST
 		extension_file:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-virtual)
@@ -422,9 +404,9 @@ ifeq (ds-llrp, $(filter ds-llrp,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-rfid-llrp
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-rfid-llrp],message-bus[device-rfid-llrp]
+			KNOWN_SECRETS_LIST:=message-bus[device-rfid-llrp]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-rfid-llrp],message-bus[device-rfid-llrp]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-rfid-llrp]
 		endif
 		PROXY_ROUTE:=device-rfid-llrp.http://edgex-device-rfid-llrp:59989
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -450,9 +432,9 @@ ifeq (ds-coap, $(filter ds-coap,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-coap
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-coap],message-bus[device-coap]
+			KNOWN_SECRETS_LIST:=message-bus[device-coap]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-coap],message-bus[device-coap]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-coap]
 		endif
 		PROXY_ROUTE:=device-coap.http://edgex-device-coap:59988
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -478,9 +460,9 @@ ifeq (ds-gpio, $(filter ds-gpio,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-gpio
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-gpio],message-bus[device-gpio]
+			KNOWN_SECRETS_LIST:=message-bus[device-gpio]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-gpio],message-bus[device-gpio]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-gpio]
 		endif
 		PROXY_ROUTE:=device-gpio.http://edgex-device-gpio:59910
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -506,9 +488,9 @@ ifeq (ds-uart, $(filter ds-uart,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-uart
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-uart],message-bus[device-uart]
+			KNOWN_SECRETS_LIST:=message-bus[device-uart]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-uart],message-bus[device-uart]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-uart]
 		endif
 		PROXY_ROUTE:=device-uart.http://edgex-device-uart:59995
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -534,9 +516,9 @@ ifeq (ds-s7, $(filter ds-s7,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),device-s7
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[device-s7],message-bus[device-s7]
+			KNOWN_SECRETS_LIST:=message-bus[device-s7]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[device-s7],message-bus[device-s7]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-s7]
 		endif
 		PROXY_ROUTE:=device-s7.http://edgex-device-s7:59994
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -568,9 +550,9 @@ ifeq (asc-http, $(filter asc-http,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),app-http-export
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[app-http-export],message-bus[app-http-export]
+			KNOWN_SECRETS_LIST:=postgres[app-http-export],message-bus[app-http-export]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-http-export],message-bus[app-http-export]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),postgres[app-http-export],message-bus[app-http-export]
 		endif
 		PROXY_ROUTE:=app-http-export.http://edgex-app-http-export:59704
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -599,9 +581,9 @@ ifeq (asc-mqtt, $(filter asc-mqtt,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),app-mqtt-export
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[app-mqtt-export],message-bus[app-mqtt-export]
+			KNOWN_SECRETS_LIST:=postgres[app-mqtt-export],message-bus[app-mqtt-export]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-mqtt-export],message-bus[app-mqtt-export]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),postgres[app-mqtt-export],message-bus[app-mqtt-export]
 		endif
 		ifeq ($(BUS),)
 			IS_MQTT_BUS:=1
@@ -636,9 +618,9 @@ ifeq (asc-sample, $(filter asc-sample,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),app-sample
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[app-sample],message-bus[app-sample]
+			KNOWN_SECRETS_LIST:=postgres[app-sample],message-bus[app-sample]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-sample],message-bus[app-sample]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),postgres[app-sample],message-bus[app-sample]
 		endif
 		PROXY_ROUTE:=app-sample.http://edgex-app-sample:59700
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -668,9 +650,9 @@ ifeq (asc-metrics, $(filter asc-metrics,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),app-metrics-influxdb
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[app-metrics-influxdb],message-bus[app-metrics-influxdb]
+			KNOWN_SECRETS_LIST:=postgres[app-metrics-influxdb],message-bus[app-metrics-influxdb]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-metrics-influxdb],message-bus[app-metrics-influxdb]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),postgres[app-metrics-influxdb],message-bus[app-metrics-influxdb]
 		endif
 		PROXY_ROUTE:=app-metrics-influxdb.http://edgex-app-metrics-influxdb:59707
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -699,9 +681,9 @@ ifeq (as-llrp, $(filter as-llrp,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),app-rfid-llrp-inventory
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[app-rfid-llrp-inventory],message-bus[app-rfid-llrp-inventory]
+			KNOWN_SECRETS_LIST:=postgres[app-rfid-llrp-inventory],message-bus[app-rfid-llrp-inventory]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-rfid-llrp-inventory],message-bus[app-rfid-llrp-inventory]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),postgres[app-rfid-llrp-inventory],message-bus[app-rfid-llrp-inventory]
 		endif
 		PROXY_ROUTE:=app-rfid-llrp-inventory.http://edgex-app-rfid-llrp-inventory:59711
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -729,9 +711,9 @@ ifeq (as-record-replay, $(filter as-record-replay,$(ARGS)))
 			TOKEN_LIST:=$(TOKEN_LIST),app-record-replay
 		endif
 		ifeq ($(KNOWN_SECRETS_LIST),)
-			KNOWN_SECRETS_LIST:=redisdb[app-record-replay],message-bus[app-record-replay]
+			KNOWN_SECRETS_LIST:=postgres[app-record-replay],message-bus[app-record-replay]
 		else
-			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),redisdb[app-record-replay],message-bus[app-record-replay]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),postgres[app-record-replay],message-bus[app-record-replay]
 		endif
 		PROXY_ROUTE:=app-record-replay.http://edgex-app-record-replay:59712
 		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
@@ -798,21 +780,9 @@ ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
 endif
 
 # Add a MQTT Broker
-ifeq (mqtt-broker, $(filter mqtt-broker,$(ARGS)))
-	ifeq (nanomq, $(filter nanomq,$(ARGS)))
-		# When just extra un-secured MQTT Broker, nanomq can be used in secure/non-secure modes
-		BROKER_YAML=add-mqtt-broker-nanomq.yml
-	endif
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f ${BROKER_YAML}
-endif
-
-# Add switch to use REDIS Message Bus
-ifeq (redis-bus, $(filter redis-bus,$(ARGS)))
-	BUS:=-redis-bus
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-redis-messagebus.yml
-	ifneq (no-secty, $(filter no-secty,$(ARGS)))
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-messagebus.yml
-	endif
+ifeq (nanomq, $(filter nanomq,$(ARGS)))
+	# When just extra un-secured MQTT Broker, nanomq can be used in secure/non-secure modes
+	BROKER_YAML=add-mqtt-broker-nanomq.yml
 endif
 
 # Add switch to use NATS Message Bus
@@ -826,18 +796,14 @@ ifeq (no-secty, $(filter no-secty,$(ARGS)))
 	export MESSAGEBUS_SECRETNAME=
 	export MESSAGEBUS_AUTHMODE=none
 	NO_SECURITY:=-no-secty
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-postgres.yml
 	ifeq ($(BUS),) # if BUS not set, then we are using secure mqtt messagebus by default
 		IS_MQTT_BUS:=1
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f ${BROKER_YAML}
 	endif
 else
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml
-	ifeq (redis, $(filter redis,$(ARGS)))
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-redis-db.yml
-		BUS:=-redis-bus
-	else
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-secure-postgres.yml
-	endif
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml -f add-postgres.yml -f add-secure-postgres.yml
+
 	ifeq ($(BUS),) # if BUS not set, then we are using secure mqtt messagebus by default
 		IS_MQTT_BUS:=1
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f ${BROKER_YAML}
@@ -853,7 +819,7 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 	TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,app-sample,device-modbus,app-external-mqtt-trigger,device-onvif-camera
 	# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 	# have to list them individually.
-	KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[app-sample],redisdb[device-modbus],redisdb[device-rest],redisdb[device-virtual],redisdb[device-onvif-camera]
+	KNOWN_SECRETS_LIST:=postgres[app-rules-engine],postgres[app-http-export],postgres[app-mqtt-export],postgres[app-scalability-test-mqtt-export],postgres[app-sample]
 	KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[app-rules-engine],message-bus[app-http-export],message-bus[app-mqtt-export],message-bus[app-external-mqtt-trigger],message-bus[app-scalability-test-mqtt-export],message-bus[app-sample],message-bus[device-modbus],message-bus[device-rest],message-bus[device-virtual],message-bus[device-onvif-camera]
 	EXTRA_PROXY_ROUTE_LIST:=device-modbus.http://edgex-device-modbus:59901
 
@@ -935,11 +901,12 @@ else
     else
     	# Build compose for TAF secure performance testing (ignore all other compose file options)
     	ifeq (taf-perf, $(filter taf-perf,$(ARGS)))
-			TOKEN_LIST:=app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export
+			TOKEN_LIST:=app-rules-engine,app-mqtt-export
 			# Note that the services in this list should be separated by ';', but that causes issues with build scripts, so
 			# have to list them individually.
-			KNOWN_SECRETS_LIST:=redisdb[app-rules-engine],redisdb[app-http-export],redisdb[app-mqtt-export],redisdb[app-scalability-test-mqtt-export],redisdb[device-rest],redisdb[device-virtual]
-			EXTRA_PROXY_ROUTE_LIST:=device-modbus.http://edgex-device-modbus:59901
+			KNOWN_SECRETS_LIST:=postgres[app-rules-engine],postgres[app-mqtt-export]
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[app-rules-engine],message-bus[app-mqtt-export],message-bus[device-rest],message-bus[device-virtual]
+			EXTRA_PROXY_ROUTE_LIST:=device-modbus.http://edgex-device-modbus:59901,device-rest.http://edgex-device-rest:59986
 
     		COMPOSE_FILES:= \
 				-f docker-compose-base.yml \
@@ -950,8 +917,8 @@ else
 				-f add-asc-mqtt-export.yml \
 				-f add-device-virtual.yml \
 				-f add-device-rest.yml \
-				-f add-mqtt-broker-mosquitto.yml \
-				-f add-taf-mqtt-broker-mosquitto.yml \
+				-f ${BROKER_YAML} \
+				-f ${TAF_BROKER_YAML} \
 				-f add-delayed-start-services.yml \
 				-f add-postgres.yml \
 				-f add-secure-postgres.yml
@@ -1017,6 +984,7 @@ define COMPOSE_DOWN
 		-f add-app-rfid-llrp-inventory.yml \
 		-f add-app-record-replay.yml \
 		-f add-modbus-simulator.yml \
+		-f add-mqtt-broker-nanomq.yml \
 		-f add-mqtt-broker-mosquitto.yml \
 		-f add-secure-mqtt-broker.yml \
 		-f add-mqtt-messagebus.yml \
@@ -1024,13 +992,9 @@ define COMPOSE_DOWN
 		-f add-nats-messagebus.yml \
 		-f add-security.yml \
 		-f add-security-proxy.yml \
-		-f add-secure-redis-messagebus.yml \
 		-f add-delayed-start-services.yml \
 		-f add-postgres.yml \
-		-f add-secure-postgres.yml \
-		-f add-redis.yml \
-		-f add-secure-redis-db.yml \
-		-f add-redis-messagebus.yml
+		-f add-secure-postgres.yml
 		down $1
 endef
 

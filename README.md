@@ -118,9 +118,6 @@ The compose files under the `taf` subfolder are used for the automated TAF tests
 - `make get-token`
     For secure mode only. Runs commands via docker to generate a new API Gateway token.
 
-- `make get-consul-acl-token`
-  For secure mode only. Runs commands via docker to retrieve a Consul Access token.
-
 ### Additional compose files
 
 - **docker-compose-portainer.yml**

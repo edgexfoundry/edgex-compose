@@ -54,8 +54,8 @@ services:
       EDGEX_GROUP: ${EDGEX_GROUP}
       # Uncomment and modify the following "EDGEX_ADD_SECRETSTORE_TOKENS" to add the additional secret store tokens on the fly
       # the secret store token is required if you have added registry acl roles from env "EDGEX_ADD_REGISTRY_ACL_ROLES"
-      # in service "consul".
-      #EDGEX_ADD_SECRETSTORE_TOKENS: app-sample,app-rules-engine-redis, app-rules-engine-mqtt, app-push-to-core
+      # in registry service.
+      #EDGEX_ADD_SECRETSTORE_TOKENS: app-sample,app-rules-engine, app-push-to-core
     read_only: true
     restart: always
     networks:
@@ -130,7 +130,6 @@ services:
     depends_on:
       - security-bootstrapper
       - security-secretstore-setup
-      - database
 
   support-notifications:
     env_file:
@@ -211,7 +210,6 @@ services:
       - security-secretstore-setup
 
   # this is to make sure the service is started after security-bootstrapper process is done
-  # because it needs to await Consul roles to be created
   app-rules-engine:
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
     command: "/app-service-configurable --registry ${CP_FLAGS}"
