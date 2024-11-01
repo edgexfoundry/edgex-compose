@@ -42,24 +42,21 @@ services:
     env_file:
       - common-non-security.env
     environment:
-      DATABASE_HOST: ${DATABASE_HOST}
-      DATABASE_TYPE: ${DATABASE_TYPE}
-      DATABASE_PORT: ${DATABASE_PORT}
       MESSAGEBUS_HOST: ${MESSAGEBUS_HOST}
       MESSAGEBUS_AUTHMODE: ${MESSAGEBUS_AUTHMODE}
       MESSAGEBUS_SECRETNAME: ${MESSAGEBUS_SECRETNAME}
       MESSAGEBUS_PORT: ${MESSAGEBUS_PORT}
       MESSAGEBUS_PROTOCOL: ${MESSAGEBUS_PROTOCOL}
       MESSAGEBUS_TYPE: ${MESSAGEBUS_TYPE}
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETNAME}
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME}
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: ${WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD}
       SERVICE_HOST: edgex-core-keeper
+      DATABASE_HOST: ${DATABASE_HOST}
     security_opt:
       - no-new-privileges:true
     volumes:
       # use host timezone
       - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - database
 
   support-notifications:
     image: ${CORE_EDGEX_REPOSITORY}/support-notifications${ARCH}:${CORE_EDGEX_VERSION}
@@ -205,7 +202,7 @@ services:
       - common-non-security.env
     environment:
       ALL_SERVICES_REGISTRY_HOST: edgex-core-keeper
-      ALL_SERVICES_DATABASE_HOST: edgex-postgres
+      ALL_SERVICES_DATABASE_HOST: ${DATABASE_HOST}
       ALL_SERVICES_MESSAGEBUS_HOST: ${MESSAGEBUS_HOST}
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata

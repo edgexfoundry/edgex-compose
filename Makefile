@@ -94,8 +94,3 @@ get-token:
 	DEV=$(DEV) \
 	ARCH=$(ARCH) \
 	cd ./compose-builder; sh get-api-gateway-token.sh
-
-get-consul-acl-token:
-	DEV=$(DEV) \
-	ARCH=$(ARCH) \
-	cd ./compose-builder; sh ./get-consul-acl-token.sh

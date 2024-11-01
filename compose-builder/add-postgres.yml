@@ -13,8 +13,6 @@
 #  *
 #  *******************************************************************************/
 
-# TODO: Move the content of this Docker Compose file to add-security.yml when the redis database support is removed
-
 volumes:
   db-data:
 
@@ -38,5 +36,3 @@ services:
       - no-new-privileges:true
     tmpfs:
       - /run
-
-

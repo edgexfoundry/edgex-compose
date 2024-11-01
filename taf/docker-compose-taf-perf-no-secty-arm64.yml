@@ -230,10 +230,12 @@ services:
           create_host_path: true
   core-keeper:
     container_name: edgex-core-keeper
+    depends_on:
+      database:
+        condition: service_started
+        required: true
     environment:
       DATABASE_HOST: edgex-postgres
-      DATABASE_PORT: "5432"
-      DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "false"
       MESSAGEBUS_AUTHMODE: none
       MESSAGEBUS_HOST: edgex-mqtt-broker
@@ -242,9 +244,6 @@ services:
       MESSAGEBUS_SECRETNAME: ""
       MESSAGEBUS_TYPE: mqtt
       SERVICE_HOST: edgex-core-keeper
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
     hostname: edgex-core-keeper
     image: nexus3.edgexfoundry.org:10004/core-keeper-arm64:latest
     networks:

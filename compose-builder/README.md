@@ -57,8 +57,6 @@ This folder contains the following compose files:
   Base non-secure mode compose file with PostgreSQL as database. Contains all the services that run in the non-secure configuration, including the UI.
 - **add-security.yml**<br/>
     Security **extending** compose file. Adds the additional security services and configuration of services so that all the services are running in the secure configuration.
-- **add-secure-redis-messagebus.yml**<br/>
-    Secure Redis MessageBus **extending** compose file. Adds the additional security configuration for when Redis is used as MessageBus in secure mode so Kuiper can connect to the secure MessageBus.
 - **add-delayed-start-services.yml**<br/>
     Secure delayed start services **extending** compose file. Adds additional delayed start services based on spire/spiffe implementation to provide the secret store token on the runtime secure configuration.
 - **add-device-bacnet-ip.yml**<br/>
@@ -387,13 +385,6 @@ Options:
     KEY_INPUT_FILE=<full_path_to_key_file>: the full file name path to your own key file, this is required
 ```
 
-#### Get-consul-acl-token
-
-```
-get-consul-acl-token 
-Retrieves the Consul ACL token
-```
-
 #### Build Canned
 ```
 build-canned
@@ -458,8 +449,6 @@ Options:
     as-record-replay: Generates compose file with App Record & Replay included
     asc-ex-mqtt:      Generates compose file with App Service External MQTT Trigger included
     mqtt-broker:      Generates compose file with a MQTT Broker service included
-    mqtt-bus:         Generates compose file with services configure for MQTT Message Bus
-                      The MQTT Broker service is also included.
     nanomq:           ** Experimental ** 
                       Generates compose file with NonoMQ MQTT broker when mqtt-broker or mqtt-bus are specified
                       Not valid in secure mode when uses with mqtt-bus
