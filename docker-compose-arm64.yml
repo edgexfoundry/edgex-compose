@@ -343,8 +343,6 @@ services:
         required: true
     environment:
       DATABASE_HOST: edgex-postgres
-      DATABASE_PORT: "5432"
-      DATABASE_TYPE: postgres
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
       MESSAGEBUS_HOST: edgex-mqtt-broker
@@ -368,9 +366,6 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_PASSWORD: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETDATA_USERNAME: postgres
-      WRITABLE_INSECURESECRETS_DB_SECRETNAME: postgres
     hostname: edgex-core-keeper
     image: nexus3.edgexfoundry.org:10004/core-keeper-arm64:latest
     networks:
@@ -888,7 +883,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "4190239719424"
+          memory: "4190235525120"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -912,7 +907,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.0
-    memswap_limit: "4190239719424"
+    memswap_limit: "4190235525120"
     networks:
       edgex-network: null
     ports:
@@ -1125,7 +1120,7 @@ services:
         condition: service_started
         required: true
     environment:
-      EDGEX_ADD_KNOWN_SECRETS: redisdb[app-rules-engine],redisdb[device-rest],message-bus[device-rest],redisdb[device-virtual],message-bus[device-virtual]
+      EDGEX_ADD_KNOWN_SECRETS: postgres[app-rules-engine],message-bus[app-rules-engine],message-bus[device-rest],message-bus[device-virtual]
       EDGEX_ADD_SECRETSTORE_TOKENS: ""
       EDGEX_GROUP: "2001"
       EDGEX_SECURITY_SECRET_STORE: "true"
