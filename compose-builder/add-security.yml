@@ -144,15 +144,15 @@ services:
       - security-bootstrapper
       - security-secretstore-setup
 
-  support-cron-scheduler:
+  support-scheduler:
     env_file:
       - common-security.env
       - common-sec-stage-gate.env
     entrypoint: ["/edgex-init/ready_to_run_wait_install.sh"]
-    command: "/support-cron-scheduler --registry ${CP_FLAGS}"
+    command: "/support-scheduler --registry ${CP_FLAGS}"
     volumes:
       - edgex-init:/edgex-init:ro
-      - /tmp/edgex/secrets/support-cron-scheduler:/tmp/edgex/secrets/support-cron-scheduler:ro,z
+      - /tmp/edgex/secrets/support-scheduler:/tmp/edgex/secrets/support-scheduler:ro,z
     depends_on:
       - security-bootstrapper
       - security-secretstore-setup
