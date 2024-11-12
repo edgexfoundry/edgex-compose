@@ -871,11 +871,11 @@ services:
         source: kuiper-plugins
         target: /kuiper/plugins
         volume: {}
-  support-cron-scheduler:
+  support-scheduler:
     command:
       - --registry
       - -cp=keeper.http://edgex-core-keeper:59890
-    container_name: edgex-support-cron-scheduler
+    container_name: edgex-support-scheduler
     depends_on:
       core-common-config-bootstrapper:
         condition: service_started
@@ -888,9 +888,9 @@ services:
         required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
-      SERVICE_HOST: edgex-support-cron-scheduler
-    hostname: edgex-support-cron-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-cron-scheduler:latest
+      SERVICE_HOST: edgex-support-scheduler
+    hostname: edgex-support-scheduler
+    image: nexus3.edgexfoundry.org:10004/support-scheduler:latest
     networks:
       edgex-network: null
     ports:

@@ -84,14 +84,14 @@ services:
       # use host timezone
       - /etc/localtime:/etc/localtime:ro
 
-  support-cron-scheduler:
-    image: ${CORE_EDGEX_REPOSITORY}/support-cron-scheduler${ARCH}:${CORE_EDGEX_VERSION}
+  support-scheduler:
+    image: ${CORE_EDGEX_REPOSITORY}/support-scheduler${ARCH}:${CORE_EDGEX_VERSION}
     command: --registry ${CP_FLAGS}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     ports:
       - "127.0.0.1:59863:59863"
-    container_name: edgex-support-cron-scheduler
-    hostname: edgex-support-cron-scheduler
+    container_name: edgex-support-scheduler
+    hostname: edgex-support-scheduler
     read_only: true
     restart: always
     networks:
@@ -99,7 +99,7 @@ services:
     env_file:
       - common-non-security.env
     environment:
-      SERVICE_HOST: edgex-support-cron-scheduler
+      SERVICE_HOST: edgex-support-scheduler
     depends_on:
       - core-keeper
       - database

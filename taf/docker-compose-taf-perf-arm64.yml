@@ -1552,12 +1552,12 @@ services:
         bind:
           selinux: z
           create_host_path: true
-  support-cron-scheduler:
+  support-scheduler:
     command:
-      - /support-cron-scheduler
+      - /support-scheduler
       - --registry
       - -cp=keeper.http://edgex-core-keeper:59890
-    container_name: edgex-support-cron-scheduler
+    container_name: edgex-support-scheduler
     depends_on:
       core-common-config-bootstrapper:
         condition: service_started
@@ -1580,7 +1580,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
-      SERVICE_HOST: edgex-support-cron-scheduler
+      SERVICE_HOST: edgex-support-scheduler
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-postgres
@@ -1594,8 +1594,8 @@ services:
       STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-    hostname: edgex-support-cron-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-cron-scheduler-arm64:latest
+    hostname: edgex-support-scheduler
+    image: nexus3.edgexfoundry.org:10004/support-scheduler-arm64:latest
     networks:
       edgex-network: null
     ports:
@@ -1622,8 +1622,8 @@ services:
         read_only: true
         volume: {}
       - type: bind
-        source: /tmp/edgex/secrets/support-cron-scheduler
-        target: /tmp/edgex/secrets/support-cron-scheduler
+        source: /tmp/edgex/secrets/support-scheduler
+        target: /tmp/edgex/secrets/support-scheduler
         read_only: true
         bind:
           selinux: z
