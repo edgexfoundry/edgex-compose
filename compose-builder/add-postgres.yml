@@ -31,6 +31,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: edgex_db
     volumes:
+      # use host timezone
+      - /etc/localtime:/etc/localtime:ro
       - db-data:/var/lib/postgresql/data
     security_opt:
       - no-new-privileges:true
