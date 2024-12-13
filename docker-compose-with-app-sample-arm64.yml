@@ -24,7 +24,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.29.2
+# Generated with: Docker Compose version v2.29.7
 name: edgex
 services:
   app-rules-engine:
@@ -966,7 +966,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "4190235525120"
+          memory: "2108837330944"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -989,8 +989,8 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
-    image: openbao/openbao:2.0
-    memswap_limit: "4190235525120"
+    image: openbao/openbao:2.1
+    memswap_limit: "2108837330944"
     networks:
       edgex-network: null
     ports:
@@ -1266,82 +1266,6 @@ services:
         source: kuiper-connections
         target: /tmp/kuiper-connections
         volume: {}
-  support-scheduler:
-    command:
-      - /support-scheduler
-      - --registry
-      - -cp=keeper.http://edgex-core-keeper:59890
-    container_name: edgex-support-scheduler
-    depends_on:
-      core-common-config-bootstrapper:
-        condition: service_started
-        required: true
-      core-keeper:
-        condition: service_started
-        required: true
-      database:
-        condition: service_started
-        required: true
-      security-bootstrapper:
-        condition: service_started
-        required: true
-      security-secretstore-setup:
-        condition: service_started
-        required: true
-    entrypoint:
-      - /edgex-init/ready_to_run_wait_install.sh
-    environment:
-      EDGEX_SECURITY_SECRET_STORE: "true"
-      PROXY_SETUP_HOST: edgex-security-proxy-setup
-      SECRETSTORE_HOST: edgex-secret-store
-      SERVICE_HOST: edgex-support-scheduler
-      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
-      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
-      STAGEGATE_DATABASE_HOST: edgex-postgres
-      STAGEGATE_DATABASE_PORT: "5432"
-      STAGEGATE_DATABASE_READYPORT: "5432"
-      STAGEGATE_PROXYSETUP_READYPORT: "54325"
-      STAGEGATE_READY_TORUNPORT: "54329"
-      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
-      STAGEGATE_REGISTRY_PORT: "59890"
-      STAGEGATE_REGISTRY_READYPORT: "54324"
-      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
-      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
-      STAGEGATE_WAITFOR_TIMEOUT: 60s
-    hostname: edgex-support-scheduler
-    image: nexus3.edgexfoundry.org:10004/support-scheduler-arm64:latest
-    networks:
-      edgex-network: null
-    ports:
-      - mode: ingress
-        host_ip: 127.0.0.1
-        target: 59863
-        published: "59863"
-        protocol: tcp
-    read_only: true
-    restart: always
-    security_opt:
-      - no-new-privileges:true
-    user: 2002:2001
-    volumes:
-      - type: bind
-        source: /etc/localtime
-        target: /etc/localtime
-        read_only: true
-        bind:
-          create_host_path: true
-      - type: volume
-        source: edgex-init
-        target: /edgex-init
-        read_only: true
-        volume: {}
-      - type: bind
-        source: /tmp/edgex/secrets/support-scheduler
-        target: /tmp/edgex/secrets/support-scheduler
-        read_only: true
-        bind:
-          selinux: z
-          create_host_path: true
   support-notifications:
     command:
       - /support-notifications
@@ -1414,6 +1338,82 @@ services:
       - type: bind
         source: /tmp/edgex/secrets/support-notifications
         target: /tmp/edgex/secrets/support-notifications
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
+  support-scheduler:
+    command:
+      - /support-scheduler
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+    container_name: edgex-support-scheduler
+    depends_on:
+      core-common-config-bootstrapper:
+        condition: service_started
+        required: true
+      core-keeper:
+        condition: service_started
+        required: true
+      database:
+        condition: service_started
+        required: true
+      security-bootstrapper:
+        condition: service_started
+        required: true
+      security-secretstore-setup:
+        condition: service_started
+        required: true
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
+    environment:
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-secret-store
+      SERVICE_HOST: edgex-support-scheduler
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    hostname: edgex-support-scheduler
+    image: nexus3.edgexfoundry.org:10004/support-scheduler-arm64:latest
+    networks:
+      edgex-network: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59863
+        published: "59863"
+        protocol: tcp
+    read_only: true
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    volumes:
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/support-scheduler
+        target: /tmp/edgex/secrets/support-scheduler
         read_only: true
         bind:
           selinux: z
