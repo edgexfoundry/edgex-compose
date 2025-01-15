@@ -1,6 +1,6 @@
 # /*******************************************************************************
 #  * Copyright 2023 Intel
-#  * Copyright 2024 IOTech Ltd
+#  * Copyright 2024-2025 IOTech Ltd
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -802,7 +802,7 @@ ifeq (no-secty, $(filter no-secty,$(ARGS)))
 		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f ${BROKER_YAML}
 	endif
 else
-	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml -f add-postgres.yml -f add-secure-postgres.yml
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-security.yml -f add-secure-postgres.yml
 
 	ifeq ($(BUS),) # if BUS not set, then we are using secure mqtt messagebus by default
 		IS_MQTT_BUS:=1
@@ -845,7 +845,6 @@ ifeq (taf-secty, $(filter taf-secty,$(ARGS)))
 		-f add-mqtt-messagebus.yml \
 		-f add-secure-mqtt-messagebus.yml \
 		-f add-secure-mqtt-broker.yml \
-		-f add-postgres.yml \
 		-f add-secure-postgres.yml
 
 	asc_http_export_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)"  ./gen_secure_compose_ext.sh app-http-export \
@@ -920,7 +919,6 @@ else
 				-f ${BROKER_YAML} \
 				-f ${TAF_BROKER_YAML} \
 				-f add-delayed-start-services.yml \
-				-f add-postgres.yml \
 				-f add-secure-postgres.yml
 
 			asc_mqtt_export_ext:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)"  IS_MQTT_BUS="0" ./gen_secure_compose_ext.sh app-mqtt-export \
@@ -994,7 +992,7 @@ define COMPOSE_DOWN
 		-f add-security-proxy.yml \
 		-f add-delayed-start-services.yml \
 		-f add-postgres.yml \
-		-f add-secure-postgres.yml
+		-f add-secure-postgres.yml \
 		down $1
 endef
 
