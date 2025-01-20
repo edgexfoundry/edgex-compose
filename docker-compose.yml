@@ -489,7 +489,6 @@ services:
       DATABASECONFIG_PATH: /tmp/postgres-init-scripts
       EDGEX_SECURITY_SECRET_STORE: "true"
       POSTGRES_DB: edgex_db
-      POSTGRES_PASSWORD: postgres
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
@@ -530,13 +529,13 @@ services:
         bind:
           create_host_path: true
       - type: volume
-        source: postgres-data
-        target: /var/lib/postgresql/data
-        volume: {}
-      - type: volume
         source: edgex-init
         target: /edgex-init
         read_only: true
+        volume: {}
+      - type: volume
+        source: db-data
+        target: /var/lib/postgresql/data
         volume: {}
       - type: bind
         source: /tmp/edgex/secrets/security-bootstrapper-postgres
@@ -889,7 +888,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "2108837330944"
+          memory: "6353502339072"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -913,7 +912,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.1
-    memswap_limit: "2108837330944"
+    memswap_limit: "6353502339072"
     networks:
       edgex-network: null
     ports:
@@ -1372,6 +1371,8 @@ networks:
     name: edgex_edgex-network
     driver: bridge
 volumes:
+  db-data:
+    name: edgex_db-data
   edgex-init:
     name: edgex_edgex-init
   kuiper-connections:
@@ -1390,8 +1391,6 @@ volumes:
     name: edgex_nginx-templates
   nginx-tls:
     name: edgex_nginx-tls
-  postgres-data:
-    name: edgex_postgres-data
   secret-store-config:
     name: edgex_secret-store-config
   secret-store-file:
