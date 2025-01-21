@@ -667,6 +667,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      ALL_SERVICES_CLIENTS_SECURITY_PROXY_AUTH_HOST: security-proxy-auth
       ALL_SERVICES_DATABASE_HOST: edgex-postgres
       ALL_SERVICES_MESSAGEBUS_AUTHMODE: usernamepassword
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-mqtt-broker
@@ -808,6 +809,7 @@ services:
         condition: service_started
         required: true
     environment:
+      CLIENTS_SECURITY_PROXY_AUTH_HOST: security-proxy-auth
       DATABASE_HOST: edgex-postgres
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
@@ -1615,7 +1617,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "6353502339072"
+          memory: "6353435230208"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -1639,7 +1641,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.1
-    memswap_limit: "6353502339072"
+    memswap_limit: "6353435230208"
     networks:
       edgex-network: null
     ports:
