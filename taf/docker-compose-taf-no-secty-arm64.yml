@@ -630,6 +630,7 @@ services:
         required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
+      MESSAGEBUS_HOST: edgex-mqtt-broker
       SERVICE_HOST: edgex-device-onvif-camera
     hostname: edgex-device-onvif-camera
     image: nexus3.edgexfoundry.org:10004/device-onvif-camera-arm64:latest
