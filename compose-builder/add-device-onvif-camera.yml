@@ -30,6 +30,7 @@ services:
       - common-non-security.env
     environment:
       SERVICE_HOST: edgex-device-onvif-camera
+      MESSAGEBUS_HOST: edgex-mqtt-broker
     depends_on:
       - core-keeper
       - core-data
