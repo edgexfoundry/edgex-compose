@@ -52,6 +52,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_PROFILE: external-mqtt-trigger
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -130,6 +131,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_PROFILE: functional-tests
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -205,6 +207,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_PROFILE: http-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -281,6 +284,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -358,6 +362,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -434,6 +439,7 @@ services:
     environment:
       CLIENTS_CORE_COMMAND_HOST: edgex-core-command
       CLIENTS_CORE_DATA_HOST: edgex-core-data
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       CLIENTS_SUPPORT-NOTIFICATIONS_HOST: edgex-support-notifications
       EDGEX_PROFILE: sample
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -509,6 +515,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "true"
       EDGEX_SERVICE_KEY: app-scalability-test-mqtt-export
@@ -595,6 +602,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -674,6 +682,7 @@ services:
       ALL_SERVICES_MESSAGEBUS_SECRETNAME: message-bus
       ALL_SERVICES_REGISTRY_HOST: edgex-core-keeper
       APP_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -743,6 +752,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -810,6 +820,7 @@ services:
         required: true
     environment:
       CLIENTS_SECURITY_PROXY_AUTH_HOST: security-proxy-auth
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       DATABASE_HOST: edgex-postgres
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_AUTHMODE: usernamepassword
@@ -890,6 +901,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -953,6 +965,7 @@ services:
     entrypoint:
       - /edgex-init/postgres_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       DATABASECONFIG_NAME: create-users.sh
       DATABASECONFIG_PATH: /tmp/postgres-init-scripts
       EDGEX_SECURITY_SECRET_STORE: "true"
@@ -1041,6 +1054,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -1123,6 +1137,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       MESSAGEBUS_HOST: edgex-mqtt-broker
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1200,6 +1215,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -1277,6 +1293,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -1376,6 +1393,7 @@ services:
       - /edgex-init/messagebus_wait_install.sh
     environment:
       BROKER_TYPE: mosquitto
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       CONF_DIR: /edgex-init/bootstrap-mosquitto/res
       EDGEX_SECURITY_SECRET_STORE: "true"
       ENTRYPOINT: /docker-entrypoint.sh /usr/sbin/mosquitto -v -c  /mosquitto/config/mosquitto.conf
@@ -1618,7 +1636,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "4190239719424"
+          memory: "6353431035904"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -1642,7 +1660,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.1
-    memswap_limit: "4190239719424"
+    memswap_limit: "6353431035904"
     networks:
       edgex-network: null
     ports:
@@ -1726,6 +1744,7 @@ services:
       - /bin/sh
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -1788,6 +1807,7 @@ services:
     entrypoint:
       - /edgex-init/proxy_setup_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_ADD_PROXY_ROUTE: device-modbus.http://edgex-device-modbus:59901
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
@@ -1855,6 +1875,7 @@ services:
         condition: service_started
         required: true
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_ADD_KNOWN_SECRETS: postgres[app-rules-engine],postgres[app-http-export],postgres[app-mqtt-export],postgres[app-scalability-test-mqtt-export],postgres[app-sample],message-bus[app-rules-engine],message-bus[app-http-export],message-bus[app-mqtt-export],message-bus[app-external-mqtt-trigger],message-bus[app-scalability-test-mqtt-export],message-bus[app-sample],message-bus[device-modbus],message-bus[device-rest],message-bus[device-virtual],message-bus[device-onvif-camera]
       EDGEX_ADD_SECRETSTORE_TOKENS: app-http-export,app-mqtt-export,app-functional-tests,app-scalability-test-mqtt-export,app-sample,device-modbus,app-external-mqtt-trigger,device-onvif-camera
       EDGEX_GROUP: "2001"
@@ -1863,6 +1884,7 @@ services:
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
       SECUREMESSAGEBUS_TYPE: mqtt
+      SERVICE_HOST: edgex-security-secretstore-setup
       STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
       STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
       STAGEGATE_DATABASE_HOST: edgex-postgres
@@ -1937,6 +1959,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -2005,6 +2028,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -2075,6 +2099,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -2130,6 +2155,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -2214,6 +2240,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
@@ -2290,6 +2317,7 @@ services:
     entrypoint:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
       EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
