@@ -24,7 +24,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.29.7
+# Generated with: Docker Compose version v2.33.1
 name: edgex
 services:
   app-rules-engine:
@@ -977,7 +977,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "6353431035904"
+          memory: "25196148817920"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -1001,7 +1001,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.1
-    memswap_limit: "6353431035904"
+    memswap_limit: "25196148817920"
     networks:
       edgex-network: null
     ports:
@@ -1436,10 +1436,38 @@ services:
           selinux: z
           create_host_path: true
   ui:
+    command:
+      - ./edgex-ui-server
+      - --configDir=res/docker
     container_name: edgex-ui-go
+    depends_on:
+      security-bootstrapper:
+        condition: service_started
+        required: true
+      security-secretstore-setup:
+        condition: service_started
+        required: true
+    entrypoint:
+      - /edgex-init/ready_to_run_wait_install.sh
     environment:
-      EDGEX_SECURITY_SECRET_STORE: "true"
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
+      EDGEX_SECURITY_SECRET_STORE: "false"
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-ui-go
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-ui-go
     image: nexus3.edgexfoundry.org:10004/edgex-ui-arm64:latest
     networks:
@@ -1460,6 +1488,18 @@ services:
         target: /etc/localtime
         read_only: true
         bind:
+          create_host_path: true
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/ui
+        target: /tmp/edgex/secrets/ui
+        read_only: true
+        bind:
+          selinux: z
           create_host_path: true
 networks:
   edgex-network:
