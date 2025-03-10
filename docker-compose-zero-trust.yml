@@ -1174,7 +1174,7 @@ services:
       CLIENTS_SUPPORT_NOTIFICATIONS_HOST: support-notifications.edgex.ziti
       CLIENTS_SUPPORT_NOTIFICATIONS_PORT: "80"
       CLIENTS_SUPPORT_NOTIFICATIONS_SECURITYOPTIONS_MODE: zerotrust
-      EDGEX_SECURITY_SECRET_STORE: "false"
+      EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-ui-go

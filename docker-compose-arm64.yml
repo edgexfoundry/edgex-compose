@@ -1373,7 +1373,7 @@ services:
       - /edgex-init/ready_to_run_wait_install.sh
     environment:
       CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
-      EDGEX_SECURITY_SECRET_STORE: "false"
+      EDGEX_SECURITY_SECRET_STORE: "true"
       PROXY_SETUP_HOST: edgex-security-proxy-setup
       SECRETSTORE_HOST: edgex-secret-store
       SERVICE_HOST: edgex-ui-go
