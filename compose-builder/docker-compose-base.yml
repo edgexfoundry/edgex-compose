@@ -276,8 +276,9 @@ services:
       - "4000:4000"
     container_name: edgex-ui-go
     hostname: edgex-ui-go
+    env_file:
+      - common-non-security.env
     environment:
-      EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-ui-go
     read_only: true
     restart: always

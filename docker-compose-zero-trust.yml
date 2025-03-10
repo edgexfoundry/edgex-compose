@@ -24,7 +24,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.29.7
+# Generated with: Docker Compose version v2.33.1
 name: edgex
 services:
   app-rules-engine:
@@ -819,7 +819,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "6353431035904"
+          memory: "25196148817920"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -843,7 +843,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.1
-    memswap_limit: "6353431035904"
+    memswap_limit: "25196148817920"
     networks:
       edgex-network: null
     ports:
@@ -1149,6 +1149,9 @@ services:
         condition: service_started
         required: true
       security-bootstrapper:
+        condition: service_started
+        required: true
+      security-secretstore-setup:
         condition: service_started
         required: true
     entrypoint:

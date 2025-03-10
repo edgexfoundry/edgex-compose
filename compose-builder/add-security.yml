@@ -229,5 +229,14 @@ services:
       - security-bootstrapper
 
   ui:
-    environment:
-      EDGEX_SECURITY_SECRET_STORE: "true"
+    env_file:
+      - common-security.env
+      - common-sec-stage-gate.env
+    entrypoint: [ "/edgex-init/ready_to_run_wait_install.sh" ]
+    command: "./edgex-ui-server --configDir=res/docker"
+    volumes:
+      - edgex-init:/edgex-init:ro
+      - /tmp/edgex/secrets/ui:/tmp/edgex/secrets/ui:ro,z
+    depends_on:
+      - security-bootstrapper
+      - security-secretstore-setup
