@@ -229,8 +229,6 @@ services:
       - security-bootstrapper
 
   ui:
-    environment:
-      EDGEX_SECURITY_SECRET_STORE: "true"
     env_file:
       - common-security.env
       - common-sec-stage-gate.env

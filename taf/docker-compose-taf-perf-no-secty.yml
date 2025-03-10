@@ -610,7 +610,6 @@ services:
   ui:
     container_name: edgex-ui-go
     environment:
-      EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-ui-go
     hostname: edgex-ui-go
     image: nexus3.edgexfoundry.org:10004/edgex-ui:latest
