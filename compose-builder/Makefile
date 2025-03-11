@@ -57,7 +57,7 @@ define OPTIONS
  - nats-bus mqtt-broker mqtt-verbose nanomq -
  - taf-secty taf-no-secty taf-perf taf-perf-no-secty -
  - ds-onvif-camera ds-usb-camera ds-bacnet-ip ds-bacnet-mstp ds-modbus ds-mqtt ds-rest ds-snmp ds-virtual ds-llrp -
- - ds-coap ds-gpio ds-uart ds-s7 ds-opc-ua -
+ - ds-coap ds-gpio ds-uart ds-s7 ds-opc-ua ds-can -
  - asc-http asc-mqtt asc-sample asc-metrics as-llrp as-record-replay asc-ex-mqtt -
  - modbus-sim zero-trust no-cleanup -
 endef
@@ -114,6 +114,7 @@ ifeq (device-dev, $(filter device-dev,$(ARGS)))
 	export DEVICE_USBCAM_VERSION=0.0.0-dev
 	export DEVICE_S7_VERSION=0.0.0-dev
 	export DEVICE_OPCUA_VERSION=0.0.0-dev
+	export DEVICE_CAN_VERSION=0.0.0-dev
 endif
 ifeq (ui-dev, $(filter ui-dev,$(ARGS)))
 	export UI_REPOSITORY=edgexfoundry
@@ -561,6 +562,34 @@ ifeq (ds-opc-ua, $(filter ds-opc-ua,$(ARGS)))
 		# add runtime token config for delayed-start if specified
 		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
 			ext_file:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-opc-ua)
+			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
+		endif
+	endif
+endif
+ifeq (ds-can, $(filter ds-can,$(ARGS)))
+	COMPOSE_FILES:=$(COMPOSE_FILES) -f add-device-can.yml
+	ifneq (no-secty, $(filter no-secty,$(ARGS)))
+		ifeq ($(TOKEN_LIST),)
+			TOKEN_LIST:=device-can
+		else
+			TOKEN_LIST:=$(TOKEN_LIST),device-can
+		endif
+		ifeq ($(KNOWN_SECRETS_LIST),)
+			KNOWN_SECRETS_LIST:=message-bus[device-can]
+		else
+			KNOWN_SECRETS_LIST:=$(KNOWN_SECRETS_LIST),message-bus[device-can]
+		endif
+		PROXY_ROUTE:=device-can.http://edgex-device-can:59999
+		ifeq ($(EXTRA_PROXY_ROUTE_LIST),)
+			EXTRA_PROXY_ROUTE_LIST:=$(PROXY_ROUTE)
+		else
+			EXTRA_PROXY_ROUTE_LIST:=$(EXTRA_PROXY_ROUTE_LIST),$(PROXY_ROUTE)
+		endif
+		extension_file:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_secure_compose_ext.sh device-can)
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f $(extension_file)
+		# add runtime token config for delayed-start if specified
+		ifeq (delayed-start, $(filter delayed-start,$(ARGS)))
+			ext_file:= $(shell ZERO_TRUST="$(MAKE_ZERO_TRUST)" GEN_EXT_DIR="$(GEN_EXT_DIR)" ./gen_runtime_token_config_compose_ext.sh device-can)
 			COMPOSE_FILES:=$(COMPOSE_FILES) -f $(ext_file)
 		endif
 	endif
