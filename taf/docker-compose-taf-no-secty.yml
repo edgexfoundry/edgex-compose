@@ -779,7 +779,7 @@ services:
       - /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0
+    image: eclipse-mosquitto:2.0.21
     networks:
       edgex-network: null
     ports:
@@ -800,7 +800,7 @@ services:
       - /mosquitto-no-auth.conf
     container_name: edgex-taf-mqtt-broker
     hostname: edgex-taf-mqtt-broker
-    image: eclipse-mosquitto:2.0
+    image: eclipse-mosquitto:2.0.21
     networks:
       edgex-network: null
     ports:

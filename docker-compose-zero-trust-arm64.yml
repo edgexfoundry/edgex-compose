@@ -692,7 +692,7 @@ services:
       - /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0
+    image: eclipse-mosquitto:2.0.21
     networks:
       edgex-network: null
     ports:
@@ -819,7 +819,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "25196148817920"
+          memory: "5346252816384"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -842,8 +842,8 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
-    image: openbao/openbao:2.1
-    memswap_limit: "25196148817920"
+    image: openbao/openbao:2.1.1
+    memswap_limit: "5346252816384"
     networks:
       edgex-network: null
     ports:
