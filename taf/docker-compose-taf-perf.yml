@@ -937,7 +937,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:v1.14.0-alpha.2
+    image: lfedge/ekuiper:v2.1.0-beta.4
     networks:
       edgex-network: null
     ports:

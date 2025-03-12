@@ -4,7 +4,7 @@ services:
     environment:
       SERVICE_HOST: app-rules-engine.edgex.ziti
       SERVICE_PORT: 80
-    ports: !reset null
+    ports: !reset []
   core-command:
     environment:
       SERVICE_HOST: core-command.edgex.ziti
@@ -12,7 +12,7 @@ services:
       CLIENTS_CORE_METADATA_HOST: "core-metadata.edgex.ziti"
       CLIENTS_CORE_METADATA_PORT: 80
       CLIENTS_CORE_METADATA_SECURITYOPTIONS_MODE: "zerotrust"
-    ports: !reset null
+    ports: !reset []
   core-common-config-bootstrapper:
     environment:
       ALL_SERVICES_SERVICE_SECURITYOPTIONS_MODE: "zerotrust"
@@ -22,24 +22,24 @@ services:
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: core-metadata.edgex.ziti
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_PORT: 80
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_SECURITYOPTIONS_MODE: "zerotrust"
-    ports: !reset null
+    ports: !reset []
   core-data:
     environment:
       SERVICE_HOST: core-data.edgex.ziti
       SERVICE_PORT: 80
-    ports: !reset null
+    ports: !reset []
   core-metadata:
     environment:
       SERVICE_HOST: core-metadata.edgex.ziti
       SERVICE_PORT: "80"
-    ports: !reset null
+    ports: !reset []
   rules-engine:
     environment:
       EDGEX_CREDENTIAL_NAME: rules-engine
       EDGEX_CREDENTIALS: /tmp/edgex/secrets/rules-engine/secrets-token.json
       KUIPER__BASIC__ENABLEOPENZITI: true
       OPENZITI_CONTROLLER: openziti:1280
-    ports: !reset null
+    ports: !reset []
     volumes:
       - edgex-init:/edgex-init
       - /tmp/edgex/secrets/rules-engine:/tmp/edgex/secrets/rules-engine:ro,z
@@ -47,7 +47,7 @@ services:
     environment:
       SERVICE_HOST: support-notifications.edgex.ziti
       SERVICE_PORT: 80
-    ports: !reset null
+    ports: !reset []
   ui:
     command:
       - "./edgex-ui-server"

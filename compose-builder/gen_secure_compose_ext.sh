@@ -60,7 +60,7 @@ if [ "$ZERO_TRUST" = "1" ]; then
     environment:
       SERVICE_HOST: ${service_name}.edgex.ziti
       SERVICE_PORT: 80
-    ports: !reset null
+    ports: !reset []
 HERE
 else
   sed -i 's,${ZERO_TRUST},,g' "$SERVICE_EXT_COMPOSE_PATH"
