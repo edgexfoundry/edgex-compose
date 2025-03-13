@@ -143,7 +143,7 @@ function appServiceOption() {
 #    ARM64 Question Display Function                               #
 ####################################################################
 function displayArm64() {
-    local message="Would you like to use ARM64 Images to generate the Compose file?"
+    local message="EdgeX supports multi-arch Images now. Would you like to use ARM64 Images instead of multi-arch Images to generate the Compose file?"
     $WHIPTAIL --title "Images Architecture" --yesno --defaultno "$message" $LINES $COLUMNS
 }
 
