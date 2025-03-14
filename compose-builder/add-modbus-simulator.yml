@@ -15,7 +15,7 @@
 
 services:
   modbus-simulator:
-    image: nexus3.edgexfoundry.org:10003/edgex-devops/edgex-modbus-simulator${ARCH}:latest
+    image: iotechsys/modbus-sim:1.1.0
     container_name: edgex-modbus-simulator
     hostname: edgex-modbus-simulator
     ports:
