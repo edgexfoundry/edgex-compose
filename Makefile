@@ -91,6 +91,4 @@ clean:
 	$(call COMPOSE_DOWN,-v)
 
 get-token:
-	DEV=$(DEV) \
-	ARCH=$(ARCH) \
 	cd ./compose-builder; sh get-api-gateway-token.sh
