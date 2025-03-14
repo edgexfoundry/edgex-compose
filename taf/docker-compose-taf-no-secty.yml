@@ -751,7 +751,7 @@ services:
   modbus-simulator:
     container_name: edgex-modbus-simulator
     hostname: edgex-modbus-simulator
-    image: nexus3.edgexfoundry.org:10003/edgex-devops/edgex-modbus-simulator:latest
+    image: iotechsys/modbus-sim:1.1.0
     networks:
       edgex-network: null
     ports:
