@@ -1,12 +1,19 @@
-## Edgex Docker Compose Builder
+## Edgex Docker Compose Builder (Odessa)
 
-This folder contains the `Compose Builder` which is made up of **source** compose, **environment** files and a **makefile** for building the single file docker composes files. The `master` branch builds the `pre-release`  compose files which are placed in the top level of this repository. 
+This folder contains the `Compose Builder` which is made up of **source** compose, **environment** files and a **makefile** for building the single file docker compose file configured for the **Odessa** release. 
 
 ### **Note to Developers**: 
-> *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
+> *For **Odessa** patch releases, once you have edited and tested your changes to the source compose files, you **MUST** regenerate the committed **Odessa** compose files using the `make build` command.*
 >
 > Any options added or removed to/from the `make gen` and `make run` commands must to also be added/removed to/from the new` tui-generator.sh` script
 >
+> Once the PR is merged, the 4.0 vanity tag must be moved to the latest commit on the `odessa` branch.
+
+### Generating Custom Compose Files
+
+If one of the standard committed `odessa` compose files doesn't meet your needs, you can generate and run a custom `odessa` copmose file using the `make gen <options>` command. 
+See [Gen](https://github.com/edgexfoundry/edgex-compose/blob/odessa/compose-builder/README.md#gen) and [Run](https://github.com/edgexfoundry/edgex-compose/blob/odessa/compose-builder/README.md#run) target details below. 
+`Run` simply runs the custom compose file after generating it.
 
 ### Compose CLI Command
 
@@ -174,23 +181,16 @@ Generates the all standard Edgex compose file variations and the TAF testing com
 
 Standard compose variations are:
    full secure (docker-compose.yml)
-   full secure for arm64 (docker-compose-arm64.yml)
    full secure with app-sample (docker-compose-with-app-sample.yml)
-   full secure with app-sample for arm64 (docker-compose-with-app-sample-arm64.yml)
    non-secure (docker-compose-no-secty.yml)
-   non-secure for arm64 (docker-compose-no-secty-arm64.yml)
    non-secure with app-sample (docker-compose-no-secty-with-app-sample.yml)
-   non-secure with app-sample for arm64 (docker-compose-no-secty-with-app-sample-arm64.yml)
+   full secure with zero trust (docker-compose-zero-trust.yml)
 
  TAF compose variations are:
    full secure general testing (docker-compose-taf.yml)
-   full secure general testing for arm64 (docker-compose-taf-arm64.yml)
    non-secure general testing (docker-compose-taf-no-secty.yml)
-   non-secure general testing for arm64 (docker-compose-taf-no-secty-arm64.yml)
    full secure perf testing (docker-compose-taf-perf.yml)
-   full secure perf testing for arm64 (docker-compose-taf-perf-arm64.yml)
    non-secure perf testing (docker-compose-taf-perf-no-secty.yml)
-   non-secure perf testing for arm64 (docker-compose-taf-perf-no-secty-arm64.yml)
 ```
 #### Run
 
@@ -200,7 +200,6 @@ Runs the EdgeX services as specified by:
 Options:
     zero-trust:       Runs with OpenZiti support for zero-trust networking
     no-secty:         Runs in Non-Secure Mode, otherwise runs in Secure Mode
-    arm64:            Runs using ARM64 images
     dev:              Runs using local built images from edgex-go repo
                       'make docker' creates local docker images tagged with '0.0.0-dev'
     app-dev:          Runs using local built images from application service repos
@@ -271,7 +270,6 @@ Options:
     zero-trust:       Pulls images for OpenZiti, supporting zero-trust networking
     no-secty:         Pulls images for Non-Secure Mode, otherwise pull images 
                       for Secure Mode
-    arm64:            Pulls ARM64 version of images
     delayed-start:    Pull includes delayed start services- spire related services 
                       and spiffe-token-provider service
     ds-bacnet-ip:     Pull includes device-bacnet-ip
@@ -318,7 +316,6 @@ Options:
     zero-trust:       Generates with OpenZiti support for zero-trust networking included
     no-secty:         Generates non-secure compose,
                       otherwise generates secure compose file
-    arm64:            Generates compose file using ARM64 images
     dev:              Generates using local built images from edgex-go repo
                       'make docker' creates local docker images tagged with '0.0.0-dev'
     app-dev:          Generates using local built images from application service repos
@@ -374,12 +371,8 @@ Runs 'down' and removes all stopped containers, all volumes and all networks use
 #### Get-token
 
 ```
-get-token [options] 
-Generates a API gateway access token as specified by:
-Options:
-    arm64:  Generates a API gateway access token using ARM64 image
-    dev:    Generates a API gateway access token using local dev built docker image
-            'make docker' creates local docker images tagged with '0.0.0-dev'    
+get-token
+Generates a API gateway access token as specified by:   
 ```
 #### Upload-tls-cert
 
@@ -387,7 +380,6 @@ Options:
 upload-tls-cert [options] <environment_variables>
 Upload a bring-your-own (BYO) TLS certificate to the API gateway as specified by:
 Options:
-    arm64:  Upload TLS certificate to the API gateway server using ARM64 image
     dev:    Upload TLS certificate to the API gateway server using local dev built docker image
             'make docker' creates local docker images tagged with '0.0.0-dev'    
     Environment Variables: 
@@ -425,7 +417,6 @@ Generates the EdgeX compose file as specified by options and stores them in the 
 Options:
     zero-trust:       Generates compose file with OpenZiti support for zero-trust networking included
     no-secty:         Generates non-secure compose file, otherwise generates secure compose file
-    arm64:            Generates compose file using ARM64 images
     dev:              Generates using local built images from edgex-go repo
                       'make docker' creates local docker images tagged with '0.0.0-dev'
     app-dev:          Generates using local built images from application service repos
@@ -479,7 +470,6 @@ Generates a TAF general testing compose file as specified by options and stores 
 Options:
     taf-secty:	  Generates general TAF testing compose file with security services
     taf-no-secty: Generates general TAF testing compose file without security services
-    arm64:        Generates TAF compose file using ARM64 images
 ```
 
 #### Taf Perf Compose
@@ -491,5 +481,4 @@ Generates a TAF performance testing compose file as specified by options and sto
 Options:
     taf-secty:	  Generates performance TAF testing compose file with security services
     taf-no-secty: Generates performance TAF testing compose file without security services
-    arm64:        Generates TAF compose file using ARM64 images
 ```

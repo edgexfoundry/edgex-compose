@@ -1,4 +1,5 @@
 #  * Copyright 2024 Intel Corporation.
+#  * Copyright 2025 IOTech Ltd
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -24,21 +25,24 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.18.1
+# Generated with: Docker Compose version v2.33.1
 name: edgex
 services:
   app-mqtt-export:
     command:
-    - --registry
-    - -cp=keeper.http://edgex-core-keeper:59890
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-app-mqtt-export
     depends_on:
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-keeper:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
     environment:
       EDGEX_PROFILE: mqtt-export
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -47,114 +51,122 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-mqtt-export
-    image: edgexfoundry/app-service-configurable:4.0.1
+    image: edgexfoundry/app-service-configurable:4.0.0
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59703
-      published: "59703"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59703
+        published: "59703"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   app-rules-engine:
     command:
-    - --registry
-    - -cp=keeper.http://edgex-core-keeper:59890
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-app-rules-engine
     depends_on:
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-keeper:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
     environment:
       EDGEX_PROFILE: rules-engine
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:4.0.1
+    image: edgexfoundry/app-service-configurable:4.0.0
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59701
-      published: "59701"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59701
+        published: "59701"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   core-command:
     command:
-    - --registry
-    - -cp=keeper.http://edgex-core-keeper:59890
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-command
     depends_on:
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-keeper:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
       database:
         condition: service_started
+        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: edgexfoundry/core-command:4.0.1
+    image: edgexfoundry/core-command:4.0.0
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59882
-      published: "59882"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59882
+        published: "59882"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   core-common-config-bootstrapper:
     command:
-    - /core-common-config-bootstrapper
-    - --registry
-    - -cp=keeper.http://edgex-core-keeper:59890
+      - /core-common-config-bootstrapper
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-common-config-bootstrapper
     depends_on:
       core-keeper:
         condition: service_started
+        required: true
     environment:
       ALL_SERVICES_DATABASE_HOST: edgex-postgres
       ALL_SERVICES_MESSAGEBUS_HOST: edgex-mqtt-broker
@@ -163,62 +175,66 @@ services:
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
     hostname: edgex-core-common-config-bootstrapper
-    image: edgexfoundry/core-common-config-bootstrapper:4.0.1
+    image: edgexfoundry/core-common-config-bootstrapper:4.0.0
     networks:
       edgex-network: null
     read_only: true
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   core-data:
     command:
-    - --registry
-    - -cp=keeper.http://edgex-core-keeper:59890
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-data
     depends_on:
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-keeper:
         condition: service_started
+        required: true
       database:
         condition: service_started
+        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: edgexfoundry/core-data:4.0.1
+    image: edgexfoundry/core-data:4.0.0
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59880
-      published: "59880"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59880
+        published: "59880"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   core-keeper:
     container_name: edgex-core-keeper
     depends_on:
       database:
         condition: service_started
+        required: true
     environment:
       DATABASE_HOST: edgex-postgres
       EDGEX_SECURITY_SECRET_STORE: "false"
@@ -230,62 +246,64 @@ services:
       MESSAGEBUS_TYPE: mqtt
       SERVICE_HOST: edgex-core-keeper
     hostname: edgex-core-keeper
-    image: edgexfoundry/core-keeper:4.0.1
+    image: edgexfoundry/core-keeper:4.0.0
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59890
-      published: "59890"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59890
+        published: "59890"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   core-metadata:
     command:
-    - --registry
-    - -cp=keeper.http://edgex-core-keeper:59890
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-core-metadata
     depends_on:
       core-keeper:
         condition: service_started
+        required: true
       database:
         condition: service_started
+        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: edgexfoundry/core-metadata:4.0.1
+    image: edgexfoundry/core-metadata:4.0.0
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59881
-      published: "59881"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59881
+        published: "59881"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   database:
     container_name: edgex-postgres
     environment:
@@ -296,42 +314,46 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 5432
-      published: "5432"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 5432
+        published: "5432"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     tmpfs:
-    - /run
+      - /run
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: volume
-      source: db-data
-      target: /var/lib/postgresql/data
-      volume: {}
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: db-data
+        target: /var/lib/postgresql/data
+        volume: {}
   device-rest:
     command:
-    - -cp=keeper.http://edgex-core-keeper:59890
-    - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+      - --registry
     container_name: edgex-device-rest
     depends_on:
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-data:
         condition: service_started
+        required: true
       core-keeper:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-rest
@@ -340,37 +362,41 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59986
-      published: "59986"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59986
+        published: "59986"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   device-virtual:
     command:
-    - -cp=keeper.http://edgex-core-keeper:59890
-    - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
+      - --registry
     container_name: edgex-device-virtual
     depends_on:
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-data:
         condition: service_started
+        required: true
       core-keeper:
         condition: service_started
+        required: true
       core-metadata:
         condition: service_started
+        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-virtual
@@ -379,72 +405,74 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59900
-      published: "59900"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59900
+        published: "59900"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   mqtt-broker:
     command:
-    - /usr/sbin/mosquitto
-    - -c
-    - /mosquitto-no-auth.conf
+      - /usr/sbin/mosquitto
+      - -c
+      - /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
     image: eclipse-mosquitto:2.0.21
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 1883
-      published: "1883"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 1883
+        published: "1883"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
   mqtt-taf-broker:
     command:
-    - /usr/sbin/mosquitto
-    - -c
-    - /mosquitto-no-auth.conf
+      - /usr/sbin/mosquitto
+      - -c
+      - /mosquitto-no-auth.conf
     container_name: edgex-taf-mqtt-broker
     hostname: edgex-taf-mqtt-broker
     image: eclipse-mosquitto:2.0.21
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 1883
-      published: "1884"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 1883
+        published: "1884"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
   rules-engine:
     container_name: edgex-kuiper
     depends_on:
       database:
         condition: service_started
+        required: true
       mqtt-broker:
         condition: service_started
+        required: true
     environment:
       CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__CLIENTID: kuiper-rules-engine
       CONNECTION__EDGEX__MQTTMSGBUS__OPTIONAL__KEEPALIVE: "500"
@@ -463,117 +491,123 @@ services:
       KUIPER__BASIC__ENABLEOPENZITI: "false"
       KUIPER__BASIC__RESTPORT: "59720"
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:v2.1.0-beta.4
+    image: lfedge/ekuiper:v1.14.0-alpha.2
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59720
-      published: "59720"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59720
+        published: "59720"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: kuiper:kuiper
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
-    - type: volume
-      source: kuiper-data
-      target: /kuiper/data
-      volume: {}
-    - type: volume
-      source: kuiper-etc
-      target: /kuiper/etc
-      volume: {}
-    - type: volume
-      source: kuiper-log
-      target: /kuiper/log
-      volume: {}
-    - type: volume
-      source: kuiper-plugins
-      target: /kuiper/plugins
-      volume: {}
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: volume
+        source: kuiper-data
+        target: /kuiper/data
+        volume: {}
+      - type: volume
+        source: kuiper-etc
+        target: /kuiper/etc
+        volume: {}
+      - type: volume
+        source: kuiper-log
+        target: /kuiper/log
+        volume: {}
+      - type: volume
+        source: kuiper-plugins
+        target: /kuiper/plugins
+        volume: {}
   support-notifications:
     command:
-    - --registry
-    - -cp=keeper.http://edgex-core-keeper:59890
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-support-notifications
     depends_on:
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-keeper:
         condition: service_started
+        required: true
       database:
         condition: service_started
+        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: edgexfoundry/support-notifications:4.0.1
+    image: edgexfoundry/support-notifications:4.0.0
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59860
-      published: "59860"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59860
+        published: "59860"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   support-scheduler:
     command:
-    - --registry
-    - -cp=keeper.http://edgex-core-keeper:59890
+      - --registry
+      - -cp=keeper.http://edgex-core-keeper:59890
     container_name: edgex-support-scheduler
     depends_on:
       core-common-config-bootstrapper:
         condition: service_started
+        required: true
       core-keeper:
         condition: service_started
+        required: true
       database:
         condition: service_started
+        required: true
     environment:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: edgexfoundry/support-scheduler:4.0.1
+    image: edgexfoundry/support-scheduler:4.0.0
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      host_ip: 127.0.0.1
-      target: 59863
-      published: "59863"
-      protocol: tcp
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 59863
+        published: "59863"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
   ui:
     container_name: edgex-ui-go
     environment:
@@ -584,22 +618,22 @@ services:
     networks:
       edgex-network: null
     ports:
-    - mode: ingress
-      target: 4000
-      published: "4000"
-      protocol: tcp
+      - mode: ingress
+        target: 4000
+        published: "4000"
+        protocol: tcp
     read_only: true
     restart: always
     security_opt:
-    - no-new-privileges:true
+      - no-new-privileges:true
     user: 2002:2001
     volumes:
-    - type: bind
-      source: /etc/localtime
-      target: /etc/localtime
-      read_only: true
-      bind:
-        create_host_path: true
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+        bind:
+          create_host_path: true
 networks:
   edgex-network:
     name: edgex_edgex-network
