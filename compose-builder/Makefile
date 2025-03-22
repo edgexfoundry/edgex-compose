@@ -44,7 +44,7 @@ export USERID:=$(shell id -u)
 export DOCKER_SOCKET_PATH=/var/run/docker.sock
 
 # Get total system memory in megabytes for secret store config
-export TOTAL_SYSTEM_MEMORY:=$(shell grep MemTotal /proc/meminfo | awk '{print $$2}')m
+export TOTAL_SYSTEM_MEMORY?=$(shell grep MemTotal /proc/meminfo | awk '{print $$2}')m
 
 BROKER_YAML=add-mqtt-broker-mosquitto.yml
 TAF_BROKER_YAML=add-taf-mqtt-broker-mosquitto.yml
