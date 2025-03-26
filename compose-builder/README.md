@@ -493,3 +493,18 @@ Options:
     taf-no-secty: Generates performance TAF testing compose file without security services
     arm64:        Generates TAF compose file using ARM64 images
 ```
+
+#### Generation with custom memory limitations
+
+The `TOTAL_SYSTEM_MEMORY` variable used by the `secret-store` service can be preset, e.g. when targeting a system for deployment where the memory available is less than that of the system generating the compose file:
+
+```sh
+TOTAL_SYSTEM_MEMORY=500m make <target> <options...>
+```
+
+> *Note: Special consideration must be taken when executing the `make run`, `make pull` or `make gen` commands on non-Linux systems. For example, on Mac OSx, the `TOTAL_SYSTEM_MEMORY` variable **must** be preset, since the `/proc/meminfo` file does not exist.*
+>
+> ```sh
+> # Reproduces the default behavior on Mac OSx
+> TOTAL_SYSTEM_MEMORY=$(sysctl hw.memsize | awk '{print $2}')  make <target> <options...>
+>```
