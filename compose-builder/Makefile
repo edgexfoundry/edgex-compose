@@ -1084,25 +1084,16 @@ build: build-canned build-taf
 
 build-canned:
 	make compose ds-rest ds-virtual
-	make compose ds-rest ds-virtual arm64
 	make compose ds-rest ds-virtual asc-sample
-	make compose ds-rest ds-virtual asc-sample arm64
 	make compose ds-rest ds-virtual no-secty
-	make compose ds-rest ds-virtual no-secty arm64
 	make compose ds-rest ds-virtual asc-sample no-secty
-	make compose ds-rest ds-virtual asc-sample no-secty arm64
 	make compose ds-rest ds-virtual zero-trust
-	make compose ds-rest ds-virtual zero-trust arm64
 
 build-taf:
 	make taf-compose taf-secty mqtt-verbose
 	make taf-compose taf-no-secty mqtt-verbose
-	make taf-compose taf-secty mqtt-verbose arm64
-	make taf-compose taf-no-secty mqtt-verbose arm64
 	make taf-compose-perf taf-perf
 	make taf-compose-perf taf-perf-no-secty
-	make taf-compose-perf taf-perf arm64
-	make taf-compose-perf taf-perf-no-secty arm64
 
 build-taf-nanomq:
 	make taf-compose taf-no-secty nanomq no-secty
