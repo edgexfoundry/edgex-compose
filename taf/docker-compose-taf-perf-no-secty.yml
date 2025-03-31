@@ -1,4 +1,5 @@
 #  * Copyright 2024 Intel Corporation.
+#  * Copyright 2025 IOTech Ltd
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
 #  * in compliance with the License. You may obtain a copy of the License at
@@ -428,7 +429,7 @@ services:
       - /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0.21
+    image: eclipse-mosquitto:2.0
     networks:
       edgex-network: null
     ports:
@@ -449,7 +450,7 @@ services:
       - /mosquitto-no-auth.conf
     container_name: edgex-taf-mqtt-broker
     hostname: edgex-taf-mqtt-broker
-    image: eclipse-mosquitto:2.0.21
+    image: eclipse-mosquitto:2.0
     networks:
       edgex-network: null
     ports:
@@ -490,7 +491,7 @@ services:
       KUIPER__BASIC__ENABLEOPENZITI: "false"
       KUIPER__BASIC__RESTPORT: "59720"
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:v2.1.0-beta.4
+    image: lfedge/ekuiper:2.1
     networks:
       edgex-network: null
     ports:
