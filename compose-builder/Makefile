@@ -865,7 +865,7 @@ else
 
 	ifeq ($(BUS),) # if BUS not set, then we are using secure mqtt messagebus by default
 		IS_MQTT_BUS:=1
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f ${BROKER_YAML}
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f ${BROKER_YAML} -f add-secure-mqtt-broker.yml
 	endif
 	# Add Security Proxy when not using zero-trust
 	ifneq (zero-trust, $(filter zero-trust,$(ARGS)))
@@ -972,6 +972,7 @@ else
 				-f add-security-proxy.yml \
 				-f add-mqtt-messagebus.yml \
 				-f add-secure-mqtt-messagebus.yml \
+				-f add-secure-mqtt-broker.yml \
 				-f add-asc-mqtt-export.yml \
 				-f add-device-virtual.yml \
 				-f add-device-rest.yml \

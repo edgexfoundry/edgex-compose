@@ -1550,6 +1550,7 @@ services:
       CONNECTION__EDGEX__MQTTMSGBUS__PROTOCOL: tcp
       CONNECTION__EDGEX__MQTTMSGBUS__SERVER: edgex-mqtt-broker
       CONNECTION__EDGEX__MQTTMSGBUS__TYPE: mqtt
+      EDGEX__DEFAULT__CONNECTIONSELECTOR: mqttmsgbus
       EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
       EDGEX__DEFAULT__OPTIONAL__KEEPALIVE: "500"
       EDGEX__DEFAULT__PORT: "1883"
@@ -1575,7 +1576,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:v2.1.0-beta.4
+    image: lfedge/ekuiper:2.1-alpine
     networks:
       edgex-network: null
     ports:
@@ -1636,7 +1637,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "5346252816384"
+          memory: "4190176804864"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -1660,7 +1661,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.1.1
-    memswap_limit: "5346252816384"
+    memswap_limit: "4190176804864"
     networks:
       edgex-network: null
     ports:
