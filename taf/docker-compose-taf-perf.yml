@@ -25,7 +25,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.33.1
+# Generated with: Docker Compose version v2.38.1
 name: edgex
 services:
   app-mqtt-export:
@@ -790,8 +790,38 @@ services:
     command:
       - /usr/sbin/mosquitto
       - -c
-      - /mosquitto-no-auth.conf
+      - /mosquitto/config/mosquitto.conf
     container_name: edgex-mqtt-broker
+    depends_on:
+      security-bootstrapper:
+        condition: service_started
+        required: true
+      security-secretstore-setup:
+        condition: service_started
+        required: true
+    entrypoint:
+      - /edgex-init/messagebus_wait_install.sh
+    environment:
+      BROKER_TYPE: mosquitto
+      CLIENTS_SECURITY_SECRETSTORE_SETUP_HOST: edgex-security-secretstore-setup
+      CONF_DIR: /edgex-init/bootstrap-mosquitto/res
+      EDGEX_SECURITY_SECRET_STORE: "true"
+      ENTRYPOINT: /docker-entrypoint.sh /usr/sbin/mosquitto  -c  /mosquitto/config/mosquitto.conf
+      PROXY_SETUP_HOST: edgex-security-proxy-setup
+      SECRETSTORE_HOST: edgex-secret-store
+      STAGEGATE_BOOTSTRAPPER_HOST: edgex-security-bootstrapper
+      STAGEGATE_BOOTSTRAPPER_STARTPORT: "54321"
+      STAGEGATE_DATABASE_HOST: edgex-postgres
+      STAGEGATE_DATABASE_PORT: "5432"
+      STAGEGATE_DATABASE_READYPORT: "5432"
+      STAGEGATE_PROXYSETUP_READYPORT: "54325"
+      STAGEGATE_READY_TORUNPORT: "54329"
+      STAGEGATE_REGISTRY_HOST: edgex-core-keeper
+      STAGEGATE_REGISTRY_PORT: "59890"
+      STAGEGATE_REGISTRY_READYPORT: "54324"
+      STAGEGATE_SECRETSTORESETUP_HOST: edgex-security-secretstore-setup
+      STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-mqtt-broker
     image: eclipse-mosquitto:2.0.21
     networks:
@@ -806,7 +836,24 @@ services:
     restart: always
     security_opt:
       - no-new-privileges:true
-    user: 2002:2001
+    user: root:root
+    volumes:
+      - type: volume
+        source: mqtt
+        target: /mosquitto
+        volume: {}
+      - type: volume
+        source: edgex-init
+        target: /edgex-init
+        read_only: true
+        volume: {}
+      - type: bind
+        source: /tmp/edgex/secrets/security-bootstrapper-messagebus
+        target: /tmp/edgex/secrets/security-bootstrapper-messagebus
+        read_only: true
+        bind:
+          selinux: z
+          create_host_path: true
   mqtt-taf-broker:
     command:
       - /usr/sbin/mosquitto
@@ -913,6 +960,7 @@ services:
       CONNECTION__EDGEX__MQTTMSGBUS__PROTOCOL: tcp
       CONNECTION__EDGEX__MQTTMSGBUS__SERVER: edgex-mqtt-broker
       CONNECTION__EDGEX__MQTTMSGBUS__TYPE: mqtt
+      EDGEX__DEFAULT__CONNECTIONSELECTOR: mqttmsgbus
       EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
       EDGEX__DEFAULT__OPTIONAL__KEEPALIVE: "500"
       EDGEX__DEFAULT__PORT: "1883"
@@ -938,7 +986,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:v1.14.0-alpha.2
+    image: lfedge/ekuiper:2.1.4-alpine
     networks:
       edgex-network: null
     ports:
@@ -999,7 +1047,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "4190235525120"
+          memory: "4190168416256"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -1023,7 +1071,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.1.1
-    memswap_limit: "4190235525120"
+    memswap_limit: "4190168416256"
     networks:
       edgex-network: null
     ports:
@@ -1819,6 +1867,8 @@ volumes:
     name: edgex_kuiper-plugins
   kuiper-sources:
     name: edgex_kuiper-sources
+  mqtt:
+    name: edgex_mqtt
   nginx-templates:
     name: edgex_nginx-templates
   nginx-tls:
