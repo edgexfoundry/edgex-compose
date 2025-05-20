@@ -986,7 +986,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-postgres
-    image: postgres:16.3-alpine3.20
+    image: postgres:17.5-alpine3.21
     networks:
       edgex-network: null
     ports:
@@ -1413,7 +1413,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0.21
+    image: eclipse-mosquitto:2.0
     networks:
       edgex-network: null
     ports:
@@ -1451,7 +1451,7 @@ services:
       - /mosquitto-no-auth.conf
     container_name: edgex-taf-mqtt-broker
     hostname: edgex-taf-mqtt-broker
-    image: eclipse-mosquitto:2.0.21
+    image: eclipse-mosquitto:2.0
     networks:
       edgex-network: null
     ports:
@@ -1495,7 +1495,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-nginx
-    image: nginx:1.25.5-alpine-slim
+    image: nginx:1.28-alpine-slim
     networks:
       edgex-network: null
     ports:
@@ -1660,7 +1660,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
-    image: openbao/openbao:2.1.1
+    image: openbao/openbao:2.2
     memswap_limit: "4190176804864"
     networks:
       edgex-network: null
