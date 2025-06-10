@@ -947,7 +947,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "4190176804864"
+          memory: "4190180999168"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -971,7 +971,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.2
-    memswap_limit: "4190176804864"
+    memswap_limit: "4190180999168"
     networks:
       edgex-network: null
     ports:
