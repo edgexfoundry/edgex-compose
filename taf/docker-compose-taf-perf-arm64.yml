@@ -789,7 +789,7 @@ services:
     command:
       - /usr/sbin/mosquitto
       - -c
-      - /mosquitto-no-auth.conf
+      - /mosquitto/config/mosquitto.conf
     container_name: edgex-mqtt-broker
     depends_on:
       security-bootstrapper:
@@ -835,7 +835,7 @@ services:
     restart: always
     security_opt:
       - no-new-privileges:true
-    user: 2002:2001
+    user: root:root
     volumes:
       - type: volume
         source: mqtt
@@ -1046,7 +1046,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "4190176804864"
+          memory: "4190180999168"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -1070,7 +1070,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.2
-    memswap_limit: "4190176804864"
+    memswap_limit: "4190180999168"
     networks:
       edgex-network: null
     ports:

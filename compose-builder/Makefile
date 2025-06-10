@@ -971,13 +971,13 @@ else
 				-f add-security.yml \
 				-f add-security-proxy.yml \
 				-f add-mqtt-messagebus.yml \
-				-f add-secure-mqtt-messagebus.yml \
-				-f add-secure-mqtt-broker.yml \
 				-f add-asc-mqtt-export.yml \
 				-f add-device-virtual.yml \
 				-f add-device-rest.yml \
 				-f ${BROKER_YAML} \
 				-f ${TAF_BROKER_YAML} \
+				-f add-secure-mqtt-messagebus.yml \
+				-f add-secure-mqtt-broker.yml \
 				-f add-delayed-start-services.yml \
 				-f add-secure-postgres.yml
 
@@ -1117,7 +1117,7 @@ taf-compose: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(NANOMQ)$(REGISTRY)$(DATABASE)$(ARCH).yml
 
 taf-compose-perf: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml
 
 run: gen
 	${DOCKER_COMPOSE}  -p edgex up -d $(SERVICES)
