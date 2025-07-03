@@ -26,7 +26,7 @@ include common-security.env
 
 # This tool now only supports compose V2, aka "docker compose" as it has replaced to old docker-compose tool.
 DOCKER_COMPOSE?=docker compose
-GEN_COMMAND=convert
+GEN_COMMAND=config
 
 COMPOSE_FILES:=-f docker-compose-base.yml
 TOKEN_LIST=
