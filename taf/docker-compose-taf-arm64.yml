@@ -24,7 +24,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.33.1
+# Generated with: Docker Compose version v2.38.1
 name: edgex
 services:
   app-external-mqtt-trigger:
@@ -1637,7 +1637,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "4190180999168"
+          memory: "4190168416256"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -1661,7 +1661,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.2
-    memswap_limit: "4190180999168"
+    memswap_limit: "4190168416256"
     networks:
       edgex-network: null
     ports:
