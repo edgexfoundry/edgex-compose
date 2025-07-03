@@ -25,7 +25,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.33.1
+# Generated with: Docker Compose version v2.38.1
 name: edgex
 services:
   app-external-mqtt-trigger:
@@ -1551,6 +1551,7 @@ services:
       CONNECTION__EDGEX__MQTTMSGBUS__PROTOCOL: tcp
       CONNECTION__EDGEX__MQTTMSGBUS__SERVER: edgex-mqtt-broker
       CONNECTION__EDGEX__MQTTMSGBUS__TYPE: mqtt
+      EDGEX__DEFAULT__CONNECTIONSELECTOR: mqttmsgbus
       EDGEX__DEFAULT__OPTIONAL__CLIENTID: kuiper-rules-engine
       EDGEX__DEFAULT__OPTIONAL__KEEPALIVE: "500"
       EDGEX__DEFAULT__PORT: "1883"
@@ -1576,7 +1577,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:v1.14.0-alpha.2
+    image: lfedge/ekuiper:2.1.4-alpine
     networks:
       edgex-network: null
     ports:
@@ -1637,7 +1638,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "4190235525120"
+          memory: "4190168416256"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -1661,7 +1662,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.1.1
-    memswap_limit: "4190235525120"
+    memswap_limit: "4190168416256"
     networks:
       edgex-network: null
     ports:

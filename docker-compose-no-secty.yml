@@ -25,7 +25,7 @@
 #
 # From the compose-builder folder use `make build` to regenerate all standard compose files variations
 #
-# Generated with: Docker Compose version v2.33.1
+# Generated with: Docker Compose version v2.38.1
 name: edgex
 services:
   app-rules-engine:
@@ -426,7 +426,7 @@ services:
       KUIPER__BASIC__ENABLEOPENZITI: "false"
       KUIPER__BASIC__RESTPORT: "59720"
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:v1.14.0-alpha.2
+    image: lfedge/ekuiper:2.1.4-alpine
     networks:
       edgex-network: null
     ports:

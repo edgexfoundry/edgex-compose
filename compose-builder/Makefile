@@ -26,7 +26,7 @@ include common-security.env
 
 # This tool now only supports compose V2, aka "docker compose" as it has replaced to old docker-compose tool.
 DOCKER_COMPOSE?=docker compose
-GEN_COMMAND=convert
+GEN_COMMAND=config
 
 COMPOSE_FILES:=-f docker-compose-base.yml
 TOKEN_LIST=
@@ -865,7 +865,7 @@ else
 
 	ifeq ($(BUS),) # if BUS not set, then we are using secure mqtt messagebus by default
 		IS_MQTT_BUS:=1
-		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f ${BROKER_YAML}
+		COMPOSE_FILES:=$(COMPOSE_FILES) -f add-mqtt-messagebus.yml -f add-secure-mqtt-messagebus.yml -f ${BROKER_YAML} -f add-secure-mqtt-broker.yml
 	endif
 	# Add Security Proxy when not using zero-trust
 	ifneq (zero-trust, $(filter zero-trust,$(ARGS)))
@@ -971,12 +971,13 @@ else
 				-f add-security.yml \
 				-f add-security-proxy.yml \
 				-f add-mqtt-messagebus.yml \
-				-f add-secure-mqtt-messagebus.yml \
 				-f add-asc-mqtt-export.yml \
 				-f add-device-virtual.yml \
 				-f add-device-rest.yml \
 				-f ${BROKER_YAML} \
 				-f ${TAF_BROKER_YAML} \
+				-f add-secure-mqtt-messagebus.yml \
+				-f add-secure-mqtt-broker.yml \
 				-f add-delayed-start-services.yml \
 				-f add-secure-postgres.yml
 
@@ -1107,7 +1108,7 @@ taf-compose: gen
 	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf$(NO_SECURITY)$(BUS)$(NANOMQ)$(REGISTRY)$(DATABASE)$(ARCH).yml
 
 taf-compose-perf: gen
-	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml
+	cat gen-header docker-compose.yml > $(RELEASE_FOLDER)/taf/docker-compose-taf-perf$(NO_SECURITY)$(BUS)$(NANOMQ)$(ARCH).yml
 
 run: gen
 	${DOCKER_COMPOSE}  -p edgex up -d $(SERVICES)

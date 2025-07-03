@@ -35,6 +35,8 @@ services:
     entrypoint: [ "/edgex-init/kuiper_wait_install.sh" ]
     env_file:
       - common-sec-stage-gate.env
+    environment:
+      EDGEX__DEFAULT__CONNECTIONSELECTOR: mqttmsgbus
     volumes:
       - kuiper-sources:/kuiper/etc/sources
       - kuiper-connections:/kuiper/etc/connections
@@ -43,4 +45,4 @@ services:
       - security-bootstrapper
       - security-secretstore-setup
       - database
-  
+
