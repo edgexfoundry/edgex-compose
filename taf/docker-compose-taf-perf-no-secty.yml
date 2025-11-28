@@ -51,7 +51,7 @@ services:
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_BROKERADDRESS: MQTT_BROKER_ADDRESS_PLACE_HOLDER
       WRITABLE_PIPELINE_FUNCTIONS_MQTTEXPORT_PARAMETERS_TOPIC: edgex-events
     hostname: edgex-app-mqtt-export
-    image: edgexfoundry/app-service-configurable:4.0.0
+    image: edgexfoundry/app-service-configurable:4.0.1
     networks:
       edgex-network: null
     ports:
@@ -92,7 +92,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-app-rules-engine
     hostname: edgex-app-rules-engine
-    image: edgexfoundry/app-service-configurable:4.0.0
+    image: edgexfoundry/app-service-configurable:4.0.1
     networks:
       edgex-network: null
     ports:
@@ -136,7 +136,7 @@ services:
       EXTERNALMQTT_URL: tcp://edgex-mqtt-broker:1883
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: edgexfoundry/core-command:4.0.0
+    image: edgexfoundry/core-command:4.0.1
     networks:
       edgex-network: null
     ports:
@@ -175,7 +175,7 @@ services:
       DEVICE_SERVICES_CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
       EDGEX_SECURITY_SECRET_STORE: "false"
     hostname: edgex-core-common-config-bootstrapper
-    image: edgexfoundry/core-common-config-bootstrapper:4.0.0
+    image: edgexfoundry/core-common-config-bootstrapper:4.0.1
     networks:
       edgex-network: null
     read_only: true
@@ -208,7 +208,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-data
     hostname: edgex-core-data
-    image: edgexfoundry/core-data:4.0.0
+    image: edgexfoundry/core-data:4.0.1
     networks:
       edgex-network: null
     ports:
@@ -246,7 +246,7 @@ services:
       MESSAGEBUS_TYPE: mqtt
       SERVICE_HOST: edgex-core-keeper
     hostname: edgex-core-keeper
-    image: edgexfoundry/core-keeper:4.0.0
+    image: edgexfoundry/core-keeper:4.0.1
     networks:
       edgex-network: null
     ports:
@@ -283,7 +283,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-core-metadata
     hostname: edgex-core-metadata
-    image: edgexfoundry/core-metadata:4.0.0
+    image: edgexfoundry/core-metadata:4.0.1
     networks:
       edgex-network: null
     ports:
@@ -310,7 +310,7 @@ services:
       POSTGRES_DB: edgex_db
       POSTGRES_PASSWORD: postgres
     hostname: edgex-postgres
-    image: postgres:16.3-alpine3.20
+    image: postgres:18.1-alpine3.22
     networks:
       edgex-network: null
     ports:
@@ -358,7 +358,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-rest
     hostname: edgex-device-rest
-    image: edgexfoundry/device-rest:4.0.0
+    image: edgexfoundry/device-rest:4.0.1
     networks:
       edgex-network: null
     ports:
@@ -401,7 +401,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-device-virtual
     hostname: edgex-device-virtual
-    image: edgexfoundry/device-virtual:4.0.0
+    image: edgexfoundry/device-virtual:4.0.1
     networks:
       edgex-network: null
     ports:
@@ -429,7 +429,7 @@ services:
       - /mosquitto-no-auth.conf
     container_name: edgex-mqtt-broker
     hostname: edgex-mqtt-broker
-    image: eclipse-mosquitto:2.0.21
+    image: eclipse-mosquitto:2.0.22
     networks:
       edgex-network: null
     ports:
@@ -450,7 +450,7 @@ services:
       - /mosquitto-no-auth.conf
     container_name: edgex-taf-mqtt-broker
     hostname: edgex-taf-mqtt-broker
-    image: eclipse-mosquitto:2.0.21
+    image: eclipse-mosquitto:2.0.22
     networks:
       edgex-network: null
     ports:
@@ -491,7 +491,7 @@ services:
       KUIPER__BASIC__ENABLEOPENZITI: "false"
       KUIPER__BASIC__RESTPORT: "59720"
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:2.1.4-alpine
+    image: lfedge/ekuiper:2.3.1-alpine
     networks:
       edgex-network: null
     ports:
@@ -547,7 +547,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: edgexfoundry/support-notifications:4.0.0
+    image: edgexfoundry/support-notifications:4.0.1
     networks:
       edgex-network: null
     ports:
@@ -587,7 +587,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-support-scheduler
     hostname: edgex-support-scheduler
-    image: edgexfoundry/support-scheduler:4.0.0
+    image: edgexfoundry/support-scheduler:4.0.1
     networks:
       edgex-network: null
     ports:
@@ -614,7 +614,7 @@ services:
       EDGEX_SECURITY_SECRET_STORE: "false"
       SERVICE_HOST: edgex-ui-go
     hostname: edgex-ui-go
-    image: edgexfoundry/edgex-ui:4.0.0
+    image: edgexfoundry/edgex-ui:4.0.1
     networks:
       edgex-network: null
     ports:

@@ -20,7 +20,15 @@ pipeline {
                 expression { !edgex.isReleaseStream() && !params.ARCHIVE }
             }
             steps {
-                build job: '/edgexfoundry/edgex-taf-pipelines/smoke-test', parameters: [string(name: 'SHA1', value: env.GIT_COMMIT), string(name: 'TEST_ARCH', value: 'All'), string(name: 'WITH_SECURITY', value: 'All')]
+                script {
+                    def tafBranch = env.CHANGE_TARGET ?: env.BRANCH_NAME
+                    build job: '/edgexfoundry/edgex-taf-pipelines/smoke-test', parameters: [
+                        string(name: 'SHA1', value: env.GIT_COMMIT),
+                        string(name: 'TEST_ARCH', value: 'All'),
+                        string(name: 'WITH_SECURITY', value: 'All'),
+                        string(name: 'TAF_BRANCH', value: tafBranch)
+                    ]
+                }
             }
         }
 
