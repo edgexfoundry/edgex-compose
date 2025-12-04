@@ -309,7 +309,7 @@ services:
       POSTGRES_DB: edgex_db
       POSTGRES_PASSWORD: postgres
     hostname: edgex-postgres
-    image: postgres:17.5-alpine3.21
+    image: postgres:18.1-alpine
     networks:
       edgex-network: null
     ports:
@@ -490,7 +490,7 @@ services:
       KUIPER__BASIC__ENABLEOPENZITI: "false"
       KUIPER__BASIC__RESTPORT: "59720"
     hostname: edgex-kuiper
-    image: lfedge/ekuiper:2.1-alpine
+    image: lfedge/ekuiper:2.3-alpine
     networks:
       edgex-network: null
     ports:
