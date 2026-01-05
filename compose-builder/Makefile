@@ -37,6 +37,9 @@ BUS=
 NANOMQ=
 REGISTRY=
 
+VERSION=$(shell cat ./VERSION 2>/dev/null || echo 0.0.0)
+DOCKER_TAG=$(VERSION)-dev
+
 # Resolve user ID for rootless docker port mapping
 export USERID:=$(shell id -u)
 
@@ -89,36 +92,36 @@ endif
 
 ifeq (dev, $(filter dev,$(ARGS)))
 	export CORE_EDGEX_REPOSITORY=edgexfoundry
-	export CORE_EDGEX_VERSION=0.0.0-dev
+	export CORE_EDGEX_VERSION=$(DOCKER_TAG)
 	export DEV=-dev # require for the gateways scripts since they look for this
 endif
 ifeq (app-dev, $(filter app-dev,$(ARGS)))
 	export APP_SVC_REPOSITORY=edgexfoundry
 	export APP_SVC_DEV=-dev
-	export APP_SERVICE_CONFIG_VERSION=0.0.0-dev
-	export APP_LLRP_VERSION=0.0.0-dev
+	export APP_SERVICE_CONFIG_VERSION=$(DOCKER_TAG)
+	export APP_LLRP_VERSION=$(DOCKER_TAG)
 endif
 ifeq (device-dev, $(filter device-dev,$(ARGS)))
 	export DEVICE_SVC_REPOSITORY=edgexfoundry
-	export DEVICE_BACNET_VERSION=0.0.0-dev
-	export DEVICE_CAMERA_VERSION=0.0.0-dev
-	export DEVICE_MODBUS_VERSION=0.0.0-dev
-	export DEVICE_MQTT_VERSION=0.0.0-dev
-	export DEVICE_REST_VERSION=0.0.0-dev
-	export DEVICE_SNMP_VERSION=0.0.0-dev
-	export DEVICE_VIRTUAL_VERSION=0.0.0-dev
-	export DEVICE_LLRP_VERSION=0.0.0-dev
-	export DEVICE_COAP_VERSION=0.0.0-dev
-	export DEVICE_GPIO_VERSION=0.0.0-dev
-	export DEVICE_ONVIFCAM_VERSION=0.0.0-dev
-	export DEVICE_USBCAM_VERSION=0.0.0-dev
-	export DEVICE_S7_VERSION=0.0.0-dev
-	export DEVICE_OPCUA_VERSION=0.0.0-dev
-	export DEVICE_CAN_VERSION=0.0.0-dev
+	export DEVICE_BACNET_VERSION=$(DOCKER_TAG)
+	export DEVICE_CAMERA_VERSION=$(DOCKER_TAG)
+	export DEVICE_MODBUS_VERSION=$(DOCKER_TAG)
+	export DEVICE_MQTT_VERSION=$(DOCKER_TAG)
+	export DEVICE_REST_VERSION=$(DOCKER_TAG)
+	export DEVICE_SNMP_VERSION=$(DOCKER_TAG)
+	export DEVICE_VIRTUAL_VERSION=$(DOCKER_TAG)
+	export DEVICE_LLRP_VERSION=$(DOCKER_TAG)
+	export DEVICE_COAP_VERSION=$(DOCKER_TAG)
+	export DEVICE_GPIO_VERSION=$(DOCKER_TAG)
+	export DEVICE_ONVIFCAM_VERSION=$(DOCKER_TAG)
+	export DEVICE_USBCAM_VERSION=$(DOCKER_TAG)
+	export DEVICE_S7_VERSION=$(DOCKER_TAG)
+	export DEVICE_OPCUA_VERSION=$(DOCKER_TAG)
+	export DEVICE_CAN_VERSION=$(DOCKER_TAG)
 endif
 ifeq (ui-dev, $(filter ui-dev,$(ARGS)))
 	export UI_REPOSITORY=edgexfoundry
-	export EDGEX_UI_VERSION=0.0.0-dev
+	export EDGEX_UI_VERSION=$(DOCKER_TAG)
 endif
 ifeq (arm64, $(filter arm64,$(ARGS)))
 	export ARCH=-arm64
