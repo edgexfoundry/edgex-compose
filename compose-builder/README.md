@@ -5,7 +5,9 @@ This folder contains the `Compose Builder` which is made up of **source** compos
 ### **Note to Developers**: 
 > *Once you have edited and tested your changes to these source files you **MUST** regenerate the standard `pre-release` compose files using the `make build` command.*
 >
-> Any options added or removed to/from the `make gen` and `make run` commands must to also be added/removed to/from the new` tui-generator.sh` script
+> Any options added or removed to/from the `make gen` and `make run` commands must to also be added/removed to/from
+> the new` tui-generator.sh` script. Also, when testing custom images, developers can set a custom version in a file
+> named `VERSION`, which is going to be used as the docker tag, e.g. `VERSION = 4.0.0` `DOCKER_TAG = 4.0.0-dev`.
 >
 
 ### Compose CLI Command
