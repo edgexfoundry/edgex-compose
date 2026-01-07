@@ -42,6 +42,12 @@ services:
       ALL_SERVICES_MESSAGEBUS_PORT: "4222"
       ALL_SERVICES_MESSAGEBUS_AUTHMODE: none
 
+  core-keeper:
+    environment:
+      MESSAGEBUS_HOST: edgex-nats-server
+      MESSAGEBUS_PORT: "4222"
+      MESSAGEBUS_TYPE: nats-jetstream
+
   rules-engine:
     environment:
       CONNECTION__EDGEX__NATSMSGBUS__PORT: 4222
