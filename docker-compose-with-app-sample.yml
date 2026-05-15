@@ -592,7 +592,7 @@ services:
       STAGEGATE_SECRETSTORESETUP_TOKENS_READYPORT: "54322"
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-postgres
-    image: postgres:18.1-alpine
+    image: postgres:16.3-alpine
     networks:
       edgex-network: null
     ports:
@@ -1025,7 +1025,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: "4189899980800"
+          memory: "4189165977600"
     entrypoint:
       - /edgex-init/secretstore_wait_install.sh
     environment:
@@ -1049,7 +1049,7 @@ services:
       STAGEGATE_WAITFOR_TIMEOUT: 60s
     hostname: edgex-secret-store
     image: openbao/openbao:2.4
-    memswap_limit: "4189899980800"
+    memswap_limit: "4189165977600"
     networks:
       edgex-network: null
     ports:
