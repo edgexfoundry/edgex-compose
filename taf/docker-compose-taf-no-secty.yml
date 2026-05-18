@@ -532,7 +532,7 @@ services:
       POSTGRES_DB: edgex_db
       POSTGRES_PASSWORD: postgres
     hostname: edgex-postgres
-    image: postgres:18.1-alpine3.22
+    image: postgres:16.3-alpine
     networks:
       edgex-network: null
     ports:
