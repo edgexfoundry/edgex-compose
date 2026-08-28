@@ -35,7 +35,7 @@ services:
       DATABASECONFIG_PATH: /tmp/postgres-init-scripts
       DATABASECONFIG_NAME: create-users.sh
       POSTGRES_DB: edgex_db
-    security_opt:
+    security_opt: !override
       - no-new-privileges:true
     tmpfs:
       - /run
