@@ -25,6 +25,6 @@ services:
     restart: always
     networks:
       - edgex-network
-    security_opt:
+    security_opt: !override
       - no-new-privileges:true
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
